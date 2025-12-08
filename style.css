@@ -1,0 +1,600 @@
+:root {
+    --board-bg: #111;
+    --card-bg: #202020;
+    --text-color: #f5f5f5;
+    --sub-text-color: #ccc;
+
+    --flap-speed: 0.15s;
+
+    --char-width: 32px;
+    --char-height: 56px;
+    --char-font: 42px;
+
+    --word-height: 56px;
+    --local-font: 30px;
+    --en-font: 9px;
+
+    --col-gap: 12px;
+}
+
+body {
+    background-color: var(--board-bg);
+    color: var(--text-color);
+    font-family: "Hiragino Kaku Gothic ProN", "Hiragino Sans", "Helvetica Neue", "Yu Gothic", YuGothic, sans-serif;
+
+    /* 
+       Use Flexbox to center content within the "viewport".
+       Since the viewport is now forced to 1280px, this will center the content within a 1280px canvas.
+    */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    min-height: 100vh;
+    margin: 0;
+    padding: 40px 0;
+    /* Top and bottom padding */
+}
+
+/* --- Main container: responsible for fixed width and centering --- */
+.main-container {
+    /* 
+       Use fit-content to make the container hug its inner content.
+       This ensures the container is no wider than its widest element (the flip board).
+    */
+    width: -moz-fit-content;
+    width: fit-content;
+
+    /* Center display */
+    margin: auto;
+
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+}
+
+/* --- Top bar (clock) --- */
+.top-bar {
+    /* 
+       Width follows the parent container (.main-container).
+       Because the width of .main-container is stretched by .schedule-board,
+       setting it to 100% here will make the top bar and the board below have the same width.
+    */
+    width: 100%;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-sizing: border-box;
+    margin-top: 15px;
+    margin-bottom: 45px;
+}
+
+.clock {
+    margin: 0 30px;
+    flex-shrink: 0;
+    /* Prevent squeezing */
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-weight: bold;
+    font-size: 52px;
+    color: #ffffff;
+    background: #050505;
+    padding: 8px 25px;
+    border: 4px solid #222;
+    border-radius: 4px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.8), inset 0 0 10px rgba(0, 0, 0, 0.8);
+    font-variant-numeric: tabular-nums;
+    letter-spacing: 2px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    line-height: 1;
+    text-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
+}
+
+.header-title {
+    flex: 1;
+    /* Automatically expand space */
+    font-family: "Hiragino Kaku Gothic ProN", sans-serif;
+    font-weight: 800;
+    /* Extra bold, more like a guide sign */
+    font-size: 32px;
+    /* Slightly smaller to prevent it from being too large in two lines */
+
+    color: #ffffff;
+    text-shadow: 0 0 3px rgba(255, 255, 255, 0.6);
+    /* Strong white glow */
+
+    letter-spacing: 2px;
+    text-transform: uppercase;
+
+    white-space: normal;
+    /* Allow line break */
+    word-wrap: break-word;
+    /* Prevent long words from overflowing */
+    line-height: 1.1;
+    /* Tighter line spacing for a better look in two lines */
+
+    /* Ensure no cropping in the vertical direction */
+    overflow: visible;
+}
+
+#line-name-left {
+    text-align: right;
+}
+
+#line-name-right {
+    text-align: left;
+}
+
+/* --- Flip board container --- */
+.schedule-board {
+    background: #0a0a0a;
+
+    /* Slightly reduce inner padding for a tighter edge */
+    padding: 20px;
+
+    border-radius: 4px;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.95);
+    border: 10px solid #1c1c1c;
+
+    /* 
+       Forces the container width to be equal to the physical width of its widest inner row.
+       This ignores any external stretching, achieving a "Shrink Wrap" effect.
+    */
+    width: -moz-max-content;
+    width: max-content;
+
+    box-sizing: border-box;
+}
+
+.header-row {
+    width: 100%;
+    display: flex;
+    margin-bottom: 10px;
+    color: #ffffff;
+    font-weight: bold;
+    font-size: 13px;
+    padding-left: 10px;
+}
+
+.header-row .header-item {
+    color: #ffffff !important;
+    text-shadow: none;
+}
+
+.header-item {
+    display: flex;
+    flex-direction: column;
+    line-height: 1.1;
+}
+
+.header-item {
+    display: flex;
+    flex-direction: column;
+    line-height: 1.1;
+}
+
+.header-item span:last-child {
+    font-size: 0.8em;
+    opacity: 0.8;
+    font-weight: normal;
+}
+
+.train-group {
+    background: #000;
+    margin-bottom: 8px;
+    padding: 10px;
+    border-left: 6px solid #444;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+#board-rows {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    /* train-group has its own margin-bottom, so set it to 0 here */
+}
+
+.row-primary,
+.row-secondary {
+    display: flex;
+    align-items: center;
+}
+
+.row-secondary {
+    border-top: 1px solid #1a1a1a;
+    padding-top: 8px;
+}
+
+[class^="col-"] {
+    margin-right: var(--col-gap);
+    display: flex;
+    align-items: center;
+
+    /* 
+       Disable compression (Flex Shrink 0)
+       No matter how narrow the screen is, this column must maintain the set px width (e.g., 200px),
+       and the browser is not allowed to squeeze it to fit the screen.
+    */
+    flex-shrink: 0;
+}
+
+.col-plat {
+    width: 60px;
+    justify-content: center;
+    color: #f1c40f;
+}
+
+.col-type {
+    width: 130px;
+}
+
+.col-no {
+    width: 90px;
+    margin-right: 40px;
+}
+
+.col-time {
+    width: 140px;
+}
+
+.col-dest {
+    width: 200px;
+    color: #fff;
+}
+
+.col-remarks {
+    width: 260px;
+    color: #2ecc71;
+    margin-right: 0;
+}
+
+.stops-label {
+    width: 60px;
+    margin-right: var(--col-gap);
+    color: #888;
+    font-size: 12px;
+    text-align: center;
+}
+
+.col-stop {
+    width: 896px;
+    margin-right: 0;
+    color: #f39c12;
+}
+
+/* --- Flap unit Visual --- */
+.flap-unit {
+    position: relative;
+    display: inline-block;
+    background: #000;
+    perspective: 1000px;
+    border-radius: 2px;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.7);
+}
+
+.flap-char {
+    width: var(--char-width);
+    height: var(--char-height);
+    margin-right: 2px;
+}
+
+.flap-word {
+    width: 100%;
+    height: var(--word-height);
+}
+
+/* --- Physical Thickness Simulation --- */
+
+/* 
+   When flipping, a "thickness layer" is observable in the center of the container.
+   It simulates the bottom edge of the card facing the user when it is flipped to a 90-degree horizontal position.
+*/
+.flap-unit.flipping::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: -3px;
+    /* Visibly wider than the card: overflows 3px to the left */
+    width: calc(100% + 6px);
+    /* Visibly wider than the card: total width + 6px */
+    height: 0;
+    /* Initial height is 0 */
+
+    background-color: #373737;
+    /* With gray reflection, physical edge of the card */
+    border-radius: 2px;
+    /* The edges are slightly rounded, like plastic parts */
+
+    /* Centered positioning */
+    transform: translateY(-50%);
+    z-index: 50;
+    /* Must be the highest, covering all text and light and shadow */
+
+    /* Animation binding: follows the page turning speed */
+    animation: thickness-pulse var(--flap-speed) ease-in-out;
+}
+
+/* Thickness pulse animation */
+@keyframes thickness-pulse {
+    0% {
+        height: 0px;
+        opacity: 0;
+    }
+
+    30% {
+        opacity: 1;
+        height: 1px;
+        /* Appears in advance */
+    }
+
+    50% {
+        height: 2px;
+        /* Physical thickness at 90 degrees */
+    }
+
+    70% {
+        height: 1px;
+        opacity: 1;
+    }
+
+    100% {
+        height: 0px;
+        opacity: 0;
+    }
+}
+
+.top,
+.bottom,
+.flap {
+    position: absolute;
+    left: 0;
+    width: 100%;
+    height: 50%;
+    overflow: hidden;
+    background-color: var(--card-bg);
+    color: var(--text-color);
+    box-sizing: border-box;
+    backface-visibility: hidden;
+}
+
+/* Light and shadow material */
+.top::after,
+.flap.front::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: linear-gradient(to bottom, rgba(255, 255, 255, 0.15), transparent);
+    pointer-events: none;
+}
+
+.bottom::after,
+.flap.back::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: linear-gradient(to bottom, transparent, rgba(0, 0, 0, 0.3));
+    pointer-events: none;
+}
+
+/* Remove glossiness - type column */
+.col-type .top::after,
+.col-type .bottom::after,
+.col-type .flap.front::after,
+.col-type .flap.back::after {
+    display: none;
+}
+
+/* Content container */
+.flap-unit .card-content {
+    position: absolute;
+    left: 0;
+    width: 100%;
+    height: 200%;
+    display: flex;
+    flex-direction: column;
+}
+
+/* --- Visual Compensation --- */
+/* Prevent characters from looking shorter */
+.top .card-content,
+.flap.front .card-content {
+    top: 1px;
+}
+
+.bottom .card-content,
+.flap.back .card-content {
+    top: calc(-100% - 1px);
+}
+
+.flap-char .card-content {
+    justify-content: center;
+    align-items: center;
+    font-size: var(--char-font);
+    font-family: "Helvetica Neue",
+        Helvetica,
+        Arial,
+        sans-serif;
+    letter-spacing: -1px;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+}
+
+.local-text {
+    height: 72%;
+    width: 100%;
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    font-size: var(--local-font);
+    font-weight: 800;
+    padding-bottom: 0px;
+    line-height: 1;
+    text-shadow: 0 1px 1px rgba(0, 0, 0, 0.3);
+    white-space: nowrap;
+    overflow: hidden;
+}
+
+.en-text {
+    height: 28%;
+    width: 100%;
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    font-size: var(--en-font);
+    color: rgba(255, 255, 255, 0.7);
+    font-weight: 600;
+    padding-top: 3px;
+    line-height: 1;
+    white-space: nowrap;
+    overflow: hidden;
+}
+
+.col-stop .local-text,
+.col-stop .en-text {
+    justify-content: flex-start;
+    padding-left: 15px;
+}
+
+/* Structural style */
+.top,
+.flap.front {
+    top: 0;
+    border-radius: 2px 2px 0 0;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.3);
+    z-index: 1;
+    transform-origin: bottom;
+}
+
+.bottom,
+.flap.back {
+    top: 50%;
+    border-radius: 0 0 2px 2px;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    z-index: 0;
+    transform-origin: top;
+}
+
+.flap.front {
+    z-index: 2;
+    will-change: transform, filter;
+}
+
+.flap.back {
+    z-index: 3;
+    transform: rotateX(180deg);
+    will-change: transform, filter;
+}
+
+.flipping .flap.front {
+    animation: flip-down-front var(--flap-speed) ease-in forwards;
+}
+
+.flipping .flap.back {
+    animation: flip-down-back var(--flap-speed) ease-out forwards;
+}
+
+.flipping .bottom::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(to bottom, #000, transparent);
+    opacity: 0;
+    animation: cast-shadow var(--flap-speed) linear;
+    /* The speed here will automatically follow the variable */
+
+    /* Make sure the z-index is high enough to cover the text */
+    z-index: 20;
+    pointer-events: none;
+}
+
+/* 
+   Ambient light reflection effect 
+   1. brightness(>1): Brighten, simulate a black card turning gray when exposed to light.
+   2. contrast(<1): Reduce contrast, simulate the "blown-out" feeling of text and background blending together during reflection.
+*/
+
+/* Top half falling (Front) */
+@keyframes flip-down-front {
+    0% {
+        transform: rotateX(0deg);
+        /* Initial state: normal */
+        filter: brightness(1) contrast(1);
+    }
+
+    25% {
+        /* 
+           [Highlight Moment] 
+           The card is flipped to about 30-40 degrees, directly facing the light source above.
+           The black background is instantly illuminated to gray,
+           and the reflection makes the handwriting unclear.
+        */
+        filter: brightness(1.5);
+    }
+
+    50% {
+        /* 90 degrees horizontal, the light mainly shines on the side, the front becomes dark */
+        filter: brightness(0.5) contrast(1);
+    }
+
+    100% {
+        transform: rotateX(-180deg);
+        /* Completely flipped down, entering the backlight/covered area, completely black */
+        filter: brightness(0) contrast(1);
+    }
+}
+
+/* Bottom half catching */
+@keyframes flip-down-back {
+    0% {
+        transform: rotateX(180deg);
+        /* Initially on the back/inside, all black */
+        filter: brightness(0) contrast(1);
+    }
+
+    50% {
+        /* 90 degrees horizontal, darker */
+        filter: brightness(0.5) contrast(1);
+    }
+
+    75% {
+        /* 
+           [Highlight Moment]
+           The card is about to fall (about 30 degrees left), and it passes through the reflection angle again.
+           A momentary gray reflection also appears.
+        */
+        filter: brightness(1.5);
+    }
+
+    100% {
+        transform: rotateX(0deg);
+        /* Return to position, restore normal black matte texture */
+        filter: brightness(1) contrast(1);
+    }
+}
+
+@keyframes cast-shadow {
+    0% {
+        opacity: 0;
+    }
+
+    50% {
+        opacity: 0.6;
+    }
+
+    100% {
+        opacity: 0;
+    }
+}

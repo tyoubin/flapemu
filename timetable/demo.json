@@ -1,0 +1,274 @@
+{
+  "meta": {
+    "station_name": "岡山",
+    "line_name": "山陽新幹線 & JR線"
+  },
+  "presets": {
+    "types": [
+      { "local": "のぞみ", "en": "NOZOMI", "color": "#f39c12" },
+      { "local": "みずほ", "en": "MIZUHO", "color": "#e67e22" },
+      { "local": "さくら", "en": "SAKURA", "color": "#f19ea6" },
+      { "local": "ひかり", "en": "HIKARI", "color": "#c0392b" },
+      { "local": "こだま", "en": "KODAMA", "color": "#2980b9" },
+      { "local": "特急", "en": "LTD EXP", "color": "#B71C1C" },
+      { "local": "快速", "en": "RAPID", "color": "#00a8ff" },
+      { "local": "普通", "en": "LOCAL", "color": "#34495e" },
+      { "local": "寝台特急", "en": "SLEEPER", "color": "#8e44ad" },
+      { "local": "回送", "en": "OUT OF SERVICE", "color": "#ffffff", "textColor": "#000000" }
+    ],
+    "dests": [
+      { "local": "東京", "en": "TOKYO" },
+      { "local": "新大阪", "en": "SHIN-OSAKA" },
+      { "local": "博多", "en": "HAKATA" },
+      { "local": "鹿児島中央", "en": "KAGOSHIMA-CHUO" },
+      { "local": "広島", "en": "HIROSHIMA" },
+      { "local": "出雲市", "en": "IZUMOSHI" },
+      { "local": "高松", "en": "TAKAMATSU" },
+      { "local": "松山", "en": "MATSUYAMA" },
+      { "local": "高知", "en": "KOCHI" },
+      { "local": "鳥取", "en": "TOTTORI" },
+      { "local": "津山", "en": "TSUYAMA" },
+      { "local": "総社", "en": "SOJA" },
+      { "local": "宇野", "en": "UNO" },
+      { "local": "播州赤穂", "en": "BANSHU-AKO" },
+      { "local": "新見", "en": "NIIMI" }
+    ],
+    "remarks": [
+      { "local": "全車指定席", "en": "All Reserved" },
+      { "local": "自由席 1-3号車", "en": "Non-Reserved 1-3" },
+      { "local": "マリンライナー", "en": "Marine Liner" },
+      { "local": "やくも", "en": "YAKUMO" },
+      { "local": "しおかぜ / アンパンマン", "en": "Shiokaze / Anpanman" },
+      { "local": "スーパーいなば", "en": "Super Inaba" },
+      { "local": "ハローキティ新幹線", "en": "Hello Kitty Train" },
+      { "local": "桃太郎線", "en": "Momotaro Line" },
+      { "local": "サンライズ出雲・瀬戸", "en": "Sunrise Izumo/Seto" }
+    ],
+    "stops": [
+      { "local": "各駅に停車します", "en": "Stops at All Stations" },
+      { "local": "途中停車駅はありません", "en": "No Intermediate Stops" }
+    ]
+  },
+  "schedule": [
+    {
+      "track_no": "23",
+      "type": { "local": "のぞみ", "en": "NOZOMI" },
+      "type_color_hex": "#f39c12",
+      "type_text_color": "#ffffff",
+      "train_no": "12",
+      "depart_time": "08:00",
+      "destination": { "local": "東京", "en": "TOKYO" },
+      "remarks": { "local": "全車指定席", "en": "All Reserved" },
+      "stops_at": { "local": "停車駅：姫路・新神戸・新大阪・京都・名古屋", "en": "Himeji, Shin-Kobe, Shin-Osaka, Kyoto, Nagoya" }
+    },
+    {
+      "track_no": "6",
+      "type": { "local": "快速", "en": "RAPID" },
+      "type_color_hex": "#00a8ff",
+      "type_text_color": "#ffffff",
+      "train_no": "3111M",
+      "depart_time": "08:05",
+      "destination": { "local": "高松", "en": "TAKAMATSU" },
+      "remarks": { "local": "マリンライナー", "en": "Marine Liner" },
+      "stops_at": { "local": "停車駅：茶屋町・児島・坂出", "en": "Stops: Chayamachi, Kojima, Sakaide" }
+    },
+    {
+      "track_no": "2",
+      "type": { "local": "特急", "en": "LTD EXP" },
+      "type_color_hex": "#B71C1C",
+      "type_text_color": "#ffffff",
+      "train_no": "1003M",
+      "depart_time": "08:08",
+      "destination": { "local": "出雲市", "en": "IZUMOSHI" },
+      "remarks": { "local": "やくも / 新型車両", "en": "YAKUMO / New 273" },
+      "stops_at": { "local": "停車駅：倉敷・備中高梁・新見・米子・松江", "en": "Kurashiki, Niimi, Yonago, Matsue" }
+    },
+    {
+      "track_no": "21",
+      "type": { "local": "みずほ", "en": "MIZUHO" },
+      "type_color_hex": "#e67e22",
+      "type_text_color": "#ffffff",
+      "train_no": "605",
+      "depart_time": "08:11",
+      "destination": { "local": "鹿児島中央", "en": "KAGOSHIMA-CHUO" },
+      "remarks": { "local": "指定席 / G車", "en": "Reserved / Green" },
+      "stops_at": { "local": "停車駅：広島・小倉・博多・熊本", "en": "Stops: Hiroshima, Kokura, Hakata, Kumamoto" }
+    },
+    {
+      "track_no": "7",
+      "type": { "local": "普通", "en": "LOCAL" },
+      "type_color_hex": "#16a085",
+      "type_text_color": "#ffffff",
+      "train_no": "635M",
+      "depart_time": "08:15",
+      "destination": { "local": "宇野", "en": "UNO" },
+      "remarks": { "local": "宇野みなと線", "en": "Uno Port Line" },
+      "stops_at": { "local": "各駅に停車します", "en": "Stops at All Stations" }
+    },
+    {
+      "track_no": "8",
+      "type": { "local": "特急", "en": "LTD EXP" },
+      "type_color_hex": "#e74c3c",
+      "type_text_color": "#ffffff",
+      "train_no": "3M",
+      "depart_time": "08:20",
+      "destination": { "local": "松山", "en": "MATSUYAMA" },
+      "remarks": { "local": "しおかぜ", "en": "Shiokaze" },
+      "stops_at": { "local": "停車駅：児島・宇多津・丸亀・多度津・観音寺", "en": "Kojima, Utazu, Marugame, Tadotsu, Kan-onji" }
+    },
+    {
+      "track_no": "10",
+      "type": { "local": "普通", "en": "LOCAL" },
+      "type_color_hex": "#e056fd",
+      "type_text_color": "#ffffff",
+      "train_no": "725D",
+      "depart_time": "08:22",
+      "destination": { "local": "総社", "en": "SOJA" },
+      "remarks": { "local": "桃太郎線", "en": "Momotaro Line" },
+      "stops_at": { "local": "各駅に停車します", "en": "Stops at All Stations" }
+    },
+    {
+      "track_no": "9",
+      "type": { "local": "快速", "en": "RAPID" },
+      "type_color_hex": "#f1c40f",
+      "type_text_color": "#000000",
+      "train_no": "3932D",
+      "depart_time": "08:28",
+      "destination": { "local": "津山", "en": "TSUYAMA" },
+      "remarks": { "local": "ことぶき", "en": "Kotobuki" },
+      "stops_at": { "local": "停車駅：法界院・金川・福渡・弓削・亀甲", "en": "Hokaiin, Kanagawa, Fukuwatari, Yuge" }
+    },
+    {
+      "track_no": "6",
+      "type": { "local": "特急", "en": "LTD EXP" },
+      "type_color_hex": "#c0392b",
+      "type_text_color": "#ffffff",
+      "train_no": "33D",
+      "depart_time": "08:32",
+      "destination": { "local": "高知", "en": "KOCHI" },
+      "remarks": { "local": "南風 / アンパンマン", "en": "Nanpu / Anpanman" },
+      "stops_at": { "local": "停車駅：児島・宇多津・丸亀・多度津・琴平", "en": "Kojima, Utazu, Marugame, Tadotsu, Kotohira" }
+    },
+    {
+      "track_no": "21",
+      "type": { "local": "こだま", "en": "KODAMA" },
+      "type_color_hex": "#ff9ff3",
+      "type_text_color": "#ffffff",
+      "train_no": "843",
+      "depart_time": "08:35",
+      "destination": { "local": "博多", "en": "HAKATA" },
+      "remarks": { "local": "ハローキティ新幹線", "en": "Hello Kitty Train" },
+      "stops_at": { "local": "各駅に停車します", "en": "Stops at All Stations" }
+    },
+    {
+      "track_no": "3",
+      "type": { "local": "特急", "en": "LTD EXP" },
+      "type_color_hex": "#f39c12",
+      "type_text_color": "#000000",
+      "train_no": "53D",
+      "depart_time": "08:40",
+      "destination": { "local": "鳥取", "en": "TOTTORI" },
+      "remarks": { "local": "スーパーいなば", "en": "Super Inaba" },
+      "stops_at": { "local": "停車駅：上郡・佐用・智頭・郡家", "en": "Kamigori, Sayo, Chizu, Koge" }
+    },
+    {
+      "track_no": "24",
+      "type": { "local": "さくら", "en": "SAKURA" },
+      "type_color_hex": "#f19ea6",
+      "type_text_color": "#ffffff",
+      "train_no": "548",
+      "depart_time": "08:44",
+      "destination": { "local": "新大阪", "en": "SHIN-OSAKA" },
+      "remarks": { "local": "全席禁煙", "en": "Non-Smoking" },
+      "stops_at": { "local": "停車駅：新神戸", "en": "Stops: Shin-Kobe" }
+    },
+    {
+      "track_no": "4",
+      "type": { "local": "普通", "en": "LOCAL" },
+      "type_color_hex": "#f1c40f",
+      "type_text_color": "#000000",
+      "train_no": "1908M",
+      "depart_time": "08:50",
+      "destination": { "local": "播州赤穂", "en": "BANSHU-AKO" },
+      "remarks": { "local": "赤穂線", "en": "Ako Line" },
+      "stops_at": { "local": "各駅に停車します", "en": "Stops at All Stations" }
+    },
+    {
+      "track_no": "1",
+      "type": { "local": "普通", "en": "LOCAL" },
+      "type_color_hex": "#3498db",
+      "type_text_color": "#ffffff",
+      "train_no": "845M",
+      "depart_time": "08:55",
+      "destination": { "local": "新見", "en": "NIIMI" },
+      "remarks": { "local": "伯備線", "en": "Hakubi Line" },
+      "stops_at": { "local": "各駅に停車します", "en": "Stops at All Stations" }
+    },
+    {
+      "track_no": "22",
+      "type": { "local": "のぞみ", "en": "NOZOMI" },
+      "type_color_hex": "#f39c12",
+      "type_text_color": "#ffffff",
+      "train_no": "81",
+      "depart_time": "09:00",
+      "destination": { "local": "広島", "en": "HIROSHIMA" },
+      "remarks": { "local": "当駅始発", "en": "Starting Here" },
+      "stops_at": { "local": "停車駅：福山", "en": "Stops: Fukuyama" }
+    },
+    {
+      "track_no": "8",
+      "type": { "local": "特急", "en": "LTD EXP" },
+      "type_color_hex": "#2980b9",
+      "type_text_color": "#ffffff",
+      "train_no": "5D",
+      "depart_time": "09:05",
+      "destination": { "local": "徳島", "en": "TOKUSHIMA" },
+      "remarks": { "local": "うずしお", "en": "Uzushio" },
+      "stops_at": { "local": "停車駅：児島・宇多津・高松・栗林・屋島", "en": "Kojima, Utazu, Takamatsu, Ritsurin" }
+    },
+    {
+      "track_no": "5",
+      "type": { "local": "快速", "en": "RAPID" },
+      "type_color_hex": "#00a8ff",
+      "type_text_color": "#ffffff",
+      "train_no": "3117M",
+      "depart_time": "09:12",
+      "destination": { "local": "高松", "en": "TAKAMATSU" },
+      "remarks": { "local": "マリンライナー", "en": "Marine Liner" },
+      "stops_at": { "local": "停車駅：茶屋町・児島・坂出", "en": "Stops: Chayamachi, Kojima, Sakaide" }
+    },
+    {
+      "track_no": "10",
+      "type": { "local": "回送", "en": "NOT IN SERVICE" },
+      "type_color_hex": "#ffffff",
+      "type_text_color": "#000000",
+      "train_no": "---",
+      "depart_time": "09:15",
+      "destination": { "local": " ", "en": " " },
+      "remarks": { "local": " ", "en": " " },
+      "stops_at": { "local": " ", "en": " " }
+    },
+    {
+      "track_no": "23",
+      "type": { "local": "ひかり", "en": "HIKARI" },
+      "type_color_hex": "#c0392b",
+      "type_text_color": "#ffffff",
+      "train_no": "502",
+      "depart_time": "09:23",
+      "destination": { "local": "東京", "en": "TOKYO" },
+      "remarks": { "local": "自由席 1-5号車", "en": "NR Car 1-5" },
+      "stops_at": { "local": "停車駅：姫路・新神戸・新大阪・京都・米原", "en": "Himeji, Shin-Kobe, Shin-Osaka, Kyoto" }
+    },
+    {
+      "track_no": "2",
+      "type": { "local": "特急", "en": "LTD EXP" },
+      "type_color_hex": "#B71C1C",
+      "type_text_color": "#ffffff",
+      "train_no": "1005M",
+      "depart_time": "09:30",
+      "destination": { "local": "出雲市", "en": "IZUMOSHI" },
+      "remarks": { "local": "やくも", "en": "YAKUMO" },
+      "stops_at": { "local": "停車駅：倉敷・備中高梁・新見・米子・松江", "en": "Kurashiki, Niimi, Yonago, Matsue" }
+    }
+  ]
+}

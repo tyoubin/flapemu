@@ -1,0 +1,185 @@
+{
+  "meta": {
+    "station_name": "熊本",
+    "line_name": "鹿児島本線 豊肥本線 九州新幹線 三角線"
+  },
+  "presets": {
+    "types": [
+      { "local": "みずほ", "en": "MIZUHO", "color": "#e67e22" },
+      { "local": "さくら", "en": "SAKURA", "color": "#f39c12" },
+      { "local": "つばめ", "en": "TSUBAME", "color": "#34495e" },
+      { "local": "特急", "en": "LTD EXP", "color": "#c0392b" },
+      { "local": "快速", "en": "RAPID", "color": "#e67e22" },
+      { "local": "普通", "en": "LOCAL", "color": "#e74c3c" },
+      { "local": "試運転", "en": "TEST RUN", "color": "#ffffff", "textColor": "#000000"},
+      { "local": "団体", "en": "CHARTERED", "color": "#9b59b6" },
+      { "local": "臨時", "en": "SPECIAL", "color": "#16a085" },
+      { "local": "回送", "en": "OUT OF SERVICE", "color": "#ffffff", "textColor": "#000000" }
+    ],
+    "dests": [
+      { "local": "博多", "en": "Hakata" },
+      { "local": "久留米", "en": "Kurume" },
+      { "local": "新鳥栖", "en": "Shin-Tosu"},
+      { "local": "筑後船小屋", "en": "Chikugofunagoya" },
+      { "local": "新大牟田", "en": "Shin-Omuta" },
+      { "local": "新玉名", "en": "Shin-Tamana" },
+      { "local": "熊本", "en": "Kumamoto" },
+      { "local": "新八代", "en": "ShinーYatsushiro" },
+      { "local": "新水俣", "en": "Shin-Minamata" },
+      { "local": "出水", "en": "Izumi" },
+      {	"local": "川内", "en": "Sendai" },
+      { "local": "鹿児島中央", "en": "Kagoshima-Chuo" },
+      { "local": "新大阪", "en": "Shin-Osaka" },
+      { "local": "新神戸", "en": "Shin-Kobe" },
+      { "local": "西明石", "en": "Nishi-Akashi" },
+      { "local": "姫路", "en": "Himeji" },
+      { "local": "相生", "en": "Aioi" },
+      { "local": "岡山", "en": "Okayama" },
+      { "local": "新倉敷", "en": "Shin-Kurashiki" },
+      { "local": "福山", "en": "Fukuyama" },
+      { "local": "新尾道", "en": "Shin-Onomichi" },
+      { "local": "三原", "en": "Mihara" },
+      { "local": "広島", "en": "Hiroshima" },
+      { "local": "新岩国", "en": "Shin-Iwakuni" },
+      { "local": "徳山", "en": "Tokuyama" },
+      { "local": "新山口", "en": "Shin-Yamaguchi" },
+      { "local": "厚狭", "en": "Asa" },
+      { "local": "新下関", "en": "Shin-Shimonoseki" },
+      { "local": "小倉", "en": "Kokura" },
+      { "local": "博多南", "en": "Hakataminami" }
+    ],
+    "remarks": [
+      { "local": "自由席 1-3号車", "en": "Non-ReservedCarNo.1-3" },
+      { "local": "自由席 7-8号車", "en": "Non-ReservedCarNo.7-8" },
+      { "local": "豊肥本線", "en": "Hohi Line" },
+      { "local": "鹿児島本線", "en": "Kagoshima Line" },
+      { "local": "天草三角線", "en": "Amakusamisumi Line" },
+      { "local": "A列車で行こう", "en": "A-TRAIN" },
+      { "local": "あそぼーい!", "en": "ASO BOY!" },
+      { "local": "かわせみ やませみ", "en": "KAWASEMI YAMASEMI" },
+      { "local": "九州横断特急", "en": "TRANS-KYUSHU LIMITED EXPRESS" },
+      { "local": "36ぷらす3", "en": "36 PLUS 3" }
+      
+    ],
+    "stops": [
+      { "local": "各駅停車", "en": "Stops at All Stations" },
+      { "local": "熊本まで各駅停車", "en": "Stops at All Stations to Kumamoto" },
+      { "local": "途中停車駅はありません", "en": "No Intermediate Stops" },
+      { "local": "新鳥栖・博多", "en": "Shin-Tosu, Hakata" },
+      { "local": "久留米・新鳥栖・博多", "en": "Kurume, Shin-Tosu, Hakata" },
+      { "local": "熊本・新八代・川内", "en": "Kumamoto, Shin-Yatsushiro, Sendai" }
+    ]
+  },
+  "schedule": [
+    {
+      "track_no": "11",
+      "type": { "local": "みずほ", "en": "MIZUHO" },
+      "type_color_hex": "#e67e22",
+      "type_text_color": "#ffffff",
+      "train_no": "602",
+      "depart_time": "08:00",
+      "destination": { "local": "新大阪", "en": "SHIN-OSAKA" },
+      "remarks": { "local": "自由席 1-3号車", "en": "Non-ReservedCarNo.1-3" },
+      "stops_at": { "local": "博多・小倉・広島・岡山", "en": "Hakata, Kokura, Hiroshima, Okayama" }
+    },
+    {
+      "track_no": "1",
+      "type": { "local": "回送", "en": "OUT OF SERVICE" },
+      "type_color_hex": "#ffffff",
+      "type_text_color": "#000000",
+      "train_no": "999",
+      "depart_time": "08:05",
+      "destination": { "local": "", "en": "" },
+      "remarks": { "local": "", "en": "" },
+      "stops_at": { "local": "この列車にはご乗車いただけません", "en": "Please do not board this train" }
+    },
+    {
+      "track_no": "12",
+      "type": { "local": "つばめ", "en": "TSUBAME" },
+      "type_color_hex": "#34495e",
+      "type_text_color": "#ffffff",
+      "train_no": "315",
+      "depart_time": "08:12",
+      "destination": { "local": "鹿児島中央", "en": "KAGOSHIMA-CHUO" },
+      "remarks": { "local": "自由席 7-8号車", "en": "Non-ReservedCarNo.7-8" },
+      "stops_at": { "local": "各駅停車", "en": "Stops at All Stations" }
+    },
+    {
+      "track_no": "6",
+      "type": { "local": "特急", "en": "LTD EXP" },
+      "type_color_hex": "#000000",
+      "type_text_color": "#d4af37",
+      "train_no": "1",
+      "depart_time": "08:25",
+      "destination": { "local": "三角", "en": "MISUMI" },
+      "remarks": { "local": "A列車で行こう", "en": "Take the 'A' Train" },
+      "stops_at": { "local": "宇土", "en": "Uto" }
+    },
+    {
+      "track_no": "4",
+      "type": { "local": "快速", "en": "RAPID" },
+      "type_color_hex": "#e74c3c",
+      "type_text_color": "#ffffff",
+      "train_no": "4322M",
+      "depart_time": "08:30",
+      "destination": { "local": "鳥栖", "en": "TOSU" },
+      "remarks": { "local": "鹿児島本線", "en": "Kagoshima Line" },
+      "stops_at": { "local": "上熊本・植木・玉名・大牟田・久留米", "en": "Kamikumamoto, Ueki, Tamana, Omuta" }
+    },
+    {
+      "track_no": "13",
+      "type": { "local": "さくら", "en": "SAKURA" },
+      "type_color_hex": "#f19ea6",
+      "type_text_color": "#ffffff",
+      "train_no": "548",
+      "depart_time": "08:42",
+      "destination": { "local": "新大阪", "en": "SHIN-OSAKA" },
+      "remarks": { "local": "自由席 1-3号車", "en": "Non-ReservedCarNo.1-3" },
+      "stops_at": { "local": "久留米・博多・小倉・広島", "en": "Kurume, Hakata, Kokura, Hiroshima" }
+    },
+    {
+      "track_no": "2",
+      "type": { "local": "特急", "en": "LTD EXP" },
+      "type_color_hex": "#ffffff",
+      "type_text_color": "#000000",
+      "train_no": "101",
+      "depart_time": "09:00",
+      "destination": { "local": "宮地", "en": "MIYAJI" },
+      "remarks": { "local": "あそぼーい！", "en": "ASO BOY!" },
+      "stops_at": { "local": "新水前寺・水前寺・立野・赤水・阿蘇", "en": "Shin-Suizenji, Tateno, Akamizu, Aso" }
+    },
+    {
+      "track_no": "5",
+      "type": { "local": "特急", "en": "LTD EXP" },
+      "type_color_hex": "#2c3e50",
+      "type_text_color": "#ffffff",
+      "train_no": "3",
+      "depart_time": "10:48",
+      "destination": { "local": "宮地", "en": "MIYAJI" },
+      "remarks": { "local": "かわせみ やませみ", "en": "Kawasemi Yamasemi" },
+      "stops_at": { "local": "新水前寺・肥後大津・立野・阿蘇", "en": "Shin-Suizenji, Higo-Ozu, Tateno, Aso" }
+    },
+    {
+      "track_no": "3",
+      "type": { "local": "特急", "en": "LTD EXP" },
+      "type_color_hex": "#c0392b",
+      "type_text_color": "#ffffff",
+      "train_no": "11",
+      "depart_time": "09:35",
+      "destination": { "local": "大分", "en": "OITA" },
+      "remarks": { "local": "九州横断特急", "en": "Trans-Kyushu Exp" },
+      "stops_at": { "local": "停車駅：阿蘇・豊後竹田", "en": "Stops: Aso, Bungo-Taketa" }
+    },
+    {
+      "track_no": "11",
+      "type": { "local": "さくら", "en": "SAKURA" },
+      "type_color_hex": "#f19ea6",
+      "type_text_color": "#ffffff",
+      "train_no": "403",
+      "depart_time": "09:50",
+      "destination": { "local": "鹿児島中央", "en": "KAGOSHIMA-CHUO" },
+      "remarks": { "local": "8両編成", "en": "8 Cars" },
+      "stops_at": { "local": "停車駅：新八代・川内", "en": "Stops: Shin-Yatsushiro, Sendai" }
+    }
+  ]
+}
