@@ -1,5 +1,7 @@
 # FlapEmu: Split-flap Display Emulator
 
+Demo: [https://tyoubin.github.io/flapemu/](https://tyoubin.github.io/flapemu/)
+
 ## Overview
 
 FlapEmu is an emulator for split-flap displays, often seen in train stations and airports. It dynamically loads timetable data from pre-defined data and visually simulates the iconic flap animation to display schedules.
