@@ -400,5 +400,5 @@ window.onload = () => {
     setInterval(() => {
         console.log(`[Auto-Update] Fetching...`);
         fetchData();
-    }, 60000);
+    }, 30000);
 };
