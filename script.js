@@ -333,21 +333,30 @@ async function fetchData() {
         // ============================================
         //  Auto-Layout
         // ============================================
-        /**
-         * Helper to calculate and set CSS variable for column width
-         * @param {String} cssVar - The CSS variable name (e.g., '--col-type-width')
-         * @param {Array} dataList - List of preset objects
-         * @param {Number} minChars - Minimum character count safety
-         */
-        const adjustColumnWidth = (cssVar, dataList, minChars = 4) => {
-            if (!dataList || dataList.length === 0) return;
+        const extractFromSchedule = (schedule, key) => {
+            if (!schedule) return [];
+            return schedule.map(item => {
+                // item[key] could be undefined, or object {local:..., en:...}
+                if (item[key] && item[key].local) {
+                    return item[key];
+                }
+                return { local: "" };
+            });
+        };
+
+        const adjustColumnWidth = (cssVar, presetList, scheduleList, minChars = 4) => {
+            // combine presets and schedule
+            // to find the longest string
+            const fullList = [...(presetList || []), ...(scheduleList || [])];
+
+            if (fullList.length === 0) return;
 
             let maxLen = 0;
-            dataList.forEach(item => {
+            fullList.forEach(item => {
                 const text = item.local || "";
-                // Calculate visual length: ASCII=0.6, Others=1.0
                 let visualLength = 0;
                 for (let char of text) {
+                    // ASCII=0.6，Others=1.0
                     if (char.charCodeAt(0) < 128) visualLength += 0.6;
                     else visualLength += 1;
                 }
@@ -356,23 +365,30 @@ async function fetchData() {
 
             if (maxLen < minChars) maxLen = minChars;
 
-            // Calculate pixels: (Length * Font Size) + Padding
-            // 32 is a multiplier roughly based on the 30px font size + gaps
+            // 32 multiplier (30px font + 2px spacing), 20 Padding
             const pixelWidth = Math.ceil((maxLen * 32) + 20);
 
             // Apply to CSS
             document.documentElement.style.setProperty(cssVar, `${pixelWidth}px`);
+
+            // For Debug
+            // console.log(`Set ${cssVar}: ${pixelWidth}px (MaxLen: ${maxLen})`);
         };
 
-        // 1. Calculate Type Column Width
-        adjustColumnWidth('--col-type-width', presetsData.types, 4);
+        // 1. Train Type
+        const scheduleTypes = extractFromSchedule(scheduleData, 'type');
+        adjustColumnWidth('--col-type-width', presetsData.types, scheduleTypes, 4);
 
-        // 2. Calculate Destination Column Width
-        adjustColumnWidth('--col-dest-width', presetsData.dests, 5);
+        // 2. destination
+        const scheduleDests = extractFromSchedule(scheduleData, 'destination');
+        adjustColumnWidth('--col-dest-width', presetsData.dests, scheduleDests, 5);
 
-        // 3. Calculate Remarks Column Width
-        adjustColumnWidth('--col-rem-width', presetsData.remarks, 6);
+        // 3. remarks
+        const presetRemarks = presetsData.remarks || [];
+        const scheduleRemarks = extractFromSchedule(scheduleData, 'remarks');
 
+        adjustColumnWidth('--col-rem-width', presetRemarks, scheduleRemarks, 6);
+        
         // Browser Tab Title
         if (metaData.station_name || metaData.line_name) {
             const sName = metaData.station_name || "";
