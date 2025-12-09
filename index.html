@@ -105,6 +105,50 @@
             right: 15px;
         }
 
+        .intro-section {
+            width: 100%;
+            max-width: 800px;
+            margin-top: 60px;
+            padding-top: 40px;
+            border-top: 1px solid #333;
+            color: #ccc;
+            line-height: 1.6;
+        }
+
+        .intro-section h2 {
+            color: #f39c12;
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .intro-section strong {
+            color: #fff;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 30px;
+            margin-top: 30px;
+            margin-bottom: 40px;
+        }
+
+        .feature-item h3 {
+            font-size: 1.1rem;
+            color: #eee;
+            margin-bottom: 8px;
+            border-left: 3px solid #f39c12;
+            padding-left: 10px;
+        }
+
+        .feature-item p {
+            font-size: 0.9rem;
+            color: #888;
+            margin: 0;
+        }
+
         footer {
             margin-top: auto;
             padding-top: 50px;
@@ -119,7 +163,7 @@
 </head>
 <body>
 
-    <h1>Departure Board</h1>
+    <h1>FlapEmu</h1>
     <p class="subtitle">Select a station</p>
 
     <div class="station-list">
@@ -144,7 +188,30 @@
             <div class="line-name">Tohoku Shinkansen</div>
         </a>
     </div>
+    <div class="intro-section">
+        <h2>About FlapEmu</h2>
+        <p>
+            FlapEmu is an emulator for split-flap displays, often seen in train stations and airports. It dynamically loads timetable data from pre-defined data and visually simulates the iconic flap animation to display schedules.
+        </p>
+        <p>
+            FlapEmuは、駅や空港などでよく見られるフリップ式表示器のエミュレーターです。事前に定義されたデータから時刻表データを動的に読み込み、象徴的なフリップアニメーションを視覚的にシミュレーションして時刻表を表示します。
+        </p>
+        <div class="features-grid">
+            <div class="feature-item">
+                <h3>CSS 3D Physics</h3>
+                <p>Pure CSS animations with dynamic lighting and shadows. No images or WebGL used.</p>
+            </div>
+            <div class="feature-item">
+                <h3>Data Driven</h3>
+                <p>Fully controlled by JSON files. Supports custom schedules, bilingual text, and color coding.</p>
+            </div>
+            <div class="feature-item">
+                <h3>Auto Refresh</h3>
+                <p>Timetable data is automatically fetched to keep schedules up-to-date.</p>
+            </div>
+        </div>
 
+    </div>
     <footer>
         <p>Project FlapEmu | <a href="https://github.com/tyoubin/flapemu">View on GitHub</a></p>
     </footer>
