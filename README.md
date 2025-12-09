@@ -1,10 +1,10 @@
-# flapemu: Web-based Flip-Dot Display Emulator
+# FlapEmu: Split-flap Display Emulator
 
 ## Overview
 
-flapemu is a web-based emulator for split-flap (or flip-dot) displays, often seen in train stations and airports. It dynamically loads timetable data from pre-defined data and visually simulates the iconic flap animation to display schedules.
+FlapEmu is an emulator for split-flap displays, often seen in train stations and airports. It dynamically loads timetable data from pre-defined data and visually simulates the iconic flap animation to display schedules.
 
-flapemuは、駅や空港などでよく見られるフリップ式表示器（またはドットマトリクス式表示器）用のウェブベースのエミュレーターです。事前に定義されたデータから時刻表データを動的に読み込み、象徴的なフリップアニメーションを視覚的にシミュレーションして時刻表を表示します。
+FlapEmuは、駅や空港などでよく見られるフリップ式表示器のエミュレーターです。事前に定義されたデータから時刻表データを動的に読み込み、象徴的なフリップアニメーションを視覚的にシミュレーションして時刻表を表示します。
 
 ## Features
 
@@ -14,7 +14,7 @@ flapemuは、駅や空港などでよく見られるフリップ式表示器（�
 
 ## Configuration
 
-flapemu loads its timetable data from JSON data located in the `timetable/` directory.
+FlapEmu loads its timetable data from JSON data located in the `timetable/` directory.
 
 ### Switching Timetables
 
