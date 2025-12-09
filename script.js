@@ -266,47 +266,62 @@ class TrainGroup {
         const actualDests = extractActuals('destination');
         const actualRemarks = extractActuals('remarks');
         const actualStops = extractActuals('stops_at');
+        // Dynamic Capacity Helper
+        const getCap = (presets, actuals) => {
+            // Deduplication
+            const uniqueItems = new Set();
+            if (presets) presets.forEach(p => uniqueItems.add(p.local));
+            if (actuals) actuals.forEach(a => uniqueItems.add(a.local));
+            const uniqueCount = uniqueItems.size;
 
+            // add 15 blank cards
+            let cap = uniqueCount + 15;
+
+            // hard limit, ensure visual effect and not too long duration
+
+            return Math.min(Math.max(cap, 40), 80);
+        };
         // --- Init Flap Units ---
 
         this.createCol(this.rowPrimary, 'plat', 'col-plat', () => {
-            return { type: 'chars', units: [new CharFlap(this.lastDiv, CHARS_NUM, 15), new CharFlap(this.lastDiv, CHARS_NUM, 15)] };
+            return { type: 'chars', units: [new CharFlap(this.lastDiv, CHARS_NUM, 20), new CharFlap(this.lastDiv, CHARS_NUM, 20)] };
         });
 
         // Type: Pass presets AND actuals
         this.createCol(this.rowPrimary, 'type', 'col-type', () => {
-            return { type: 'word', unit: new WordFlap(this.lastDiv, safePresets.types, actualTypes, 40) };
+            return { type: 'word', unit: new WordFlap(this.lastDiv, safePresets.types, actualTypes, getCap(safePresets.types, actualTypes)) };
         });
 
         this.createCol(this.rowPrimary, 'no', 'col-no', () => {
             let c = [];
             for (let i = 0; i < 5; i++) {
-                c.push(new CharFlap(this.lastDiv, CHARS_ALPHANUM, 40));
+                // alphanumeric chars
+                c.push(new CharFlap(this.lastDiv, CHARS_ALPHANUM, 50));
             }
             return { type: 'chars', units: c };
         });
 
         this.createCol(this.rowPrimary, 'time', 'col-time', () => {
             let c = [];
-            c.push(new CharFlap(this.lastDiv, CHARS_NUM, 15)); c.push(new CharFlap(this.lastDiv, CHARS_NUM, 15));
+            c.push(new CharFlap(this.lastDiv, CHARS_NUM, 20)); c.push(new CharFlap(this.lastDiv, CHARS_NUM, 20));
             let s = new CharFlap(this.lastDiv, ":", 1); s.setTarget(":"); c.push(s);
-            c.push(new CharFlap(this.lastDiv, CHARS_NUM, 15)); c.push(new CharFlap(this.lastDiv, CHARS_NUM, 15));
+            c.push(new CharFlap(this.lastDiv, CHARS_NUM, 20)); c.push(new CharFlap(this.lastDiv, CHARS_NUM, 20));
             return { type: 'chars', units: c };
         });
 
         // Destination: Pass presets AND actuals
         this.createCol(this.rowPrimary, 'dest', 'col-dest', () => {
-            return { type: 'word', unit: new WordFlap(this.lastDiv, safePresets.dests, actualDests, 60) };
+            return { type: 'word', unit: new WordFlap(this.lastDiv, safePresets.dests, actualDests, getCap(safePresets.dests, actualDests)) };
         });
 
         // Remarks: Pass presets AND actuals
         this.createCol(this.rowPrimary, 'remarks', 'col-remarks', () => {
-            return { type: 'word', unit: new WordFlap(this.lastDiv, safePresets.remarks, actualRemarks, 30) };
+            return { type: 'word', unit: new WordFlap(this.lastDiv, safePresets.remarks, actualRemarks, getCap(safePresets.remarks, actualRemarks)) };
         });
 
         // Stops: Pass presets AND actuals
         this.createCol(this.rowSecondary, 'stop', 'col-stop', () => {
-            return { type: 'word', unit: new WordFlap(this.lastDiv, safePresets.stops, actualStops, 35) };
+            return { type: 'word', unit: new WordFlap(this.lastDiv, safePresets.stops, actualStops, getCap(safePresets.stops, actualStops)) };
         });
     }
 
