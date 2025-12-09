@@ -234,8 +234,8 @@ body {
 }
 
 .col-no {
-    width: 90px;
-    margin-right: 40px;
+    width: 170px;
+    margin-right: 12px;
 }
 
 .col-time {
@@ -259,10 +259,15 @@ body {
     color: #888;
     font-size: 12px;
     text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    flex-shrink: 0;
 }
 
 .col-stop {
-    width: 896px;
+    flex: 1;
+    min-width: 0;
     margin-right: 0;
     color: #f39c12;
 }
