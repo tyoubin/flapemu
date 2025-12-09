@@ -322,6 +322,17 @@ async function fetchData() {
         // [New] Get meta data
         const metaData = Array.isArray(json) ? {} : (json.meta || {});
 
+        // Browser Tab Title
+        if (metaData.station_name || metaData.line_name) {
+            const sName = metaData.station_name || "";
+            const lName = metaData.line_name || "";
+            // concatenate station name and line name
+            document.title = `${sName} ${lName}`;
+        } else {
+            // fallback to default
+            document.title = "FlapEmu";
+        }
+
         // 1. Update top title
         const lineName = metaData.line_name || "DEPARTURES"; // Default value
         const leftTitle = document.getElementById('line-name-left');
