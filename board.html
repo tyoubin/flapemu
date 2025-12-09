@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=1280, user-scalable=yes">
+    <title>flapemu</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <div class="top-bar">
+        <!-- left title -->
+        <div class="header-title" id="line-name-left"></div>
+        
+        <!-- center clock -->
+        <div class="clock" id="clock">--<span class="blink">:</span>--</div>
+        
+        <!-- right title -->
+        <div class="header-title" id="line-name-right"></div>
+    </div>
+
+    <div class="schedule-board" id="board">
+        <!-- Header -->
+        <div class="header-row">
+            <div class="col-plat header-item"><span>のりば</span><span>Track</span></div>
+            <div class="col-type header-item"><span>種別</span><span>Type</span></div>
+            <div class="col-no header-item"><span>列車番号</span><span>Train No.</span></div>
+            <div class="col-time header-item"><span>時刻</span><span>Time</span></div>
+            <div class="col-dest header-item"><span>行先</span><span>Dest.</span></div>
+            <div class="col-remarks header-item"><span>記事</span><span>Remarks</span></div>
+        </div>
+        <div id="board-rows">
+            <!-- train-group will be inserted here by JS -->
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
