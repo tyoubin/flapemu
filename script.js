@@ -330,19 +330,60 @@ async function fetchData() {
         const presetsData = Array.isArray(json) ? {} : json.presets;
         const metaData = Array.isArray(json) ? {} : (json.meta || {});
 
+        // ============================================
+        //  Auto-Layout
+        // ============================================
+        /**
+         * Helper to calculate and set CSS variable for column width
+         * @param {String} cssVar - The CSS variable name (e.g., '--col-type-width')
+         * @param {Array} dataList - List of preset objects
+         * @param {Number} minChars - Minimum character count safety
+         */
+        const adjustColumnWidth = (cssVar, dataList, minChars = 4) => {
+            if (!dataList || dataList.length === 0) return;
+
+            let maxLen = 0;
+            dataList.forEach(item => {
+                const text = item.local || "";
+                // Calculate visual length: ASCII=0.6, Others=1.0
+                let visualLength = 0;
+                for (let char of text) {
+                    if (char.charCodeAt(0) < 128) visualLength += 0.6;
+                    else visualLength += 1;
+                }
+                if (visualLength > maxLen) maxLen = visualLength;
+            });
+
+            if (maxLen < minChars) maxLen = minChars;
+
+            // Calculate pixels: (Length * Font Size) + Padding
+            // 32 is a multiplier roughly based on the 30px font size + gaps
+            const pixelWidth = Math.ceil((maxLen * 32) + 20);
+
+            // Apply to CSS
+            document.documentElement.style.setProperty(cssVar, `${pixelWidth}px`);
+        };
+
+        // 1. Calculate Type Column Width
+        adjustColumnWidth('--col-type-width', presetsData.types, 4);
+
+        // 2. Calculate Destination Column Width
+        adjustColumnWidth('--col-dest-width', presetsData.dests, 5);
+
+        // 3. Calculate Remarks Column Width
+        adjustColumnWidth('--col-rem-width', presetsData.remarks, 6);
+
         // Browser Tab Title
         if (metaData.station_name || metaData.line_name) {
             const sName = metaData.station_name || "";
             const lName = metaData.line_name || "";
-            // concatenate station name and line name
             document.title = `${sName} ${lName}`;
         } else {
-            // fallback to default
             document.title = "FlapEmu";
         }
 
-        // 1. Update top title
-        const lineName = metaData.line_name || "DEPARTURES"; // Default value
+        // Update top title
+        const lineName = metaData.line_name || "DEPARTURES";
         const leftTitle = document.getElementById('line-name-left');
         const rightTitle = document.getElementById('line-name-right');
 
@@ -353,14 +394,10 @@ async function fetchData() {
         if (!isInitialized) {
             console.log("[System] Initializing Board with Presets:", presetsData);
 
-            // 1. Get the new dedicated container
             const rowsContainer = document.getElementById('board-rows');
-
-            // 2. Only clear the row container, do not touch the table header
             rowsContainer.innerHTML = "";
 
             for (let i = 0; i < ROW_COUNT; i++) {
-                // 3. Add the flipper group to the dedicated container
                 groups.push(new TrainGroup(rowsContainer, presetsData));
             }
             isInitialized = true;

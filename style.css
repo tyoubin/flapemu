@@ -230,7 +230,9 @@ body {
 }
 
 .col-type {
-    width: 130px;
+    width: var(--col-type-width, 130px);
+    overflow: hidden;
+    transition: width 0.3s ease;
 }
 
 .col-no {
@@ -243,14 +245,18 @@ body {
 }
 
 .col-dest {
-    width: 200px;
+    width: var(--col-dest-width, 200px);
     color: #fff;
+    overflow: hidden;
+    transition: width 0.3s ease;
 }
 
 .col-remarks {
-    width: 260px;
+    width: var(--col-rem-width, 260px);
     color: #2ecc71;
     margin-right: 0;
+    overflow: hidden;
+    transition: width 0.3s ease;
 }
 
 .stops-label {
