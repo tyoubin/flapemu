@@ -15,6 +15,7 @@ updateClock();
 // ================= 2. CONFIGURATION =================
 // Note: All SAMPLE_ constants have been removed and are now managed by JSON
 const CHARS_NUM = " 0123456789";
+const CHARS_ALPHANUM = " 0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 const BLANK_DATA = { local: " ", en: " ", color: "#202020", textColor: "#f5f5f5" };
 
 // Parse URL parameters
@@ -173,7 +174,7 @@ class FlapUnit {
             } else {
                 this.isAnimating = false;
             }
-        }, 150); // Crucial: the JS interval (150ms) must be greater than the CSS animation duration (--flap-speed: 0.15s), it is recommended to leave a buffer for the browser to repaint, otherwise the animation will be truncated.
+        }, 150); // Crucial: the JS interval (150ms) must be greater than the CSS animation duration (--flap-speed: 0.15s)
     }
 }
 
@@ -236,8 +237,14 @@ class TrainGroup {
             return { type: 'word', unit: new WordFlap(this.lastDiv, types, 30) };
         });
 
+        // Train No: use CHARS_ALPHANUM and create 5 units
         this.createCol(this.rowPrimary, 'no', 'col-no', () => {
-            let c = []; for (let i = 0; i < 3; i++) c.push(new CharFlap(this.lastDiv, CHARS_NUM, 15)); return { type: 'chars', units: c };
+            let c = [];
+            for (let i = 0; i < 5; i++) {
+                // Capacity 40 to accommodate A-Z + 0-9
+                c.push(new CharFlap(this.lastDiv, CHARS_ALPHANUM, 40));
+            }
+            return { type: 'chars', units: c };
         });
 
         this.createCol(this.rowPrimary, 'time', 'col-time', () => {
@@ -282,7 +289,9 @@ class TrainGroup {
         } : null;
         this.updateWord('type', typeData);
 
-        this.updateChars('no', (record.train_no || "").toString().padStart(3, ' '));
+        // Train No: pad to 5 characters
+        this.updateChars('no', (record.train_no || "").toString().padStart(5, ' '));
+
         this.updateChars('time', record.depart_time || "");
         this.updateWord('dest', record.destination);
         this.updateWord('remarks', record.remarks);
@@ -319,7 +328,6 @@ async function fetchData() {
         // Parse data
         const scheduleData = Array.isArray(json) ? json : json.schedule;
         const presetsData = Array.isArray(json) ? {} : json.presets;
-        // [New] Get meta data
         const metaData = Array.isArray(json) ? {} : (json.meta || {});
 
         // Browser Tab Title
