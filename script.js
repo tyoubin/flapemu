@@ -13,7 +13,6 @@ setInterval(updateClock, 1000);
 updateClock();
 
 // ================= 2. CONFIGURATION =================
-// Note: All SAMPLE_ constants have been removed and are now managed by JSON
 const CHARS_NUM = " 0123456789";
 const CHARS_ALPHANUM = " 0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 const BLANK_DATA = { local: " ", en: " ", color: "#202020", textColor: "#f5f5f5" };
@@ -30,22 +29,46 @@ const ROW_COUNT = 6;
 
 // ================= 3. FLAP =================
 
-function createPhysicalList(sourceList, capacity) {
-    // The sourceList here comes from the JSON presets
-    let list = [BLANK_DATA];
-    if (sourceList && Array.isArray(sourceList)) {
-        sourceList.forEach(item => {
-            list.push({
-                ...item,
-                color: item.color || "#202020",
-                textColor: item.textColor || "#f5f5f5"
-            });
+/**
+ * Create Physical List
+ * Merges Presets + Actual Schedule Items + Blanks
+ * Ensures uniqueness and maintains order (Presets first, then new schedule items)
+ */
+function createPhysicalList(presetList, actualList, capacity) {
+    let list = [BLANK_DATA]; // Index 0 is always blank
+    const seenLocals = new Set(); // To track duplicates based on 'local' string
+
+    // Helper to process and append items
+    const processItems = (sourceArray) => {
+        if (!Array.isArray(sourceArray)) return;
+        sourceArray.forEach(item => {
+            // Only add valid items that haven't been added yet
+            // Skip " " blanks here, they are handled by padding later
+            if (item && item.local && item.local.trim() !== "" && !seenLocals.has(item.local)) {
+                seenLocals.add(item.local);
+                list.push({
+                    local: item.local,
+                    en: item.en,
+                    color: item.color || "#202020",
+                    textColor: item.textColor || "#f5f5f5"
+                });
+            }
         });
-    }
+    };
+
+    // 1. Load Presets (Simulates hardware factory settings)
+    processItems(presetList);
+
+    // 2. Load Actuals (Simulates dynamic daily schedule additions)
+    processItems(actualList);
+
+    // 3. Fill remaining capacity with BLANK cards
     while (list.length < capacity) {
         list.push({ ...BLANK_DATA });
     }
-    return list;
+
+    // 4. Hard cap
+    return list.slice(0, capacity);
 }
 
 class FlapUnit {
@@ -119,18 +142,25 @@ class FlapUnit {
             nextIndex = this.physicalList.indexOf(val);
             if (nextIndex === -1) nextIndex = 0;
         } else {
+            // Word
             const targetLocal = val ? val.local : " ";
-            if (targetLocal === " ") {
-                nextIndex = 0;
+
+            if (targetLocal === " " || targetLocal === "") {
+                nextIndex = 0; // Default blank
             } else {
+                // 1. Search in the pre-built physical list
+                // Since we merged presets and actuals during init, it SHOULD be here.
                 nextIndex = this.physicalList.findIndex(item => item.local === targetLocal);
+
+                // 2. Safety Fallback: If still not found (e.g. data changed after init), inject dynamically
                 if (nextIndex === -1) {
-                    // Dynamic Insert
                     let freeSlotIndex = this.physicalList.findIndex((item, idx) => item.local === " " && idx !== 0);
+
                     if (freeSlotIndex === -1) {
                         freeSlotIndex = (this.pointer + 5) % this.physicalList.length;
                         if (freeSlotIndex === 0) freeSlotIndex = 1;
                     }
+
                     this.physicalList[freeSlotIndex] = {
                         local: val.local,
                         en: val.en,
@@ -139,6 +169,7 @@ class FlapUnit {
                     };
                     nextIndex = freeSlotIndex;
                 } else {
+                    // Update style just in case
                     let item = this.physicalList[nextIndex];
                     if (val.color && item.color !== val.color) item.color = val.color;
                     if (val.textColor && item.textColor !== val.textColor) item.textColor = val.textColor;
@@ -147,7 +178,9 @@ class FlapUnit {
         }
 
         this.targetPointer = nextIndex;
-        if (this.pointer !== this.targetPointer && !this.isAnimating) this.step();
+        if (this.pointer !== this.targetPointer && !this.isAnimating) {
+            this.step();
+        }
     }
 
     step() {
@@ -156,7 +189,7 @@ class FlapUnit {
         let nextData = this.physicalList[this.pointer];
 
         this.element.classList.remove('flipping');
-        void this.element.offsetWidth;
+        void this.element.offsetWidth; // Force Reflow
         this.isAnimating = true;
         this.element.classList.add('flipping');
 
@@ -169,6 +202,7 @@ class FlapUnit {
             this.element.classList.remove('flipping');
             this.renderTo(this.frontContent, nextData);
             this.renderTo(this.bottomContent, nextData);
+
             if (this.pointer !== this.targetPointer) {
                 requestAnimationFrame(() => this.step());
             } else {
@@ -191,10 +225,10 @@ class CharFlap extends FlapUnit {
 }
 
 class WordFlap extends FlapUnit {
-    // Receive the presets array read from JSON
-    constructor(parent, presetList, capacity) {
+    // Accepts both presetList and actualList
+    constructor(parent, presetList, actualList, capacity) {
         super(parent, 'flap-word', 'word');
-        this.physicalList = createPhysicalList(presetList, capacity);
+        this.physicalList = createPhysicalList(presetList, actualList, capacity);
         this.renderTo(this.topContent, this.physicalList[0]);
         this.renderTo(this.bottomContent, this.physicalList[0]);
     }
@@ -202,8 +236,8 @@ class WordFlap extends FlapUnit {
 
 // ================= 4. ROW MANAGEMENT =================
 class TrainGroup {
-    // The constructor receives the presets object from JSON
-    constructor(container, presets) {
+    // Accepts scheduleData to extract all possibilities
+    constructor(container, presets, scheduleData) {
         this.groupEl = document.createElement('div');
         this.groupEl.className = 'train-group';
         container.appendChild(this.groupEl);
@@ -219,29 +253,34 @@ class TrainGroup {
 
         this.controllers = {};
 
-        // Safety check: prevent errors if presets are not in JSON
         const safePresets = presets || {};
-        const types = safePresets.types || [];
-        const dests = safePresets.dests || [];
-        const remarks = safePresets.remarks || [];
-        const stops = safePresets.stops || [];
 
-        // --- Initialize components, pass in JSON presets ---
+        // Helper: Extract all unique objects from schedule for a given key
+        // This ensures the flap unit knows about every possible value in the current schedule
+        const extractActuals = (key) => {
+            if (!scheduleData) return [];
+            return scheduleData.map(item => item[key]).filter(x => x && x.local);
+        };
+
+        const actualTypes = extractActuals('type');
+        const actualDests = extractActuals('destination');
+        const actualRemarks = extractActuals('remarks');
+        const actualStops = extractActuals('stops_at');
+
+        // --- Init Flap Units ---
 
         this.createCol(this.rowPrimary, 'plat', 'col-plat', () => {
             return { type: 'chars', units: [new CharFlap(this.lastDiv, CHARS_NUM, 15), new CharFlap(this.lastDiv, CHARS_NUM, 15)] };
         });
 
-        // Train Type: use types from JSON
+        // Type: Pass presets AND actuals
         this.createCol(this.rowPrimary, 'type', 'col-type', () => {
-            return { type: 'word', unit: new WordFlap(this.lastDiv, types, 30) };
+            return { type: 'word', unit: new WordFlap(this.lastDiv, safePresets.types, actualTypes, 40) };
         });
 
-        // Train No: use CHARS_ALPHANUM and create 5 units
         this.createCol(this.rowPrimary, 'no', 'col-no', () => {
             let c = [];
             for (let i = 0; i < 5; i++) {
-                // Capacity 40 to accommodate A-Z + 0-9
                 c.push(new CharFlap(this.lastDiv, CHARS_ALPHANUM, 40));
             }
             return { type: 'chars', units: c };
@@ -255,19 +294,19 @@ class TrainGroup {
             return { type: 'chars', units: c };
         });
 
-        // Destination: use dests from JSON
+        // Destination: Pass presets AND actuals
         this.createCol(this.rowPrimary, 'dest', 'col-dest', () => {
-            return { type: 'word', unit: new WordFlap(this.lastDiv, dests, 50) };
+            return { type: 'word', unit: new WordFlap(this.lastDiv, safePresets.dests, actualDests, 60) };
         });
 
-        // Seating/Facility/Other: use remarks from JSON
+        // Remarks: Pass presets AND actuals
         this.createCol(this.rowPrimary, 'remarks', 'col-remarks', () => {
-            return { type: 'word', unit: new WordFlap(this.lastDiv, remarks, 25) };
+            return { type: 'word', unit: new WordFlap(this.lastDiv, safePresets.remarks, actualRemarks, 30) };
         });
 
-        // Stops: use stops from JSON
+        // Stops: Pass presets AND actuals
         this.createCol(this.rowSecondary, 'stop', 'col-stop', () => {
-            return { type: 'word', unit: new WordFlap(this.lastDiv, stops, 35) };
+            return { type: 'word', unit: new WordFlap(this.lastDiv, safePresets.stops, actualStops, 35) };
         });
     }
 
@@ -288,10 +327,7 @@ class TrainGroup {
             textColor: record.type_text_color
         } : null;
         this.updateWord('type', typeData);
-
-        // Train No: pad to 5 characters
         this.updateChars('no', (record.train_no || "").toString().padStart(5, ' '));
-
         this.updateChars('time', record.depart_time || "");
         this.updateWord('dest', record.destination);
         this.updateWord('remarks', record.remarks);
@@ -336,7 +372,6 @@ async function fetchData() {
         const extractFromSchedule = (schedule, key) => {
             if (!schedule) return [];
             return schedule.map(item => {
-                // item[key] could be undefined, or object {local:..., en:...}
                 if (item[key] && item[key].local) {
                     return item[key];
                 }
@@ -345,10 +380,7 @@ async function fetchData() {
         };
 
         const adjustColumnWidth = (cssVar, presetList, scheduleList, minChars = 4) => {
-            // combine presets and schedule
-            // to find the longest string
             const fullList = [...(presetList || []), ...(scheduleList || [])];
-
             if (fullList.length === 0) return;
 
             let maxLen = 0;
@@ -364,31 +396,22 @@ async function fetchData() {
             });
 
             if (maxLen < minChars) maxLen = minChars;
-
             // 32 multiplier (30px font + 2px spacing), 20 Padding
             const pixelWidth = Math.ceil((maxLen * 32) + 20);
-
-            // Apply to CSS
             document.documentElement.style.setProperty(cssVar, `${pixelWidth}px`);
-
-            // For Debug
-            // console.log(`Set ${cssVar}: ${pixelWidth}px (MaxLen: ${maxLen})`);
         };
 
-        // 1. Train Type
         const scheduleTypes = extractFromSchedule(scheduleData, 'type');
         adjustColumnWidth('--col-type-width', presetsData.types, scheduleTypes, 4);
 
-        // 2. destination
         const scheduleDests = extractFromSchedule(scheduleData, 'destination');
         adjustColumnWidth('--col-dest-width', presetsData.dests, scheduleDests, 5);
 
-        // 3. remarks
+        // Calculate remarks width
         const presetRemarks = presetsData.remarks || [];
         const scheduleRemarks = extractFromSchedule(scheduleData, 'remarks');
-
         adjustColumnWidth('--col-rem-width', presetRemarks, scheduleRemarks, 6);
-        
+
         // Browser Tab Title
         if (metaData.station_name || metaData.line_name) {
             const sName = metaData.station_name || "";
@@ -408,13 +431,13 @@ async function fetchData() {
 
         // On initial load, initialize the flipper based on the presets in the JSON
         if (!isInitialized) {
-            console.log("[System] Initializing Board with Presets:", presetsData);
-
+            console.log("[System] Initializing Board...");
             const rowsContainer = document.getElementById('board-rows');
             rowsContainer.innerHTML = "";
 
             for (let i = 0; i < ROW_COUNT; i++) {
-                groups.push(new TrainGroup(rowsContainer, presetsData));
+                // Pass scheduleData so we can build the full physical list at start
+                groups.push(new TrainGroup(rowsContainer, presetsData, scheduleData));
             }
             isInitialized = true;
         }
@@ -422,7 +445,6 @@ async function fetchData() {
         // --- Process timetable data ---
         if (!scheduleData || scheduleData.length === 0) return;
 
-        // Sort
         scheduleData.sort((a, b) => a.depart_time.localeCompare(b.depart_time));
 
         const now = new Date();
@@ -441,7 +463,7 @@ async function fetchData() {
             displayTrains.push(scheduleData[dataIndex]);
         }
 
-        // 4. Update the flipper by semi-iterating through each row
+        // Update the flipper by semi-iterating through each row
         for (let i = 0; i < ROW_COUNT; i++) {
             if (groups[i]) {
                 groups[i].update(displayTrains[i]);
