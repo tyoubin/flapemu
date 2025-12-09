@@ -600,15 +600,20 @@ body {
 }
 
 .board-footer {
-    margin-top: 15px;
+    margin-top: 25px;
+    width: 100%;
+    text-align: center;
     font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-    font-size: 12px;
-    font-weight: 600;
-    color: #444;
     text-transform: uppercase;
     letter-spacing: 1px;
-    text-align: center;
-    width: 100%;
+}
+
+.disclaimer {
+    font-size: 10px;
+    color: #555;
+    font-weight: 700;
+    margin-bottom: 4px;
+    opacity: 0.8;
 }
 
 .board-footer a {
@@ -637,4 +642,22 @@ footer a {
 
 footer a:hover {
     color: #f39c12;
+}
+
+.copyright {
+    font-size: 10px;
+    color: #333;
+    font-weight: 400;
+}
+
+.copyright a {
+    color: #444;
+    text-decoration: none;
+    border-bottom: 1px dotted #444;
+    transition: color 0.2s;
+}
+
+.copyright a:hover {
+    color: #f39c12;
+    border-bottom-color: #f39c12;
 }
