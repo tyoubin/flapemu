@@ -245,10 +245,16 @@ body {
 /* 
    Fix chars like 'W', 'M'
 */
+.col-plat .flap-char .card-content,
 .col-no .flap-char .card-content {
     font-family: "DIN Alternate", "Helvetica Neue Condensed", "Arial Narrow", "Franklin Gothic Medium", sans-serif;
-    transform: scaleX(0.85);
+    transform: scaleX(0.9);
     font-weight: 800;
+}
+
+.col-time .flap-char .card-content {
+    font-family: "Helvetica Neue Condensed", "Arial Narrow", "Franklin Gothic Medium", sans-serif;
+    font-weight: 500;
 }
 
 .col-time {
