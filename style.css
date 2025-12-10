@@ -715,13 +715,16 @@ footer a:hover {
     .train-group {
         display: flex;
         flex-direction: column;
+        background-color: #111;
         background: #080808;
-        margin-bottom: 12px;
-        padding: 10px;
-        border-left: 4px solid #444;
+        margin-bottom: 15px;
+        padding: 15px;
+        border: 1px solid #333;
+        border-left: 5px solid #555;
         border-bottom: 1px solid #333;
-        border-radius: 4px;
-        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+        border-radius: 6px;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+        transition: transform 0.2s, box-shadow 0.2s;
     }
 
     .row-primary {
