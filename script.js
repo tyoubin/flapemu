@@ -284,7 +284,12 @@ class TrainGroup {
         // --- Init Flap Units ---
 
         this.createCol(this.rowPrimary, 'plat', 'col-plat', () => {
-            return { type: 'chars', units: [new CharFlap(this.lastDiv, CHARS_NUM, 20), new CharFlap(this.lastDiv, CHARS_NUM, 20)] };
+            let c = [];
+            // Create 4 flap units using CHARS_ALPHANUM
+            for (let i = 0; i < 4; i++) {
+                c.push(new CharFlap(this.lastDiv, CHARS_ALPHANUM, 15));
+            }
+            return { type: 'chars', units: c };
         });
 
         // Type: Pass presets AND actuals
@@ -333,7 +338,7 @@ class TrainGroup {
     }
 
     update(record) {
-        this.updateChars('plat', (record.track_no || "").padStart(2, ' '));
+        this.updateChars('plat', (record.track_no || "").padStart(4, ' '));
 
         let typeData = record.type ? {
             local: record.type.local,

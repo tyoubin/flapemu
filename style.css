@@ -224,7 +224,7 @@ body {
 }
 
 .col-plat {
-    width: 60px;
+    width: 120px;
     justify-content: center;
     color: #f1c40f;
 }
@@ -279,7 +279,7 @@ body {
 }
 
 .stops-label {
-    width: 60px;
+    width: 120px;
     margin-right: var(--col-gap);
     color: #888;
     font-size: 12px;
