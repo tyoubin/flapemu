@@ -247,14 +247,16 @@ body {
 */
 .col-plat .flap-char .card-content,
 .col-no .flap-char .card-content {
-    font-family: "DIN Alternate", "Helvetica Neue Condensed", "Arial Narrow", "Franklin Gothic Medium", sans-serif;
+    font-family: "Helvetica Neue Condensed", "Arial Narrow", "Franklin Gothic Medium", sans-serif;
     transform: scaleX(0.9);
-    font-weight: 800;
+    font-weight: 500;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
 }
 
 .col-time .flap-char .card-content {
     font-family: "Helvetica Neue Condensed", "Arial Narrow", "Franklin Gothic Medium", sans-serif;
     font-weight: 500;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
 }
 
 .col-time {
