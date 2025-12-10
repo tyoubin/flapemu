@@ -338,7 +338,7 @@ class TrainGroup {
     }
 
     update(record) {
-        this.updateChars('plat', (record.track_no || "").padStart(4, ' '));
+        this.updateChars('plat', (record.track_no || "").toString().padEnd(4, ' '));
 
         let typeData = record.type ? {
             local: record.type.local,
@@ -347,7 +347,7 @@ class TrainGroup {
             textColor: record.type_text_color
         } : null;
         this.updateWord('type', typeData);
-        this.updateChars('no', (record.train_no || "").toString().padStart(5, ' '));
+        this.updateChars('no', (record.train_no || "").toString().padEnd(5, ' '));
         this.updateChars('time', record.depart_time || "");
         this.updateWord('dest', record.destination);
         this.updateWord('remarks', record.remarks);
