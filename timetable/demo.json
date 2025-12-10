@@ -167,32 +167,16 @@
         "en": "Non-ReservedCarNo.7-8"
       },
       {
-        "local": "全車指定席",
-        "en": "All Reserved"
+        "local": "遅れ",
+        "en": "Delayed"
       },
       {
-        "local": "G車・グランクラス",
-        "en": "Green/GranClass"
-      },
-      {
-        "local": "スーパーいなば",
-        "en": "Super Inaba"
-      },
-      {
-        "local": "ハローキティ新幹線",
-        "en": "Hello Kitty Train"
-      },
-      {
-        "local": "九州横断特急",
-        "en": "TRANS-KYUSHU LIMITED EXPRESS"
+        "local": "欠航",
+        "en": "Cancelled"
       },
       {
         "local": "サンライズ出雲・瀬戸",
         "en": "Sunrise Izumo/Seto"
-      },
-      {
-        "local": "鹿児島本線",
-        "en": "Kagoshima Line"
       },
       {
         "local": "山陰本線",
@@ -201,14 +185,6 @@
       {
         "local": "都営大江戸線",
         "en": "TOEI OEDO LINE"
-      },
-      {
-        "local": "東北本線",
-        "en": "TOHOKU LINE"
-      },
-      {
-        "local": "函館本線",
-        "en": "HAKODATE LINE"
       }
     ],
     "stops": [
