@@ -1,17 +1,8 @@
 // Helper function: Sleep
 const sleep = (ms) => new Promise(resolve => setTimeout(resolve, ms));
 
-// ================= 1. CLOCK =================
-function updateClock() {
-    const now = new Date();
-    const h = now.getHours().toString().padStart(2, '0');
-    const m = now.getMinutes().toString().padStart(2, '0');
-    const clockEl = document.getElementById('clock');
-    if (clockEl) clockEl.textContent = `${h}:${m}`;
-}
-setInterval(updateClock, 1000);
-updateClock();
-
+// ================= 1. Top bar =================
+// to be implemented
 // ================= 2. CONFIGURATION =================
 const CHARS_NUM = " 0123456789";
 const CHARS_ALPHANUM = " 0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ";
@@ -444,10 +435,8 @@ async function fetchData() {
         // Update top title
         const lineName = metaData.line_name || "DEPARTURES";
         const leftTitle = document.getElementById('line-name-left');
-        const rightTitle = document.getElementById('line-name-right');
 
         if (leftTitle) leftTitle.textContent = lineName;
-        if (rightTitle) rightTitle.textContent = lineName;
 
         // On initial load, initialize the flipper based on the presets in the JSON
         if (!isInitialized) {
