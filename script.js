@@ -239,7 +239,7 @@ class TrainGroup {
 
         this.rowSecondary = document.createElement('div');
         this.rowSecondary.className = 'row-secondary';
-        this.rowSecondary.innerHTML = `<div class="stops-label"><span>停車駅</span><span>Stops</span></div>`;
+        this.rowSecondary.innerHTML = `<div class="stops-label"><span>停車駅</span><span>Train Stops</span></div>`;
         this.groupEl.appendChild(this.rowSecondary);
 
         this.controllers = {};
