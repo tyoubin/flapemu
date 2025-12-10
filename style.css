@@ -253,7 +253,7 @@ body {
 .stops-label {
     width: 120px;
     margin-right: var(--col-gap);
-    color: #888;
+    /* color: #888; */
     font-size: 12px;
     text-align: center;
     display: flex;
