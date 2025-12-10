@@ -276,8 +276,8 @@ class TrainGroup {
 
         this.createCol(this.rowPrimary, 'plat', 'col-plat', () => {
             let c = [];
-            // Create 4 flap units using CHARS_ALPHANUM
-            for (let i = 0; i < 4; i++) {
+            // Create  flap units using CHARS_ALPHANUM
+            for (let i = 0; i < 3; i++) {
                 c.push(new CharFlap(this.lastDiv, CHARS_ALPHANUM, 15));
             }
             return { type: 'chars', units: c };
@@ -329,7 +329,7 @@ class TrainGroup {
     }
 
     update(record) {
-        this.updateChars('plat', (record.track_no || "").toString().padEnd(4, ' '));
+        this.updateChars('plat', (record.track_no || "").toString().padEnd(3, ' '));
 
         let typeData = record.type ? {
             local: record.type.local,
