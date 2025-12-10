@@ -691,3 +691,132 @@ footer a:hover {
     color: #f39c12;
     border-bottom-color: #f39c12;
 }
+
+/* =========================================
+   RESPONSIVE DESIGN (Mobile / Tablet)
+   ========================================= */
+@media screen and (max-width: 1100px) {
+
+    .main-container {
+        width: 100%;
+        padding: 5px;
+    }
+
+    .schedule-board {
+        width: 100%;
+        padding: 12px 8px;
+        border-width: 3px;
+    }
+
+    .header-row {
+        display: none;
+    }
+
+    .train-group {
+        display: flex;
+        flex-direction: column;
+        background: #080808;
+        margin-bottom: 12px;
+        padding: 10px;
+        border-left: 4px solid #444;
+        border-bottom: 1px solid #333;
+        border-radius: 4px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+    }
+
+    .row-primary {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        gap: 8px;
+    }
+
+    /* 
+       Columns
+       - flex-grow: 1  -> fit width
+       - flex-shrink: 0 -> do not shrink
+    */
+    [class^="col-"] {
+        margin-right: 0 !important;
+        margin-bottom: 0 !important;
+
+        /* allow flex, disable shrink */
+        flex-grow: 1;
+        flex-shrink: 0;
+
+        /* allow horizontal scroll */
+        overflow-x: auto;
+        overflow-y: hidden;
+    }
+
+    /* --- fixed width --- */
+
+    .col-plat {
+        flex: 0 0 120px;
+        justify-content: center;
+    }
+
+    .col-no {
+        flex: 0 0 auto;
+        min-width: 140px;
+    }
+
+    .col-time {
+        flex: 0 0 auto;
+    }
+
+    /* --- auto width --- */
+    .col-type {
+        flex: 1 0 var(--col-type-width, 130px);
+    }
+
+    .col-dest {
+        flex: 1 0 var(--col-dest-width, 200px);
+    }
+
+    .col-remarks {
+        flex: 1 0 var(--col-rem-width, 260px);
+    }
+
+    .row-secondary {
+        margin-top: 8px;
+        padding-top: 8px;
+        border-top: 1px dashed #222;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .stops-label {
+        display: none;
+    }
+
+    .col-stop {
+        width: 100% !important;
+        flex: 1 0 100%;
+        color: #f39c12;
+        transform-origin: left center;
+    }
+
+    .top-bar {
+        flex-direction: column;
+        gap: 10px;
+        margin-top: 10px;
+        margin-bottom: 20px;
+    }
+
+    .clock {
+        margin: 0;
+        font-size: 40px;
+        padding: 5px 20px;
+    }
+
+    .header-title {
+        font-size: 20px;
+        text-align: center !important;
+        white-space: normal;
+    }
+
+    #line-name-right {
+        display: none;
+    }
+}
