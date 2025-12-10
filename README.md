@@ -8,7 +8,7 @@ Demo: [https://tyoubin.github.io/flapemu/](https://tyoubin.github.io/flapemu/)
 
 FlapEmu is an emulator for split-flap displays, often seen in train stations and airports. It dynamically loads timetable data from pre-defined data and visually simulates the iconic flap animation to display schedules.
 
-FlapEmuは、駅や空港などでよく見られるフリップ式表示器のエミュレーターです。事前に定義されたデータから時刻表データを動的に読み込み、象徴的なフリップアニメーションを視覚的にシミュレーションして時刻表を表示します。
+FlapEmuは、駅や空港に設置されている反転フラップ式案内表示機（ソラリーボード）を模したエミュレーターです。定義済みデータソースから時刻表情報を動的に取得し、特徴的なフラップの回転動作を視覚的にシミュレートして描画します。
 
 ## Features
 
