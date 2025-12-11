@@ -6,17 +6,13 @@
     --card-bg: #222;
     --text-color: #f5f5f5;
     --sub-text-color: #ccc;
-
     --flap-speed: 0.15s;
-
     --char-width: 32px;
     --char-height: 56px;
     --char-font: 42px;
-
     --word-height: 56px;
     --local-font: 30px;
     --en-font: 9px;
-
     --col-gap: 10px;
 }
 
@@ -174,16 +170,6 @@ body {
     flex: 0 0 auto;
 }
 
-/* --- Train Number Optimization --- */
-/* Make chars like 'W', 'M' narrower*/
-.col-plat .flap-char .card-content,
-.col-no .flap-char .card-content {
-    font-family: "Helvetica Neue Condensed", "Arial Narrow", "Franklin Gothic Medium", sans-serif;
-    transform: scaleX(0.9);
-    font-weight: 500;
-    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
-}
-
 /* 
    Variable width columns (Type, Dest, Remarks) 
 */
@@ -300,14 +286,16 @@ body {
     top: calc(-100% - 1px);
 }
 
+/* --- Pure alphanumeric columns --- */
 .flap-char .card-content {
     justify-content: center;
     align-items: center;
     font-size: var(--char-font);
-    font-family: "Helvetica Neue Condensed", "Arial Narrow", sans-serif;
-    font-weight: 500;
-    transform: scaleX(0.9);
-    letter-spacing: -1px;
+    font-family: "Helvetica Neue",
+        Helvetica,
+        Arial,
+        sans-serif;
+    /* font-weight: 400; */
     text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
 }
 
@@ -546,7 +534,6 @@ body {
     margin-top: 25px;
     width: 100%;
     text-align: center;
-    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
     letter-spacing: 1px;
 }
 
