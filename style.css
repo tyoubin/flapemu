@@ -209,6 +209,7 @@ body {
 .flap-char {
     width: var(--char-width);
     height: var(--char-height);
+    margin-right: 2px;
 }
 
 .flap-word {
