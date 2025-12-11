@@ -1,3 +1,6 @@
+/* =========================================
+   1. GLOBAL VARIABLES
+   ========================================= */
 :root {
     --board-bg: #111;
     --card-bg: #222;
@@ -14,209 +17,167 @@
     --local-font: 30px;
     --en-font: 9px;
 
-    --col-gap: 12px;
+    --col-gap: 10px;
 }
 
+/* =========================================
+   2. BASIC LAYOUT (Standard Block)
+   ========================================= */
 body {
     background-color: var(--board-bg);
     color: var(--text-color);
-    font-family: "Hiragino Kaku Gothic ProN", "Hiragino Sans", "Helvetica Neue", "Yu Gothic", YuGothic, sans-serif;
-
-    /* 
-       Use Flexbox to center content within the "viewport".
-       Since the viewport is now forced to 1280px, this will center the content within a 1280px canvas.
-    */
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-
+    font-family: "Hiragino Kaku Gothic ProN", "Hiragino Sans", "Helvetica Neue", "Yu Gothic", sans-serif;
+    display: block;
     min-height: 100vh;
     margin: 0;
-    padding: 40px 0;
-    /* Top and bottom padding */
+    padding: 20px 10px;
+    box-sizing: border-box;
 }
 
-/* --- Main container: responsible for fixed width and centering --- */
+/* --- Main container: responsible for max width and centering --- */
 .main-container {
-    /* 
-       Use fit-content to make the container hug its inner content.
-       This ensures the container is no wider than its widest element (the flip board).
-    */
-    width: -moz-fit-content;
-    width: fit-content;
-
-    /* Center display */
-    margin: auto;
-
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
     display: flex;
     flex-direction: column;
-    gap: 0;
+    gap: 30px;
 }
 
-/* --- Top bar (clock) --- */
+/* =========================================
+   3. COMPONENTS
+   ========================================= */
+/* --- Top bar --- */
 .top-bar {
-    /* 
-       Width follows the parent container (.main-container).
-       Because the width of .main-container is stretched by .schedule-board,
-       setting it to 100% here will make the top bar and the board below have the same width.
-    */
     width: 100%;
-
     display: flex;
     align-items: center;
     justify-content: flex-start;
-    box-sizing: border-box;
-    margin-top: 15px;
-    margin-bottom: 45px;
+    margin-bottom: 10px;
 }
 
-
 .header-title {
-    flex: 1;
-    font-family: "Hiragino Kaku Gothic ProN", sans-serif;
     font-weight: 800;
-    font-size: 32px;
+    font-size: 28px;
     color: #ffffff;
     text-shadow: 0 0 3px rgba(255, 255, 255, 0.6);
     letter-spacing: 2px;
-    text-align: center;
-    white-space: normal;
-    word-wrap: break-word;
-    line-height: 1.1;
-    overflow: visible;
+    line-height: 1.2;
 }
 
 /* --- Flip board container --- */
 .schedule-board {
     background: #0a0a0a;
-
-    /* Slightly reduce inner padding for a tighter edge */
-    padding: 20px;
-
-    border-radius: 4px;
-    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.95);
-    border: 10px solid #1c1c1c;
-
-    /* 
-       Forces the container width to be equal to the physical width of its widest inner row.
-       This ignores any external stretching, achieving a "Shrink Wrap" effect.
-    */
-    width: -moz-max-content;
-    width: max-content;
-
+    padding: 20px 15px;
+    border-radius: 6px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.8);
+    border: 6px solid #1c1c1c;
+    width: 100%;
     box-sizing: border-box;
 }
 
+/* --- Header row --- */
 .header-row {
-    width: 100%;
     display: flex;
     margin-bottom: 10px;
-    color: #ffffff;
+    color: #fff;
     font-weight: bold;
     font-size: 13px;
-    padding-left: 10px;
+    padding-left: 12px;
+    gap: var(--col-gap);
 }
 
-.header-row .header-item {
-    color: #ffffff !important;
-    text-shadow: none;
-}
-
-.header-item {
-    display: flex;
-    flex-direction: column;
-    line-height: 1.1;
-}
-
-.header-item {
-    display: flex;
-    flex-direction: column;
-    line-height: 1.1;
-}
-
-.header-item span:last-child {
-    font-size: 0.8em;
-    opacity: 0.8;
-    font-weight: normal;
-}
-
-.train-group {
-    background: linear-gradient(to bottom,
-            #1a1a1a 0%,
-            #111111 40%,
-            #0a0a0a 100%);
-    border-top: 1px solid rgba(255, 255, 255, 0.15);
-    border-bottom: 1px solid #000000;
-    border-left: 1px solid #1a1a1a;
-    border-right: 1px solid #1a1a1a;
-    box-shadow:
-        inset 1px 1px 0 rgba(255, 255, 255, 0.05),
-        inset 0 -1px 0 rgba(0, 0, 0, 0.5),
-        0 5px 10px rgba(0, 0, 0, 0.7);
-    margin-bottom: 12px;
-    padding: 12px;
-    display: flex;
-    flex-direction: column;
-    gap: 6px;
-    border-radius: 4px;
-    position: relative;
-    z-index: 1;
-}
-
-#board-rows {
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    gap: 0;
-    /* train-group has its own margin-bottom, so set it to 0 here */
-}
-
+.header-row,
 .row-primary,
 .row-secondary {
     display: flex;
     align-items: center;
+    gap: var(--col-gap);
+    width: 100%;
+}
+
+.header-item {
+    display: flex;
+    flex-direction: column;
+    line-height: 1.1;
+}
+
+.header-row .col-type {
+    flex: 1 1 130px;
+}
+
+.header-row .col-dest {
+    flex: 2 1 200px;
+}
+
+.header-row .col-remarks {
+    flex: 2 1 260px;
+}
+
+.train-group {
+    background: linear-gradient(to bottom, #1a1a1a 0%, #0a0a0a 100%);
+    border: 1px solid #333;
+    border-top-color: rgba(255, 255, 255, 0.1);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+
+    margin-bottom: 12px;
+    padding: 12px;
+    border-radius: 4px;
+
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.row-primary {
+    display: flex;
+    flex-wrap: wrap;
+    /* allow flex items to wrap */
+    align-items: center;
+    gap: var(--col-gap);
+    width: 100%;
 }
 
 .row-secondary {
-    border-top: 1px solid #1a1a1a;
-    padding-top: 8px;
-}
-
-[class^="col-"] {
-    margin-right: var(--col-gap);
     display: flex;
     align-items: center;
-
-    /* 
-       Disable compression (Flex Shrink 0)
-       No matter how narrow the screen is, this column must maintain the set px width (e.g., 200px),
-       and the browser is not allowed to squeeze it to fit the screen.
-    */
-    flex-shrink: 0;
+    width: 100%;
+    border-top: 1px dashed #333;
+    padding-top: 8px;
+    margin-top: 4px;
 }
 
+/* =========================================
+   4. COLUMN STRATEGY (Smart Flex)
+   ========================================= */
+[class^="col-"] {
+    display: flex;
+    align-items: center;
+    box-sizing: border-box;
+    margin: 0;
+}
+
+/* 
+   Fixed width columns (Track number, Train Number, Time) 
+*/
 .col-plat {
-    width: 120px;
+    flex: 0 0 auto;
     justify-content: center;
     color: #f1c40f;
 }
 
-.col-type {
-    width: var(--col-type-width, 130px);
-    overflow: hidden;
-    transition: width 0.3s ease;
-}
-
+/* minimal 5 digit width */
 .col-no {
-    width: 170px;
-    margin-right: 12px;
+    flex: 0 0 auto;
+    min-width: 160px;
 }
 
-/* --- Train No. Optimization --- */
+.col-time {
+    flex: 0 0 auto;
+}
 
-/* 
-   Fix chars like 'W', 'M'
-*/
+/* --- Train Number Optimization --- */
+/* Make chars like 'W', 'M' narrower*/
 .col-plat .flap-char .card-content,
 .col-no .flap-char .card-content {
     font-family: "Helvetica Neue Condensed", "Arial Narrow", "Franklin Gothic Medium", sans-serif;
@@ -225,58 +186,50 @@ body {
     text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
 }
 
-.col-time .flap-char .card-content {
-    font-family: "Helvetica Neue Condensed", "Arial Narrow", "Franklin Gothic Medium", sans-serif;
-    font-weight: 500;
-    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
-}
-
-.col-time {
-    width: 140px;
+/* 
+   Variable width columns (Type, Dest, Remarks) 
+*/
+.col-type {
+    flex: 1 1 var(--col-type-width, 130px);
+    min-width: 100px;
 }
 
 .col-dest {
-    width: var(--col-dest-width, 200px);
+    flex: 2 1 var(--col-dest-width, 200px);
+    min-width: 150px;
     color: #fff;
-    overflow: hidden;
-    transition: width 0.3s ease;
 }
 
 .col-remarks {
-    width: var(--col-rem-width, 260px);
+    flex: 2 1 var(--col-rem-width, 260px);
+    min-width: 150px;
     color: #2ecc71;
-    margin-right: 0;
-    overflow: hidden;
-    transition: width 0.3s ease;
 }
 
+/* Secondary row - Train Stops Label */
 .stops-label {
-    width: 120px;
-    margin-right: var(--col-gap);
-    /* color: #888; */
+    flex: 0 0 auto;
     font-size: 12px;
-    text-align: center;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    flex-shrink: 0;
+    margin-right: 10px;
 }
 
+/* Secondary row - Train Stops column*/
 .col-stop {
-    flex: 1;
-    min-width: 0;
-    margin-right: 0;
+    flex: 1 1 100%;
+    width: 100%;
     color: #f39c12;
+    overflow: hidden;
 }
 
-/* --- Flap unit Visual --- */
+/* =========================================
+   5. FLAP UNIT VISUALS (Standard)
+   ========================================= */
 .flap-unit {
     position: relative;
     display: inline-block;
     background: #000;
     perspective: 1000px;
     border-radius: 2px;
-    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.7);
 }
 
 .flap-char {
@@ -288,66 +241,6 @@ body {
 .flap-word {
     width: 100%;
     height: var(--word-height);
-}
-
-/* --- Physical Thickness Simulation --- */
-
-/* 
-   When flipping, a "thickness layer" is observable in the center of the container.
-   It simulates the bottom edge of the card facing the user when it is flipped to a 90-degree horizontal position.
-*/
-.flap-unit.flipping::after {
-    content: '';
-    position: absolute;
-    top: 50%;
-    left: -3px;
-    /* Visibly wider than the card: overflows 3px to the left */
-    width: calc(100% + 6px);
-    /* Visibly wider than the card: total width + 6px */
-    height: 0;
-    /* Initial height is 0 */
-
-    background-color: #373737;
-    /* With gray reflection, physical edge of the card */
-    border-radius: 2px;
-    /* The edges are slightly rounded, like plastic parts */
-
-    /* Centered positioning */
-    transform: translateY(-50%);
-    z-index: 50;
-    /* Must be the highest, covering all text and light and shadow */
-
-    /* Animation binding: follows the page turning speed */
-    animation: thickness-pulse var(--flap-speed) ease-in-out;
-}
-
-/* Thickness pulse animation */
-@keyframes thickness-pulse {
-    0% {
-        height: 0px;
-        opacity: 0;
-    }
-
-    30% {
-        opacity: 1;
-        height: 1px;
-        /* Appears in advance */
-    }
-
-    50% {
-        height: 2px;
-        /* Physical thickness at 90 degrees */
-    }
-
-    70% {
-        height: 1px;
-        opacity: 1;
-    }
-
-    100% {
-        height: 0px;
-        opacity: 0;
-    }
 }
 
 .top,
@@ -364,7 +257,7 @@ body {
     backface-visibility: hidden;
 }
 
-/* Light and shadow material */
+/* Lighting and shadow */
 .top::after,
 .flap.front::after {
     content: '';
@@ -389,7 +282,7 @@ body {
     pointer-events: none;
 }
 
-/* Remove glossiness - type column */
+/* Disable the gradient for the 'type' column. They are typically colored cards */
 .col-type .top::after,
 .col-type .bottom::after,
 .col-type .flap.front::after,
@@ -408,7 +301,7 @@ body {
 }
 
 /* --- Visual Compensation --- */
-/* Prevent characters from looking shorter */
+/* Prevent characters from looking shorter, because of the center striked line separator*/
 .top .card-content,
 .flap.front .card-content {
     top: 1px;
@@ -423,10 +316,9 @@ body {
     justify-content: center;
     align-items: center;
     font-size: var(--char-font);
-    font-family: "Helvetica Neue",
-        Helvetica,
-        Arial,
-        sans-serif;
+    font-family: "Helvetica Neue Condensed", "Arial Narrow", sans-serif;
+    font-weight: 500;
+    transform: scaleX(0.9);
     letter-spacing: -1px;
     text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
 }
@@ -497,6 +389,7 @@ body {
     will-change: transform, filter;
 }
 
+/* Animation */
 .flipping .flap.front {
     animation: flip-down-front var(--flap-speed) ease-in forwards;
 }
@@ -516,10 +409,68 @@ body {
     opacity: 0;
     animation: cast-shadow var(--flap-speed) linear;
     /* The speed here will automatically follow the variable */
-
     /* Make sure the z-index is high enough to cover the text */
     z-index: 20;
     pointer-events: none;
+}
+
+/* --- Physical Thickness Simulation --- */
+/* 
+   When flipping, a "thickness layer" is observable in the center of the container.
+   It simulates the bottom edge of the card facing the user when it is flipped to a 90-degree horizontal position.
+*/
+.flap-unit.flipping::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: -3px;
+    /* Visibly wider than the card: overflows 3px to the left */
+    width: calc(100% + 6px);
+    /* Visibly wider than the card: total width + 6px */
+    height: 0;
+    /* Initial height is 0 */
+
+    background-color: #373737;
+    /* With gray reflection, physical edge of the card */
+    border-radius: 2px;
+    /* The edges are slightly rounded, like plastic parts */
+
+    /* Centered positioning */
+    transform: translateY(-50%);
+    z-index: 50;
+    /* Must be the highest, covering all text and light and shadow */
+
+    /* Animation binding: follows the page turning speed */
+    animation: thickness-pulse var(--flap-speed) ease-in-out;
+}
+
+/* Thickness pulse animation */
+@keyframes thickness-pulse {
+    0% {
+        height: 0px;
+        opacity: 0;
+    }
+
+    30% {
+        opacity: 1;
+        height: 1px;
+        /* Appears in advance */
+    }
+
+    50% {
+        height: 2px;
+        /* Physical thickness at 90 degrees */
+    }
+
+    70% {
+        height: 1px;
+        opacity: 1;
+    }
+
+    100% {
+        height: 0px;
+        opacity: 0;
+    }
 }
 
 /* 
@@ -538,10 +489,10 @@ body {
 
     25% {
         /* 
-           [Highlight Moment] 
-           The card is flipped to about 30-40 degrees, directly facing the light source above.
+           Highlight Moment
+           The card is flipped to about 30-40 degrees, reflecting the light source to user's eyes.
            The black background is instantly illuminated to gray,
-           and the reflection makes the handwriting unclear.
+           and the reflection makes the content unclear.
         */
         filter: brightness(1.5);
     }
@@ -563,12 +514,12 @@ body {
     0% {
         transform: rotateX(180deg);
         /* Initially on the back/inside, all black */
-        filter: brightness(0) contrast(1);
+        filter: brightness(0);
     }
 
     50% {
         /* 90 degrees horizontal, darker */
-        filter: brightness(0.5) contrast(1);
+        filter: brightness(0.5);
     }
 
     75% {
@@ -582,8 +533,8 @@ body {
 
     100% {
         transform: rotateX(0deg);
-        /* Return to position, restore normal black matte texture */
-        filter: brightness(1) contrast(1);
+        /* Reached target position, restore normal black matte texture */
+        filter: brightness(1);
     }
 }
 
@@ -606,7 +557,6 @@ body {
     width: 100%;
     text-align: center;
     font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-    text-transform: uppercase;
     letter-spacing: 1px;
 }
 
@@ -665,116 +615,22 @@ footer a:hover {
 }
 
 /* =========================================
-   RESPONSIVE DESIGN (Mobile / Tablet)
+   6. MOBILE ZOOM (Simulate "Smaller Text")
    ========================================= */
-@media screen and (max-width: 1100px) {
-
-    .main-container {
-        width: 100%;
-        padding: 5px;
-    }
-
-    .schedule-board {
-        width: 100%;
-        padding: 12px 8px;
-        border-width: 3px;
-    }
-
+@media screen and (max-width: 800px) {
     .header-row {
         display: none;
     }
 
-
-    .train-group {
-        display: flex;
-        flex-direction: column;
-        margin-bottom: 15px;
-        padding: 15px;
+    .schedule-board {
+        zoom: 0.65;
+        padding: 10px;
+        border-width: 4px;
+        width: 153%;
     }
 
-    .row-primary {
-        display: flex;
-        flex-wrap: wrap;
-        align-items: center;
-        gap: 8px;
-    }
-
-    /* 
-       Columns
-       - flex-grow: 1  -> fit width
-       - flex-shrink: 0 -> do not shrink
-    */
-    [class^="col-"] {
-        margin-right: 0 !important;
-        margin-bottom: 0 !important;
-
-        /* allow flex, disable shrink */
-        flex-grow: 1;
-        flex-shrink: 0;
-
-        /* allow horizontal scroll */
-        overflow-x: auto;
-        overflow-y: hidden;
-    }
-
-    /* --- fixed width --- */
-
-    .col-plat {
-        flex: 0 0 120px;
-        justify-content: center;
-    }
-
-    .col-no {
-        flex: 0 0 auto;
-        min-width: 140px;
-    }
-
-    .col-time {
-        flex: 0 0 auto;
-    }
-
-    /* --- auto width --- */
-    .col-type {
-        flex: 1 0 var(--col-type-width, 130px);
-    }
-
-    .col-dest {
-        flex: 1 0 var(--col-dest-width, 200px);
-    }
-
-    .col-remarks {
-        flex: 1 0 var(--col-rem-width, 260px);
-    }
-
-    .row-secondary {
-        margin-top: 8px;
-        padding-top: 8px;
-        border-top: 1px dashed #222;
-        display: flex;
-        flex-direction: column;
-    }
-
-    .stops-label {
-        display: none;
-    }
-
-    .col-stop {
-        width: 100% !important;
-        flex: 1 0 100%;
-        color: #f39c12;
-        transform-origin: left center;
-    }
-
-    .top-bar {
-        flex-direction: column;
-        gap: 10px;
-        margin-top: 10px;
-        margin-bottom: 20px;
-    }
-
-    .clock {
-        margin: 0;
-        font-size: 40px;
-        padding: 5px 20px;
+    .main-container {
+        overflow-x: hidden;
+        padding: 10px 0;
     }
 }
