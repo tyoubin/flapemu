@@ -402,8 +402,8 @@ async function fetchData() {
             });
 
             if (maxLen < minChars) maxLen = minChars;
-            // 32 multiplier (30px font + 2px spacing), 20 Padding
-            const pixelWidth = Math.ceil((maxLen * 32) + 20);
+            // 30 multiplier (30px font), 20 Padding
+            const pixelWidth = Math.ceil((maxLen * 30) + 20);
             document.documentElement.style.setProperty(cssVar, `${pixelWidth}px`);
         };
 
