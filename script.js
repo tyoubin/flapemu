@@ -237,11 +237,6 @@ class TrainGroup {
         this.rowPrimary.className = 'row-primary';
         this.groupEl.appendChild(this.rowPrimary);
 
-        this.rowSecondary = document.createElement('div');
-        this.rowSecondary.className = 'row-secondary';
-        this.rowSecondary.innerHTML = `<div class="stops-label"><span>停車駅</span><span>Train Stops</span></div>`;
-        this.groupEl.appendChild(this.rowSecondary);
-
         this.controllers = {};
 
         const safePresets = presets || {};
@@ -316,7 +311,7 @@ class TrainGroup {
         });
 
         // Stops: Pass presets AND actuals
-        this.createCol(this.rowSecondary, 'stop', 'col-stop', () => {
+        this.createCol(this.rowPrimary, 'stop', 'col-stop', () => {
             return { type: 'word', unit: new WordFlap(this.lastDiv, safePresets.stops, actualStops, getCap(safePresets.stops, actualStops)) };
         });
     }

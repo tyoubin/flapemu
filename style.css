@@ -88,12 +88,13 @@ body {
 }
 
 .header-row,
-.row-primary,
-.row-secondary {
+.row-primary {
     display: flex;
     align-items: center;
     gap: var(--col-gap);
     width: 100%;
+    /* when col-stop requires 100% width，it will wrap */
+    flex-wrap: wrap;
 }
 
 .header-item {
@@ -102,6 +103,11 @@ body {
     line-height: 1.1;
 }
 
+.header-item span:last-child {
+    font-size: 0.8em;
+    opacity: 0.8;
+    font-weight: normal;
+}
 .header-row .col-type {
     flex: 1 1 130px;
 }
@@ -112,6 +118,13 @@ body {
 
 .header-row .col-remarks {
     flex: 2 1 260px;
+}
+
+.header-row .col-stop {
+    /* a separator line to hint it's a new row while it's one row in the code */
+    border-top: 1px dashed #333;
+    padding-top: 5px;
+    margin-top: 5px;
 }
 
 .train-group {
@@ -136,15 +149,6 @@ body {
     align-items: center;
     gap: var(--col-gap);
     width: 100%;
-}
-
-.row-secondary {
-    display: flex;
-    align-items: center;
-    width: 100%;
-    border-top: 1px dashed #333;
-    padding-top: 8px;
-    margin-top: 4px;
 }
 
 /* =========================================
@@ -206,19 +210,15 @@ body {
     color: #2ecc71;
 }
 
-/* Secondary row - Train Stops Label */
-.stops-label {
-    flex: 0 0 auto;
-    font-size: 12px;
-    margin-right: 10px;
-}
-
-/* Secondary row - Train Stops column*/
+/* Train Stops column uses Flexbox to wrap */
 .col-stop {
     flex: 1 1 100%;
     width: 100%;
     color: #f39c12;
-    overflow: hidden;
+    margin-right: 0;
+    /* visual compensation, to look like the second row */
+    margin-top: 8px;
+    padding-top: 4px;
 }
 
 /* =========================================
@@ -354,7 +354,9 @@ body {
 }
 
 .col-stop .local-text,
-.col-stop .en-text {
+.col-stop .en-text,
+.col-remarks .local-text,
+.col-remarks .en-text {
     justify-content: flex-start;
     padding-left: 15px;
 }
@@ -626,7 +628,8 @@ footer a:hover {
         zoom: 0.65;
         padding: 10px;
         border-width: 4px;
-        width: 153%;
+        width: calc(100% / 0.65);
+        box-shadow: none;
     }
 
     .main-container {
