@@ -212,6 +212,10 @@ body {
     margin-right: 2px;
 }
 
+.flap-unit:last-child {
+    margin-right: 0;
+}
+
 .flap-word {
     width: 100%;
     height: var(--word-height);
