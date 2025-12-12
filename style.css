@@ -81,6 +81,9 @@ body {
     font-size: 13px;
     padding-left: 10px;
     gap: var(--col-gap);
+    box-sizing: border-box;
+    padding-left: 13px;
+    padding-right: 13px;
 }
 
 .header-row,
@@ -97,13 +100,6 @@ body {
     display: flex;
     flex-direction: column;
     line-height: 1.1;
-}
-
-.header-row .col-stop {
-    /* a separator line to hint it's a new row while it's one row in the code */
-    border-top: 1px dashed #333;
-    padding-top: 5px;
-    margin-top: 5px;
 }
 
 .train-group {
@@ -604,6 +600,6 @@ footer a:hover {
     }
 }
 
---- DEBUG MODE ---
+/* --- DEBUG MODE --- */
 /* [class^="col-"] { outline: 1px solid red; }
 .flap-unit { outline: 1px solid cyan; } */
