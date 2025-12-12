@@ -16,7 +16,7 @@ const DATA_SOURCE = urlParams.get('t') ? `./timetable/${urlParams.get('t')}.json
 // Global variables
 let groups = [];
 let isInitialized = false;
-const ROW_COUNT = 6;
+const ROW_COUNT = 3;
 
 // ================= 3. FLAP =================
 
