@@ -22,16 +22,16 @@ FlapEmu loads its timetable data from JSON data located in the `timetable/` dire
 
 ### Switching Timetables
 
-You can switch between different timetable files by appending a query parameter `eki` to the URL. For example:
+You can switch between different timetable files by appending a query parameter `t` to the URL. For example:
 
 *   To load `timetable/demo.json` (default):
     `board.html`
 *   To load `timetable/kumamoto.json`:
-    `board.html?eki=kumamoto`
+    `board.html?t=kumamoto`
 *   To load `timetable/shinagawa.json`:
-    `board.html?eki=shinagawa`
+    `board.html?t=shinagawa`
 *   To load `timetable/tohoku.json`:
-    `board.html?eki=tohoku`
+    `board.html?t=tohoku`
 
 ### Data Structure
 

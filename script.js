@@ -11,7 +11,7 @@ const BLANK_DATA = { local: " ", en: " ", color: "#202020", textColor: "#f5f5f5"
 // Parse URL parameters
 const urlParams = new URLSearchParams(window.location.search);
 // Default to reading timetable/demo.json for testing
-const DATA_SOURCE = urlParams.get('eki') ? `./timetable/${urlParams.get('eki')}.json` : './timetable/demo.json';
+const DATA_SOURCE = urlParams.get('t') ? `./timetable/${urlParams.get('t')}.json` : './timetable/demo.json';
 
 // Global variables
 let groups = [];
