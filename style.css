@@ -99,18 +99,6 @@ body {
     line-height: 1.1;
 }
 
-.header-row .col-type {
-    flex: 1 1 130px;
-}
-
-.header-row .col-dest {
-    flex: 2 1 200px;
-}
-
-.header-row .col-remarks {
-    flex: 2 1 260px;
-}
-
 .header-row .col-stop {
     /* a separator line to hint it's a new row while it's one row in the code */
     border-top: 1px dashed #333;
@@ -158,17 +146,19 @@ body {
 .col-plat {
     flex: 0 0 auto;
     justify-content: center;
+    width: calc((var(--char-width) + 2px) * 3 - 2px);
 }
 
 /* minimal 5 digit width */
 .col-no {
     flex: 0 0 auto;
-    min-width: 160px;
+    width: calc((var(--char-width) + 2px) * 5 - 2px);
     margin-right: 30px;
 }
 
 .col-time {
     flex: 0 0 auto;
+    width: calc((var(--char-width) + 2px) * 5 - 2px);
 }
 
 /* 
@@ -176,17 +166,14 @@ body {
 */
 .col-type {
     flex: 1 1 var(--col-type-width, 130px);
-    min-width: 100px;
 }
 
 .col-dest {
     flex: 2 1 var(--col-dest-width, 200px);
-    min-width: 150px;
 }
 
 .col-remarks {
     flex: 2 1 var(--col-rem-width, 260px);
-    min-width: 150px;
 }
 
 /* Train Stops column uses Flexbox to wrap */
@@ -599,9 +586,9 @@ footer a:hover {
    6. MOBILE ZOOM (Simulate "Smaller Text")
    ========================================= */
 @media screen and (max-width: 800px) {
-    .header-row {
+    /* .header-row {
         display: none;
-    }
+    } */
 
     .schedule-board {
         zoom: 0.65;
@@ -617,6 +604,6 @@ footer a:hover {
     }
 }
 
-/* --- DEBUG MODE --- */
+--- DEBUG MODE ---
 /* [class^="col-"] { outline: 1px solid red; }
 .flap-unit { outline: 1px solid cyan; } */
