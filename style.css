@@ -102,6 +102,13 @@ body {
     line-height: 1.1;
 }
 
+.header-row .col-plat,
+.header-row .col-no,
+.header-row .col-remarks,
+.header-row .col-stop {
+    align-items: flex-start;
+}
+
 .train-group {
     background: linear-gradient(to bottom, #1a1a1a 0%, #0a0a0a 100%);
     border: 1px solid #333;
