@@ -6,34 +6,9 @@
   "presets": {
     "types": [
       {
-        "local": "のぞみ",
-        "en": "NOZOMI",
-        "color": "#f39c12"
-      },
-      {
-        "local": "みずほ",
-        "en": "MIZUHO",
-        "color": "#e67e22"
-      },
-      {
-        "local": "さくら",
-        "en": "SAKURA",
-        "color": "#f19ea6"
-      },
-      {
-        "local": "ひかり",
-        "en": "HIKARI",
-        "color": "#c0392b"
-      },
-      {
-        "local": "こだま",
-        "en": "KODAMA",
-        "color": "#2980b9"
-      },
-      {
-        "local": "特急",
-        "en": "LTD EXP",
-        "color": "#B71C1C"
+        "local": "普通",
+        "en": "LOCAL",
+        "color": "#34495e"
       },
       {
         "local": "快速",
@@ -41,30 +16,24 @@
         "color": "#00a8ff"
       },
       {
-        "local": "普通",
-        "en": "LOCAL",
-        "color": "#34495e"
+        "local": "急行",
+        "en": "EXPRESS",
+        "color": "#e67e22"
       },
       {
-        "local": "寝台特急",
-        "en": "SLEEPER",
-        "color": "#8e44ad"
+        "local": "特急",
+        "en": "LTD EXP",
+        "color": "#B71C1C"
       },
       {
-        "local": "試運転",
-        "en": "TEST RUN",
-        "color": "#ffffff",
-        "textColor": "#000000"
+        "local": "臨時",
+        "en": "EXTRA",
+        "color": "#16a085"
       },
       {
         "local": "団体",
         "en": "CHARTERED",
         "color": "#9b59b6"
-      },
-      {
-        "local": "臨時",
-        "en": "SPECIAL",
-        "color": "#16a085"
       },
       {
         "local": "修学旅行",
@@ -77,80 +46,58 @@
         "en": "OUT OF SERVICE",
         "color": "#ffffff",
         "textColor": "#000000"
+      },
+      {
+        "local": "のぞみ",
+        "en": "NOZOMI",
+        "color": "#f0df23",
+        "textColor": "#000000"
+      },
+      {
+        "local": "ひかり",
+        "en": "HIKARI",
+        "color": "#fa3b40"
+      },
+      {
+        "local": "こだま",
+        "en": "KODAMA",
+        "color": "#0081c2"
+      },
+      {
+        "local": "みずほ",
+        "en": "MIZUHO",
+        "color": "#e67e22"
+      },
+      {
+        "local": "さくら",
+        "en": "SAKURA",
+        "color": "#e1597e"
       }
     ],
     "dests": [
       {
         "local": "東京",
-        "en": "TOKYO"
+        "en": "Tokyo"
       },
       {
         "local": "新大阪",
-        "en": "SHIN-OSAKA"
+        "en": "Shin-Osaka"
       },
       {
         "local": "博多",
-        "en": "HAKATA"
+        "en": "Hakata"
       },
       {
         "local": "鹿児島中央",
-        "en": "KAGOSHIMA-CHUO"
-      },
-      {
-        "local": "広島",
-        "en": "HIROSHIMA"
-      },
-      {
-        "local": "新青森",
-        "en": "SHIN-AOMORI"
+        "en": "Kagoshima-Chuo"
       },
       {
         "local": "新函館北斗",
-        "en": "SHIN-HAKODATE"
-      },
-      {
-        "local": "新大阪",
-        "en": "SHIN-OSAKA"
-      },
-      {
-        "local": "出雲市",
-        "en": "IZUMOSHI"
+        "en": "Shin-Hakodate"
       },
       {
         "local": "高松",
-        "en": "TAKAMATSU"
-      },
-      {
-        "local": "松山",
-        "en": "MATSUYAMA"
-      },
-      {
-        "local": "高知",
-        "en": "KOCHI"
-      },
-      {
-        "local": "鳥取",
-        "en": "TOTTORI"
-      },
-      {
-        "local": "津山",
-        "en": "TSUYAMA"
-      },
-      {
-        "local": "稚内",
-        "en": "Wakkanai"
-      },
-      {
-        "local": "西大山",
-        "en": "NISHIDAYAMA"
-      },
-      {
-        "local": "佐世保",
-        "en": "SASEBO"
-      },
-      {
-        "local": "根室",
-        "en": "NEMURO"
+        "en": "Takamatsu"
       }
     ],
     "remarks": [
@@ -175,26 +122,14 @@
         "en": "Cancelled"
       },
       {
-        "local": "サンライズ出雲・瀬戸",
-        "en": "Sunrise Izumo/Seto"
-      },
-      {
-        "local": "山陰本線",
-        "en": "SANIN LINE"
-      },
-      {
-        "local": "都営大江戸線",
-        "en": "TOEI OEDO LINE"
+        "local": "この列車にはご乗車いただけません",
+        "en": "Please do not board this train"
       }
     ],
     "stops": [
       {
-        "local": "各駅に停車します",
+        "local": "各駅停車",
         "en": "Stops at All Stations"
-      },
-      {
-        "local": "途中停車駅はありません",
-        "en": "No Intermediate Stops"
       }
     ]
   },
@@ -205,13 +140,13 @@
         "local": "のぞみ",
         "en": "NOZOMI"
       },
-      "type_color_hex": "#f39c12",
-      "type_text_color": "#ffffff",
+      "type_color_hex": "#f0df23",
+      "type_text_color": "#000000",
       "train_no": "201",
       "depart_time": "07:00",
       "destination": {
         "local": "新大阪",
-        "en": "SHIN-OSAKA"
+        "en": "Shin-Osaka"
       },
       "remarks": {
         "local": "全車指定席",
@@ -231,7 +166,7 @@
       "type_color_hex": "#003399",
       "type_text_color": "#ffffff",
       "train_no": "AE01",
-      "depart_time": "07:04",
+      "depart_time": "07:02",
       "destination": {
         "local": "成田空港",
         "en": "NARITA AIRPORT"
@@ -254,14 +189,14 @@
       "type_color_hex": "#2ecc71",
       "type_text_color": "#ffffff",
       "train_no": "5",
-      "depart_time": "07:08",
+      "depart_time": "07:04",
       "destination": {
         "local": "新函館北斗",
-        "en": "SHIN-HAKODATE"
+        "en": "Shin-Hakodate"
       },
       "remarks": {
-        "local": "G車・グランクラス",
-        "en": "Green / GranClass"
+        "local": "12両編成",
+        "en": "12 Cars"
       },
       "stops_at": {
         "local": "大宮・仙台・盛岡・新青森",
