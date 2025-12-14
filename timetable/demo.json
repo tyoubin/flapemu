@@ -16,11 +16,6 @@
         "color": "#00a8ff"
       },
       {
-        "local": "急行",
-        "en": "EXPRESS",
-        "color": "#e67e22"
-      },
-      {
         "local": "特急",
         "en": "LTD EXP",
         "color": "#B71C1C"
@@ -158,26 +153,26 @@
       }
     },
     {
-      "track_no": "K1",
+      "track_no": "13",
       "type": {
-        "local": "スカイライナー",
-        "en": "SKYLINER"
+        "local": "かがやき",
+        "en": "KAGAYAKI"
       },
-      "type_color_hex": "#003399",
-      "type_text_color": "#ffffff",
-      "train_no": "AE01",
+      "type_color_hex": "#ccffcc",
+      "type_text_color": "#000000",
+      "train_no": "503",
       "depart_time": "07:02",
       "destination": {
-        "local": "成田空港",
-        "en": "NARITA AIRPORT"
+        "local": "敦賀",
+        "en": "Tsuruga"
       },
       "remarks": {
-        "local": "京成電鉄経由",
-        "en": "Via Keisei Line"
+        "local": "全車指定席",
+        "en": "All Reserved"
       },
       "stops_at": {
-        "local": "日暮里・空港第２ビル",
-        "en": "Nippori, Airport Terminal 2"
+        "local": "大宮・長野・富山・金沢・福井",
+        "en": "Omiya, Nagano, Fujiyama, Kanazawa, Fukui"
       }
     },
     {
@@ -204,348 +199,164 @@
       }
     },
     {
-      "track_no": "M1",
+      "track_no": "5",
       "type": {
-        "local": "地下鉄",
-        "en": "SUBWAY"
+        "local": "寝台特急",
+        "en": "SLEEPER"
       },
-      "type_color_hex": "#e60012",
+      "type_color_hex": "#2c3e50",
       "type_text_color": "#ffffff",
-      "train_no": "1205",
-      "depart_time": "07:12",
+      "train_no": "5031M",
+      "depart_time": "07:07",
       "destination": {
-        "local": "中百舌鳥",
-        "en": "NAKAMOZU"
+        "local": "出雲市",
+        "en": "IZUMOSHI"
       },
       "remarks": {
-        "local": "御堂筋線",
-        "en": "Midosuji Line"
+        "local": "サンライズ出雲",
+        "en": "SUNRISE IZUMO"
       },
       "stops_at": {
-        "local": "梅田・淀屋橋・心斎橋・難波",
-        "en": "Umeda, Yodoyabashi, Shinsaibashi, Namba"
+        "local": "横浜・熱海・沼津・富士・静冈...",
+        "en": "Yokohama, Atami, Numazu, Fuji, Shizuoka..."
       }
     },
     {
-      "track_no": "9",
+      "track_no": "23",
       "type": {
-        "local": "特急",
-        "en": "LTD EXP"
+        "local": "臨時特別急行",
+        "en": "EXTRA LTD EXP"
       },
-      "type_color_hex": "#8e44ad",
+      "type_color_hex": "#000000",
       "type_text_color": "#ffffff",
-      "train_no": "5M",
+      "train_no": "8091D",
+      "depart_time": "07:10",
+      "destination": {
+        "local": "伊予大洲",
+        "en": "IYO-OZU"
+      },
+      "remarks": {
+        "local": "全車指定席",
+        "en": "All Reserved"
+      },
+      "stops_at": {
+        "local": "伊予市・下灘・喜多灘",
+        "en": "Iyo, Shimonada, Kitanada"
+      }
+    },
+    {
+      "track_no": "5",
+      "type": {
+        "local": "普通",
+        "en": "LOCAL"
+      },
+      "type_color_hex": "#000000",
+      "type_text_color": "#ffffff",
+      "train_no": "523D",
+      "depart_time": "07:13",
+      "destination": {
+        "local": "三角",
+        "en": "MISUMI"
+      },
+      "remarks": {
+        "local": "ワンマン",
+        "en": "Condutorless"
+      },
+      "stops_at": {
+        "local": "各駅停車",
+        "en": "Stops at All Stations"
+      }
+    },
+    {
+      "track_no": "7",
+      "type": {
+        "local": "快速",
+        "en": "RAPID"
+      },
+      "type_color_hex": "#00a8ff",
+      "type_text_color": "#ffffff",
+      "train_no": "7001",
       "depart_time": "07:16",
       "destination": {
-        "local": "松本",
-        "en": "MATSUMOTO"
+        "local": "姫路",
+        "en": "Himeji"
       },
       "remarks": {
-        "local": "あずさ / 全車指定",
-        "en": "AZUSA / Reserved"
+        "local": "",
+        "en": ""
       },
       "stops_at": {
-        "local": "新宿・八王子・甲府・茅野",
-        "en": "Shinjuku, Hachioji, Kofu, Chino"
+        "local": "ひめじ別所・御着・東姫路",
+        "en": "Himeji-Bessho, Gochaku, Higashi-Himeji"
       }
     },
     {
-      "track_no": "B1",
+      "track_no": "H2",
       "type": {
-        "local": "高速バス",
-        "en": "HIGHWAY BUS"
+        "local": "特急",
+        "en": "LTD EXP"
       },
-      "type_color_hex": "#e84393",
+      "type_color_hex": "#6F4E37",
       "type_text_color": "#ffffff",
-      "train_no": "W722",
+      "train_no": "8001",
       "depart_time": "07:20",
       "destination": {
-        "local": "河口湖",
-        "en": "KAWAGUCHIKO"
+        "local": "京都河原町",
+        "en": "KYOTO-KAWARAMACHI"
       },
       "remarks": {
-        "local": "WILLER EXPRESS",
-        "en": "4-Row Seat"
+        "local": "京とれいん 雅洛",
+        "en": "Kyo-train GARAKU"
       },
       "stops_at": {
-        "local": "富士急ハイランド・富士山駅",
-        "en": "Fuji-Q Highland, Mt.Fuji Sta."
+        "local": "十三・淡路・桂・烏丸",
+        "en": "Juso, Awaji, Katsura, Karasuma"
       }
     },
     {
-      "track_no": "4",
+      "track_no": "24",
       "type": {
-        "local": "国鉄特急",
-        "en": "JNR LTD EXP"
+        "local": "回送",
+        "en": "OUT OF SERVICE"
       },
-      "type_color_hex": "#a58e6f",
-      "type_text_color": "#ffffff",
-      "train_no": "4001M",
+      "type_color_hex": "#ffffff",
+      "type_text_color": "#000000",
+      "train_no": "999",
+      "depart_time": "07:23",
+      "destination": {
+        "local": "海老名検車区",
+        "en": "Ebina Rail Yard"
+      },
+      "remarks": {
+        "local": "この列車にはご乗車いただけません",
+        "en": "Please do not board this train"
+      },
+      "stops_at": {
+        "local": "",
+        "en": ""
+      }
+    },
+    {
+      "track_no": "0",
+      "type": {
+        "local": "貨物特別急行",
+        "en": "FREIGHT LTD EXP"
+      },
+      "type_color_hex": "#ffffff",
+      "type_text_color": "#4F1E3C",
+      "train_no": "154",
       "depart_time": "07:25",
       "destination": {
-        "local": "金沢",
-        "en": "KANAZAWA"
-      },
-      "remarks": {
-        "local": "雷鳥 / 485系",
-        "en": "RAICHO / 485 Series"
-      },
-      "stops_at": {
-        "local": "京都・敦賀・福井・小松",
-        "en": "Kyoto, Tsuruga, Fukui, Komatsu"
-      }
-    },
-    {
-      "track_no": "O1",
-      "type": {
-        "local": "特急",
-        "en": "LTD EXP"
-      },
-      "type_color_hex": "#d35400",
-      "type_text_color": "#ffffff",
-      "train_no": "VSE",
-      "depart_time": "07:30",
-      "destination": {
-        "local": "箱根湯本",
-        "en": "HAKONE-YUMOTO"
-      },
-      "remarks": {
-        "local": "ロマンスカー",
-        "en": "ROMANCECAR"
-      },
-      "stops_at": {
-        "local": "町田・小田原",
-        "en": "Machida, Odawara"
-      }
-    },
-    {
-      "track_no": "2",
-      "type": {
-        "local": "山手線",
-        "en": "YAMANOTE"
-      },
-      "type_color_hex": "#95a5a6",
-      "type_text_color": "#000000",
-      "train_no": "702G",
-      "depart_time": "07:34",
-      "destination": {
-        "local": "渋谷・新宿",
-        "en": "SHIBUYA/SHINJUKU"
-      },
-      "remarks": {
-        "local": "内回り",
-        "en": "Inner Loop"
-      },
-      "stops_at": {
-        "local": "各駅に停車します",
-        "en": "Stops at All Stations"
-      }
-    },
-    {
-      "track_no": "P1",
-      "type": {
-        "local": "フェリー",
-        "en": "FERRY"
-      },
-      "type_color_hex": "#3498db",
-      "type_text_color": "#ffffff",
-      "train_no": "SF01",
-      "depart_time": "07:40",
-      "destination": {
-        "local": "苫小牧",
-        "en": "TOMAKOMAI"
-      },
-      "remarks": {
-        "local": "さんふらわあ",
-        "en": "Ferry Sunflower"
-      },
-      "stops_at": {
-        "local": "大洗港発・夕方便",
-        "en": "Departs Oarai Port"
-      }
-    },
-    {
-      "track_no": "21",
-      "type": {
-        "local": "つばさ",
-        "en": "TSUBASA"
-      },
-      "type_color_hex": "#8e44ad",
-      "type_text_color": "#ffffff",
-      "train_no": "121",
-      "depart_time": "07:45",
-      "destination": {
-        "local": "山形",
-        "en": "YAMAGATA"
-      },
-      "remarks": {
-        "local": "新庄まで連結",
-        "en": "Coupled to Shinjo"
-      },
-      "stops_at": {
-        "local": "福島・米沢・赤湯",
-        "en": "Fukushima, Yonezawa, Akayu"
-      }
-    },
-    {
-      "track_no": "5",
-      "type": {
-        "local": "寝台特急",
-        "en": "SLEEPER"
-      },
-      "type_color_hex": "#2c3e50",
-      "type_text_color": "#ffffff",
-      "train_no": "5031M",
-      "depart_time": "07:50",
-      "destination": {
-        "local": "出雲市",
-        "en": "IZUMOSHI"
-      },
-      "remarks": {
-        "local": "サンライズ出雲",
-        "en": "SUNRISE IZUMO"
-      },
-      "stops_at": {
-        "local": "横浜・熱海・沼津・富士・岡山",
-        "en": "Yokohama, Atami, Numazu, Fuji"
-      }
-    },
-    {
-      "track_no": "N9",
-      "type": {
-        "local": "ラピート",
-        "en": "RAPI:T"
-      },
-      "type_color_hex": "#000080",
-      "type_text_color": "#ffffff",
-      "train_no": "b31",
-      "depart_time": "07:55",
-      "destination": {
-        "local": "関西空港",
-        "en": "KANSAI AIRPORT"
-      },
-      "remarks": {
-        "local": "南海電鉄 / 全席指定",
-        "en": "Nankai / All Reserved"
-      },
-      "stops_at": {
-        "local": "新今宮・天下茶屋・泉佐野・りんくうタウン",
-        "en": "Shin-Imamiya, Tengachaya, Izumisano"
-      }
-    },
-    {
-      "track_no": "11",
-      "type": {
-        "local": "みずほ",
-        "en": "MIZUHO"
-      },
-      "type_color_hex": "#e67e22",
-      "type_text_color": "#ffffff",
-      "train_no": "601",
-      "depart_time": "08:00",
-      "destination": {
-        "local": "鹿児島中央",
-        "en": "KAGOSHIMA-CHUO"
-      },
-      "remarks": {
-        "local": "山陽・九州新幹線",
-        "en": "Sanyo/Kyushu Shinkansen"
-      },
-      "stops_at": {
-        "local": "新大阪・岡山・広島・小倉・博多・熊本",
-        "en": "Shin-Osaka, Hiroshima, Hakata, Kumamoto"
-      }
-    },
-    {
-      "track_no": "7",
-      "type": {
-        "local": "特急",
-        "en": "LTD EXP"
-      },
-      "type_color_hex": "#c0392b",
-      "type_text_color": "#ffffff",
-      "train_no": "2003M",
-      "depart_time": "08:05",
-      "destination": {
-        "local": "成田空港",
-        "en": "NARITA AIRPORT"
-      },
-      "remarks": {
-        "local": "成田エクスプレス",
-        "en": "Narita Express"
-      },
-      "stops_at": {
-        "local": "品川・渋谷・新宿・池袋",
-        "en": "Shinagawa, Shibuya, Shinjuku"
-      }
-    },
-    {
-      "track_no": "H2",
-      "type": {
-        "local": "特急",
-        "en": "LTD EXP"
-      },
-      "type_color_hex": "#6F4E37",
-      "type_text_color": "#ffffff",
-      "train_no": "8001",
-      "depart_time": "08:10",
-      "destination": {
-        "local": "京都河原町",
-        "en": "KYOTO-KAWARAMACHI"
-      },
-      "remarks": {
-        "local": "京とれいん 雅洛",
-        "en": "Kyo-train GARAKU"
-      },
-      "stops_at": {
-        "local": "十三・淡路・桂・烏丸",
-        "en": "Juso, Awaji, Katsura, Karasuma"
-      }
-    },
-    {
-      "track_no": "24",
-      "type": {
-        "local": "かがやき",
-        "en": "KAGAYAKI"
-      },
-      "type_color_hex": "#c0a16b",
-      "type_text_color": "#ffffff",
-      "train_no": "501",
-      "depart_time": "08:15",
-      "destination": {
-        "local": "敦賀",
-        "en": "TSURUGA"
-      },
-      "remarks": {
-        "local": "北陸新幹線",
-        "en": "Hokuriku Shinkansen"
-      },
-      "stops_at": {
-        "local": "上野・大宮・長野・富山・金沢",
-        "en": "Ueno, Omiya, Nagano, Toyama, Kanazawa"
-      }
-    },
-    {
-      "track_no": "0",
-      "type": {
-        "local": "貨物",
-        "en": "FREIGHT"
-      },
-      "type_color_hex": "#7f8c8d",
-      "type_text_color": "#ffffff",
-      "train_no": "EF210",
-      "depart_time": "08:18",
-      "destination": {
-        "local": "札幌貨物",
-        "en": "SAPPORO FREIGHT"
+        "local": "京都（梅小路）",
+        "en": "Kyoto (Umekoji)"
       },
       "remarks": {
         "local": "通過",
         "en": "Passing"
       },
       "stops_at": {
-        "local": "コンテナ輸送",
-        "en": "Container Transport"
+        "local": "",
+        "en": ""
       }
     },
     {
@@ -557,7 +368,7 @@
       "type_color_hex": "#e74c3c",
       "type_text_color": "#ffffff",
       "train_no": "058",
-      "depart_time": "08:22",
+      "depart_time": "07:29",
       "destination": {
         "local": "近鉄名古屋",
         "en": "KINTETSU-NAGOYA"
@@ -574,323 +385,93 @@
     {
       "track_no": "20",
       "type": {
-        "local": "かもめ",
-        "en": "KAMOME"
+        "local": "都営地下鉄",
+        "en": "TOEI SUBWAY"
       },
-      "type_color_hex": "#c0392b",
+      "type_color_hex": "#cd045b",
       "type_text_color": "#ffffff",
-      "train_no": "11",
-      "depart_time": "08:26",
+      "train_no": "30A",
+      "depart_time": "07:33",
       "destination": {
-        "local": "長崎",
-        "en": "NAGASAKI"
+        "local": "六本木",
+        "en": "Roppongi"
       },
       "remarks": {
-        "local": "西九州新幹線",
-        "en": "Nishi-Kyushu"
+        "local": "内回り",
+        "en": "Inner Loop"
       },
       "stops_at": {
-        "local": "武雄温泉・嬉野温泉・新大村・諫早",
-        "en": "Takeo-Onsen, Ureshino-Onsen, Isahaya"
+        "local": "各駅停車",
+        "en": "Stops at All Stations"
       }
     },
     {
       "track_no": "3",
       "type": {
-        "local": "快速",
-        "en": "RAPID"
+        "local": "無人運転",
+        "en": "APM"
       },
-      "type_color_hex": "#27ae60",
+      "type_color_hex": "#07502b",
       "type_text_color": "#ffffff",
-      "train_no": "7221",
-      "depart_time": "08:30",
+      "train_no": "2120",
+      "depart_time": "07:36",
       "destination": {
-        "local": "由布院",
-        "en": "YUFUIN"
+        "local": "三宫",
+        "en": "Sannomiya"
       },
       "remarks": {
-        "local": "ゆふいんの森",
-        "en": "Yufuin no Mori"
+        "local": "神戸新交通",
+        "en": "Kobe New Transit Co., Ltd"
       },
       "stops_at": {
-        "local": "鳥栖・久留米・日田・豊後森",
-        "en": "Tosu, Kurume, Hita, Bungo-Mori"
-      }
-    },
-    {
-      "track_no": "1",
-      "type": {
-        "local": "普通",
-        "en": "LOCAL"
-      },
-      "type_color_hex": "#16a085",
-      "type_text_color": "#ffffff",
-      "train_no": "1422M",
-      "depart_time": "08:35",
-      "destination": {
-        "local": "上野東京ライン",
-        "en": "UENO-TOKYO LINE"
-      },
-      "remarks": {
-        "local": "15両編成 / G車",
-        "en": "15 Cars / Green"
-      },
-      "stops_at": {
-        "local": "横浜・品川・東京・上野",
-        "en": "Yokohama, Shinagawa, Tokyo"
-      }
-    },
-    {
-      "track_no": "B2",
-      "type": {
-        "local": "空港バス",
-        "en": "AIRPORT BUS"
-      },
-      "type_color_hex": "#e67e22",
-      "type_text_color": "#ffffff",
-      "train_no": "LM05",
-      "depart_time": "08:40",
-      "destination": {
-        "local": "羽田空港",
-        "en": "HANEDA AIRPORT"
-      },
-      "remarks": {
-        "local": "リムジンバス",
-        "en": "Limousine Bus"
-      },
-      "stops_at": {
-        "local": "第1・第2・第3ターミナル",
-        "en": "T1, T2, T3 Terminals"
-      }
-    },
-    {
-      "track_no": "SP",
-      "type": {
-        "local": "スペーシアX",
-        "en": "SPACIA X"
-      },
-      "type_color_hex": "#ecf0f1",
-      "type_text_color": "#000000",
-      "train_no": "X01",
-      "depart_time": "08:45",
-      "destination": {
-        "local": "東武日光",
-        "en": "TOBU-NIKKO"
-      },
-      "remarks": {
-        "local": "東武鉄道 / 個室",
-        "en": "Tobu / Private Room"
-      },
-      "stops_at": {
-        "local": "春日部・栃木・下今市",
-        "en": "Kasukabe, Tochigi, Shimo-imaichi"
-      }
-    },
-    {
-      "track_no": "22",
-      "type": {
-        "local": "とき",
-        "en": "TOKI"
-      },
-      "type_color_hex": "#f19ea6",
-      "type_text_color": "#ffffff",
-      "train_no": "311",
-      "depart_time": "08:48",
-      "destination": {
-        "local": "新潟",
-        "en": "NIIGATA"
-      },
-      "remarks": {
-        "local": "上越新幹線",
-        "en": "Joetsu Shinkansen"
-      },
-      "stops_at": {
-        "local": "大宮・高崎・越後湯沢・長岡",
-        "en": "Omiya, Takasaki, Echigo-Yuzawa"
-      }
-    },
-    {
-      "track_no": "13",
-      "type": {
-        "local": "おおぞら",
-        "en": "OZORA"
-      },
-      "type_color_hex": "#8e44ad",
-      "type_text_color": "#ffffff",
-      "train_no": "4003D",
-      "depart_time": "08:52",
-      "destination": {
-        "local": "釧路",
-        "en": "KUSHIRO"
-      },
-      "remarks": {
-        "local": "JR北海道 / 気動車",
-        "en": "JR Hokkaido / Diesel"
-      },
-      "stops_at": {
-        "local": "新夕張・トマム・帯広",
-        "en": "Shin-Yubari, Tomamu, Obihiro"
-      }
-    },
-    {
-      "track_no": "M2",
-      "type": {
-        "local": "ミュースカイ",
-        "en": "MU-SKY"
-      },
-      "type_color_hex": "#2980b9",
-      "type_text_color": "#ffffff",
-      "train_no": "2007",
-      "depart_time": "08:55",
-      "destination": {
-        "local": "中部国際空港",
-        "en": "CENTRAIR AIRPORT"
-      },
-      "remarks": {
-        "local": "名鉄 / 全車特別車",
-        "en": "Meitetsu / First Class"
-      },
-      "stops_at": {
-        "local": "金山・神宮前",
-        "en": "Kanayama, Jingu-mae"
-      }
-    },
-    {
-      "track_no": "8",
-      "type": {
-        "local": "新快速",
-        "en": "S.RAPID"
-      },
-      "type_color_hex": "#3498db",
-      "type_text_color": "#ffffff",
-      "train_no": "3205M",
-      "depart_time": "09:00",
-      "destination": {
-        "local": "姫路",
-        "en": "HIMEJI"
-      },
-      "remarks": {
-        "local": "Aシート連結",
-        "en": "With A-Seat"
-      },
-      "stops_at": {
-        "local": "大阪・尼崎・芦屋・三ノ宮・神戸",
-        "en": "Osaka, Amagasaki, Sannomiya, Kobe"
-      }
-    },
-    {
-      "track_no": "14",
-      "type": {
-        "local": "のぞみ",
-        "en": "NOZOMI"
-      },
-      "type_color_hex": "#f39c12",
-      "type_text_color": "#ffffff",
-      "train_no": "201",
-      "depart_time": "09:00",
-      "destination": {
-        "local": "新大阪",
-        "en": "SHIN-OSAKA"
-      },
-      "remarks": {
-        "local": "全車指定席",
-        "en": "All Reserved"
-      },
-      "stops_at": {
-        "local": "品川・新横浜・名古屋・京都",
-        "en": "Shinagawa, Shin-Yokohama, Nagoya, Kyoto"
-      }
-    },
-    {
-      "track_no": "K1",
-      "type": {
-        "local": "スカイライナー",
-        "en": "SKYLINER"
-      },
-      "type_color_hex": "#003399",
-      "type_text_color": "#ffffff",
-      "train_no": "AE01",
-      "depart_time": "09:04",
-      "destination": {
-        "local": "成田空港",
-        "en": "NARITA AIRPORT"
-      },
-      "remarks": {
-        "local": "京成電鉄経由",
-        "en": "Via Keisei Line"
-      },
-      "stops_at": {
-        "local": "日暮里・空港第２ビル",
-        "en": "Nippori, Airport Terminal 2"
-      }
-    },
-    {
-      "track_no": "23",
-      "type": {
-        "local": "はやぶさ",
-        "en": "HAYABUSA"
-      },
-      "type_color_hex": "#2ecc71",
-      "type_text_color": "#ffffff",
-      "train_no": "5",
-      "depart_time": "09:08",
-      "destination": {
-        "local": "新函館北斗",
-        "en": "SHIN-HAKODATE"
-      },
-      "remarks": {
-        "local": "G車・グランクラス",
-        "en": "Green / GranClass"
-      },
-      "stops_at": {
-        "local": "大宮・仙台・盛岡・新青森",
-        "en": "Omiya, Sendai, Morioka, Shin-Aomori"
+        "local": "各駅停車",
+        "en": "Stops at All Stations"
       }
     },
     {
       "track_no": "M1",
       "type": {
-        "local": "地下鉄",
-        "en": "SUBWAY"
+        "local": "さんふらわあ",
+        "en": "Sunflower"
       },
-      "type_color_hex": "#e60012",
+      "type_color_hex": "#ef7a00",
       "type_text_color": "#ffffff",
-      "train_no": "1205",
-      "depart_time": "09:12",
+      "train_no": "SF02",
+      "depart_time": "07:38",
       "destination": {
-        "local": "中百舌鳥",
-        "en": "NAKAMOZU"
+        "local": "大分",
+        "en": "Oita"
       },
       "remarks": {
-        "local": "御堂筋線",
-        "en": "Midosuji Line"
+        "local": "時刻は船が動き出す時間です",
+        "en": "The time is when the ship departs"
       },
       "stops_at": {
-        "local": "梅田・淀屋橋・心斎橋・難波",
-        "en": "Umeda, Yodoyabashi, Shinsaibashi, Namba"
+        "local": "",
+        "en": ""
       }
     },
     {
-      "track_no": "9",
+      "track_no": "22",
       "type": {
-        "local": "特急",
-        "en": "LTD EXP"
+        "local": "朱鷺",
+        "en": "TOKI"
       },
-      "type_color_hex": "#8e44ad",
+      "type_color_hex": "#f19ea6",
       "type_text_color": "#ffffff",
-      "train_no": "5M",
-      "depart_time": "09:16",
+      "train_no": "311",
+      "depart_time": "07:41",
       "destination": {
-        "local": "松本",
-        "en": "MATSUMOTO"
+        "local": "新潟",
+        "en": "NIIGATA"
       },
       "remarks": {
-        "local": "あずさ / 全車指定",
-        "en": "AZUSA / Reserved"
+        "local": "161系電車",
+        "en": "161 Series Train"
       },
       "stops_at": {
-        "local": "新宿・八王子・甲府・茅野",
-        "en": "Shinjuku, Hachioji, Kofu, Chino"
+        "local": "大宮・高崎・越後湯沢・長岡",
+        "en": "Omiya, Takasaki, Echigo-Yuzawa, Nagaoka"
       }
     },
     {
@@ -902,7 +483,7 @@
       "type_color_hex": "#e84393",
       "type_text_color": "#ffffff",
       "train_no": "W722",
-      "depart_time": "09:20",
+      "depart_time": "07:43",
       "destination": {
         "local": "河口湖",
         "en": "KAWAGUCHIKO"
@@ -914,604 +495,144 @@
       "stops_at": {
         "local": "富士急ハイランド・富士山駅",
         "en": "Fuji-Q Highland, Mt.Fuji Sta."
+      }
+    },
+    {
+      "track_no": "LP1",
+      "type": {
+        "local": "SpaceX Dragon",
+        "en": "SpaceX ドラゴン"
+      },
+      "type_color_hex": "#ffffff",
+      "type_text_color": "#000000",
+      "train_no": "10",
+      "depart_time": "07:46",
+      "destination": {
+        "local": "International Space Station",
+        "en": "国際宇宙ステーション"
+      },
+      "remarks": {
+        "local": "Via Falcon 9 Block 5",
+        "en": "ファルコン9ブロック5に搭載"
+      },
+      "stops_at": {
+        "local": "",
+        "en": ""
+      }
+    },
+    {
+      "track_no": "8",
+      "type": {
+        "local": "산천",
+        "en": "KTX-Sancheon"
+      },
+      "type_color_hex": "##204080",
+      "type_text_color": "#ffffff",
+      "train_no": "4",
+      "depart_time": "07:48",
+      "destination": {
+        "local": "부산",
+        "en": "BUSAN"
+      },
+      "remarks": {
+        "local": "자유석 8호차를",
+        "en": "Non-ReservedCarNo.8"
+      },
+      "stops_at": {
+        "local": "광명・대전・울산",
+        "en": "Gwangmyeong, Daejeon, Ulsan"
+      }
+    },
+    {
+      "track_no": "1",
+      "type": {
+        "local": "區間",
+        "en": "Local Train"
+      },
+      "type_color_hex": "#ff0000",
+      "type_text_color": "#ffffff",
+      "train_no": "4517",
+      "depart_time": "07:53",
+      "destination": {
+        "local": "花蓮",
+        "en": "Hualien"
+      },
+      "remarks": {
+        "local": "腳踏車設施",
+        "en": "Bicycle"
+      },
+      "stops_at": {
+        "local": "吉安",
+        "en": "Ji'an"
+      }
+    },
+    {
+      "track_no": "A1",
+      "type": {
+        "local": "Mallard",
+        "en": ""
+      },
+      "type_color_hex": "#000000",
+      "type_text_color": "#b1a185",
+      "train_no": "4468",
+      "depart_time": "07:48",
+      "destination": {
+        "local": "Essendine",
+        "en": ""
+      },
+      "remarks": {
+        "local": "",
+        "en": ""
+      },
+      "stops_at": {
+        "local": "",
+        "en": ""
+      }
+    },
+    {
+      "track_no": "23",
+      "type": {
+        "local": "ORIENT EXPRESS",
+        "en": ""
+      },
+      "type_color_hex": "#c6513b",
+      "type_text_color": "#ffffff",
+      "train_no": "999",
+      "depart_time": "07:55",
+      "destination": {
+        "local": "上野",
+        "en": "Ueno"
+      },
+      "remarks": {
+        "local": "Nostalgic Constantinopolis Orient-Express",
+        "en": "NCOE"
+      },
+      "stops_at": {
+        "local": "Warszawa・Κωνσταντινούπολις・Екатеринбург・北京・東京",
+        "en": "Warsaw, Kōnstantinoupolis, Yekaterinburg, Beijing, Tokyo"
       }
     },
     {
       "track_no": "4",
       "type": {
-        "local": "国鉄特急",
-        "en": "JNR LTD EXP"
+        "local": "Commuter",
+        "en": "Commuter Rail"
       },
-      "type_color_hex": "#a58e6f",
-      "type_text_color": "#ffffff",
-      "train_no": "4001M",
-      "depart_time": "09:25",
-      "destination": {
-        "local": "金沢",
-        "en": "KANAZAWA"
-      },
-      "remarks": {
-        "local": "雷鳥 / 485系",
-        "en": "RAICHO / 485 Series"
-      },
-      "stops_at": {
-        "local": "京都・敦賀・福井・小松",
-        "en": "Kyoto, Tsuruga, Fukui, Komatsu"
-      }
-    },
-    {
-      "track_no": "O1",
-      "type": {
-        "local": "特急",
-        "en": "LTD EXP"
-      },
-      "type_color_hex": "#d35400",
-      "type_text_color": "#ffffff",
-      "train_no": "VSE",
-      "depart_time": "09:30",
-      "destination": {
-        "local": "箱根湯本",
-        "en": "HAKONE-YUMOTO"
-      },
-      "remarks": {
-        "local": "ロマンスカー",
-        "en": "ROMANCECAR"
-      },
-      "stops_at": {
-        "local": "町田・小田原",
-        "en": "Machida, Odawara"
-      }
-    },
-    {
-      "track_no": "2",
-      "type": {
-        "local": "山手線",
-        "en": "YAMANOTE"
-      },
-      "type_color_hex": "#95a5a6",
-      "type_text_color": "#000000",
-      "train_no": "702G",
-      "depart_time": "09:34",
-      "destination": {
-        "local": "渋谷・新宿",
-        "en": "SHIBUYA/SHINJUKU"
-      },
-      "remarks": {
-        "local": "内回り",
-        "en": "Inner Loop"
-      },
-      "stops_at": {
-        "local": "各駅に停車します",
-        "en": "Stops at All Stations"
-      }
-    },
-    {
-      "track_no": "P1",
-      "type": {
-        "local": "フェリー",
-        "en": "FERRY"
-      },
-      "type_color_hex": "#3498db",
-      "type_text_color": "#ffffff",
-      "train_no": "SF01",
-      "depart_time": "09:40",
-      "destination": {
-        "local": "苫小牧",
-        "en": "TOMAKOMAI"
-      },
-      "remarks": {
-        "local": "さんふらわあ",
-        "en": "Ferry Sunflower"
-      },
-      "stops_at": {
-        "local": "大洗港発・夕方便",
-        "en": "Departs Oarai Port"
-      }
-    },
-    {
-      "track_no": "21",
-      "type": {
-        "local": "つばさ",
-        "en": "TSUBASA"
-      },
-      "type_color_hex": "#8e44ad",
-      "type_text_color": "#ffffff",
-      "train_no": "121",
-      "depart_time": "09:45",
-      "destination": {
-        "local": "山形",
-        "en": "YAMAGATA"
-      },
-      "remarks": {
-        "local": "新庄まで連結",
-        "en": "Coupled to Shinjo"
-      },
-      "stops_at": {
-        "local": "福島・米沢・赤湯",
-        "en": "Fukushima, Yonezawa, Akayu"
-      }
-    },
-    {
-      "track_no": "5",
-      "type": {
-        "local": "寝台特急",
-        "en": "SLEEPER"
-      },
-      "type_color_hex": "#2c3e50",
-      "type_text_color": "#ffffff",
-      "train_no": "5031M",
-      "depart_time": "09:50",
-      "destination": {
-        "local": "出雲市",
-        "en": "IZUMOSHI"
-      },
-      "remarks": {
-        "local": "サンライズ出雲",
-        "en": "SUNRISE IZUMO"
-      },
-      "stops_at": {
-        "local": "横浜・熱海・沼津・富士・岡山",
-        "en": "Yokohama, Atami, Numazu, Fuji"
-      }
-    },
-    {
-      "track_no": "N9",
-      "type": {
-        "local": "ラピート",
-        "en": "RAPI:T"
-      },
-      "type_color_hex": "#000080",
-      "type_text_color": "#ffffff",
-      "train_no": "b31",
-      "depart_time": "09:55",
-      "destination": {
-        "local": "関西空港",
-        "en": "KANSAI AIRPORT"
-      },
-      "remarks": {
-        "local": "南海電鉄 / 全席指定",
-        "en": "Nankai / All Reserved"
-      },
-      "stops_at": {
-        "local": "新今宮・天下茶屋・泉佐野・りんくうタウン",
-        "en": "Shin-Imamiya, Tengachaya, Izumisano"
-      }
-    },
-    {
-      "track_no": "11",
-      "type": {
-        "local": "みずほ",
-        "en": "MIZUHO"
-      },
-      "type_color_hex": "#e67e22",
-      "type_text_color": "#ffffff",
-      "train_no": "601",
-      "depart_time": "10:00",
-      "destination": {
-        "local": "鹿児島中央",
-        "en": "KAGOSHIMA-CHUO"
-      },
-      "remarks": {
-        "local": "山陽・九州新幹線",
-        "en": "Sanyo/Kyushu Shinkansen"
-      },
-      "stops_at": {
-        "local": "新大阪・岡山・広島・小倉・博多・熊本",
-        "en": "Shin-Osaka, Hiroshima, Hakata, Kumamoto"
-      }
-    },
-    {
-      "track_no": "7",
-      "type": {
-        "local": "特急",
-        "en": "LTD EXP"
-      },
-      "type_color_hex": "#c0392b",
-      "type_text_color": "#ffffff",
-      "train_no": "2003M",
-      "depart_time": "10:05",
-      "destination": {
-        "local": "成田空港",
-        "en": "NARITA AIRPORT"
-      },
-      "remarks": {
-        "local": "成田エクスプレス",
-        "en": "Narita Express"
-      },
-      "stops_at": {
-        "local": "品川・渋谷・新宿・池袋",
-        "en": "Shinagawa, Shibuya, Shinjuku"
-      }
-    },
-    {
-      "track_no": "H2",
-      "type": {
-        "local": "特急",
-        "en": "LTD EXP"
-      },
-      "type_color_hex": "#6F4E37",
-      "type_text_color": "#ffffff",
-      "train_no": "8001",
-      "depart_time": "10:10",
-      "destination": {
-        "local": "京都河原町",
-        "en": "KYOTO-KAWARAMACHI"
-      },
-      "remarks": {
-        "local": "京とれいん 雅洛",
-        "en": "Kyo-train GARAKU"
-      },
-      "stops_at": {
-        "local": "十三・淡路・桂・烏丸",
-        "en": "Juso, Awaji, Katsura, Karasuma"
-      }
-    },
-    {
-      "track_no": "24",
-      "type": {
-        "local": "かがやき",
-        "en": "KAGAYAKI"
-      },
-      "type_color_hex": "#c0a16b",
-      "type_text_color": "#ffffff",
-      "train_no": "501",
-      "depart_time": "10:15",
-      "destination": {
-        "local": "敦賀",
-        "en": "TSURUGA"
-      },
-      "remarks": {
-        "local": "北陸新幹線",
-        "en": "Hokuriku Shinkansen"
-      },
-      "stops_at": {
-        "local": "上野・大宮・長野・富山・金沢",
-        "en": "Ueno, Omiya, Nagano, Toyama, Kanazawa"
-      }
-    },
-    {
-      "track_no": "0",
-      "type": {
-        "local": "貨物",
-        "en": "FREIGHT"
-      },
-      "type_color_hex": "#7f8c8d",
-      "type_text_color": "#ffffff",
-      "train_no": "EF210",
-      "depart_time": "10:18",
-      "destination": {
-        "local": "札幌貨物",
-        "en": "SAPPORO FREIGHT"
-      },
-      "remarks": {
-        "local": "通過",
-        "en": "Passing"
-      },
-      "stops_at": {
-        "local": "コンテナ輸送",
-        "en": "Container Transport"
-      }
-    },
-    {
-      "track_no": "K5",
-      "type": {
-        "local": "ひのとり",
-        "en": "HINOTORI"
-      },
-      "type_color_hex": "#e74c3c",
-      "type_text_color": "#ffffff",
-      "train_no": "058",
-      "depart_time": "10:22",
-      "destination": {
-        "local": "近鉄名古屋",
-        "en": "KINTETSU-NAGOYA"
-      },
-      "remarks": {
-        "local": "近鉄特急",
-        "en": "Kintetsu Ltd Exp"
-      },
-      "stops_at": {
-        "local": "鶴橋・津",
-        "en": "Tsuruhashi, Tsu"
-      }
-    },
-    {
-      "track_no": "20",
-      "type": {
-        "local": "かもめ",
-        "en": "KAMOME"
-      },
-      "type_color_hex": "#c0392b",
-      "type_text_color": "#ffffff",
-      "train_no": "11",
-      "depart_time": "10:26",
-      "destination": {
-        "local": "長崎",
-        "en": "NAGASAKI"
-      },
-      "remarks": {
-        "local": "西九州新幹線",
-        "en": "Nishi-Kyushu"
-      },
-      "stops_at": {
-        "local": "武雄温泉・嬉野温泉・新大村・諫早",
-        "en": "Takeo-Onsen, Ureshino-Onsen, Isahaya"
-      }
-    },
-    {
-      "track_no": "3",
-      "type": {
-        "local": "快速",
-        "en": "RAPID"
-      },
-      "type_color_hex": "#27ae60",
-      "type_text_color": "#ffffff",
-      "train_no": "7221",
-      "depart_time": "10:30",
-      "destination": {
-        "local": "由布院",
-        "en": "YUFUIN"
-      },
-      "remarks": {
-        "local": "ゆふいんの森",
-        "en": "Yufuin no Mori"
-      },
-      "stops_at": {
-        "local": "鳥栖・久留米・日田・豊後森",
-        "en": "Tosu, Kurume, Hita, Bungo-Mori"
-      }
-    },
-    {
-      "track_no": "1",
-      "type": {
-        "local": "普通",
-        "en": "LOCAL"
-      },
-      "type_color_hex": "#16a085",
-      "type_text_color": "#ffffff",
-      "train_no": "1422M",
-      "depart_time": "10:35",
-      "destination": {
-        "local": "上野東京ライン",
-        "en": "UENO-TOKYO LINE"
-      },
-      "remarks": {
-        "local": "15両編成 / G車",
-        "en": "15 Cars / Green"
-      },
-      "stops_at": {
-        "local": "横浜・品川・東京・上野",
-        "en": "Yokohama, Shinagawa, Tokyo"
-      }
-    },
-    {
-      "track_no": "B2",
-      "type": {
-        "local": "空港バス",
-        "en": "AIRPORT BUS"
-      },
-      "type_color_hex": "#e67e22",
-      "type_text_color": "#ffffff",
-      "train_no": "LM05",
-      "depart_time": "10:40",
-      "destination": {
-        "local": "羽田空港",
-        "en": "HANEDA AIRPORT"
-      },
-      "remarks": {
-        "local": "リムジンバス",
-        "en": "Limousine Bus"
-      },
-      "stops_at": {
-        "local": "第1・第2・第3ターミナル",
-        "en": "T1, T2, T3 Terminals"
-      }
-    },
-    {
-      "track_no": "SP",
-      "type": {
-        "local": "スペーシアX",
-        "en": "SPACIA X"
-      },
-      "type_color_hex": "#ecf0f1",
-      "type_text_color": "#000000",
-      "train_no": "X01",
-      "depart_time": "10:45",
-      "destination": {
-        "local": "東武日光",
-        "en": "TOBU-NIKKO"
-      },
-      "remarks": {
-        "local": "東武鉄道 / 個室",
-        "en": "Tobu / Private Room"
-      },
-      "stops_at": {
-        "local": "春日部・栃木・下今市",
-        "en": "Kasukabe, Tochigi, Shimo-imaichi"
-      }
-    },
-    {
-      "track_no": "22",
-      "type": {
-        "local": "とき",
-        "en": "TOKI"
-      },
-      "type_color_hex": "#f19ea6",
-      "type_text_color": "#ffffff",
-      "train_no": "311",
-      "depart_time": "10:48",
-      "destination": {
-        "local": "新潟",
-        "en": "NIIGATA"
-      },
-      "remarks": {
-        "local": "上越新幹線",
-        "en": "Joetsu Shinkansen"
-      },
-      "stops_at": {
-        "local": "大宮・高崎・越後湯沢・長岡",
-        "en": "Omiya, Takasaki, Echigo-Yuzawa"
-      }
-    },
-    {
-      "track_no": "13",
-      "type": {
-        "local": "おおぞら",
-        "en": "OZORA"
-      },
-      "type_color_hex": "#8e44ad",
-      "type_text_color": "#ffffff",
-      "train_no": "4003D",
-      "depart_time": "10:52",
-      "destination": {
-        "local": "釧路",
-        "en": "KUSHIRO"
-      },
-      "remarks": {
-        "local": "JR北海道 / 気動車",
-        "en": "JR Hokkaido / Diesel"
-      },
-      "stops_at": {
-        "local": "新夕張・トマム・帯広",
-        "en": "Shin-Yubari, Tomamu, Obihiro"
-      }
-    },
-    {
-      "track_no": "M2",
-      "type": {
-        "local": "ミュースカイ",
-        "en": "MU-SKY"
-      },
-      "type_color_hex": "#2980b9",
-      "type_text_color": "#ffffff",
-      "train_no": "2007",
-      "depart_time": "10:55",
-      "destination": {
-        "local": "中部国際空港",
-        "en": "CENTRAIR AIRPORT"
-      },
-      "remarks": {
-        "local": "名鉄 / 全車特別車",
-        "en": "Meitetsu / First Class"
-      },
-      "stops_at": {
-        "local": "金山・神宮前",
-        "en": "Kanayama, Jingu-mae"
-      }
-    },
-    {
-      "track_no": "8",
-      "type": {
-        "local": "新快速",
-        "en": "S.RAPID"
-      },
-      "type_color_hex": "#3498db",
-      "type_text_color": "#ffffff",
-      "train_no": "3205M",
-      "depart_time": "11:00",
-      "destination": {
-        "local": "姫路",
-        "en": "HIMEJI"
-      },
-      "remarks": {
-        "local": "Aシート連結",
-        "en": "With A-Seat"
-      },
-      "stops_at": {
-        "local": "大阪・尼崎・芦屋・三ノ宮・神戸",
-        "en": "Osaka, Amagasaki, Sannomiya, Kobe"
-      }
-    },
-    {
-      "track_no": "14",
-      "type": {
-        "local": "のぞみ",
-        "en": "NOZOMI"
-      },
-      "type_color_hex": "#f39c12",
-      "type_text_color": "#ffffff",
-      "train_no": "201",
-      "depart_time": "11:00",
-      "destination": {
-        "local": "新大阪",
-        "en": "SHIN-OSAKA"
-      },
-      "remarks": {
-        "local": "全車指定席",
-        "en": "All Reserved"
-      },
-      "stops_at": {
-        "local": "品川・新横浜・名古屋・京都",
-        "en": "Shinagawa, Shin-Yokohama, Nagoya, Kyoto"
-      }
-    },
-    {
-      "track_no": "K1",
-      "type": {
-        "local": "スカイライナー",
-        "en": "SKYLINER"
-      },
-      "type_color_hex": "#003399",
-      "type_text_color": "#ffffff",
-      "train_no": "AE01",
-      "depart_time": "11:04",
-      "destination": {
-        "local": "成田空港",
-        "en": "NARITA AIRPORT"
-      },
-      "remarks": {
-        "local": "京成電鉄経由",
-        "en": "Via Keisei Line"
-      },
-      "stops_at": {
-        "local": "日暮里・空港第２ビル",
-        "en": "Nippori, Airport Terminal 2"
-      }
-    },
-    {
-      "track_no": "23",
-      "type": {
-        "local": "はやぶさ",
-        "en": "HAYABUSA"
-      },
-      "type_color_hex": "#2ecc71",
-      "type_text_color": "#ffffff",
-      "train_no": "5",
-      "depart_time": "11:08",
-      "destination": {
-        "local": "新函館北斗",
-        "en": "SHIN-HAKODATE"
-      },
-      "remarks": {
-        "local": "G車・グランクラス",
-        "en": "Green / GranClass"
-      },
-      "stops_at": {
-        "local": "大宮・仙台・盛岡・新青森",
-        "en": "Omiya, Sendai, Morioka, Shin-Aomori"
-      }
-    },
-    {
-      "track_no": "M1",
-      "type": {
-        "local": "地下鉄",
-        "en": "SUBWAY"
-      },
-      "type_color_hex": "#e60012",
+      "type_color_hex": "#0039A6",
       "type_text_color": "#ffffff",
       "train_no": "1205",
-      "depart_time": "11:12",
+      "depart_time": "07:58",
       "destination": {
-        "local": "中百舌鳥",
-        "en": "NAKAMOZU"
+        "local": "Grand Central Terminal",
+        "en": ""
       },
       "remarks": {
-        "local": "御堂筋線",
-        "en": "Midosuji Line"
+        "local": "Alcohol is not allowed",
+        "en": ""
       },
       "stops_at": {
-        "local": "梅田・淀屋橋・心斎橋・難波",
-        "en": "Umeda, Yodoyabashi, Shinsaibashi, Namba"
+        "local": "Fordham, Tremont, Melrose, Harlem-125th Street",
+        "en": ""
       }
     },
     {
@@ -1523,7 +644,7 @@
       "type_color_hex": "#8e44ad",
       "type_text_color": "#ffffff",
       "train_no": "5M",
-      "depart_time": "11:16",
+      "depart_time": "07:59",
       "destination": {
         "local": "松本",
         "en": "MATSUMOTO"
@@ -1535,29 +656,6 @@
       "stops_at": {
         "local": "新宿・八王子・甲府・茅野",
         "en": "Shinjuku, Hachioji, Kofu, Chino"
-      }
-    },
-    {
-      "track_no": "B1",
-      "type": {
-        "local": "高速バス",
-        "en": "HIGHWAY BUS"
-      },
-      "type_color_hex": "#e84393",
-      "type_text_color": "#ffffff",
-      "train_no": "W722",
-      "depart_time": "11:20",
-      "destination": {
-        "local": "河口湖",
-        "en": "KAWAGUCHIKO"
-      },
-      "remarks": {
-        "local": "WILLER EXPRESS",
-        "en": "4-Row Seat"
-      },
-      "stops_at": {
-        "local": "富士急ハイランド・富士山駅",
-        "en": "Fuji-Q Highland, Mt.Fuji Sta."
       }
     },
     {
