@@ -526,7 +526,7 @@
         "local": "산천",
         "en": "KTX-Sancheon"
       },
-      "type_color_hex": "##204080",
+      "type_color_hex": "#204080",
       "type_text_color": "#ffffff",
       "train_no": "4",
       "depart_time": "07:48",
@@ -1032,7 +1032,7 @@
         "local": "산천",
         "en": "KTX-Sancheon"
       },
-      "type_color_hex": "##204080",
+      "type_color_hex": "#204080",
       "type_text_color": "#ffffff",
       "train_no": "4",
       "depart_time": "08:48",
@@ -1538,7 +1538,7 @@
         "local": "산천",
         "en": "KTX-Sancheon"
       },
-      "type_color_hex": "##204080",
+      "type_color_hex": "#204080",
       "type_text_color": "#ffffff",
       "train_no": "4",
       "depart_time": "09:48",
@@ -2044,7 +2044,7 @@
         "local": "산천",
         "en": "KTX-Sancheon"
       },
-      "type_color_hex": "##204080",
+      "type_color_hex": "#204080",
       "type_text_color": "#ffffff",
       "train_no": "4",
       "depart_time": "10:48",
@@ -2550,7 +2550,7 @@
         "local": "산천",
         "en": "KTX-Sancheon"
       },
-      "type_color_hex": "##204080",
+      "type_color_hex": "#204080",
       "type_text_color": "#ffffff",
       "train_no": "4",
       "depart_time": "11:48",
@@ -3056,7 +3056,7 @@
         "local": "산천",
         "en": "KTX-Sancheon"
       },
-      "type_color_hex": "##204080",
+      "type_color_hex": "#204080",
       "type_text_color": "#ffffff",
       "train_no": "4",
       "depart_time": "12:48",
@@ -3562,7 +3562,7 @@
         "local": "산천",
         "en": "KTX-Sancheon"
       },
-      "type_color_hex": "##204080",
+      "type_color_hex": "#204080",
       "type_text_color": "#ffffff",
       "train_no": "4",
       "depart_time": "13:48",
@@ -4068,7 +4068,7 @@
         "local": "산천",
         "en": "KTX-Sancheon"
       },
-      "type_color_hex": "##204080",
+      "type_color_hex": "#204080",
       "type_text_color": "#ffffff",
       "train_no": "4",
       "depart_time": "14:48",
@@ -4574,7 +4574,7 @@
         "local": "산천",
         "en": "KTX-Sancheon"
       },
-      "type_color_hex": "##204080",
+      "type_color_hex": "#204080",
       "type_text_color": "#ffffff",
       "train_no": "4",
       "depart_time": "15:48",
@@ -5080,7 +5080,7 @@
         "local": "산천",
         "en": "KTX-Sancheon"
       },
-      "type_color_hex": "##204080",
+      "type_color_hex": "#204080",
       "type_text_color": "#ffffff",
       "train_no": "4",
       "depart_time": "16:48",
@@ -5586,7 +5586,7 @@
         "local": "산천",
         "en": "KTX-Sancheon"
       },
-      "type_color_hex": "##204080",
+      "type_color_hex": "#204080",
       "type_text_color": "#ffffff",
       "train_no": "4",
       "depart_time": "17:48",
@@ -6092,7 +6092,7 @@
         "local": "산천",
         "en": "KTX-Sancheon"
       },
-      "type_color_hex": "##204080",
+      "type_color_hex": "#204080",
       "type_text_color": "#ffffff",
       "train_no": "4",
       "depart_time": "18:48",
@@ -6598,7 +6598,7 @@
         "local": "산천",
         "en": "KTX-Sancheon"
       },
-      "type_color_hex": "##204080",
+      "type_color_hex": "#204080",
       "type_text_color": "#ffffff",
       "train_no": "4",
       "depart_time": "19:48",
@@ -7104,7 +7104,7 @@
         "local": "산천",
         "en": "KTX-Sancheon"
       },
-      "type_color_hex": "##204080",
+      "type_color_hex": "#204080",
       "type_text_color": "#ffffff",
       "train_no": "4",
       "depart_time": "20:48",
@@ -7610,7 +7610,7 @@
         "local": "산천",
         "en": "KTX-Sancheon"
       },
-      "type_color_hex": "##204080",
+      "type_color_hex": "#204080",
       "type_text_color": "#ffffff",
       "train_no": "4",
       "depart_time": "21:48",
@@ -8116,7 +8116,7 @@
         "local": "산천",
         "en": "KTX-Sancheon"
       },
-      "type_color_hex": "##204080",
+      "type_color_hex": "#204080",
       "type_text_color": "#ffffff",
       "train_no": "4",
       "depart_time": "22:48",
@@ -8622,7 +8622,7 @@
         "local": "산천",
         "en": "KTX-Sancheon"
       },
-      "type_color_hex": "##204080",
+      "type_color_hex": "#204080",
       "type_text_color": "#ffffff",
       "train_no": "4",
       "depart_time": "23:48",
@@ -9128,7 +9128,7 @@
         "local": "산천",
         "en": "KTX-Sancheon"
       },
-      "type_color_hex": "##204080",
+      "type_color_hex": "#204080",
       "type_text_color": "#ffffff",
       "train_no": "4",
       "depart_time": "00:48",
