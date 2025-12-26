@@ -156,7 +156,6 @@ body {
 .col-no {
     flex: 0 0 auto;
     width: calc((var(--char-width) + 2px) * 5 - 2px);
-    margin-right: 30px;
 }
 
 .col-time {
