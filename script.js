@@ -418,7 +418,7 @@ async function fetchData() {
         const scheduleRemarks = extractFromSchedule(scheduleData, 'remarks');
         adjustColumnWidth('--col-rem-width', presetRemarks, scheduleRemarks, 6);
 
-        // Calculate stops width
+        // Calculate stops width, not used for now
         const presetStops = presetsData.stops || [];
         const scheduleStops = extractFromSchedule(scheduleData, 'stops_at');
         adjustColumnWidth('--col-stop-width', presetStops, scheduleStops, 4);
