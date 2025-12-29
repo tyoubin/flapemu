@@ -117,5 +117,121 @@ Data files are located in `timetable/*.json`. Example:
 4.  **Language:** The HTML tag is set to `lang="en"`, but CSS font stacks prioritize CJK fonts to ensure correct glyph rendering (preventing Han Unification issues).
 
 ## 7. URL Parameters
+
 *   `?t=filename`: Loads `./timetable/filename.json`.
 *   Example: `board.html?t=kumamoto` loads `kumamoto.json`.
+
+## 8. Gemini Log
+
+This section details an analysis of the codebase conducted by a Gemini agent, identifying potential bugs, performance bottlenecks, and maintainability risks as of 2025-12-28.
+
+### Identified Problems and Risks:
+
+**Bugs / High Risks:**
+
+1.  **FlapUnit.setTarget Data Overwrite:**
+    *   **Description:** The "Safety Fallback" logic within `FlapUnit.setTarget` dynamically injects new words into `this.physicalList` if they are not found. This can lead to overwriting existing, potentially valid, non-blank entries if the list capacity or available blank slots are insufficient. This is the most critical identified bug, directly impacting data integrity and display accuracy.
+    *   **File:** `script.js`
+    *   **Snippet:**
+        ```javascript
+        // Original problematic section in FlapUnit.setTarget:
+        if (nextIndex === -1) {
+            let freeSlotIndex = this.physicalList.findIndex((item, idx) => item.local === " " && idx !== 0);
+            if (freeSlotIndex === -1) {
+                freeSlotIndex = (this.pointer + 5) % this.physicalList.length;
+                if (freeSlotIndex === 0) freeSlotIndex = 1;
+            }
+            this.physicalList[freeSlotIndex] = { ... }; // Overwrites
+            nextIndex = freeSlotIndex;
+        }
+        ```
+    *   **Revised Analysis and Proposed Solution (2025-12-28):**
+        Further analysis revealed that `createPhysicalList` (the "spool making function") is only called during the initial setup (`isInitialized = false`) when `TrainGroup` and `WordFlap` instances are first created. It is *not* called on subsequent `fetchData` cycles (which occur every 30 seconds). Therefore, the `physicalList` within each `WordFlap` instance is static after initialization and does not automatically update to include new words introduced in later schedule fetches.
+        The "Safety Fallback" was a risky attempt to address this, but it led to data corruption. A more robust solution is required:
+        **Proposed Solution:**
+        1.  **Refactor `getCap`:** Move `getCap` to the global scope to make it accessible for recalculating capacity.
+        2.  **Create `mergeIntoPhysicalList` utility:** A new function to safely merge new unique words from the latest `presets` and `scheduleData` into an existing `WordFlap`'s `physicalList` without duplicates, while respecting capacity.
+        3.  **Add `updatePhysicalLists` to `TrainGroup`:** A new method in `TrainGroup` to orchestrate calling `mergeIntoPhysicalList` for all its `WordFlap` instances.
+        4.  **Call `TrainGroup.updatePhysicalLists` in `fetchData`:** After `fetchData` retrieves new data, if `isInitialized` is `true`, iterate through all `TrainGroup` instances and call their `updatePhysicalLists` method.
+        5.  **Finalize `FlapUnit.setTarget` fix:** Once `physicalList` is guaranteed to be updated, the dynamic injection logic in `FlapUnit.setTarget` can be safely removed. Any word not found at that point can then reliably default to blank or log an error.
+      * To be investigated later: The user has to refresh the page if a JSON is updated. The fetchData() function is solely for the data (currently displaying flap cards) to sync with time. Will this render the bug irrelevant?
+
+2.  **Fragile FlapUnit.step() Timing:**
+    *   **Description:** The `setTimeout(..., 150)` in `FlapUnit.step()` is tightly coupled to the CSS animation duration (`--flap-speed: 0.15s`). If these values diverge (e.g., due to user styling, browser performance variations, or future changes to CSS), animations could become janky or out of sync, leading to visual glitches.
+    *   **File:** `script.js`
+    *   **Snippet:**
+        ```javascript
+        setTimeout(() => {
+            // ...
+        }, 150); // Crucial: the JS interval (150ms) must be greater than the CSS animation duration (--flap-speed: 0.15s)
+        ```
+
+**Performance / UX Risks:**
+
+3.  **TrainGroup.updateChars/updateWord Excessive `setTimeout`s:**
+    *   **Description:** Both `TrainGroup.updateChars` and `updateWord` use `setTimeout` with `Math.random()` to introduce slight, randomized delays for *each* individual character or word flap update. For boards with a large number of flaps (many columns, many rows), this can queue a significant number of `setTimeout` calls. While intended for a "wave effect," it could potentially impact overall performance, responsiveness, and animation smoothness on less powerful devices.
+    *   **File:** `script.js`
+    *   **Snippet:**
+        ```javascript
+        // In updateChars:
+        txt.split('').forEach((char, i) => {
+            setTimeout(() => { if (c.units[i]) c.units[i].setTarget(char); }, Math.random() * 50);
+        });
+        // In updateWord:
+        if (c) setTimeout(() => c.unit.setTarget(target), Math.random() * 100);
+        ```
+
+4.  **`fetchData` Fixed 1-Second Row Update Delay:**
+    *   **Description:** The `await sleep(1000)` inserted between updating each row in the `fetchData` function creates a fixed 1-second delay for each subsequent row. For a board with `ROW_COUNT` rows, this translates to `(ROW_COUNT - 1)` seconds of forced waiting before the entire board has been updated. This can make the board feel slow and unresponsive to updates from the user's perspective.
+    *   **File:** `script.js`
+    *   **Snippet:**
+        ```javascript
+        for (let i = 0; i < ROW_COUNT; i++) {
+            if (groups[i]) {
+                groups[i].update(displayTrains[i]);
+                if (i < ROW_COUNT - 1) {
+                    await sleep(1000); // This line
+                }
+            }
+        }
+        ```
+
+5.  **Mobile `zoom` Strategy for Responsiveness:**
+    *   **Description:** The CSS uses `zoom: 0.65` (along with `width: calc(100% / 0.65)`) within a media query for mobile devices to scale down the entire `schedule-board`. While this forces the wide board to fit on smaller screens, `zoom` is a non-standard property that can introduce various issues: accessibility concerns (poor text readability, interference with native zoom), potential layout glitches, pixelation, and inconsistent behavior across browsers or devices.
+    *   **File:** `style.css`
+    *   **Snippet:**
+        ```css
+        @media screen and (max-width: 800px) {
+            .schedule-board {
+                zoom: 0.65;
+                /* ... */
+                width: calc(100% / 0.65);
+            }
+        }
+        ```
+
+**Maintainability / Minor Risks:**
+
+6.  **Monolithic `script.js` and Global State:**
+    *   **Description:** The entire core logic of the application resides in a single `script.js` file, with several global variables (`groups`, `isInitialized`, `ROW_COUNT`) and a large `fetchData` function. While currently manageable due to the project's size, this architecture will become a significant maintainability challenge as the project grows, making it harder to debug, add new features, or refactor components without introducing side effects.
+    *   **File:** `script.js`
+    *   **Snippet (examples):** Global variables at the top, large `fetchData` function.
+
+7.  **Inaccurate `adjustColumnWidth` for Diverse Unicode:**
+    *   **Description:** The `adjustColumnWidth` function attempts to calculate the visual length of text by assigning `0.6` width units to ASCII characters and `1.0` to others (presumably CJK characters). This simplified model, while generally effective for typical Japanese/English text, might not be perfectly accurate for all possible Unicode characters or specific font renderings. This could lead to minor, subtle misalignments in column widths for very diverse text content.
+    *   **File:** `script.js`
+    *   **Snippet:**
+        ```javascript
+        if (char.charCodeAt(0) < 128) visualLength += 0.6;
+        else visualLength += 1;
+        ```
+
+8.  **`createPhysicalList` Redundant Blank Handling:**
+    *   **Description:** The `createPhysicalList` function initializes its internal `list` with `BLANK_DATA` at index 0 and then uses a `processItems` helper that explicitly skips items where `item.local.trim() === ""`. While not a critical bug, the logic for managing and padding with blank cards could be slightly streamlined or made more explicit to avoid minor inefficiencies or potential confusion.
+    *   **File:** `script.js`
+    *   **Snippet:**
+        ```javascript
+        let list = [BLANK_DATA]; // Index 0 is always blank
+        // ...
+        if (item && item.local && item.local.trim() !== "" && !seenLocals.has(item.local)) { /* ... */ }
+        ```
