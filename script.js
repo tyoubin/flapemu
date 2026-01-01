@@ -344,7 +344,7 @@ class TrainGroup {
         const c = this.controllers[key];
         if (c && txt) {
             txt.split('').forEach((char, i) => {
-                setTimeout(() => { if (c.units[i]) c.units[i].setTarget(char); }, Math.random() * 50);
+                if (c.units[i]) c.units[i].setTarget(char);
             });
         }
     }
@@ -352,7 +352,7 @@ class TrainGroup {
     updateWord(key, dataObj) {
         const c = this.controllers[key];
         const target = dataObj || BLANK_DATA;
-        if (c) setTimeout(() => c.unit.setTarget(target), Math.random() * 100);
+        if (c) c.unit.setTarget(target);
     }
 }
 

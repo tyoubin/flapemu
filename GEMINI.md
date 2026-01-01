@@ -168,19 +168,6 @@ This section details an analysis of the codebase conducted by a Gemini agent, id
 
 **Performance / UX Risks:**
 
-3.  **TrainGroup.updateChars/updateWord Excessive `setTimeout`s:**
-    *   **Description:** Both `TrainGroup.updateChars` and `updateWord` use `setTimeout` with `Math.random()` to introduce slight, randomized delays for *each* individual character or word flap update. For boards with a large number of flaps (many columns, many rows), this can queue a significant number of `setTimeout` calls. While intended for a "wave effect," it could potentially impact overall performance, responsiveness, and animation smoothness on less powerful devices.
-    *   **File:** `script.js`
-    *   **Snippet:**
-        ```javascript
-        // In updateChars:
-        txt.split('').forEach((char, i) => {
-            setTimeout(() => { if (c.units[i]) c.units[i].setTarget(char); }, Math.random() * 50);
-        });
-        // In updateWord:
-        if (c) setTimeout(() => c.unit.setTarget(target), Math.random() * 100);
-        ```
-
 4.  **`fetchData` Fixed 1-Second Row Update Delay:**
     *   **Description:** The `await sleep(1000)` inserted between updating each row in the `fetchData` function creates a fixed 1-second delay for each subsequent row. For a board with `ROW_COUNT` rows, this translates to `(ROW_COUNT - 1)` seconds of forced waiting before the entire board has been updated. This can make the board feel slow and unresponsive to updates from the user's perspective.
     *   **File:** `script.js`
@@ -195,23 +182,6 @@ This section details an analysis of the codebase conducted by a Gemini agent, id
             }
         }
         ```
-
-5.  **Mobile Responsiveness Strategy (Mitigated):**
-    *   **Description:** The previous strategy of using `zoom: 0.65` within a media query for mobile devices has been replaced with `transform: scale(var(--scale-factor))` and `transform-origin: top left;`. While the physical aspect ratio of the flaps needs to be maintained, `zoom` is a non-standard property that could introduce various issues (accessibility concerns, layout glitches, inconsistent behavior). The new approach uses standard CSS transforms to achieve scaling, improving compatibility and reliability.
-    *   **File:** `style.css`
-    *   **Snippet:**
-        ```css
-        @media screen and (max-width: 800px) {
-            .schedule-board {
-                --scale-factor: 0.65;
-                transform: scale(var(--scale-factor));
-                transform-origin: top left;
-                /* ... */
-                width: calc(100% / var(--scale-factor));
-            }
-        }
-        ```
-    *   **Status:** Mitigated by replacing `zoom` with `transform: scale()`.
 
 **Maintainability / Minor Risks:**
 
