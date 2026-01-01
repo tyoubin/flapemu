@@ -168,20 +168,6 @@ This section details an analysis of the codebase conducted by a Gemini agent, id
 
 **Performance / UX Risks:**
 
-4.  **`fetchData` Fixed 1-Second Row Update Delay:**
-    *   **Description:** The `await sleep(1000)` inserted between updating each row in the `fetchData` function creates a fixed 1-second delay for each subsequent row. For a board with `ROW_COUNT` rows, this translates to `(ROW_COUNT - 1)` seconds of forced waiting before the entire board has been updated. This can make the board feel slow and unresponsive to updates from the user's perspective.
-    *   **File:** `script.js`
-    *   **Snippet:**
-        ```javascript
-        for (let i = 0; i < ROW_COUNT; i++) {
-            if (groups[i]) {
-                groups[i].update(displayTrains[i]);
-                if (i < ROW_COUNT - 1) {
-                    await sleep(1000); // This line
-                }
-            }
-        }
-        ```
 
 **Maintainability / Minor Risks:**
 

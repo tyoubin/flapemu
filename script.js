@@ -472,13 +472,10 @@ async function fetchData() {
             displayTrains.push(scheduleData[dataIndex]);
         }
 
-        // Update the flipper by semi-iterating through each row
+        // Update the flipper by updating all rows concurrently
         for (let i = 0; i < ROW_COUNT; i++) {
             if (groups[i]) {
                 groups[i].update(displayTrains[i]);
-                if (i < ROW_COUNT - 1) {
-                    await sleep(1000);
-                }
             }
         }
 
