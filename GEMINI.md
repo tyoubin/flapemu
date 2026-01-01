@@ -196,19 +196,22 @@ This section details an analysis of the codebase conducted by a Gemini agent, id
         }
         ```
 
-5.  **Mobile `zoom` Strategy for Responsiveness:**
-    *   **Description:** The CSS uses `zoom: 0.65` (along with `width: calc(100% / 0.65)`) within a media query for mobile devices to scale down the entire `schedule-board`. While this forces the wide board to fit on smaller screens, `zoom` is a non-standard property that can introduce various issues: accessibility concerns (poor text readability, interference with native zoom), potential layout glitches, pixelation, and inconsistent behavior across browsers or devices.
+5.  **Mobile Responsiveness Strategy (Mitigated):**
+    *   **Description:** The previous strategy of using `zoom: 0.65` within a media query for mobile devices has been replaced with `transform: scale(var(--scale-factor))` and `transform-origin: top left;`. While the physical aspect ratio of the flaps needs to be maintained, `zoom` is a non-standard property that could introduce various issues (accessibility concerns, layout glitches, inconsistent behavior). The new approach uses standard CSS transforms to achieve scaling, improving compatibility and reliability.
     *   **File:** `style.css`
     *   **Snippet:**
         ```css
         @media screen and (max-width: 800px) {
             .schedule-board {
-                zoom: 0.65;
+                --scale-factor: 0.65;
+                transform: scale(var(--scale-factor));
+                transform-origin: top left;
                 /* ... */
-                width: calc(100% / 0.65);
+                width: calc(100% / var(--scale-factor));
             }
         }
         ```
+    *   **Status:** Mitigated by replacing `zoom` with `transform: scale()`.
 
 **Maintainability / Minor Risks:**
 

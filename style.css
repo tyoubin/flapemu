@@ -593,10 +593,12 @@ footer a:hover {
     } */
 
     .schedule-board {
-        zoom: 0.65;
+        --scale-factor: 0.65;
+        transform: scale(var(--scale-factor));
+        transform-origin: top left;
         padding: 10px;
         border-width: 4px;
-        width: calc(100% / 0.65);
+        width: calc(100% / var(--scale-factor));
         box-shadow: none;
     }
 
