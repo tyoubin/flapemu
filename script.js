@@ -476,6 +476,9 @@ async function fetchData() {
         for (let i = 0; i < ROW_COUNT; i++) {
             if (groups[i]) {
                 groups[i].update(displayTrains[i]);
+                if (i < ROW_COUNT - 1) {
+                    await sleep(1000);
+                }
             }
         }
 

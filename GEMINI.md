@@ -58,7 +58,7 @@ The board adapts to different text lengths defined in the JSON.
 
 ### 3.4. Sequential Updates
 To prevent GPU bottlenecks on mobile devices:
-*   **Mechanism:** `fetchData` uses `await sleep(1500)` between updating each row (`TrainGroup`).
+*   **Mechanism:** `fetchData` uses `await sleep(1000)` between updating each row (`TrainGroup`).
 *   **Effect:** Rows flip in a cascade (Wave effect) rather than all at once.
 
 ## 4. Data Structure (JSON Schema)
