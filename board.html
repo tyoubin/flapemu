@@ -4,7 +4,19 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
     <title>FlapEmu</title>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="style.css" id="main-style">
+    <script>
+        // Cache-busting for AI agents and developers
+        (function() {
+            const params = new URLSearchParams(window.location.search);
+            if (params.has('nocache') || params.has('dev')) {
+                const timestamp = Date.now();
+                const style = document.getElementById('main-style');
+                style.href = style.href.split('?')[0] + '?v=' + timestamp;
+                console.log('[System] Cache-busting active (CSS)');
+            }
+        })();
+    </script>
 </head>
 <body>
 
@@ -35,6 +47,18 @@
             Powered by <a href="https://github.com/tyoubin/flapemu" target="_blank">FlapEmu</a>
         </div>
     </div>
-    <script src="script.js"></script>
+    <script>
+        (function() {
+            const params = new URLSearchParams(window.location.search);
+            const script = document.createElement('script');
+            let src = 'script.js';
+            if (params.has('nocache') || params.has('dev')) {
+                src += '?v=' + Date.now();
+                console.log('[System] Cache-busting active (JS)');
+            }
+            script.src = src;
+            document.body.appendChild(script);
+        })();
+    </script>
 </body>
 </html>

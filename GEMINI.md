@@ -123,7 +123,11 @@ Data files are located in `timetable/*.json`. Example:
 ## 7. URL Parameters
 
 *   `?t=filename`: Loads `./timetable/filename.json`.
-*   Example: `board.html?t=kumamoto` loads `kumamoto.json`.
+*   `?nocache=1` or `?dev`: Activates **Debug/No-Cache Mode** (Crucial for AI agents and developers).
+    *   **Data**: Appends `?cb=timestamp` to the JSON fetch and uses `cache: "no-store"`.
+    *   **Assets**: Dynamically appends `?v=timestamp` to `style.css` and `script.js` to bypass browser/proxy caches.
+    *   **Propagation**: `index.html` automatically propagates these parameters to all station links.
+*   Example: `board.html?t=kumamoto&nocache=1` loads the board with forced cache-busting.
 
 ## 8. Gemini Log
 

@@ -216,5 +216,20 @@
         <p>Project FlapEmu | <a href="https://github.com/tyoubin/flapemu">View on GitHub</a></p>
     </footer>
 
+    <script>
+        (function() {
+            const params = new URLSearchParams(window.location.search);
+            if (params.has('nocache') || params.has('dev')) {
+                const links = document.querySelectorAll('a[href^="board.html"]');
+                links.forEach(link => {
+                    const url = new URL(link.href, window.location.href);
+                    if (params.has('nocache')) url.searchParams.set('nocache', '1');
+                    if (params.has('dev')) url.searchParams.set('dev', '1');
+                    link.href = url.toString();
+                });
+                console.log('[System] Dev/No-Cache mode propagated to links');
+            }
+        })();
+    </script>
 </body>
 </html>
