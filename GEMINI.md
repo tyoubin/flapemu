@@ -124,7 +124,7 @@ Data files are located in `timetable/*.json`. Example:
 
 ## 8. Gemini Log
 
-This section details an analysis of the codebase conducted by a Gemini agent, identifying potential bugs, performance bottlenecks, and maintainability risks as of 2025-12-28.
+This section details an analysis of the codebase conducted by a Gemini agent, identifying potential bugs, performance bottlenecks, and maintainability risks.
 
 ### Identified Problems and Risks:
 
@@ -155,10 +155,6 @@ This section details an analysis of the codebase conducted by a Gemini agent, id
         3.  **Add `updatePhysicalLists` to `TrainGroup`:** A new method in `TrainGroup` to orchestrate calling `mergeIntoPhysicalList` for all its `WordFlap` instances.
         4.  **Call `TrainGroup.updatePhysicalLists` in `fetchData`:** After `fetchData` retrieves new data, if `isInitialized` is `true`, iterate through all `TrainGroup` instances and call their `updatePhysicalLists` method.
         5.  **Finalize `FlapUnit.setTarget` fix:** Once `physicalList` is guaranteed to be updated, the dynamic injection logic in `FlapUnit.setTarget` can be safely removed. Any word not found at that point can then reliably default to blank or log an error.
-      * To be investigated later: The user has to refresh the page if a JSON is updated. The fetchData() function is solely for the data (currently displaying flap cards) to sync with time. Will this render the bug irrelevant?
-
-**Performance / UX Risks:**
-
 
 **Maintainability / Minor Risks:**
 
