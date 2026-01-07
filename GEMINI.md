@@ -99,7 +99,7 @@ Data files are located in `timetable/*.json`. Example:
 
 ### 5.1. Layout Strategy
 *   **Desktop:** Uses `width: max-content` on the board container to ensure columns are never squashed. Columns use `flex-shrink: 0`.
-*   **Mobile:** Uses a `zoom: 0.65` strategy (or similar scale) to fit the wide board onto small screens without breaking the physical aspect ratio of the flaps.
+*   **Mobile:** Uses a `--scale-factor` CSS variable to fit the wide board onto small screens without breaking the physical aspect ratio of the flaps.
 
 ### 5.2. Column Alignment (Strict)
 *   **Fixed Columns (Track, No, Time):** Widths are calculated via `calc((var(--char-width) + 2px) * N - 2px)` to perfectly match the physical width of N flap units.
@@ -113,7 +113,7 @@ Data files are located in `timetable/*.json`. Example:
 ## 6. Important Caveats for Future Devs
 
 1.  **Do not use `innerHTML` on the whole board:** When updating, we only update the *target state* of the `FlapUnit`. Rebuilding DOM kills the animation.
-2.  **Performance:** `ROW_COUNT` is currently capped (e.g., 3 or 6) to maintain 60fps on mobile devices during heavy flipping.
+2.  **Performance:** `ROW_COUNT` is currently capped (e.g., 3 or 6) to maintain framerates on mobile devices during heavy flipping.
 3.  **Skeuomorphism:** The `::after` (thickness) and `::before` (shadow) pseudo-elements on `.flap-unit` are critical for the 3D feel. Do not remove them for "cleanliness".
 4.  **Language:** The HTML tag is set to `lang="en"`, but CSS font stacks prioritize CJK fonts to ensure correct glyph rendering (preventing Han Unification issues).
 
