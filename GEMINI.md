@@ -48,6 +48,7 @@ Each character or word block is a `FlapUnit` class.
     *   `.flap.front` (Animating upper half)
     *   `.flap.back` (Animating lower half)
 *   **Animation:** Controlled via CSS `@keyframes` (`flip-down-front`, `flip-down-back`).
+*   **Sync Logic:** JS timing is decoupled from CSS durations. It uses `animationend` event listeners on the `.flap.back` element to trigger subsequent steps in the spool sequence.
 *   **Lighting:** CSS `filter: brightness()` and `contrast()` are keyed to the animation frames to simulate specular highlights as the card rotates.
 
 ### 3.3. Auto-Layout System
@@ -155,16 +156,6 @@ This section details an analysis of the codebase conducted by a Gemini agent, id
         4.  **Call `TrainGroup.updatePhysicalLists` in `fetchData`:** After `fetchData` retrieves new data, if `isInitialized` is `true`, iterate through all `TrainGroup` instances and call their `updatePhysicalLists` method.
         5.  **Finalize `FlapUnit.setTarget` fix:** Once `physicalList` is guaranteed to be updated, the dynamic injection logic in `FlapUnit.setTarget` can be safely removed. Any word not found at that point can then reliably default to blank or log an error.
       * To be investigated later: The user has to refresh the page if a JSON is updated. The fetchData() function is solely for the data (currently displaying flap cards) to sync with time. Will this render the bug irrelevant?
-
-2.  **Fragile FlapUnit.step() Timing:**
-    *   **Description:** The `setTimeout(..., 150)` in `FlapUnit.step()` is tightly coupled to the CSS animation duration (`--flap-speed: 0.15s`). If these values diverge (e.g., due to user styling, browser performance variations, or future changes to CSS), animations could become janky or out of sync, leading to visual glitches.
-    *   **File:** `script.js`
-    *   **Snippet:**
-        ```javascript
-        setTimeout(() => {
-            // ...
-        }, 150); // Crucial: the JS interval (150ms) must be greater than the CSS animation duration (--flap-speed: 0.15s)
-        ```
 
 **Performance / UX Risks:**
 

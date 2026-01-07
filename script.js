@@ -80,6 +80,7 @@ class FlapUnit {
         this.bottomContent = this.element.querySelector('.bottom .card-content');
         this.frontContent = this.element.querySelector('.flap.front .card-content');
         this.backContent = this.element.querySelector('.flap.back .card-content');
+        this.backFlap = this.element.querySelector('.flap.back');
         parentElement.appendChild(this.element);
     }
 
@@ -175,31 +176,72 @@ class FlapUnit {
     }
 
     step() {
+        if (this.pointer === this.targetPointer) {
+            this.isAnimating = false;
+            return;
+        }
+
         let currentData = this.physicalList[this.pointer];
         this.pointer = (this.pointer + 1) % this.physicalList.length;
         let nextData = this.physicalList[this.pointer];
 
+        // Reset state and force reflow to allow re-triggering the same animation
         this.element.classList.remove('flipping');
-        void this.element.offsetWidth; // Force Reflow
-        this.isAnimating = true;
-        this.element.classList.add('flipping');
+        void this.element.offsetWidth;
 
+        this.isAnimating = true;
+
+        // Prepare contents for the animation cycle
         this.renderTo(this.topContent, nextData);
         this.renderTo(this.bottomContent, currentData);
         this.renderTo(this.frontContent, currentData);
         this.renderTo(this.backContent, nextData);
 
-        setTimeout(() => {
+        // Start the CSS animation
+        this.element.classList.add('flipping');
+
+        /**
+         * Robust cleanup using animationend.
+         * We listen to the back flap's animation as it's the final stage of the visual sequence.
+         */
+        let finished = false;
+
+        const onAnimationFinish = (e) => {
+            if (finished) return;
+            // Ensure we only respond to the main animation on this element
+            if (e && e.animationName && e.animationName !== 'flip-down-back') return;
+
+            finished = true;
+            if (this.backFlap) this.backFlap.removeEventListener('animationend', onAnimationFinish);
+            clearTimeout(fallbackTimeout);
+
+            // Finish state: set static parts to new data
             this.element.classList.remove('flipping');
             this.renderTo(this.frontContent, nextData);
             this.renderTo(this.bottomContent, nextData);
 
+            // Recursively step if target hasn't been reached
             if (this.pointer !== this.targetPointer) {
                 requestAnimationFrame(() => this.step());
             } else {
                 this.isAnimating = false;
             }
-        }, 150); // Crucial: the JS interval (150ms) must be greater than the CSS animation duration (--flap-speed: 0.15s)
+        };
+
+        if (this.backFlap) {
+            this.backFlap.addEventListener('animationend', onAnimationFinish);
+        } else {
+            // Fallback if DOM is broken
+            onAnimationFinish();
+            return;
+        }
+
+        /**
+         * Safety fallback: in case animationend never fires (e.g. background tab or animations disabled).
+         * We use a duration longer than the default 150ms. 
+         * 1000ms is a safe catch-all that doesn't impact normal high-speed flipping.
+         */
+        const fallbackTimeout = setTimeout(onAnimationFinish, 1000);
     }
 }
 
