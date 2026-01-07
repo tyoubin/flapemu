@@ -139,14 +139,7 @@ This section details an analysis of the codebase conducted by a Gemini agent, id
     *   **File:** `script.js`
     *   **Snippet (examples):** Global variables at the top, large `fetchData` function.
 
-7.  **Inaccurate `adjustColumnWidth` for Diverse Unicode:**
-    *   **Description:** The `adjustColumnWidth` function attempts to calculate the visual length of text by assigning `0.6` width units to ASCII characters and `1.0` to others (presumably CJK characters). This simplified model, while generally effective for typical Japanese/English text, might not be perfectly accurate for all possible Unicode characters or specific font renderings. This could lead to minor, subtle misalignments in column widths for very diverse text content.
-    *   **File:** `script.js`
-    *   **Snippet:**
-        ```javascript
-        if (char.charCodeAt(0) < 128) visualLength += 0.6;
-        else visualLength += 1;
-        ```
+
 
 8.  **`createPhysicalList` Redundant Blank Handling:**
     *   **Description:** The `createPhysicalList` function initializes its internal `list` with `BLANK_DATA` at index 0 and then uses a `processItems` helper that explicitly skips items where `item.local.trim() === ""`. While not a critical bug, the logic for managing and padding with blank cards could be slightly streamlined or made more explicit to avoid minor inefficiencies or potential confusion.

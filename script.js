@@ -497,9 +497,18 @@ async function fetchData() {
                 const text = item.local || "";
                 let visualLength = 0;
                 for (let char of text) {
-                    // ASCII=0.6，Others=1.0
-                    if (char.charCodeAt(0) < 128) visualLength += 0.6;
-                    else visualLength += 1;
+                    const code = char.charCodeAt(0);
+                    // ASCII=0.6, Latin-1 Letters/Ext=0.6, Half-width Katakana=0.6, Others=1.0
+                    // Ranges:
+                    // < 128: ASCII
+                    // C0-FF: Latin-1 Letters
+                    // 0100-024F: Latin Extended A/B
+                    // FF61-FF9F: Half-width Katakana
+                    if (code < 128 || (code >= 0xC0 && code <= 0x024F) || (code >= 0xFF61 && code <= 0xFF9F)) {
+                        visualLength += 0.6;
+                    } else {
+                        visualLength += 1;
+                    }
                 }
                 if (visualLength > maxLen) maxLen = visualLength;
             });
