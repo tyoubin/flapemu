@@ -52,6 +52,7 @@ Each character or word block is a `FlapUnit` class.
 *   **Animation:** Controlled via CSS `@keyframes` (`flip-down-front`, `flip-down-back`).
 *   **Sync Logic:** JS timing is decoupled from CSS durations. It uses `animationend` event listeners on the `.flap.back` element to trigger subsequent steps in the spool sequence.
 *   **Lighting:** CSS `filter: brightness()` and `contrast()` are keyed to the animation frames to simulate specular highlights as the card rotates.
+*   **Glossiness:** Uses a flat card design with environmental glare (top-left light source) and an `inset` box-shadow on the unit to simulate a retracted/sunken physical mounting.
 
 ### 3.3. Auto-Layout System
 The board adapts to different text lengths defined in the JSON.
@@ -116,7 +117,7 @@ Data files are located in `timetable/*.json`. Example:
 
 1.  **Do not use `innerHTML` on the whole board:** When updating, we only update the *target state* of the `FlapUnit`. Rebuilding DOM kills the animation.
 2.  **Performance:** `ROW_COUNT` is currently capped (e.g., 3 or 6) to maintain framerates on mobile devices during heavy flipping.
-3.  **Skeuomorphism:** The `::after` (thickness) and `::before` (shadow) pseudo-elements on `.flap-unit` are critical for the 3D feel. Do not remove them for "cleanliness".
+3.  **Skeuomorphism:** The `::after` pulse (simulating card thickness during flip) and the `.flap-unit::before` inset shadow (simulating the retracted bezel) are critical for the 3D photorealistic feel. Do not remove them for "cleanliness".
 4.  **Language:** The HTML tag is set to `lang="en"`, but CSS font stacks prioritize CJK fonts to ensure correct glyph rendering (preventing Han Unification issues).
 
 ## 7. URL Parameters
