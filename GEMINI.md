@@ -4,7 +4,7 @@
 
 This project is an emulator for split-flap displays, often seen in train stations and airports. It dynamically loads timetable data from pre-defined data and visually simulates the iconic flap animation to display schedules. It relies heavily on **Skeuomorphism** (simulating physical mechanics) and **CSS 3D Transforms**. The architecture follows the **KISS principle** (Keep It Simple, Stupid). Do not introduce frameworks (React, Vue, etc.) or build steps (Webpack, TS) unless explicitly requested.
 
-This document is an overview of the current situation. Agent does not need to keep the information for old bugs etc, if the bug has been fixed. Git history is available for reference.
+This document is an overview of the current situation. Agent does not need to keep the information for old bugs etc, if the bug has been fixed. Git history is available for reference. Agent shall update this document when necessary.
 
 ---
 
