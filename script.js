@@ -26,15 +26,15 @@ const ROW_COUNT = 3;
  * Ensures uniqueness and maintains order (Presets first, then new schedule items)
  */
 function createPhysicalList(presetList, actualList, capacity) {
-    let list = [BLANK_DATA]; // Index 0 is always blank
-    const seenLocals = new Set(); // To track duplicates based on 'local' string
+    const seenLocals = new Set([BLANK_DATA.local]); // Index 0 is always blank
+    let list = [{ ...BLANK_DATA }];
 
     // Helper to process and append items
     const processItems = (sourceArray) => {
         if (!Array.isArray(sourceArray)) return;
         sourceArray.forEach(item => {
             // Only add valid items that haven't been added yet
-            // Skip " " blanks here, they are handled by padding later
+            // Blank items (as defined in BLANK_DATA or empty/whitespace) are skipped here
             if (item && item.local && item.local.trim() !== "" && !seenLocals.has(item.local)) {
                 seenLocals.add(item.local);
                 list.push({
@@ -72,11 +72,11 @@ function mergeIntoPhysicalList(currentList, presetList, actualList, capacity) {
     const tryAddItem = (item) => {
         if (item && item.local && item.local.trim() !== "" && !existingLocals.has(item.local)) {
             // Find a blank slot to overwrite
-            // We search for " " local.
+            // We search for BLANK_DATA.local
             // Note: We avoid overwriting if the list is full, but we prioritize filling blanks.
-            let slotIndex = currentList.findIndex(i => i.local === " ");
+            let slotIndex = currentList.findIndex(i => i.local === BLANK_DATA.local);
 
-            if (slotIndex !== -1) {
+            if (slotIndex !== -1 && slotIndex !== 0) { // Never overwrite the very first blank card
                 currentList[slotIndex] = {
                     local: item.local,
                     en: item.en,
@@ -195,9 +195,9 @@ class FlapUnit {
             if (nextIndex === -1) nextIndex = 0;
         } else {
             // Word
-            const targetLocal = val ? val.local : " ";
+            const targetLocal = (val && val.local) ? val.local : BLANK_DATA.local;
 
-            if (targetLocal === " " || targetLocal === "") {
+            if (targetLocal === BLANK_DATA.local || targetLocal === "") {
                 nextIndex = 0; // Default blank
             } else {
                 // 1. Search in the pre-built physical list
