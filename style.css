@@ -195,6 +195,21 @@ body {
     border-radius: 2px;
 }
 
+/* Retracted/Inward effect: An overlay shadow that simulates the card being "inside" */
+.flap-unit::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 10;
+    /* Highest static Z-index, but below thickness pulse */
+    border-radius: 2px;
+    box-shadow: inset 1px 1px 3px rgba(0, 0, 0, 0.8), inset -0.5px -0.5px 2px rgba(255, 255, 255, 0.1);
+    pointer-events: none;
+}
+
 .flap-char {
     width: var(--char-width);
     height: var(--char-height);
@@ -225,6 +240,7 @@ body {
 }
 
 /* Lighting and shadow */
+/* Lighting and Glare (Flat Design) */
 .top::after,
 .flap.front::after {
     content: '';
@@ -233,7 +249,8 @@ body {
     left: 0;
     width: 100%;
     height: 100%;
-    background-image: linear-gradient(to bottom, rgba(255, 255, 255, 0.15), transparent);
+    /* Slight glare from top-left */
+    background: linear-gradient(145deg, rgba(255, 255, 255, 0.08) 0%, rgba(255, 255, 255, 0) 45%);
     pointer-events: none;
 }
 
@@ -245,17 +262,12 @@ body {
     left: 0;
     width: 100%;
     height: 100%;
-    background-image: linear-gradient(to bottom, transparent, rgba(0, 0, 0, 0.3));
+    /* Very subtle shadow for bottom half to distinguish split */
+    background: rgba(0, 0, 0, 0.05);
     pointer-events: none;
 }
 
-/* Disable the gradient for the 'type' column. They are typically colored cards */
-.col-type .top::after,
-.col-type .bottom::after,
-.col-type .flap.front::after,
-.col-type .flap.back::after {
-    display: none;
-}
+
 
 /* Content container */
 .flap-unit .card-content {
