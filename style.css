@@ -103,7 +103,10 @@ body {
 }
 
 .header-row .col-plat,
+.header-row .col-type,
 .header-row .col-no,
+.header-row .col-time,
+.header-row .col-dest,
 .header-row .col-remarks,
 .header-row .col-stop {
     align-items: flex-start;
