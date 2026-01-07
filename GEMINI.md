@@ -128,33 +128,17 @@ This section details an analysis of the codebase conducted by a Gemini agent, id
 
 ### Identified Problems and Risks:
 
-**Bugs / High Risks:**
+**Fixed / Resolved Issues:**
 
-1.  **FlapUnit.setTarget Data Overwrite:**
-    *   **Description:** The "Safety Fallback" logic within `FlapUnit.setTarget` dynamically injects new words into `this.physicalList` if they are not found. This can lead to overwriting existing, potentially valid, non-blank entries if the list capacity or available blank slots are insufficient. This is the most critical identified bug, directly impacting data integrity and display accuracy.
-    *   **File:** `script.js`
-    *   **Snippet:**
-        ```javascript
-        // Original problematic section in FlapUnit.setTarget:
-        if (nextIndex === -1) {
-            let freeSlotIndex = this.physicalList.findIndex((item, idx) => item.local === " " && idx !== 0);
-            if (freeSlotIndex === -1) {
-                freeSlotIndex = (this.pointer + 5) % this.physicalList.length;
-                if (freeSlotIndex === 0) freeSlotIndex = 1;
-            }
-            this.physicalList[freeSlotIndex] = { ... }; // Overwrites
-            nextIndex = freeSlotIndex;
-        }
-        ```
-    *   **Revised Analysis and Proposed Solution (2025-12-28):**
-        Further analysis revealed that `createPhysicalList` (the "spool making function") is only called during the initial setup (`isInitialized = false`) when `TrainGroup` and `WordFlap` instances are first created. It is *not* called on subsequent `fetchData` cycles (which occur every 30 seconds). Therefore, the `physicalList` within each `WordFlap` instance is static after initialization and does not automatically update to include new words introduced in later schedule fetches.
-        The "Safety Fallback" was a risky attempt to address this, but it led to data corruption. A more robust solution is required:
-        **Proposed Solution:**
-        1.  **Refactor `getCap`:** Move `getCap` to the global scope to make it accessible for recalculating capacity.
-        2.  **Create `mergeIntoPhysicalList` utility:** A new function to safely merge new unique words from the latest `presets` and `scheduleData` into an existing `WordFlap`'s `physicalList` without duplicates, while respecting capacity.
-        3.  **Add `updatePhysicalLists` to `TrainGroup`:** A new method in `TrainGroup` to orchestrate calling `mergeIntoPhysicalList` for all its `WordFlap` instances.
-        4.  **Call `TrainGroup.updatePhysicalLists` in `fetchData`:** After `fetchData` retrieves new data, if `isInitialized` is `true`, iterate through all `TrainGroup` instances and call their `updatePhysicalLists` method.
-        5.  **Finalize `FlapUnit.setTarget` fix:** Once `physicalList` is guaranteed to be updated, the dynamic injection logic in `FlapUnit.setTarget` can be safely removed. Any word not found at that point can then reliably default to blank or log an error.
+1.  **[FIXED] FlapUnit.setTarget Data Overwrite:**
+    *   **Description:** The "Safety Fallback" logic within `FlapUnit.setTarget` was causing data overwrite. A dangerous fallback dynamically injected new words into `this.physicalList` if not found, potentially overwriting valid entries.
+    *   **Resolution (2025-01-07):**
+        *   Refactored `script.js` to include a `mergeIntoPhysicalList` utility that proactively merges new schedule data into the existing physical list without overwriting valid data.
+        *   Added `TrainGroup.updatePhysicalLists` to orchestrate this update on every `fetchData` cycle.
+        *   Removed the dangerous fallback from `FlapUnit.setTarget`. Now it logs a warning and defaults to blank if a target is missing (which is prevented by the proactive update).
+    *   **Status:** Resolved. Verified manually.
+
+**Bugs / High Risks:**
 
 **Maintainability / Minor Risks:**
 

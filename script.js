@@ -62,6 +62,66 @@ function createPhysicalList(presetList, actualList, capacity) {
     return list.slice(0, capacity);
 }
 
+/**
+ * Merge Into Physical List
+ * Updates an existing list with new items, using available blank slots
+ */
+function mergeIntoPhysicalList(currentList, presetList, actualList, capacity) {
+    const existingLocals = new Set(currentList.map(i => i.local));
+
+    const tryAddItem = (item) => {
+        if (item && item.local && item.local.trim() !== "" && !existingLocals.has(item.local)) {
+            // Find a blank slot to overwrite
+            // We search for " " local.
+            // Note: We avoid overwriting if the list is full, but we prioritize filling blanks.
+            let slotIndex = currentList.findIndex(i => i.local === " ");
+
+            if (slotIndex !== -1) {
+                currentList[slotIndex] = {
+                    local: item.local,
+                    en: item.en,
+                    color: item.color || "#202020",
+                    textColor: item.textColor || "#f5f5f5"
+                };
+                existingLocals.add(item.local);
+            } else if (currentList.length < capacity) {
+                currentList.push({
+                    local: item.local,
+                    en: item.en,
+                    color: item.color || "#202020",
+                    textColor: item.textColor || "#f5f5f5"
+                });
+                existingLocals.add(item.local);
+            }
+        }
+    };
+
+    if (presetList) presetList.forEach(tryAddItem);
+    if (actualList) actualList.forEach(tryAddItem);
+
+    // Expand to capacity if needed
+    while (currentList.length < capacity) {
+        currentList.push({ ...BLANK_DATA });
+    }
+}
+
+/**
+ * Dynamic Capacity Helper
+ */
+const getCap = (presets, actuals) => {
+    // Deduplication
+    const uniqueItems = new Set();
+    if (presets) presets.forEach(p => uniqueItems.add(p.local));
+    if (actuals) actuals.forEach(a => uniqueItems.add(a.local));
+    const uniqueCount = uniqueItems.size;
+
+    // add 15 blank cards
+    let cap = uniqueCount + 15;
+
+    // hard limit, ensure visual effect and not too long duration
+    return Math.min(Math.max(cap, 40), 80);
+};
+
 class FlapUnit {
     constructor(parentElement, cssClass, type) {
         this.element = document.createElement('div');
@@ -144,27 +204,10 @@ class FlapUnit {
                 // Since we merged presets and actuals during init, it SHOULD be here.
                 nextIndex = this.physicalList.findIndex(item => item.local === targetLocal);
 
-                // 2. Safety Fallback: If still not found (e.g. data changed after init), inject dynamically
+                // 2. Safety Fallback: Default to blank if not found
                 if (nextIndex === -1) {
-                    let freeSlotIndex = this.physicalList.findIndex((item, idx) => item.local === " " && idx !== 0);
-
-                    if (freeSlotIndex === -1) {
-                        freeSlotIndex = (this.pointer + 5) % this.physicalList.length;
-                        if (freeSlotIndex === 0) freeSlotIndex = 1;
-                    }
-
-                    this.physicalList[freeSlotIndex] = {
-                        local: val.local,
-                        en: val.en,
-                        color: val.color || "#202020",
-                        textColor: val.textColor || "#f5f5f5"
-                    };
-                    nextIndex = freeSlotIndex;
-                } else {
-                    // Update style just in case
-                    let item = this.physicalList[nextIndex];
-                    if (val.color && item.color !== val.color) item.color = val.color;
-                    if (val.textColor && item.textColor !== val.textColor) item.textColor = val.textColor;
+                    console.warn(`[FlapUnit] Target '${targetLocal}' not found in physical list. Defaulting to blank.`);
+                    nextIndex = 0;
                 }
             }
         }
@@ -265,6 +308,10 @@ class WordFlap extends FlapUnit {
         this.renderTo(this.topContent, this.physicalList[0]);
         this.renderTo(this.bottomContent, this.physicalList[0]);
     }
+
+    updateList(presetList, actualList, capacity) {
+        mergeIntoPhysicalList(this.physicalList, presetList, actualList, capacity);
+    }
 }
 
 // ================= 4. ROW MANAGEMENT =================
@@ -294,21 +341,7 @@ class TrainGroup {
         const actualDests = extractActuals('destination');
         const actualRemarks = extractActuals('remarks');
         const actualStops = extractActuals('stops_at');
-        // Dynamic Capacity Helper
-        const getCap = (presets, actuals) => {
-            // Deduplication
-            const uniqueItems = new Set();
-            if (presets) presets.forEach(p => uniqueItems.add(p.local));
-            if (actuals) actuals.forEach(a => uniqueItems.add(a.local));
-            const uniqueCount = uniqueItems.size;
 
-            // add 15 blank cards
-            let cap = uniqueCount + 15;
-
-            // hard limit, ensure visual effect and not too long duration
-
-            return Math.min(Math.max(cap, 40), 80);
-        };
         // --- Init Flap Units ---
 
         this.createCol(this.rowPrimary, 'plat', 'col-plat', () => {
@@ -395,6 +428,34 @@ class TrainGroup {
         const c = this.controllers[key];
         const target = dataObj || BLANK_DATA;
         if (c) c.unit.setTarget(target);
+    }
+
+    updatePhysicalLists(presets, scheduleData) {
+        // Extract all unique objects from schedule
+        const extractActuals = (key) => {
+            if (!scheduleData) return [];
+            return scheduleData.map(item => item[key]).filter(x => x && x.local);
+        };
+
+        const safePresets = presets || {};
+        const actualTypes = extractActuals('type');
+        const actualDests = extractActuals('destination');
+        const actualRemarks = extractActuals('remarks');
+        const actualStops = extractActuals('stops_at');
+
+        // Update each word flap
+        if (this.controllers['type']) {
+            this.controllers['type'].unit.updateList(safePresets.types, actualTypes, getCap(safePresets.types, actualTypes));
+        }
+        if (this.controllers['dest']) {
+            this.controllers['dest'].unit.updateList(safePresets.dests, actualDests, getCap(safePresets.dests, actualDests));
+        }
+        if (this.controllers['remarks']) {
+            this.controllers['remarks'].unit.updateList(safePresets.remarks, actualRemarks, getCap(safePresets.remarks, actualRemarks));
+        }
+        if (this.controllers['stop']) {
+            this.controllers['stop'].unit.updateList(safePresets.stops, actualStops, getCap(safePresets.stops, actualStops));
+        }
     }
 }
 
@@ -491,6 +552,9 @@ async function fetchData() {
                 groups.push(new TrainGroup(rowsContainer, presetsData, scheduleData));
             }
             isInitialized = true;
+        } else {
+            // If already initialized, we must update the physical lists in case new schedule items appeared
+            groups.forEach(g => g.updatePhysicalLists(presetsData, scheduleData));
         }
 
         // --- Process timetable data ---
