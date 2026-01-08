@@ -122,7 +122,7 @@ Data files are located in `timetable/*.json`. Example:
 ## 6. Important Caveats for Future Devs
 
 1.  **Do not use `innerHTML` on the whole board:** When updating, we only update the *target state* of the `FlapUnit`. Rebuilding DOM kills the animation.
-2.  **Performance:** `ROW_COUNT` is currently capped (e.g., 3 or 6) to maintain framerates on mobile devices during heavy flipping.
+2.  **Performance:** `ROW_COUNT` defaults to 3 but can be configured via URL parameter `?rows=N`. Be careful when increasing this number on mobile devices, as many flipping animations can cause GPU bottlenecks.
 3.  **Skeuomorphism:** The `::after` pulse (simulating card thickness during flip) and the `.flap-unit::before` inset shadow (simulating the retracted bezel) are critical for the 3D photorealistic feel. Do not remove them for "cleanliness".
 4.  **Language:** The HTML tag is set to `lang="en"`, but CSS font stacks prioritize CJK fonts to ensure correct glyph rendering (preventing Han Unification issues).
 

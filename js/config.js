@@ -8,4 +8,6 @@ const urlParams = new URLSearchParams(window.location.search);
 export const DATA_SOURCE = urlParams.get('t') ? `./timetable/${urlParams.get('t')}.json` : './timetable/demo.json';
 export const PREVIEW_MODE = urlParams.has('preview');
 
-export const ROW_COUNT = 3;
+// Number of rows to generate (default 3, overridable via ?rows=N)
+const rowsParam = parseInt(urlParams.get('rows'), 10);
+export const ROW_COUNT = (rowsParam > 0) ? rowsParam : 3;

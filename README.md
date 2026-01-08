@@ -34,6 +34,15 @@ You can switch between different timetable files by appending a query parameter 
 *   To load `timetable/tohoku.json`:
     `board.html?t=tohoku`
 
+### Configuring Row Count
+
+You can customize the number of split-flap rows displayed on the board by adding the `rows` parameter (default is 3).
+
+*   To display 6 rows:
+    `board.html?rows=6`
+*   Combine with a timetable:
+    `board.html?t=shinagawa&rows=10`
+
 ### Data Structure
 
 The JSON timetable files follow a specific structure containing station metadata, presets, and a schedule. While you can edit these files manually, it is recommended to use the **Timetable Editor** for a more convenient experience.
