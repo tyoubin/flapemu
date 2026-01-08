@@ -23,14 +23,17 @@ This document is an overview of the current situation. Agent does not need to ke
 ├── index.html          # Portal page (Station selector)
 ├── board.html          # The main simulator view (The Board)
 ├── editor.html         # Timetable Editor interface
-├── style.css           # Global styles (Responsive, Animations, Theming)
-├── script.js           # Core logic (Fetching, Rendering, Animation loop)
+├── main.js             # Entry point (Fetch loop, Layout)
+├── js/                 # ES Modules
+│   ├── config.js       # Configuration & Constants
+│   ├── utils.js        # Helper functions
+│   ├── data-logic.js   # Physical list logic
+│   ├── FlapUnit.js     # Flap animation classes
+│   └── TrainGroup.js   # Row management class
+├── style.css           # Global styles
 ├── editor.css          # Editor-specific styles
 ├── editor.js           # Editor logic (CRUD, Import/Export)
 ├── timetable/          # JSON Data directory
-│   ├── demo.json
-│   ├── shinagawa.json
-│   └── ...
 └── README.md           # User facing documentation
 ```
 
@@ -38,7 +41,7 @@ This document is an overview of the current situation. Agent does not need to ke
 
 ### 3.1. The "Physical Spool" Logic
 Unlike digital displays that change content instantly, this simulator mimics a physical spool of cards.
-*   **Implementation:** `createPhysicalList()` in `script.js`.
+*   **Implementation:** `createPhysicalList()` in `js/data-logic.js`.
 *   **Logic:**
     1.  Loads `presets` from JSON (simulating factory-installed cards).
     2.  Scans the current `schedule` for new values (dynamic injection).
@@ -59,13 +62,13 @@ Each character or word block is a `FlapUnit` class.
 
 ### 3.3. Auto-Layout System
 The board adapts to different text lengths defined in the JSON.
-*   **Logic:** `adjustColumnWidth()` scans all text in `presets` and `schedule`.
-*   **Calculation:** `(VisualLength * Multiplier) + Padding`. ASCII chars count as 0.6 width, CJK chars as 1.0.
+*   **Logic:** `adjustColumnWidth()` (in `main.js`) scans all text in `presets` and `schedule`.
+*   **Calculation:** `(VisualLength * Multiplier) + Padding`. ASCII/Latin/Half-width Katakana count as 0.6 width, CJK chars as 1.0. (Logic in `js/utils.js`)
 *   **Application:** Sets CSS Variables (e.g., `--col-dest-width`) at runtime.
 
 ### 3.4. Sequential Updates
 To prevent GPU bottlenecks on mobile devices:
-*   **Mechanism:** `fetchData` uses `await sleep(1000)` between updating each row (`TrainGroup`).
+*   **Mechanism:** `fetchData` (in `main.js`) uses `await sleep(1000)` between updating each row (`TrainGroup`).
 *   **Effect:** Rows flip in a cascade (Wave effect) rather than all at once.
 
 ## 4. Data Structure (JSON Schema)
@@ -141,18 +144,3 @@ The editor (`editor.html`) provides a visual interface for creating/editing JSON
 *   **Autosave**: Drafts saved to `localStorage` automatically.
 *   **Preview**: Opens `board.html?preview=1` which reads data from `sessionStorage`.
 *   **Export**: Downloads a `.json` file ready to place in `timetable/` directory.
-
-## 9. Gemini Log
-
-This section details an analysis of the codebase conducted by a Gemini agent, identifying potential bugs, performance bottlenecks, and maintainability risks.
-
-### Identified Problems and Risks:
-
-**Bugs / High Risks:**
-
-**Maintainability / Minor Risks:**
-
-6.  **Monolithic `script.js` and Global State:**
-    *   **Description:** The entire core logic of the application resides in a single `script.js` file, with several global variables (`groups`, `isInitialized`, `ROW_COUNT`) and a large `fetchData` function. While currently manageable due to the project's size, this architecture will become a significant maintainability challenge as the project grows, making it harder to debug, add new features, or refactor components without introducing side effects.
-    *   **File:** `script.js`
-    *   **Snippet (examples):** Global variables at the top, large `fetchData` function.
