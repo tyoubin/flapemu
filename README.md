@@ -15,6 +15,7 @@ FlapEmuは、駅や空港に設置されている反転フラップ式案内表�
 *   **Realistic Flap Animation:** Smooth and authentic visual transitions for character and word changes.
 *   **Configurable Timetables:** Easily switch between different schedules by modifying URL parameters or JSON data files.
 *   **Dynamic Data Loading:** Automatically fetches/updates schedule and preset data.
+*   **Timetable Editor:** Allows you to create and edit JSON timetable files with ease.
 
 ## Configuration
 
@@ -35,7 +36,7 @@ You can switch between different timetable files by appending a query parameter 
 
 ### Data Structure
 
-The JSON timetable files should follow a specific structure. An example can be found in `timetable/demo.json`. Each file contains `schedule` (an array of train records) and `presets` (definitions for types, destinations, remarks, and stops).
+The JSON timetable files follow a specific structure containing station metadata, presets, and a schedule. While you can edit these files manually, it is recommended to use the **Timetable Editor** for a more convenient experience.
 
 ## License
 
