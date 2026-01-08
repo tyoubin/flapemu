@@ -144,3 +144,16 @@ The editor (`editor.html`) provides a visual interface for creating/editing JSON
 *   **Autosave**: Drafts saved to `localStorage` automatically.
 *   **Preview**: Opens `board.html?preview=1` which reads data from `sessionStorage`.
 *   **Export**: Downloads a `.json` file ready to place in `timetable/` directory.
+
+## 9. Deployment & Production
+
+When deploying this project for actual use (e.g., Kiosk Mode in a station), **caching must be disabled** to ensure the timetable is always up-to-date.
+
+### 9.1 Data Fetching
+The application is hardcoded to use `fetch(url, { cache: "no-store" })` for the JSON source. This generally ensures browsers always request the latest data file.
+
+### 9.2 Application Caching
+However, browsers may still cache the HTML, CSS, and JS files. To prevent this in production:
+
+1.  **Meta Tags**: `board.html` and `index.html` include `<meta>` tags to discourage caching.
+2.  **Server Configuration (Recommended)**: Configure web server (Nginx, Apache, Netlify, etc.) to send strict cache headers.

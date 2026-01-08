@@ -38,6 +38,13 @@ You can switch between different timetable files by appending a query parameter 
 
 The JSON timetable files follow a specific structure containing station metadata, presets, and a schedule. While you can edit these files manually, it is recommended to use the **Timetable Editor** for a more convenient experience.
 
+## Deployment & Production
+
+When deploying this project for actual use (e.g., Kiosk Mode in a station), **caching must be disabled** to ensure the timetable is always up-to-date.
+
+1.  **Meta Tags**: The application includes `<meta>` tags to discourage caching.
+2.  **Server Configuration (Recommended)**: Configure your web server (Nginx, Apache, Netlify, etc.) to send strict cache headers (e.g., `Cache-Control: no-store, no-cache, must-revalidate`).
+
 ## License
 
 This project is licensed under the MIT License.
