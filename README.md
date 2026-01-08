@@ -10,6 +10,27 @@ FlapEmu is an emulator for split-flap displays, often seen in train stations and
 
 FlapEmuは、駅や空港に設置されている反転フラップ式案内表示機（ソラリーボード）を模したエミュレーターです。定義済みデータソースから時刻表情報を動的に取得し、特徴的なフラップの回転動作を視覚的にシミュレートして描画します。
 
+## File Structure
+
+```text
+/
+├── index.html          # Portal page (Station selector)
+├── board.html          # The main simulator view (The Board)
+├── editor.html         # Timetable Editor interface
+├── main.js             # Entry point (Fetch loop, Layout)
+├── js/                 # ES Modules
+│   ├── config.js       # Configuration & Constants
+│   ├── utils.js        # Helper functions
+│   ├── data-logic.js   # Physical list logic
+│   ├── FlapUnit.js     # Flap animation classes
+│   └── TrainGroup.js   # Row management class
+├── style.css           # Global styles
+├── editor.css          # Editor-specific styles
+├── editor.js           # Editor logic (CRUD, Import/Export)
+├── timetable/          # JSON Data directory
+└── README.md           # User facing documentation
+```
+
 ## Features
 
 *   **Realistic Flap Animation:** Smooth and authentic visual transitions for character and word changes.
@@ -46,6 +67,54 @@ You can customize the number of split-flap rows displayed on the board by adding
 ### Data Structure
 
 The JSON timetable files follow a specific structure containing station metadata, presets, and a schedule. While you can edit these files manually, it is recommended to use the **Timetable Editor** for a more convenient experience.
+
+```json
+{
+  "meta": {
+    "station_name": "Shinagawa",
+    "line_name": "Tokaido Shinkansen"
+  },
+  "presets": {
+    "types": [{ "local": "のぞみ", "en": "NOZOMI", "color": "#f39c12" }],
+    "dests": [{ "local": "東京", "en": "TOKYO" },...],
+    "remarks": [{ "local": "全車指定席", "en": "All Reserved" },...],
+    "stops": [{ "local": "各駅停車", "en": "Stops at All Stations" },...]
+  },
+  "schedule": [
+    {
+      "track_no": "14",
+      "type": { "local": "のぞみ", "en": "NOZOMI" },
+      "type_color_hex": "#f0df23",
+      "type_text_color": "#000000",
+      "train_no": "85",
+      "depart_time": "09:47",
+      "destination": { "local": "広島", "en": "Hiroshima" },
+      "remarks": { "local": "自由席 1-3号車", "en": "Non-ReservedCarNo.1-3" },
+      "stops_at": { "local": "新横浜・名古屋・京都・新大阪・岡山", "en": "Shin-Yokohama, Nagoya, Kyoto, Shin-Osaka, Okayama" }
+    },
+  ]
+}
+```
+*   **Key Note:** `color` applies to the card background. `textColor` applies to the font (default white).
+
+## Timetable Editor
+
+The editor (`editor.html`) provides a visual interface for creating/editing JSON timetables:
+
+*   **Features**: Meta editing, preset management (types/dests/remarks/stops), schedule table with inline editing, color pickers, JSON import/export.
+*   **Autosave**: Drafts saved to `localStorage` automatically.
+*   **Preview**: Opens `board.html?preview=1` which reads data from `sessionStorage`.
+*   **Export**: Downloads a `.json` file ready to place in `timetable/` directory.
+
+## Development
+
+To ensure the latest changes are reflected (especially for developers), use the provided Python development server which strictly disables browser caching via HTTP headers.
+
+*   **Run Server**: `python3 serve.py`
+*   **Port**: `8086`
+*   **URL**: `http://localhost:8086/board.html?t=shinagawa`
+*   **Mechanism**: Sends `Cache-Control: no-cache, no-store, must-revalidate` headers for all files.
+*   `?preview=1`: **Preview Mode** - Loads timetable data from `sessionStorage` instead of fetching JSON. Used by the Timetable Editor's "Preview Board" feature.
 
 ## Deployment & Production
 
