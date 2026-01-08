@@ -39,7 +39,7 @@
             font-size: 1rem;
         }
 
-        /* container forstatsion list */
+        /* container for station list */
         .station-list {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
@@ -167,27 +167,22 @@
     <p class="subtitle">Select a station</p>
 
     <div class="station-list">
-        
-        <a href="board.html" class="station-card mix">
-            <div class="station-name">Demo Station</div>
-            <div class="line-name">Demo Lines</div>
-        </a>
-
         <a href="board.html?t=shinagawa" class="station-card shinkansen">
             <div class="station-name">Shinagawa Demo</div>
             <div class="line-name">Toukaido Shinkansen</div>
         </a>
-
         <a href="board.html?t=kumamoto" class="station-card zairaisen">
             <div class="station-name">Kumamoto Demo</div>
             <div class="line-name">Kyushu Shinkansen & Local Lines</div>
         </a>
-
         <a href="board.html?t=tohoku" class="station-card shinkansen">
             <div class="station-name">Sendai Demo</div>
             <div class="line-name">Tohoku Shinkansen</div>
         </a>
-
+        <a href="board.html" class="station-card mix">
+            <div class="station-name">Edge Case Demo</div>
+            <div class="line-name">With long text and languages</div>
+        </a>
         <a href="editor.html" class="station-card mix" style="border-left-color: #f39c12;">
             <div class="station-name">✏️ Timetable Editor</div>
             <div class="line-name">Create & Edit Schedules</div>
