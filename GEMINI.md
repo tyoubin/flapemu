@@ -22,8 +22,11 @@ This document is an overview of the current situation. Agent does not need to ke
 /
 ├── index.html          # Portal page (Station selector)
 ├── board.html          # The main simulator view (The Board)
+├── editor.html         # Timetable Editor interface
 ├── style.css           # Global styles (Responsive, Animations, Theming)
 ├── script.js           # Core logic (Fetching, Rendering, Animation loop)
+├── editor.css          # Editor-specific styles
+├── editor.js           # Editor logic (CRUD, Import/Export)
 ├── timetable/          # JSON Data directory
 │   ├── demo.json
 │   ├── shinagawa.json
@@ -129,8 +132,18 @@ Data files are located in `timetable/*.json`. Example:
     *   **Assets**: Dynamically appends `?v=timestamp` to `style.css` and `script.js` to bypass browser/proxy caches.
     *   **Propagation**: `index.html` automatically propagates these parameters to all station links.
 *   Example: `board.html?t=kumamoto&nocache=1` loads the board with forced cache-busting.
+*   `?preview=1`: **Preview Mode** - Loads timetable data from `sessionStorage` instead of fetching JSON. Used by the Timetable Editor's "Preview Board" feature.
 
-## 8. Gemini Log
+## 8. Timetable Editor
+
+The editor (`editor.html`) provides a visual interface for creating/editing JSON timetables:
+
+*   **Features**: Meta editing, preset management (types/dests/remarks/stops), schedule table with inline editing, color pickers, JSON import/export.
+*   **Autosave**: Drafts saved to `localStorage` automatically.
+*   **Preview**: Opens `board.html?preview=1` which reads data from `sessionStorage`.
+*   **Export**: Downloads a `.json` file ready to place in `timetable/` directory.
+
+## 9. Gemini Log
 
 This section details an analysis of the codebase conducted by a Gemini agent, identifying potential bugs, performance bottlenecks, and maintainability risks.
 

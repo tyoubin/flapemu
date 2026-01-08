@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FlapEmu - Timetable Editor</title>
+    <link rel="stylesheet" href="editor.css" id="editor-style">
+    <script>
+        // Cache-busting for AI agents and developers
+        (function() {
+            const params = new URLSearchParams(window.location.search);
+            if (params.has('nocache') || params.has('dev')) {
+                const timestamp = Date.now();
+                const style = document.getElementById('editor-style');
+                style.href = style.href.split('?')[0] + '?v=' + timestamp;
+                console.log('[Editor] Cache-busting active (CSS)');
+            }
+        })();
+    </script>
+</head>
+<body>
+    <header class="editor-header">
+        <h1><a href="index.html">FlapEmu</a> / Timetable Editor</h1>
+        <div class="header-actions">
+            <button id="btn-new" class="btn btn-secondary">New</button>
+            <button id="btn-import" class="btn btn-secondary">Import JSON</button>
+            <button id="btn-export" class="btn btn-primary">Export JSON</button>
+            <button id="btn-preview" class="btn btn-accent">Preview Board</button>
+        </div>
+    </header>
+
+    <main class="editor-main">
+        <!-- Meta Section -->
+        <section class="editor-section" id="section-meta">
+            <h2>Station Info</h2>
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="meta-station">Station Name</label>
+                    <input type="text" id="meta-station" placeholder="e.g. 品川">
+                </div>
+                <div class="form-group">
+                    <label for="meta-line">Line Name</label>
+                    <input type="text" id="meta-line" placeholder="e.g. 東海道新幹線">
+                </div>
+            </div>
+        </section>
+
+        <!-- Presets Section -->
+        <section class="editor-section" id="section-presets">
+            <h2>Presets</h2>
+            <div class="presets-tabs">
+                <button class="preset-tab active" data-tab="types">Train Types</button>
+                <button class="preset-tab" data-tab="dests">Destinations</button>
+                <button class="preset-tab" data-tab="remarks">Remarks</button>
+                <button class="preset-tab" data-tab="stops">Stops</button>
+            </div>
+
+            <!-- Types Panel -->
+            <div class="preset-panel active" id="panel-types">
+                <div class="preset-list" id="list-types"></div>
+                <button class="btn btn-add" id="btn-add-type">+ Add Train Type</button>
+            </div>
+
+            <!-- Destinations Panel -->
+            <div class="preset-panel" id="panel-dests">
+                <div class="preset-list" id="list-dests"></div>
+                <button class="btn btn-add" id="btn-add-dest">+ Add Destination</button>
+            </div>
+
+            <!-- Remarks Panel -->
+            <div class="preset-panel" id="panel-remarks">
+                <div class="preset-list" id="list-remarks"></div>
+                <button class="btn btn-add" id="btn-add-remark">+ Add Remark</button>
+            </div>
+
+            <!-- Stops Panel -->
+            <div class="preset-panel" id="panel-stops">
+                <div class="preset-list" id="list-stops"></div>
+                <button class="btn btn-add" id="btn-add-stop">+ Add Stop Pattern</button>
+            </div>
+        </section>
+
+        <!-- Schedule Section -->
+        <section class="editor-section" id="section-schedule">
+            <h2>Schedule <span id="schedule-count">(0 entries)</span></h2>
+            <div class="schedule-table-wrapper">
+                <table class="schedule-table" id="schedule-table">
+                    <thead>
+                        <tr>
+                            <th class="col-actions"></th>
+                            <th class="col-track">Track</th>
+                            <th class="col-type">Type</th>
+                            <th class="col-color">Color</th>
+                            <th class="col-trainno">Train No.</th>
+                            <th class="col-time">Time</th>
+                            <th class="col-dest">Destination</th>
+                            <th class="col-remarks">Remarks</th>
+                            <th class="col-stops">Stops At</th>
+                        </tr>
+                    </thead>
+                    <tbody id="schedule-body">
+                        <!-- Rows added dynamically -->
+                    </tbody>
+                </table>
+            </div>
+            <button class="btn btn-add" id="btn-add-schedule">+ Add Train</button>
+        </section>
+    </main>
+
+    <!-- Modal for editing bilingual text -->
+    <div class="modal-overlay" id="modal-overlay">
+        <div class="modal" id="modal-edit">
+            <div class="modal-header">
+                <h3 id="modal-title">Edit</h3>
+                <button class="modal-close" id="modal-close">&times;</button>
+            </div>
+            <div class="modal-body" id="modal-body">
+                <!-- Dynamic content -->
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" id="modal-cancel">Cancel</button>
+                <button class="btn btn-primary" id="modal-save">Save</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Hidden file input for import -->
+    <input type="file" id="file-input" accept=".json" style="display: none;">
+
+    <script>
+        (function() {
+            const params = new URLSearchParams(window.location.search);
+            const script = document.createElement('script');
+            let src = 'editor.js';
+            if (params.has('nocache') || params.has('dev')) {
+                src += '?v=' + Date.now();
+                console.log('[Editor] Cache-busting active (JS)');
+            }
+            script.src = src;
+            document.body.appendChild(script);
+        })();
+    </script>
+</body>
+</html>

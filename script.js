@@ -13,6 +13,7 @@ const urlParams = new URLSearchParams(window.location.search);
 // Default to reading timetable/demo.json for testing
 const DATA_SOURCE = urlParams.get('t') ? `./timetable/${urlParams.get('t')}.json` : './timetable/demo.json';
 const NO_CACHE = urlParams.has('nocache') || urlParams.has('dev');
+const PREVIEW_MODE = urlParams.has('preview');
 
 // Global variables
 let groups = [];
@@ -465,13 +466,25 @@ const boardEl = document.getElementById('board');
 
 async function fetchData() {
     try {
-        console.log(`[System] Fetching ${DATA_SOURCE}...`);
+        let json;
 
-        const fetchUrl = NO_CACHE ? `${DATA_SOURCE}?cb=${Date.now()}` : DATA_SOURCE;
-        const response = await fetch(fetchUrl, { cache: NO_CACHE ? "no-store" : "default" });
-        if (!response.ok) throw new Error("API Network response was not ok");
-
-        const json = await response.json();
+        // Preview mode: load data from sessionStorage (set by editor)
+        if (PREVIEW_MODE) {
+            const previewData = sessionStorage.getItem('flapemu_preview');
+            if (previewData) {
+                console.log('[System] Loading preview data from editor...');
+                json = JSON.parse(previewData);
+            } else {
+                console.warn('[System] Preview mode but no data found in sessionStorage');
+                return;
+            }
+        } else {
+            console.log(`[System] Fetching ${DATA_SOURCE}...`);
+            const fetchUrl = NO_CACHE ? `${DATA_SOURCE}?cb=${Date.now()}` : DATA_SOURCE;
+            const response = await fetch(fetchUrl, { cache: NO_CACHE ? "no-store" : "default" });
+            if (!response.ok) throw new Error("API Network response was not ok");
+            json = await response.json();
+        }
 
         // Parse data
         const scheduleData = Array.isArray(json) ? json : json.schedule;

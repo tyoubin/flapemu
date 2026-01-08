@@ -187,6 +187,11 @@
             <div class="station-name">Sendai Demo</div>
             <div class="line-name">Tohoku Shinkansen</div>
         </a>
+
+        <a href="editor.html" class="station-card mix" style="border-left-color: #f39c12;">
+            <div class="station-name">✏️ Timetable Editor</div>
+            <div class="line-name">Create & Edit Schedules</div>
+        </a>
     </div>
     <div class="intro-section">
         <h2>About FlapEmu</h2>
@@ -220,7 +225,7 @@
         (function() {
             const params = new URLSearchParams(window.location.search);
             if (params.has('nocache') || params.has('dev')) {
-                const links = document.querySelectorAll('a[href^="board.html"]');
+                const links = document.querySelectorAll('a[href^="board.html"], a[href^="editor.html"]');
                 links.forEach(link => {
                     const url = new URL(link.href, window.location.href);
                     if (params.has('nocache')) url.searchParams.set('nocache', '1');
