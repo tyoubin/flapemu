@@ -1,7 +1,7 @@
 {
   "meta": {
     "station_name": "FlapEmu",
-    "line_name": "色々線 東西方面"
+    "line_name": "Demo線 東西方面"
   },
   "presets": {
     "types": [
@@ -590,29 +590,6 @@
       }
     },
     {
-      "track_no": "23",
-      "type": {
-        "local": "ORIENT EXPRESS",
-        "en": ""
-      },
-      "type_color_hex": "#c6513b",
-      "type_text_color": "#ffffff",
-      "train_no": "999",
-      "depart_time": "07:55",
-      "destination": {
-        "local": "上野",
-        "en": "Ueno"
-      },
-      "remarks": {
-        "local": "Nostalgic Constantinopolis Orient-Express",
-        "en": "NCOE"
-      },
-      "stops_at": {
-        "local": "Warszawa・Κωνσταντινούπολις・Екатеринбург・北京・東京",
-        "en": "Warsaw, Kōnstantinoupolis, Yekaterinburg, Beijing, Tokyo"
-      }
-    },
-    {
       "track_no": "4",
       "type": {
         "local": "Commuter",
@@ -1093,29 +1070,6 @@
       "stops_at": {
         "local": "",
         "en": ""
-      }
-    },
-    {
-      "track_no": "23",
-      "type": {
-        "local": "ORIENT EXPRESS",
-        "en": ""
-      },
-      "type_color_hex": "#c6513b",
-      "type_text_color": "#ffffff",
-      "train_no": "999",
-      "depart_time": "08:55",
-      "destination": {
-        "local": "上野",
-        "en": "Ueno"
-      },
-      "remarks": {
-        "local": "Nostalgic Constantinopolis Orient-Express",
-        "en": "NCOE"
-      },
-      "stops_at": {
-        "local": "Warszawa・Κωνσταντινούπολις・Екатеринбург・北京・東京",
-        "en": "Warsaw, Kōnstantinoupolis, Yekaterinburg, Beijing, Tokyo"
       }
     },
     {
@@ -1602,29 +1556,6 @@
       }
     },
     {
-      "track_no": "23",
-      "type": {
-        "local": "ORIENT EXPRESS",
-        "en": ""
-      },
-      "type_color_hex": "#c6513b",
-      "type_text_color": "#ffffff",
-      "train_no": "999",
-      "depart_time": "09:55",
-      "destination": {
-        "local": "上野",
-        "en": "Ueno"
-      },
-      "remarks": {
-        "local": "Nostalgic Constantinopolis Orient-Express",
-        "en": "NCOE"
-      },
-      "stops_at": {
-        "local": "Warszawa・Κωνσταντινούπολις・Екатеринбург・北京・東京",
-        "en": "Warsaw, Kōnstantinoupolis, Yekaterinburg, Beijing, Tokyo"
-      }
-    },
-    {
       "track_no": "4",
       "type": {
         "local": "Commuter",
@@ -2105,29 +2036,6 @@
       "stops_at": {
         "local": "",
         "en": ""
-      }
-    },
-    {
-      "track_no": "23",
-      "type": {
-        "local": "ORIENT EXPRESS",
-        "en": ""
-      },
-      "type_color_hex": "#c6513b",
-      "type_text_color": "#ffffff",
-      "train_no": "999",
-      "depart_time": "10:55",
-      "destination": {
-        "local": "上野",
-        "en": "Ueno"
-      },
-      "remarks": {
-        "local": "Nostalgic Constantinopolis Orient-Express",
-        "en": "NCOE"
-      },
-      "stops_at": {
-        "local": "Warszawa・Κωνσταντινούπολις・Екатеринбург・北京・東京",
-        "en": "Warsaw, Kōnstantinoupolis, Yekaterinburg, Beijing, Tokyo"
       }
     },
     {
@@ -2614,29 +2522,6 @@
       }
     },
     {
-      "track_no": "23",
-      "type": {
-        "local": "ORIENT EXPRESS",
-        "en": ""
-      },
-      "type_color_hex": "#c6513b",
-      "type_text_color": "#ffffff",
-      "train_no": "999",
-      "depart_time": "11:55",
-      "destination": {
-        "local": "上野",
-        "en": "Ueno"
-      },
-      "remarks": {
-        "local": "Nostalgic Constantinopolis Orient-Express",
-        "en": "NCOE"
-      },
-      "stops_at": {
-        "local": "Warszawa・Κωνσταντινούπολις・Екатеринбург・北京・東京",
-        "en": "Warsaw, Kōnstantinoupolis, Yekaterinburg, Beijing, Tokyo"
-      }
-    },
-    {
       "track_no": "4",
       "type": {
         "local": "Commuter",
@@ -3117,29 +3002,6 @@
       "stops_at": {
         "local": "",
         "en": ""
-      }
-    },
-    {
-      "track_no": "23",
-      "type": {
-        "local": "ORIENT EXPRESS",
-        "en": ""
-      },
-      "type_color_hex": "#c6513b",
-      "type_text_color": "#ffffff",
-      "train_no": "999",
-      "depart_time": "12:55",
-      "destination": {
-        "local": "上野",
-        "en": "Ueno"
-      },
-      "remarks": {
-        "local": "Nostalgic Constantinopolis Orient-Express",
-        "en": "NCOE"
-      },
-      "stops_at": {
-        "local": "Warszawa・Κωνσταντινούπολις・Екатеринбург・北京・東京",
-        "en": "Warsaw, Kōnstantinoupolis, Yekaterinburg, Beijing, Tokyo"
       }
     },
     {
@@ -3626,29 +3488,6 @@
       }
     },
     {
-      "track_no": "23",
-      "type": {
-        "local": "ORIENT EXPRESS",
-        "en": ""
-      },
-      "type_color_hex": "#c6513b",
-      "type_text_color": "#ffffff",
-      "train_no": "999",
-      "depart_time": "13:55",
-      "destination": {
-        "local": "上野",
-        "en": "Ueno"
-      },
-      "remarks": {
-        "local": "Nostalgic Constantinopolis Orient-Express",
-        "en": "NCOE"
-      },
-      "stops_at": {
-        "local": "Warszawa・Κωνσταντινούπολις・Екатеринбург・北京・東京",
-        "en": "Warsaw, Kōnstantinoupolis, Yekaterinburg, Beijing, Tokyo"
-      }
-    },
-    {
       "track_no": "4",
       "type": {
         "local": "Commuter",
@@ -4129,29 +3968,6 @@
       "stops_at": {
         "local": "",
         "en": ""
-      }
-    },
-    {
-      "track_no": "23",
-      "type": {
-        "local": "ORIENT EXPRESS",
-        "en": ""
-      },
-      "type_color_hex": "#c6513b",
-      "type_text_color": "#ffffff",
-      "train_no": "999",
-      "depart_time": "14:55",
-      "destination": {
-        "local": "上野",
-        "en": "Ueno"
-      },
-      "remarks": {
-        "local": "Nostalgic Constantinopolis Orient-Express",
-        "en": "NCOE"
-      },
-      "stops_at": {
-        "local": "Warszawa・Κωνσταντινούπολις・Екатеринбург・北京・東京",
-        "en": "Warsaw, Kōnstantinoupolis, Yekaterinburg, Beijing, Tokyo"
       }
     },
     {
@@ -4638,29 +4454,6 @@
       }
     },
     {
-      "track_no": "23",
-      "type": {
-        "local": "ORIENT EXPRESS",
-        "en": ""
-      },
-      "type_color_hex": "#c6513b",
-      "type_text_color": "#ffffff",
-      "train_no": "999",
-      "depart_time": "15:55",
-      "destination": {
-        "local": "上野",
-        "en": "Ueno"
-      },
-      "remarks": {
-        "local": "Nostalgic Constantinopolis Orient-Express",
-        "en": "NCOE"
-      },
-      "stops_at": {
-        "local": "Warszawa・Κωνσταντινούπολις・Екатеринбург・北京・東京",
-        "en": "Warsaw, Kōnstantinoupolis, Yekaterinburg, Beijing, Tokyo"
-      }
-    },
-    {
       "track_no": "4",
       "type": {
         "local": "Commuter",
@@ -5141,29 +4934,6 @@
       "stops_at": {
         "local": "",
         "en": ""
-      }
-    },
-    {
-      "track_no": "23",
-      "type": {
-        "local": "ORIENT EXPRESS",
-        "en": ""
-      },
-      "type_color_hex": "#c6513b",
-      "type_text_color": "#ffffff",
-      "train_no": "999",
-      "depart_time": "16:55",
-      "destination": {
-        "local": "上野",
-        "en": "Ueno"
-      },
-      "remarks": {
-        "local": "Nostalgic Constantinopolis Orient-Express",
-        "en": "NCOE"
-      },
-      "stops_at": {
-        "local": "Warszawa・Κωνσταντινούπολις・Екатеринбург・北京・東京",
-        "en": "Warsaw, Kōnstantinoupolis, Yekaterinburg, Beijing, Tokyo"
       }
     },
     {
@@ -5650,29 +5420,6 @@
       }
     },
     {
-      "track_no": "23",
-      "type": {
-        "local": "ORIENT EXPRESS",
-        "en": ""
-      },
-      "type_color_hex": "#c6513b",
-      "type_text_color": "#ffffff",
-      "train_no": "999",
-      "depart_time": "17:55",
-      "destination": {
-        "local": "上野",
-        "en": "Ueno"
-      },
-      "remarks": {
-        "local": "Nostalgic Constantinopolis Orient-Express",
-        "en": "NCOE"
-      },
-      "stops_at": {
-        "local": "Warszawa・Κωνσταντινούπολις・Екатеринбург・北京・東京",
-        "en": "Warsaw, Kōnstantinoupolis, Yekaterinburg, Beijing, Tokyo"
-      }
-    },
-    {
       "track_no": "4",
       "type": {
         "local": "Commuter",
@@ -6153,29 +5900,6 @@
       "stops_at": {
         "local": "",
         "en": ""
-      }
-    },
-    {
-      "track_no": "23",
-      "type": {
-        "local": "ORIENT EXPRESS",
-        "en": ""
-      },
-      "type_color_hex": "#c6513b",
-      "type_text_color": "#ffffff",
-      "train_no": "999",
-      "depart_time": "18:55",
-      "destination": {
-        "local": "上野",
-        "en": "Ueno"
-      },
-      "remarks": {
-        "local": "Nostalgic Constantinopolis Orient-Express",
-        "en": "NCOE"
-      },
-      "stops_at": {
-        "local": "Warszawa・Κωνσταντινούπολις・Екатеринбург・北京・東京",
-        "en": "Warsaw, Kōnstantinoupolis, Yekaterinburg, Beijing, Tokyo"
       }
     },
     {
@@ -6662,29 +6386,6 @@
       }
     },
     {
-      "track_no": "23",
-      "type": {
-        "local": "ORIENT EXPRESS",
-        "en": ""
-      },
-      "type_color_hex": "#c6513b",
-      "type_text_color": "#ffffff",
-      "train_no": "999",
-      "depart_time": "19:55",
-      "destination": {
-        "local": "上野",
-        "en": "Ueno"
-      },
-      "remarks": {
-        "local": "Nostalgic Constantinopolis Orient-Express",
-        "en": "NCOE"
-      },
-      "stops_at": {
-        "local": "Warszawa・Κωνσταντινούπολις・Екатеринбург・北京・東京",
-        "en": "Warsaw, Kōnstantinoupolis, Yekaterinburg, Beijing, Tokyo"
-      }
-    },
-    {
       "track_no": "4",
       "type": {
         "local": "Commuter",
@@ -7165,29 +6866,6 @@
       "stops_at": {
         "local": "",
         "en": ""
-      }
-    },
-    {
-      "track_no": "23",
-      "type": {
-        "local": "ORIENT EXPRESS",
-        "en": ""
-      },
-      "type_color_hex": "#c6513b",
-      "type_text_color": "#ffffff",
-      "train_no": "999",
-      "depart_time": "20:55",
-      "destination": {
-        "local": "上野",
-        "en": "Ueno"
-      },
-      "remarks": {
-        "local": "Nostalgic Constantinopolis Orient-Express",
-        "en": "NCOE"
-      },
-      "stops_at": {
-        "local": "Warszawa・Κωνσταντινούπολις・Екатеринбург・北京・東京",
-        "en": "Warsaw, Kōnstantinoupolis, Yekaterinburg, Beijing, Tokyo"
       }
     },
     {
@@ -7674,29 +7352,6 @@
       }
     },
     {
-      "track_no": "23",
-      "type": {
-        "local": "ORIENT EXPRESS",
-        "en": ""
-      },
-      "type_color_hex": "#c6513b",
-      "type_text_color": "#ffffff",
-      "train_no": "999",
-      "depart_time": "21:55",
-      "destination": {
-        "local": "上野",
-        "en": "Ueno"
-      },
-      "remarks": {
-        "local": "Nostalgic Constantinopolis Orient-Express",
-        "en": "NCOE"
-      },
-      "stops_at": {
-        "local": "Warszawa・Κωνσταντινούπολις・Екатеринбург・北京・東京",
-        "en": "Warsaw, Kōnstantinoupolis, Yekaterinburg, Beijing, Tokyo"
-      }
-    },
-    {
       "track_no": "4",
       "type": {
         "local": "Commuter",
@@ -8177,29 +7832,6 @@
       "stops_at": {
         "local": "",
         "en": ""
-      }
-    },
-    {
-      "track_no": "23",
-      "type": {
-        "local": "ORIENT EXPRESS",
-        "en": ""
-      },
-      "type_color_hex": "#c6513b",
-      "type_text_color": "#ffffff",
-      "train_no": "999",
-      "depart_time": "22:55",
-      "destination": {
-        "local": "上野",
-        "en": "Ueno"
-      },
-      "remarks": {
-        "local": "Nostalgic Constantinopolis Orient-Express",
-        "en": "NCOE"
-      },
-      "stops_at": {
-        "local": "Warszawa・Κωνσταντινούπολις・Екатеринбург・北京・東京",
-        "en": "Warsaw, Kōnstantinoupolis, Yekaterinburg, Beijing, Tokyo"
       }
     },
     {
@@ -8686,29 +8318,6 @@
       }
     },
     {
-      "track_no": "23",
-      "type": {
-        "local": "ORIENT EXPRESS",
-        "en": ""
-      },
-      "type_color_hex": "#c6513b",
-      "type_text_color": "#ffffff",
-      "train_no": "999",
-      "depart_time": "23:55",
-      "destination": {
-        "local": "上野",
-        "en": "Ueno"
-      },
-      "remarks": {
-        "local": "Nostalgic Constantinopolis Orient-Express",
-        "en": "NCOE"
-      },
-      "stops_at": {
-        "local": "Warszawa・Κωνσταντινούπολις・Екатеринбург・北京・東京",
-        "en": "Warsaw, Kōnstantinoupolis, Yekaterinburg, Beijing, Tokyo"
-      }
-    },
-    {
       "track_no": "4",
       "type": {
         "local": "Commuter",
@@ -9189,29 +8798,6 @@
       "stops_at": {
         "local": "",
         "en": ""
-      }
-    },
-    {
-      "track_no": "23",
-      "type": {
-        "local": "ORIENT EXPRESS",
-        "en": ""
-      },
-      "type_color_hex": "#c6513b",
-      "type_text_color": "#ffffff",
-      "train_no": "999",
-      "depart_time": "00:55",
-      "destination": {
-        "local": "上野",
-        "en": "Ueno"
-      },
-      "remarks": {
-        "local": "Nostalgic Constantinopolis Orient-Express",
-        "en": "NCOE"
-      },
-      "stops_at": {
-        "local": "Warszawa・Κωνσταντινούπολις・Екатеринбург・北京・東京",
-        "en": "Warsaw, Kōnstantinoupolis, Yekaterinburg, Beijing, Tokyo"
       }
     },
     {
