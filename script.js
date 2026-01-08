@@ -12,7 +12,6 @@ const BLANK_DATA = { local: " ", en: " ", color: "#202020", textColor: "#f5f5f5"
 const urlParams = new URLSearchParams(window.location.search);
 // Default to reading timetable/demo.json for testing
 const DATA_SOURCE = urlParams.get('t') ? `./timetable/${urlParams.get('t')}.json` : './timetable/demo.json';
-const NO_CACHE = urlParams.has('nocache') || urlParams.has('dev');
 const PREVIEW_MODE = urlParams.has('preview');
 
 // Global variables
@@ -480,8 +479,7 @@ async function fetchData() {
             }
         } else {
             console.log(`[System] Fetching ${DATA_SOURCE}...`);
-            const fetchUrl = NO_CACHE ? `${DATA_SOURCE}?cb=${Date.now()}` : DATA_SOURCE;
-            const response = await fetch(fetchUrl, { cache: NO_CACHE ? "no-store" : "default" });
+            const response = await fetch(DATA_SOURCE, { cache: "no-store" });
             if (!response.ok) throw new Error("API Network response was not ok");
             json = await response.json();
         }

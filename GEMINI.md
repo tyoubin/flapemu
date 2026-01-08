@@ -123,15 +123,14 @@ Data files are located in `timetable/*.json`. Example:
 3.  **Skeuomorphism:** The `::after` pulse (simulating card thickness during flip) and the `.flap-unit::before` inset shadow (simulating the retracted bezel) are critical for the 3D photorealistic feel. Do not remove them for "cleanliness".
 4.  **Language:** The HTML tag is set to `lang="en"`, but CSS font stacks prioritize CJK fonts to ensure correct glyph rendering (preventing Han Unification issues).
 
-## 7. URL Parameters
+## 7. Development & Debugging
 
-* Unless specified, the testing URL is `http://localhost:8086/board.html?t=`
-*   `?t=filename`: Loads `./timetable/filename.json`.
-*   `?nocache=1` or `?dev`: Activates **Debug/No-Cache Mode** (Crucial for AI agents and developers).
-    *   **Data**: Appends `?cb=timestamp` to the JSON fetch and uses `cache: "no-store"`.
-    *   **Assets**: Dynamically appends `?v=timestamp` to `style.css` and `script.js` to bypass browser/proxy caches.
-    *   **Propagation**: `index.html` automatically propagates these parameters to all station links.
-*   Example: `board.html?t=kumamoto&nocache=1` loads the board with forced cache-busting.
+To ensure the latest changes are reflected (especially for AI agents and developers), use the provided Python development server which strictly disables browser caching via HTTP headers.
+
+*   **Run Server**: `python3 serve.py`
+*   **Port**: `8086`
+*   **URL**: `http://localhost:8086/board.html?t=shinagawa`
+*   **Mechanism**: Sends `Cache-Control: no-cache, no-store, must-revalidate` headers for all files.
 *   `?preview=1`: **Preview Mode** - Loads timetable data from `sessionStorage` instead of fetching JSON. Used by the Timetable Editor's "Preview Board" feature.
 
 ## 8. Timetable Editor
