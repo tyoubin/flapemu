@@ -122,6 +122,7 @@ Data files are located in `timetable/*.json`. Example:
 
 ## 7. URL Parameters
 
+* Unless specified, the testing URL is `http://localhost:8086/board.html?t=`
 *   `?t=filename`: Loads `./timetable/filename.json`.
 *   `?nocache=1` or `?dev`: Activates **Debug/No-Cache Mode** (Crucial for AI agents and developers).
     *   **Data**: Appends `?cb=timestamp` to the JSON fetch and uses `cache: "no-store"`.
