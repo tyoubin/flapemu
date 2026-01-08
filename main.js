@@ -7,6 +7,12 @@ let isInitialized = false;
 
 async function fetchData() {
 	try {
+		// Clear Previous Error State
+		const board = document.getElementById('board');
+		const statusEl = document.getElementById('system-status');
+		if (board) board.classList.remove('board-error');
+		if (statusEl) statusEl.innerHTML = '';
+
 		let json;
 
 		if (PREVIEW_MODE) {
@@ -116,6 +122,13 @@ async function fetchData() {
 
 	} catch (e) {
 		console.error("Error fetching data:", e);
+		// Visual Error Handling
+		const board = document.getElementById('board');
+		const statusEl = document.getElementById('system-status');
+		if (board) board.classList.add('board-error');
+		if (statusEl) {
+			statusEl.innerHTML = `<span class="status-text status-error">⚠ CONNECTION LOST</span>`;
+		}
 	}
 }
 

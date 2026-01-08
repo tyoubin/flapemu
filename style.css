@@ -50,6 +50,8 @@ body {
     align-items: center;
     justify-content: flex-start;
     margin-bottom: 10px;
+    position: relative;
+    /* Enabled for centered system status */
 }
 
 .header-title {
@@ -601,9 +603,9 @@ footer a:hover {
    6. MOBILE ZOOM (Simulate "Smaller Text")
    ========================================= */
 @media screen and (max-width: 800px) {
-    /* .header-row {
+    .header-row {
         display: none;
-    } */
+    }
 
     .schedule-board {
         --scale-factor: 0.65;
@@ -621,6 +623,82 @@ footer a:hover {
     }
 }
 
-/* --- DEBUG MODE --- */
-/* [class^="col-"] { outline: 1px solid red; }
-.flap-unit { outline: 1px solid cyan; } */
+/* =========================================
+   7. SYSTEM STATUS (Error Handling)
+   ========================================= */
+/* =========================================
+   7. SYSTEM STATUS (Error Handling)
+   ========================================= */
+.system-status {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 50%;
+    z-index: 9999;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    pointer-events: none;
+}
+
+/* Base style for the error text */
+.status-text {
+    width: 100%;
+    text-align: center;
+    padding: 20px 0;
+    background: rgba(0, 0, 0, 0.85);
+    border: 2px solid #FFBF00;
+    box-shadow: 0 0 30px rgba(0, 0, 0, 0.9);
+    border-radius: 8px;
+    backdrop-filter: blur(4px);
+}
+
+/* Error State */
+.status-error {
+    color: #FFBF00;
+    /* Amber */
+    font-family: "Courier New", Courier, monospace;
+    font-weight: 800;
+    font-size: 32px;
+    /* Large flexible text */
+    text-transform: uppercase;
+    letter-spacing: 4px;
+    text-shadow: 0 0 15px rgba(255, 191, 0, 0.8);
+    animation: blink-status 3s infinite ease-in-out alternate;
+}
+
+.status-ok {
+    color: #2ecc71;
+    text-shadow: 0 0 5px rgba(46, 204, 113, 0.8);
+    opacity: 0.5;
+    font-size: 14px;
+}
+
+/* Breathing Animation (Macbook Style) */
+@keyframes blink-status {
+    0% {
+        opacity: 0.2;
+        text-shadow: 0 0 5px rgba(255, 191, 0, 0.2);
+    }
+
+    100% {
+        opacity: 1;
+        text-shadow: 0 0 20px rgba(255, 191, 0, 1);
+    }
+}
+
+/* Blur effect for the board when data is stale/error */
+.schedule-board.board-error #board-rows {
+    filter: blur(4px) grayscale(0.5);
+    pointer-events: none;
+    transition: filter 0.5s ease, opacity 0.5s ease;
+    opacity: 0.6;
+}
+
+/* Optional: Add a subtle overlay to the header when error occurs */
+.schedule-board.board-error .header-row {
+    opacity: 0.3;
+    transition: opacity 0.5s ease;
+}
