@@ -408,7 +408,9 @@ body {
 .col-stop .local-text,
 .col-stop .en-text,
 .col-remarks .local-text,
-.col-remarks .en-text {
+.col-remarks .en-text,
+.col-dest .local-text,
+.col-dest .en-text {
     justify-content: flex-start;
     padding-left: 15px;
 }
