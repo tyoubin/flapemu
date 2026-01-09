@@ -67,7 +67,9 @@ async function fetchData() {
 
 		// --- Browser Tab Title ---
 		const headerData = metaData.header;
-		if (headerData && headerData.line_name) {
+		if (headerData && headerData.line_name && headerData.for) {
+			document.title = `${headerData.line_name.local} ${headerData.for.local}`;
+		} else if (headerData && headerData.line_name) {
 			document.title = headerData.line_name.local || "FlapEmu";
 		} else {
 			document.title = "FlapEmu";
