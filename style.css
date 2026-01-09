@@ -50,7 +50,7 @@ body {
     display: flex;
     align-items: center;
     /* Center items vertically */
-    justify-content: flex-start;
+    justify-content: center;
     margin-bottom: 20px;
     gap: 20px;
     height: 70px;
@@ -61,9 +61,6 @@ body {
 .header-logo-section {
     width: 70px;
     height: 70px;
-    background-color: #222;
-    /* Placeholder bg */
-    border: 1px solid #333;
     flex-shrink: 0;
     display: flex;
     justify-content: center;
@@ -89,7 +86,7 @@ body {
     display: flex;
     flex-direction: column;
     justify-content: center;
-    align-items: flex-start;
+    align-items: center;
 }
 
 .header-text-local {
@@ -651,12 +648,13 @@ footer a:hover {
 @media screen and (max-width: 800px) {
     .top-bar {
         height: auto;
-        align-items: flex-start;
+        justify-content: center;
+        align-items: center;
     }
 
     .header-info-section {
         flex-direction: column;
-        align-items: flex-start;
+        align-items: center;
         gap: 10px;
     }
 
