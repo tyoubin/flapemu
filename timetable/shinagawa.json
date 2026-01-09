@@ -17,17 +17,20 @@
       {
         "local": "のぞみ",
         "en": "NOZOMI",
-        "color": "#f0df23"
+        "color": "#f0df23",
+        "textColor": "#000000"
       },
       {
         "local": "ひかり",
         "en": "HIKARI",
-        "color": "#fa3b40"
+        "color": "#fa3b40",
+        "textColor": "#ffffff"
       },
       {
         "local": "こだま",
         "en": "KODAMA",
-        "color": "#0081c2"
+        "color": "#0081c2",
+        "textColor": "#ffffff"
       },
       {
         "local": "試運転",
