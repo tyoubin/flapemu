@@ -12,34 +12,36 @@
 </head>
 <body>
 
-    <div class="top-bar">
-        <div class="header-title" id="line-name-left"></div>
-    </div>
-
     <!-- Error Overlay -->
     <div class="system-status" id="system-status"></div>
 
-    <div class="schedule-board" id="board">
-        <!-- Header -->
-        <div class="header-row">
-            <div class="col-plat header-item"><span>のりば</span><span>Track</span></div>
-            <div class="col-type header-item"><span>種別</span><span>Type</span></div>
-            <div class="col-no header-item"><span>列車番号</span><span>Train No.</span></div>
-            <div class="col-time header-item"><span>時刻</span><span>Time</span></div>
-            <div class="col-dest header-item"><span>行先</span><span>Dest.</span></div>
-            <div class="col-remarks header-item"><span>記事</span><span>Remarks</span></div>
-            <div class="col-stop header-item"><span>停車駅</span><span>Train Stops</span></div>
+    <div class="main-container">
+        <div class="top-bar">
+            <div class="header-title" id="line-name-left"></div>
         </div>
-        <div id="board-rows">
-            <!-- train-group will be inserted here by JS -->
+
+        <div class="schedule-board" id="board">
+            <!-- Header -->
+            <div class="header-row">
+                <div class="col-plat header-item"><span>のりば</span><span>Track</span></div>
+                <div class="col-type header-item"><span>種別</span><span>Type</span></div>
+                <div class="col-no header-item"><span>列車番号</span><span>Train No.</span></div>
+                <div class="col-time header-item"><span>時刻</span><span>Time</span></div>
+                <div class="col-dest header-item"><span>行先</span><span>Dest.</span></div>
+                <div class="col-remarks header-item"><span>記事</span><span>Remarks</span></div>
+                <div class="col-stop header-item"><span>停車駅</span><span>Train Stops</span></div>
+            </div>
+            <div id="board-rows">
+                <!-- train-group will be inserted here by JS -->
+            </div>
         </div>
-    </div>
-    <div class="board-footer">
-        <div class="disclaimer">
-            SIMULATION ONLY. DATA ACCURACY NOT GUARANTEED. NOT FOR ACTUAL TRAVEL.
-        </div>
-        <div class="copyright">
-            Powered by <a href="https://github.com/tyoubin/flapemu" target="_blank">FlapEmu</a>
+        <div class="board-footer">
+            <div class="disclaimer">
+                SIMULATION ONLY. DATA ACCURACY NOT GUARANTEED. NOT FOR ACTUAL TRAVEL.
+            </div>
+            <div class="copyright">
+                Powered by <a href="https://github.com/tyoubin/flapemu" target="_blank">FlapEmu</a>
+            </div>
         </div>
     </div>
     <script type="module" src="main.js"></script>

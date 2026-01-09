@@ -57,7 +57,7 @@ To prevent GPU bottlenecks on mobile devices:
 ## CSS Architecture & Constraints
 
 ### Layout Strategy
-*   **Desktop:** Uses `width: max-content` on the board container to ensure columns are never squashed. Columns use `flex-shrink: 0`.
+*   **Desktop:** Uses a centered container with `max-width: 1200px`. The board adapts to this width, and columns may wrap if space is insufficient.
 *   **Mobile:** Uses a `--scale-factor` CSS variable to fit the wide board onto small screens without breaking the physical aspect ratio of the flaps.
 
 ### Column Alignment (Strict)
