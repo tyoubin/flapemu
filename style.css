@@ -38,6 +38,23 @@ body {
     display: flex;
     flex-direction: column;
     gap: 30px;
+    position: relative;
+    /* Stacking context for global lighting */
+}
+
+/* Global environmental lighting (Top-left source) */
+.main-container::after {
+    content: '';
+    position: absolute;
+    top: -20px;
+    left: -20px;
+    right: -20px;
+    bottom: -20px;
+    /* Soft glare across the entire assembly */
+    background: linear-gradient(145deg, rgba(255, 255, 255, 0.06) 0%, rgba(255, 255, 255, 0) 50%, rgba(0, 0, 0, 0.05) 100%);
+    pointer-events: none;
+    z-index: 100;
+    border-radius: 20px;
 }
 
 /* =========================================
@@ -93,7 +110,6 @@ body {
     font-size: 28px;
     font-weight: 900;
     color: #ffffff;
-    text-shadow: 0 0 5px rgba(255, 255, 255, 0.3);
     line-height: 1.1;
     margin-bottom: 2px;
 }
@@ -250,9 +266,9 @@ body {
     width: 100%;
     height: 100%;
     z-index: 10;
-    /* Highest static Z-index, but below thickness pulse */
     border-radius: 2px;
-    box-shadow: inset 1px 1px 3px rgba(0, 0, 0, 0.8), inset -0.5px -0.5px 2px rgba(255, 255, 255, 0.1);
+    /* Symmetrical bezel shadow for even lighting */
+    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.6), inset 0 -1px 2px rgba(255, 255, 255, 0.05);
     pointer-events: none;
 }
 
@@ -285,8 +301,7 @@ body {
     backface-visibility: hidden;
 }
 
-/* Lighting and shadow */
-/* Lighting and Glare (Flat Design) */
+/* Lighting and Glare (Matt Design) */
 .top::after,
 .flap.front::after {
     content: '';
@@ -295,8 +310,8 @@ body {
     left: 0;
     width: 100%;
     height: 100%;
-    /* Slight glare from top-left */
-    background: linear-gradient(145deg, rgba(255, 255, 255, 0.08) 0%, rgba(255, 255, 255, 0) 45%);
+    /* Even, soft lighting instead of top-left glare */
+    background: linear-gradient(to bottom, rgba(255, 255, 255, 0.04) 0%, rgba(255, 255, 255, 0.01) 100%);
     pointer-events: none;
 }
 
@@ -308,8 +323,8 @@ body {
     left: 0;
     width: 100%;
     height: 100%;
-    /* Very subtle shadow for bottom half to distinguish split */
-    background: rgba(0, 0, 0, 0.05);
+    /* Consistent subtle lighting for bottom half */
+    background: linear-gradient(to bottom, rgba(255, 255, 255, 0.01) 0%, rgba(0, 0, 0, 0.03) 100%);
     pointer-events: none;
 }
 
@@ -344,8 +359,6 @@ body {
         Helvetica,
         Arial,
         sans-serif;
-    /* font-weight: 400; */
-    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
 }
 
 .local-text {
@@ -358,7 +371,6 @@ body {
     font-weight: 800;
     padding-bottom: 0px;
     line-height: 1;
-    text-shadow: 0 1px 1px rgba(0, 0, 0, 0.3);
     white-space: nowrap;
     overflow: hidden;
 }
@@ -510,29 +522,26 @@ body {
 @keyframes flip-down-front {
     0% {
         transform: rotateX(0deg);
-        /* Initial state: normal */
         filter: brightness(1) contrast(1);
     }
 
     25% {
         /* 
-           Highlight Moment
-           The card is flipped to about 30-40 degrees, reflecting the light source to user's eyes.
-           The black background is instantly illuminated to gray,
-           and the reflection makes the content unclear.
+           Matt Highlight Moment
+           The reflection is more diffused and less intense than a glossy surface.
         */
-        filter: brightness(1.5);
+        filter: brightness(1.2);
     }
 
     50% {
-        /* 90 degrees horizontal, the light mainly shines on the side, the front becomes dark */
-        filter: brightness(0.5) contrast(1);
+        /* 90 degrees horizontal */
+        filter: brightness(0.6) contrast(1);
     }
 
     100% {
         transform: rotateX(-180deg);
-        /* Completely flipped down, entering the backlight/covered area, completely black */
-        filter: brightness(0) contrast(1);
+        /* Completely flipped down */
+        filter: brightness(0.1) contrast(1);
     }
 }
 
@@ -540,27 +549,23 @@ body {
 @keyframes flip-down-back {
     0% {
         transform: rotateX(180deg);
-        /* Initially on the back/inside, all black */
-        filter: brightness(0);
+        filter: brightness(0.1);
     }
 
     50% {
-        /* 90 degrees horizontal, darker */
-        filter: brightness(0.5);
+        filter: brightness(0.6);
     }
 
     75% {
         /* 
-           [Highlight Moment]
-           The card is about to fall (about 30 degrees left), and it passes through the reflection angle again.
-           A momentary gray reflection also appears.
+           [Matt Highlight Moment]
+           Subtle diffused reflection as it catches the light.
         */
-        filter: brightness(1.5);
+        filter: brightness(1.2);
     }
 
     100% {
         transform: rotateX(0deg);
-        /* Reached target position, restore normal black matte texture */
         filter: brightness(1);
     }
 }

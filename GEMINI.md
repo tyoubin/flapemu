@@ -14,7 +14,7 @@ This project relies heavily on **Skeuomorphism** (simulating physical mechanics)
 
 **FlapEmu** simulates the mechanical departure boards found in train stations and airports. It uses a data-driven approach where the visual representation is decoupled from the data source.
 
-*   **Core Goal:** Photorealistic simulation of mechanical flipping, lighting, and layout.
+*   **Core Goal:** Photorealistic simulation of mechanical flipping, lighting, and layout with a global environmental light source.
 *   **Tech Stack:** Pure HTML5, CSS3, ES6+ JavaScript.
 *   **Deployment:** Static hosting (e.g., GitHub Pages).
 
@@ -38,8 +38,8 @@ Each character or word block is a `FlapUnit` class.
     *   `.flap.back` (Animating lower half)
 *   **Animation:** Controlled via CSS `@keyframes` (`flip-down-front`, `flip-down-back`).
 *   **Sync Logic:** JS timing is decoupled from CSS durations. It uses `animationend` event listeners on the `.flap.back` element to trigger subsequent steps in the spool sequence.
-*   **Lighting:** CSS `filter: brightness()` and `contrast()` are keyed to the animation frames to simulate specular highlights as the card rotates.
-*   **Glossiness:** Uses a flat card design with environmental glare (top-left light source) and an `inset` box-shadow on the unit to simulate a retracted/sunken physical mounting.
+*   **Lighting:** CSS `filter: brightness()` and `contrast()` are keyed to the animation frames to simulate diffused light reflections as the matt card rotates.
+*   **Matt Finish:** Uses a flat card design with soft, even lighting (top-to-bottom subtle gradient) instead of a sharp glare. Uses an `inset` box-shadow on the unit to simulate a retracted/sunken physical mounting.
 
 ### Auto-Layout System
 The board adapts to different text lengths defined in the JSON.
