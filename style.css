@@ -666,16 +666,37 @@ footer a:hover {
    6. MOBILE ZOOM (Simulate "Smaller Text")
    ========================================= */
 @media screen and (max-width: 800px) {
+    .main-container {
+        overflow-x: hidden;
+        padding: 10px 0;
+        gap: 15px;
+    }
+
     .top-bar {
         height: auto;
         justify-content: center;
         align-items: center;
+        gap: 15px;
+        margin-bottom: 5px;
+    }
+
+    .header-logo-section {
+        width: 48px;
+        height: 48px;
     }
 
     .header-info-section {
         flex-direction: column;
         align-items: center;
-        gap: 10px;
+        gap: 8px;
+    }
+
+    .header-text-local {
+        font-size: 20px;
+    }
+
+    .header-text-en {
+        font-size: 11px;
     }
 
     .header-row {
@@ -691,16 +712,8 @@ footer a:hover {
         width: calc(100% / var(--scale-factor));
         box-shadow: none;
     }
-
-    .main-container {
-        overflow-x: hidden;
-        padding: 10px 0;
-    }
 }
 
-/* =========================================
-   7. SYSTEM STATUS (Error Handling)
-   ========================================= */
 /* =========================================
    7. SYSTEM STATUS (Error Handling)
    ========================================= */
