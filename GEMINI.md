@@ -52,8 +52,6 @@ To prevent GPU bottlenecks on mobile devices:
 *   **Mechanism:** `fetchData` (in `main.js`) uses `await sleep(1000)` between updating each row (`TrainGroup`).
 *   **Effect:** Rows flip in a cascade (Wave effect) rather than all at once.
 
-
-
 ## CSS Architecture & Constraints
 
 ### Layout Strategy

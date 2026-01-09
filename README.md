@@ -111,7 +111,7 @@ The editor (`editor.html`) provides a visual interface for creating/editing JSON
 
 ## Development
 
-To ensure the latest changes are reflected (especially for developers), use the provided Python development server which strictly disables browser caching via HTTP headers.
+Using `file:///` to open the files will not work because CORS policy. Use the provided Python development server which strictly disables browser caching via HTTP headers.
 
 *   **Run Server**: `python3 serve.py`
 *   **Port**: `8086`
