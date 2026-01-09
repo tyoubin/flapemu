@@ -1,275 +1,648 @@
 {
   "meta": {
-    "station_name": "品川",
-    "line_name": "東海道新幹線"
+    "header": {
+      "logo_url": "timetable/JT_orange.svg",
+      "line_name": {
+        "local": "東海道新幹線",
+        "en": "Tokaido Shinkansen"
+      },
+      "for": {
+        "local": "博多・新大阪・東京方面",
+        "en": "for Hakata, Shin-Osaka & Tokyo"
+      }
+    }
   },
   "presets": {
     "types": [
-      { "local": "のぞみ", "en": "NOZOMI", "color": "#f0df23" },
-      { "local": "ひかり", "en": "HIKARI", "color": "#fa3b40" },
-      { "local": "こだま", "en": "KODAMA", "color": "#0081c2" },
-      { "local": "試運転", "en": "TEST RUN", "color": "#ffffff", "textColor": "#000000" },
-      { "local": "団体", "en": "CHARTERED", "color": "#ffffff", "textColor": "#000000" },
-      { "local": "臨時", "en": "SPECIAL", "color": "#ffffff", "textColor": "#000000" },
-      { "local": "修学旅行", "en": "SCHOOL TRIP", "color": "#ffffff", "textColor": "#000000" },
-      { "local": "回送", "en": "OUT OF SERVICE", "color": "#ffffff", "textColor": "#000000" }
+      {
+        "local": "のぞみ",
+        "en": "NOZOMI",
+        "color": "#f0df23"
+      },
+      {
+        "local": "ひかり",
+        "en": "HIKARI",
+        "color": "#fa3b40"
+      },
+      {
+        "local": "こだま",
+        "en": "KODAMA",
+        "color": "#0081c2"
+      },
+      {
+        "local": "試運転",
+        "en": "TEST RUN",
+        "color": "#ffffff",
+        "textColor": "#000000"
+      },
+      {
+        "local": "団体",
+        "en": "CHARTERED",
+        "color": "#ffffff",
+        "textColor": "#000000"
+      },
+      {
+        "local": "臨時",
+        "en": "SPECIAL",
+        "color": "#ffffff",
+        "textColor": "#000000"
+      },
+      {
+        "local": "修学旅行",
+        "en": "SCHOOL TRIP",
+        "color": "#ffffff",
+        "textColor": "#000000"
+      },
+      {
+        "local": "回送",
+        "en": "OUT OF SERVICE",
+        "color": "#ffffff",
+        "textColor": "#000000"
+      }
     ],
     "dests": [
-      { "local": "東京", "en": "TOKYO" },
-      { "local": "品川", "en": "SHINAGAWA" },
-      { "local": "新横浜", "en": "SHIN-YOKOHAMA" },
-      { "local": "小田原", "en": "ODAWARA" },
-      { "local": "熱海", "en": "ATAMI" },
-      { "local": "三島", "en": "MISHIMA" },
-      { "local": "新富士", "en": "SHIN-FUJI" },
-      { "local": "静岡", "en": "SHIZUOKA" },
-      { "local": "掛川", "en": "KAKEGAWA" },
-      { "local": "浜松", "en": "HAMAMATSU" },
-      { "local": "豊橋", "en": "TOYOHASHI" },
-      { "local": "三河安城", "en": "MIKAWA-ANJO" },
-      { "local": "名古屋", "en": "NAGOYA" },
-      { "local": "岐阜羽島", "en": "GIFU-HASHIMA" },
-      { "local": "米原", "en": "MAIBARA" },
-      { "local": "京都",  "en":  "KYOTO" },
-      { "local":  "新大阪",  "en":  "SHIN-OSAKA" }
+      {
+        "local": "東京",
+        "en": "TOKYO"
+      },
+      {
+        "local": "品川",
+        "en": "SHINAGAWA"
+      },
+      {
+        "local": "新横浜",
+        "en": "SHIN-YOKOHAMA"
+      },
+      {
+        "local": "小田原",
+        "en": "ODAWARA"
+      },
+      {
+        "local": "熱海",
+        "en": "ATAMI"
+      },
+      {
+        "local": "三島",
+        "en": "MISHIMA"
+      },
+      {
+        "local": "新富士",
+        "en": "SHIN-FUJI"
+      },
+      {
+        "local": "静岡",
+        "en": "SHIZUOKA"
+      },
+      {
+        "local": "掛川",
+        "en": "KAKEGAWA"
+      },
+      {
+        "local": "浜松",
+        "en": "HAMAMATSU"
+      },
+      {
+        "local": "豊橋",
+        "en": "TOYOHASHI"
+      },
+      {
+        "local": "三河安城",
+        "en": "MIKAWA-ANJO"
+      },
+      {
+        "local": "名古屋",
+        "en": "NAGOYA"
+      },
+      {
+        "local": "岐阜羽島",
+        "en": "GIFU-HASHIMA"
+      },
+      {
+        "local": "米原",
+        "en": "MAIBARA"
+      },
+      {
+        "local": "京都",
+        "en": "KYOTO"
+      },
+      {
+        "local": "新大阪",
+        "en": "SHIN-OSAKA"
+      }
     ],
     "remarks": [
-      { "local": "自由席 1-3号車", "en": "Non-ReservedCarNo.1-3" },
-      { "local": "自由席 14-16号車", "en": "Non-ReservedCarNo.14-16" },
-      { "local": "全車指定席", "en": "All Reserved" },
-      { "local": "グリーン車", "en": "Green Car" }
+      {
+        "local": "自由席 1-3号車",
+        "en": "Non-ReservedCarNo.1-3"
+      },
+      {
+        "local": "自由席 14-16号車",
+        "en": "Non-ReservedCarNo.14-16"
+      },
+      {
+        "local": "全車指定席",
+        "en": "All Reserved"
+      },
+      {
+        "local": "グリーン車",
+        "en": "Green Car"
+      }
     ],
     "stops": [
-        { "local": "各駅停車", "en": "Stops at All Stations" },
-        { "local": "途中停車駅はありません", "en": "No Intermediate Stops" },
-        { "local": "新横浜・小田原・静岡・名古屋" , "en": "Shin-Yokohama, Odawara, Shizuoka, Nagoya"},
-        { "local": "小田原・熱海・三島・静岡・名古屋" , "en": "Odawara, Atami, Mishima, Shizuoka, Nagoya"},
-        { "local": "熱海・三島・静岡・浜松・名古屋" , "en": "Atami, Mishima, Shizuoka, Hamamatsu, Nagoya"},
-        { "local": "三島・静岡・浜松・豊橋・名古屋" , "en": "Mishima, Shizuoka, Hamamatsu, Toyohashi, Nagoya"},
-        { "local": "静岡・浜松・豊橋・名古屋" , "en": "Shizuoka, Hamamatsu, Toyohashi, Nagoya"},
-        { "local": "浜松・豊橋・名古屋" , "en": "Hamamatsu, Toyohashi, Nagoya"}
+      {
+        "local": "各駅停車",
+        "en": "Stops at All Stations"
+      },
+      {
+        "local": "途中停車駅はありません",
+        "en": "No Intermediate Stops"
+      },
+      {
+        "local": "新横浜・小田原・静岡・名古屋",
+        "en": "Shin-Yokohama, Odawara, Shizuoka, Nagoya"
+      },
+      {
+        "local": "小田原・熱海・三島・静岡・名古屋",
+        "en": "Odawara, Atami, Mishima, Shizuoka, Nagoya"
+      },
+      {
+        "local": "熱海・三島・静岡・浜松・名古屋",
+        "en": "Atami, Mishima, Shizuoka, Hamamatsu, Nagoya"
+      },
+      {
+        "local": "三島・静岡・浜松・豊橋・名古屋",
+        "en": "Mishima, Shizuoka, Hamamatsu, Toyohashi, Nagoya"
+      },
+      {
+        "local": "静岡・浜松・豊橋・名古屋",
+        "en": "Shizuoka, Hamamatsu, Toyohashi, Nagoya"
+      },
+      {
+        "local": "浜松・豊橋・名古屋",
+        "en": "Hamamatsu, Toyohashi, Nagoya"
+      }
     ]
   },
   "schedule": [
     {
       "track_no": "14",
-      "type": { "local": "のぞみ", "en": "NOZOMI" },
+      "type": {
+        "local": "のぞみ",
+        "en": "NOZOMI"
+      },
       "type_color_hex": "#f0df23",
       "type_text_color": "#000000",
       "train_no": "101",
       "depart_time": "08:00",
-      "destination": { "local": "新大阪", "en": "Shin-Osaka" },
-      "remarks": { "local": "自由席 1-3号車", "en": "Non-ReservedCarNo.1-3" },
-      "stops_at": { "local": "新横浜・名古屋・京都", "en": "Shin-Yokohama, Nagoya, Kyoto" }
+      "destination": {
+        "local": "新大阪",
+        "en": "Shin-Osaka"
+      },
+      "remarks": {
+        "local": "自由席 1-3号車",
+        "en": "Non-ReservedCarNo.1-3"
+      },
+      "stops_at": {
+        "local": "新横浜・名古屋・京都",
+        "en": "Shin-Yokohama, Nagoya, Kyoto"
+      }
     },
     {
       "track_no": "13",
-      "type": { "local": "ひかり", "en": "HIKARI" },
+      "type": {
+        "local": "ひかり",
+        "en": "HIKARI"
+      },
       "type_color_hex": "#fa3b40",
       "type_text_color": "#ffffff",
       "train_no": "303",
       "depart_time": "08:15",
-      "destination": { "local": "名古屋", "en": "Nagoya" },
-      "remarks": { "local": "全車指定席", "en": "All Reserved" },
-      "stops_at": { "local": "小田原・熱海・三島・静岡・名古屋", "en": "Odawara, Atami, Mishima, Shizuoka, Nagoya" }
+      "destination": {
+        "local": "名古屋",
+        "en": "Nagoya"
+      },
+      "remarks": {
+        "local": "全車指定席",
+        "en": "All Reserved"
+      },
+      "stops_at": {
+        "local": "小田原・熱海・三島・静岡・名古屋",
+        "en": "Odawara, Atami, Mishima, Shizuoka, Nagoya"
+      }
     },
     {
       "track_no": "15",
-      "type": { "local": "こだま", "en": "KODAMA" },
+      "type": {
+        "local": "こだま",
+        "en": "KODAMA"
+      },
       "type_color_hex": "#0081c2",
       "type_text_color": "#ffffff",
       "train_no": "725",
       "depart_time": "08:30",
-      "destination": { "local": "新大阪", "en": "Shin-Osaka" },
-      "remarks": { "local": "自由席 13-16号車", "en": "Non-ReservedCarNo.13-16" },
-      "stops_at": { "local": "各駅停車", "en": "Stops at All Stations" }
+      "destination": {
+        "local": "新大阪",
+        "en": "Shin-Osaka"
+      },
+      "remarks": {
+        "local": "自由席 13-16号車",
+        "en": "Non-ReservedCarNo.13-16"
+      },
+      "stops_at": {
+        "local": "各駅停車",
+        "en": "Stops at All Stations"
+      }
     },
     {
       "track_no": "12",
-      "type": { "local": "回送", "en": "OUT OF SERVICE" },
+      "type": {
+        "local": "回送",
+        "en": "OUT OF SERVICE"
+      },
       "type_color_hex": "#ffffff",
       "type_text_color": "#000000",
       "train_no": "999",
       "depart_time": "08:45",
-      "destination": { "local": "", "en": "" },
-      "remarks": { "local": "", "en": "" },
-      "stops_at": { "local": "この列車にはご乗車いただけません", "en": "Please do not board this train" }
+      "destination": {
+        "local": "",
+        "en": ""
+      },
+      "remarks": {
+        "local": "",
+        "en": ""
+      },
+      "stops_at": {
+        "local": "この列車にはご乗車いただけません",
+        "en": "Please do not board this train"
+      }
     },
     {
       "track_no": "14",
-      "type": { "local": "のぞみ", "en": "NOZOMI" },
+      "type": {
+        "local": "のぞみ",
+        "en": "NOZOMI"
+      },
       "type_color_hex": "#f0df23",
       "type_text_color": "#000000",
       "train_no": "203",
       "depart_time": "08:37",
-      "destination": { "local": "博多", "en": "Hakata" },
-      "remarks": { "local": "自由席 1-3号車", "en": "Non-ReservedCarNo.1-3" },
-      "stops_at": { "local": "新横浜・名古屋・京都・新大阪・広島", "en": "Shin-Yokohama, Nagoya, Kyoto, Shin-Osaka" }
+      "destination": {
+        "local": "博多",
+        "en": "Hakata"
+      },
+      "remarks": {
+        "local": "自由席 1-3号車",
+        "en": "Non-ReservedCarNo.1-3"
+      },
+      "stops_at": {
+        "local": "新横浜・名古屋・京都・新大阪・広島",
+        "en": "Shin-Yokohama, Nagoya, Kyoto, Shin-Osaka"
+      }
     },
     {
       "track_no": "13",
-      "type": { "local": "のぞみ", "en": "NOZOMI" },
+      "type": {
+        "local": "のぞみ",
+        "en": "NOZOMI"
+      },
       "type_color_hex": "#f0df23",
       "type_text_color": "#000000",
       "train_no": "15",
       "depart_time": "08:42",
-      "destination": { "local": "広島", "en": "Hiroshima" },
-      "remarks": { "local": "全車指定席", "en": "All Reserved" },
-      "stops_at": { "local": "新横浜・名古屋・京都・新大阪・新神戸", "en": "Shin-Yokohama, Nagoya, Kyoto, Shin-Osaka, Kobe" }
+      "destination": {
+        "local": "広島",
+        "en": "Hiroshima"
+      },
+      "remarks": {
+        "local": "全車指定席",
+        "en": "All Reserved"
+      },
+      "stops_at": {
+        "local": "新横浜・名古屋・京都・新大阪・新神戸",
+        "en": "Shin-Yokohama, Nagoya, Kyoto, Shin-Osaka, Kobe"
+      }
     },
     {
       "track_no": "15",
-      "type": { "local": "ひかり", "en": "HIKARI" },
+      "type": {
+        "local": "ひかり",
+        "en": "HIKARI"
+      },
       "type_color_hex": "#fa3b40",
       "type_text_color": "#ffffff",
       "train_no": "635",
       "depart_time": "08:47",
-      "destination": { "local": "新大阪", "en": "Shin-Osaka" },
-      "remarks": { "local": "自由席 1-5号車", "en": "Non-ReservedCarNo.1-5" },
-      "stops_at": { "local": "新横浜・豊橋・名古屋・岐阜羽島・米原", "en": "Shin-Yokohama, Toyohashi, Nagoya, Gifu-Hashima" }
+      "destination": {
+        "local": "新大阪",
+        "en": "Shin-Osaka"
+      },
+      "remarks": {
+        "local": "自由席 1-5号車",
+        "en": "Non-ReservedCarNo.1-5"
+      },
+      "stops_at": {
+        "local": "新横浜・豊橋・名古屋・岐阜羽島・米原",
+        "en": "Shin-Yokohama, Toyohashi, Nagoya, Gifu-Hashima"
+      }
     },
     {
       "track_no": "14",
-      "type": { "local": "のぞみ", "en": "NOZOMI" },
+      "type": {
+        "local": "のぞみ",
+        "en": "NOZOMI"
+      },
       "type_color_hex": "#f0df23",
       "type_text_color": "#000000",
       "train_no": "205",
       "depart_time": "08:51",
-      "destination": { "local": "新大阪", "en": "Shin-Osaka" },
-      "remarks": { "local": "自由席 1-3号車", "en": "Non-ReservedCarNo.1-3" },
-      "stops_at": { "local": "新横浜・名古屋・京都", "en": "Shin-Yokohama, Nagoya, Kyoto" }
+      "destination": {
+        "local": "新大阪",
+        "en": "Shin-Osaka"
+      },
+      "remarks": {
+        "local": "自由席 1-3号車",
+        "en": "Non-ReservedCarNo.1-3"
+      },
+      "stops_at": {
+        "local": "新横浜・名古屋・京都",
+        "en": "Shin-Yokohama, Nagoya, Kyoto"
+      }
     },
     {
       "track_no": "13",
-      "type": { "local": "こだま", "en": "KODAMA" },
+      "type": {
+        "local": "こだま",
+        "en": "KODAMA"
+      },
       "type_color_hex": "#0081c2",
       "type_text_color": "#ffffff",
       "train_no": "709",
       "depart_time": "08:57",
-      "destination": { "local": "名古屋", "en": "Nagoya" },
-      "remarks": { "local": "全車自由席", "en": "All Non-Reserved" },
-      "stops_at": { "local": "各駅停車", "en": "Stops at All Stations" }
+      "destination": {
+        "local": "名古屋",
+        "en": "Nagoya"
+      },
+      "remarks": {
+        "local": "全車自由席",
+        "en": "All Non-Reserved"
+      },
+      "stops_at": {
+        "local": "各駅停車",
+        "en": "Stops at All Stations"
+      }
     },
     {
       "track_no": "14",
-      "type": { "local": "のぞみ", "en": "NOZOMI" },
+      "type": {
+        "local": "のぞみ",
+        "en": "NOZOMI"
+      },
       "type_color_hex": "#f0df23",
       "type_text_color": "#000000",
       "train_no": "17",
       "depart_time": "09:00",
-      "destination": { "local": "博多", "en": "Hakata" },
-      "remarks": { "local": "全車指定席", "en": "All Reserved" },
-      "stops_at": { "local": "新横浜・名古屋・京都・新大阪・小倉", "en": "Shin-Yokohama, Nagoya, Kyoto, Shin-Osaka, Kokura" }
+      "destination": {
+        "local": "博多",
+        "en": "Hakata"
+      },
+      "remarks": {
+        "local": "全車指定席",
+        "en": "All Reserved"
+      },
+      "stops_at": {
+        "local": "新横浜・名古屋・京都・新大阪・小倉",
+        "en": "Shin-Yokohama, Nagoya, Kyoto, Shin-Osaka, Kokura"
+      }
     },
     {
       "track_no": "15",
-      "type": { "local": "のぞみ", "en": "NOZOMI" },
+      "type": {
+        "local": "のぞみ",
+        "en": "NOZOMI"
+      },
       "type_color_hex": "#f0df23",
       "type_text_color": "#000000",
       "train_no": "207",
       "depart_time": "09:07",
-      "destination": { "local": "新大阪", "en": "Shin-Osaka" },
-      "remarks": { "local": "自由席 1-3号車", "en": "Non-ReservedCarNo.1-3" },
-      "stops_at": { "local": "新横浜・名古屋・京都", "en": "Shin-Yokohama, Nagoya, Kyoto" }
+      "destination": {
+        "local": "新大阪",
+        "en": "Shin-Osaka"
+      },
+      "remarks": {
+        "local": "自由席 1-3号車",
+        "en": "Non-ReservedCarNo.1-3"
+      },
+      "stops_at": {
+        "local": "新横浜・名古屋・京都",
+        "en": "Shin-Yokohama, Nagoya, Kyoto"
+      }
     },
     {
       "track_no": "13",
-      "type": { "local": "ひかり", "en": "HIKARI" },
+      "type": {
+        "local": "ひかり",
+        "en": "HIKARI"
+      },
       "type_color_hex": "#fa3b40",
       "type_text_color": "#ffffff",
       "train_no": "505",
       "depart_time": "09:10",
-      "destination": { "local": "岡山", "en": "Okayama" },
-      "remarks": { "local": "自由席 1-5号車", "en": "Non-ReservedCarNo.1-5" },
-      "stops_at": { "local": "新横浜・熱海・静岡・浜松・名古屋", "en": "Shin-Yokohama, Atami, Shizuoka, Hamamatsu, Nagoya" }
+      "destination": {
+        "local": "岡山",
+        "en": "Okayama"
+      },
+      "remarks": {
+        "local": "自由席 1-5号車",
+        "en": "Non-ReservedCarNo.1-5"
+      },
+      "stops_at": {
+        "local": "新横浜・熱海・静岡・浜松・名古屋",
+        "en": "Shin-Yokohama, Atami, Shizuoka, Hamamatsu, Nagoya"
+      }
     },
     {
       "track_no": "14",
-      "type": { "local": "のぞみ", "en": "NOZOMI" },
+      "type": {
+        "local": "のぞみ",
+        "en": "NOZOMI"
+      },
       "type_color_hex": "#f0df23",
       "type_text_color": "#000000",
       "train_no": "19",
       "depart_time": "09:17",
-      "destination": { "local": "博多", "en": "Hakata" },
-      "remarks": { "local": "全車指定席", "en": "All Reserved" },
-      "stops_at": { "local": "新横浜・名古屋・京都・新大阪・広島", "en": "Shin-Yokohama, Nagoya, Kyoto, Shin-Osaka, Hiroshima" }
+      "destination": {
+        "local": "博多",
+        "en": "Hakata"
+      },
+      "remarks": {
+        "local": "全車指定席",
+        "en": "All Reserved"
+      },
+      "stops_at": {
+        "local": "新横浜・名古屋・京都・新大阪・広島",
+        "en": "Shin-Yokohama, Nagoya, Kyoto, Shin-Osaka, Hiroshima"
+      }
     },
     {
       "track_no": "15",
-      "type": { "local": "のぞみ", "en": "NOZOMI" },
+      "type": {
+        "local": "のぞみ",
+        "en": "NOZOMI"
+      },
       "type_color_hex": "#f0df23",
       "type_text_color": "#000000",
       "train_no": "83",
       "depart_time": "09:21",
-      "destination": { "local": "広島", "en": "Hiroshima" },
-      "remarks": { "local": "自由席 1-3号車", "en": "Non-ReservedCarNo.1-3" },
-      "stops_at": { "local": "新横浜・名古屋・京都・新大阪・姫路", "en": "Shin-Yokohama, Nagoya, Kyoto, Shin-Osaka, Himeji" }
+      "destination": {
+        "local": "広島",
+        "en": "Hiroshima"
+      },
+      "remarks": {
+        "local": "自由席 1-3号車",
+        "en": "Non-ReservedCarNo.1-3"
+      },
+      "stops_at": {
+        "local": "新横浜・名古屋・京都・新大阪・姫路",
+        "en": "Shin-Yokohama, Nagoya, Kyoto, Shin-Osaka, Himeji"
+      }
     },
     {
       "track_no": "13",
-      "type": { "local": "こだま", "en": "KODAMA" },
+      "type": {
+        "local": "こだま",
+        "en": "KODAMA"
+      },
       "type_color_hex": "#0081c2",
       "type_text_color": "#ffffff",
       "train_no": "711",
       "depart_time": "09:27",
-      "destination": { "local": "新大阪", "en": "Shin-Osaka" },
-      "remarks": { "local": "自由席 16-18号車", "en": "Non-ReservedCarNo.16-18" },
-      "stops_at": { "local": "各駅停車", "en": "Stops at All Stations" }
+      "destination": {
+        "local": "新大阪",
+        "en": "Shin-Osaka"
+      },
+      "remarks": {
+        "local": "自由席 16-18号車",
+        "en": "Non-ReservedCarNo.16-18"
+      },
+      "stops_at": {
+        "local": "各駅停車",
+        "en": "Stops at All Stations"
+      }
     },
     {
       "track_no": "14",
-      "type": { "local": "のぞみ", "en": "NOZOMI" },
+      "type": {
+        "local": "のぞみ",
+        "en": "NOZOMI"
+      },
       "type_color_hex": "#f0df23",
       "type_text_color": "#000000",
       "train_no": "209",
       "depart_time": "09:30",
-      "destination": { "local": "新大阪", "en": "Shin-Osaka" },
-      "remarks": { "local": "自由席 1-3号車", "en": "Non-ReservedCarNo.1-3" },
-      "stops_at": { "local": "新横浜・名古屋・京都", "en": "Shin-Yokohama, Nagoya, Kyoto" }
+      "destination": {
+        "local": "新大阪",
+        "en": "Shin-Osaka"
+      },
+      "remarks": {
+        "local": "自由席 1-3号車",
+        "en": "Non-ReservedCarNo.1-3"
+      },
+      "stops_at": {
+        "local": "新横浜・名古屋・京都",
+        "en": "Shin-Yokohama, Nagoya, Kyoto"
+      }
     },
     {
       "track_no": "15",
-      "type": { "local": "ひかり", "en": "HIKARI" },
+      "type": {
+        "local": "ひかり",
+        "en": "HIKARI"
+      },
       "type_color_hex": "#fa3b40",
       "type_text_color": "#ffffff",
       "train_no": "637",
       "depart_time": "09:34",
-      "destination": { "local": "新大阪", "en": "Shin-Osaka" },
-      "remarks": { "local": "自由席 1-5号車", "en": "Non-ReservedCarNo.1-5" },
-      "stops_at": { "local": "小田原・三島・静岡・浜松・名古屋", "en": "Odawara, Mishima, Shizuoka, Hamamatsu, Nagoya" }
+      "destination": {
+        "local": "新大阪",
+        "en": "Shin-Osaka"
+      },
+      "remarks": {
+        "local": "自由席 1-5号車",
+        "en": "Non-ReservedCarNo.1-5"
+      },
+      "stops_at": {
+        "local": "小田原・三島・静岡・浜松・名古屋",
+        "en": "Odawara, Mishima, Shizuoka, Hamamatsu, Nagoya"
+      }
     },
     {
       "track_no": "13",
-      "type": { "local": "のぞみ", "en": "NOZOMI" },
+      "type": {
+        "local": "のぞみ",
+        "en": "NOZOMI"
+      },
       "type_color_hex": "#f0df23",
       "type_text_color": "#000000",
       "train_no": "21",
       "depart_time": "09:40",
-      "destination": { "local": "博多", "en": "Hakata" },
-      "remarks": { "local": "全車指定席", "en": "All Reserved" },
-      "stops_at": { "local": "新横浜・名古屋・京都・新大阪・福山", "en": "Shin-Yokohama, Nagoya, Kyoto, Shin-Osaka, Fukuyama" }
+      "destination": {
+        "local": "博多",
+        "en": "Hakata"
+      },
+      "remarks": {
+        "local": "全車指定席",
+        "en": "All Reserved"
+      },
+      "stops_at": {
+        "local": "新横浜・名古屋・京都・新大阪・福山",
+        "en": "Shin-Yokohama, Nagoya, Kyoto, Shin-Osaka, Fukuyama"
+      }
     },
     {
       "track_no": "14",
-      "type": { "local": "のぞみ", "en": "NOZOMI" },
+      "type": {
+        "local": "のぞみ",
+        "en": "NOZOMI"
+      },
       "type_color_hex": "#f0df23",
       "type_text_color": "#000000",
       "train_no": "85",
       "depart_time": "09:47",
-      "destination": { "local": "広島", "en": "Hiroshima" },
-      "remarks": { "local": "自由席 1-3号車", "en": "Non-ReservedCarNo.1-3" },
-      "stops_at": { "local": "新横浜・名古屋・京都・新大阪・岡山", "en": "Shin-Yokohama, Nagoya, Kyoto, Shin-Osaka, Okayama" }
+      "destination": {
+        "local": "広島",
+        "en": "Hiroshima"
+      },
+      "remarks": {
+        "local": "自由席 1-3号車",
+        "en": "Non-ReservedCarNo.1-3"
+      },
+      "stops_at": {
+        "local": "新横浜・名古屋・京都・新大阪・岡山",
+        "en": "Shin-Yokohama, Nagoya, Kyoto, Shin-Osaka, Okayama"
+      }
     },
     {
       "track_no": "15",
-      "type": { "local": "こだま", "en": "KODAMA" },
+      "type": {
+        "local": "こだま",
+        "en": "KODAMA"
+      },
       "type_color_hex": "#0081c2",
       "type_text_color": "#ffffff",
       "train_no": "713",
       "depart_time": "09:54",
-      "destination": { "local": "名古屋", "en": "Nagoya" },
-      "remarks": { "local": "全車自由席", "en": "All Non-Reserved" },
-      "stops_at": { "local": "各駅停車", "en": "Stops at All Stations" }
+      "destination": {
+        "local": "名古屋",
+        "en": "Nagoya"
+      },
+      "remarks": {
+        "local": "全車自由席",
+        "en": "All Non-Reserved"
+      },
+      "stops_at": {
+        "local": "各駅停車",
+        "en": "Stops at All Stations"
+      }
     }
   ]
 }

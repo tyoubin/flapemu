@@ -44,23 +44,69 @@ body {
    3. COMPONENTS
    ========================================= */
 /* --- Top bar --- */
+/* --- Top bar --- */
 .top-bar {
     width: 100%;
     display: flex;
     align-items: center;
+    /* Center items vertically */
     justify-content: flex-start;
-    margin-bottom: 10px;
-    position: relative;
-    /* Enabled for centered system status */
+    margin-bottom: 20px;
+    gap: 20px;
+    height: 70px;
+    /* Allocate sufficient space */
 }
 
-.header-title {
-    font-weight: 800;
+/* 3. Logo Placeholder */
+.header-logo-section {
+    width: 70px;
+    height: 70px;
+    background-color: #222;
+    /* Placeholder bg */
+    border: 1px solid #333;
+    flex-shrink: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+}
+
+.header-logo-section img {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+}
+
+.header-info-section {
+    display: flex;
+    flex-direction: row;
+    gap: 30px;
+    align-items: center;
+}
+
+.header-line-name,
+.header-direction {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+}
+
+.header-text-local {
     font-size: 28px;
+    font-weight: 900;
     color: #ffffff;
-    text-shadow: 0 0 3px rgba(255, 255, 255, 0.6);
-    letter-spacing: 2px;
-    line-height: 1.2;
+    text-shadow: 0 0 5px rgba(255, 255, 255, 0.3);
+    line-height: 1.1;
+    margin-bottom: 2px;
+}
+
+.header-text-en {
+    font-size: 14px;
+    font-weight: 700;
+    color: #aaa;
+    letter-spacing: 1px;
+    line-height: 1;
 }
 
 /* --- Flip board container --- */
@@ -603,6 +649,17 @@ footer a:hover {
    6. MOBILE ZOOM (Simulate "Smaller Text")
    ========================================= */
 @media screen and (max-width: 800px) {
+    .top-bar {
+        height: auto;
+        align-items: flex-start;
+    }
+
+    .header-info-section {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+    }
+
     .header-row {
         display: none;
     }

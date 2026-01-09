@@ -1,7 +1,16 @@
 {
   "meta": {
-    "station_name": "FlapEmu",
-    "line_name": "Demo線 東西方面"
+    "header": {
+      "logo_url": "timetable/logo.svg",
+      "line_name": {
+        "local": "Demo線",
+        "en": "Demo Line"
+      },
+      "for": {
+        "local": "東西方面",
+        "en": "for East & West"
+      }
+    }
   },
   "presets": {
     "types": [

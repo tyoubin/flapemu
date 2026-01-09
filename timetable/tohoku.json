@@ -1,127 +1,346 @@
 {
   "meta": {
-    "station_name": "仙台駅",
-    "line_name": "東北・北海道新幹線"
+    "header": {
+      "logo_url": "timetable/JU_orange.svg",
+      "line_name": {
+        "local": "東北・北海道新幹線",
+        "en": "Tohoku & Hokkaido Shinkansen"
+      },
+      "for": {
+        "local": "東京・新函館北斗・秋田方面",
+        "en": "for Tokyo, Shin-Hakodate & Akita"
+      }
+    }
   },
   "presets": {
     "types": [
-      { "local": "はやぶさ", "en": "HAYABUSA", "color": "#2ecc71" },
-      { "local": "こまち", "en": "KOMACHI", "color": "#e74c3c" },
-      { "local": "やまびこ", "en": "YAMABIKO", "color": "#27ae60" },
-      { "local": "つばさ", "en": "TSUBASA", "color": "#8e44ad" },
-      { "local": "なすの", "en": "NASUNO", "color": "#2980b9" },
-      { "local": "回送", "en": "OUT OF SERVICE", "color": "#ffffff", "textColor": "#000000" },
-      { "local": "試運転", "en": "TEST RUN", "color": "#ffffff", "textColor": "#000000" }
+      {
+        "local": "はやぶさ",
+        "en": "HAYABUSA",
+        "color": "#2ecc71"
+      },
+      {
+        "local": "こまち",
+        "en": "KOMACHI",
+        "color": "#e74c3c"
+      },
+      {
+        "local": "やまびこ",
+        "en": "YAMABIKO",
+        "color": "#27ae60"
+      },
+      {
+        "local": "つばさ",
+        "en": "TSUBASA",
+        "color": "#8e44ad"
+      },
+      {
+        "local": "なすの",
+        "en": "NASUNO",
+        "color": "#2980b9"
+      },
+      {
+        "local": "回送",
+        "en": "OUT OF SERVICE",
+        "color": "#ffffff",
+        "textColor": "#000000"
+      },
+      {
+        "local": "試運転",
+        "en": "TEST RUN",
+        "color": "#ffffff",
+        "textColor": "#000000"
+      }
     ],
     "dests": [
-      { "local": "東京", "en": "TOKYO" },
-      { "local": "上野", "en": "UENO" },
-      { "local": "大宮", "en": "OMIYA" },
-      { "local": "小山", "en": "OYAMA" },
-      { "local": "宇都宮", "en": "UTSUNOMIYA" },
-      { "local": "郡山", "en": "KORIYAMA" },
-      { "local": "那須塩原", "en": "NASUSHIOBARA" },
-      { "local": "新白河", "en": "SHIN-SHIRAKAWA" },
-      { "local": "郡山", "en": "KORIYAMA" },
-      { "local": "福島", "en": "FUKUSHIMA" },
-      { "local": "白石蔵王", "en": "SHIROISHI-ZAO" },
-      { "local": "仙台", "en": "SENDAI" },
-      { "local": "古川", "en": "FURUKAWA" },
-      { "local": "くりこま高原", "en": "KURIKOMA-KOGEN" },
-      { "local": "一ノ関", "en": "ICHINOSEKI" },
-      { "local": "水沢江刺", "en": "MIZUSAWA-ESASHI" },
-      { "local": "北上", "en": "KITAKAMI" },
-      { "local": "新花巻", "en": "SHIN-HANAMAKI" },
-      { "local": "盛岡", "en": "MORIOKA" },
-      { "local": "いわて沼宮内", "en": "IWATE-NUMAKANAI" },
-      { "local": "二戸", "en": "NINOHE" },
-      { "local": "八戸", "en": "HACHINOHE" },
-      { "local": "七戸十和田", "en": "SHICHINOHE-TOWADA" },
-      { "local": "新青森", "en": "SHIN-AOMORI" },
-      { "local": "奥津軽今別", "en": "OKUTSUGARU-IMABETSU" },
-      { "local": "木古内", "en": "KIKONAI" }, 
-      { "local": "新函館北斗", "en": "SHIN-HAKODATE" },
-      { "local": "秋田", "en": "AKITA" },
-      { "local": "山形", "en": "YAMAGATA" },
-      { "local": "新庄", "en": "SHINJO" }
+      {
+        "local": "東京",
+        "en": "TOKYO"
+      },
+      {
+        "local": "上野",
+        "en": "UENO"
+      },
+      {
+        "local": "大宮",
+        "en": "OMIYA"
+      },
+      {
+        "local": "小山",
+        "en": "OYAMA"
+      },
+      {
+        "local": "宇都宮",
+        "en": "UTSUNOMIYA"
+      },
+      {
+        "local": "郡山",
+        "en": "KORIYAMA"
+      },
+      {
+        "local": "那須塩原",
+        "en": "NASUSHIOBARA"
+      },
+      {
+        "local": "新白河",
+        "en": "SHIN-SHIRAKAWA"
+      },
+      {
+        "local": "郡山",
+        "en": "KORIYAMA"
+      },
+      {
+        "local": "福島",
+        "en": "FUKUSHIMA"
+      },
+      {
+        "local": "白石蔵王",
+        "en": "SHIROISHI-ZAO"
+      },
+      {
+        "local": "仙台",
+        "en": "SENDAI"
+      },
+      {
+        "local": "古川",
+        "en": "FURUKAWA"
+      },
+      {
+        "local": "くりこま高原",
+        "en": "KURIKOMA-KOGEN"
+      },
+      {
+        "local": "一ノ関",
+        "en": "ICHINOSEKI"
+      },
+      {
+        "local": "水沢江刺",
+        "en": "MIZUSAWA-ESASHI"
+      },
+      {
+        "local": "北上",
+        "en": "KITAKAMI"
+      },
+      {
+        "local": "新花巻",
+        "en": "SHIN-HANAMAKI"
+      },
+      {
+        "local": "盛岡",
+        "en": "MORIOKA"
+      },
+      {
+        "local": "いわて沼宮内",
+        "en": "IWATE-NUMAKANAI"
+      },
+      {
+        "local": "二戸",
+        "en": "NINOHE"
+      },
+      {
+        "local": "八戸",
+        "en": "HACHINOHE"
+      },
+      {
+        "local": "七戸十和田",
+        "en": "SHICHINOHE-TOWADA"
+      },
+      {
+        "local": "新青森",
+        "en": "SHIN-AOMORI"
+      },
+      {
+        "local": "奥津軽今別",
+        "en": "OKUTSUGARU-IMABETSU"
+      },
+      {
+        "local": "木古内",
+        "en": "KIKONAI"
+      },
+      {
+        "local": "新函館北斗",
+        "en": "SHIN-HAKODATE"
+      },
+      {
+        "local": "秋田",
+        "en": "AKITA"
+      },
+      {
+        "local": "山形",
+        "en": "YAMAGATA"
+      },
+      {
+        "local": "新庄",
+        "en": "SHINJO"
+      }
     ],
     "remarks": [
-      { "local": "自由席 1-3号車", "en": "Non-ReservedCarNo.1-3" },
-      { "local": "自由席 7-8号車", "en": "Non-ReservedCarNo.7-8" },
-      { "local": "全車指定席", "en": "All Reserved" },
-      { "local": "G車・グランクラス", "en": "Green/GranClass" }
+      {
+        "local": "自由席 1-3号車",
+        "en": "Non-ReservedCarNo.1-3"
+      },
+      {
+        "local": "自由席 7-8号車",
+        "en": "Non-ReservedCarNo.7-8"
+      },
+      {
+        "local": "全車指定席",
+        "en": "All Reserved"
+      },
+      {
+        "local": "G車・グランクラス",
+        "en": "Green/GranClass"
+      }
     ],
     "stops": [
-      { "local": "各駅停車", "en": "Stops at All Stations" },
-      { "local": "途中停車駅はありません", "en": "No Intermediate Stops" }
+      {
+        "local": "各駅停車",
+        "en": "Stops at All Stations"
+      },
+      {
+        "local": "途中停車駅はありません",
+        "en": "No Intermediate Stops"
+      }
     ]
   },
   "schedule": [
     {
       "track_no": "11",
-      "type": { "local": "はやぶさ", "en": "HAYABUSA" },
+      "type": {
+        "local": "はやぶさ",
+        "en": "HAYABUSA"
+      },
       "type_color_hex": "#2ecc71",
       "type_text_color": "#ffffff",
       "train_no": "4",
       "depart_time": "20:42",
-      "destination": { "local": "東京", "en": "TOKYO" },
-      "remarks": { "local": "全車指定席", "en": "All Reserved" },
-      "stops_at": { "local": "大宮・上野", "en": "Stops: Omiya, Ueno" }
+      "destination": {
+        "local": "東京",
+        "en": "TOKYO"
+      },
+      "remarks": {
+        "local": "全車指定席",
+        "en": "All Reserved"
+      },
+      "stops_at": {
+        "local": "大宮・上野",
+        "en": "Stops: Omiya, Ueno"
+      }
     },
     {
       "track_no": "12",
-      "type": { "local": "やまびこ", "en": "YAMABIKO" },
+      "type": {
+        "local": "やまびこ",
+        "en": "YAMABIKO"
+      },
       "type_color_hex": "#27ae60",
       "type_text_color": "#ffffff",
       "train_no": "124",
       "depart_time": "08:15",
-      "destination": { "local": "東京", "en": "TOKYO" },
-      "remarks": { "local": "自由席 1-4号車", "en": "Non-Resv 1-4" },
-      "stops_at": { "local": "福島・郡山・宇都宮・大宮・上野", "en": "Fukushima, Koriyama, Utsunomiya" }
+      "destination": {
+        "local": "東京",
+        "en": "TOKYO"
+      },
+      "remarks": {
+        "local": "自由席 1-4号車",
+        "en": "Non-Resv 1-4"
+      },
+      "stops_at": {
+        "local": "福島・郡山・宇都宮・大宮・上野",
+        "en": "Fukushima, Koriyama, Utsunomiya"
+      }
     },
     {
       "track_no": "13",
-      "type": { "local": "こまち", "en": "KOMACHI" },
+      "type": {
+        "local": "こまち",
+        "en": "KOMACHI"
+      },
       "type_color_hex": "#e74c3c",
       "type_text_color": "#ffffff",
       "train_no": "6",
       "depart_time": "08:30",
-      "destination": { "local": "秋田", "en": "AKITA" },
-      "remarks": { "local": "全車指定席", "en": "All Reserved" },
-      "stops_at": { "local": "盛岡・田沢湖・角館・大曲", "en": "Morioka, Tazawako, Kakunodate, Omagari" }
+      "destination": {
+        "local": "秋田",
+        "en": "AKITA"
+      },
+      "remarks": {
+        "local": "全車指定席",
+        "en": "All Reserved"
+      },
+      "stops_at": {
+        "local": "盛岡・田沢湖・角館・大曲",
+        "en": "Morioka, Tazawako, Kakunodate, Omagari"
+      }
     },
     {
       "track_no": "14",
-      "type": { "local": "つばさ", "en": "TSUBASA" },
+      "type": {
+        "local": "つばさ",
+        "en": "TSUBASA"
+      },
       "type_color_hex": "#8e44ad",
       "type_text_color": "#ffffff",
       "train_no": "121",
       "depart_time": "08:45",
-      "destination": { "local": "山形", "en": "YAMAGATA" },
-      "remarks": { "local": "全車指定席", "en": "All Reserved" },
-      "stops_at": { "local": "福島・米沢・高畠・赤湯・かみのやま温泉", "en": "Fukushima, Yonezawa, Akayu" }
+      "destination": {
+        "local": "山形",
+        "en": "YAMAGATA"
+      },
+      "remarks": {
+        "local": "全車指定席",
+        "en": "All Reserved"
+      },
+      "stops_at": {
+        "local": "福島・米沢・高畠・赤湯・かみのやま温泉",
+        "en": "Fukushima, Yonezawa, Akayu"
+      }
     },
     {
       "track_no": "11",
-      "type": { "local": "試運転", "en": "TEST RUN" },
+      "type": {
+        "local": "試運転",
+        "en": "TEST RUN"
+      },
       "type_color_hex": "#ffffff",
       "type_text_color": "#000000",
       "train_no": "1",
       "depart_time": "09:00",
-      "destination": { "local": "", "en": "" },
-      "remarks": { "local": "", "en": "" },
-      "stops_at": { "local": "", "en": "" }
+      "destination": {
+        "local": "",
+        "en": ""
+      },
+      "remarks": {
+        "local": "",
+        "en": ""
+      },
+      "stops_at": {
+        "local": "",
+        "en": ""
+      }
     },
     {
       "track_no": "12",
-      "type": { "local": "なすの", "en": "NASUNO" },
+      "type": {
+        "local": "なすの",
+        "en": "NASUNO"
+      },
       "type_color_hex": "#2980b9",
       "type_text_color": "#ffffff",
       "train_no": "252",
       "depart_time": "09:15",
-      "destination": { "local": "東京", "en": "TOKYO" },
-      "remarks": { "local": "自由席 1-5号車", "en": "Non-Resv 1-5" },
-      "stops_at": { "local": "各駅に停車します", "en": "Stops at All Stations" }
+      "destination": {
+        "local": "東京",
+        "en": "TOKYO"
+      },
+      "remarks": {
+        "local": "自由席 1-5号車",
+        "en": "Non-Resv 1-5"
+      },
+      "stops_at": {
+        "local": "各駅に停車します",
+        "en": "Stops at All Stations"
+      }
     }
   ]
 }

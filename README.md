@@ -71,8 +71,11 @@ The JSON timetable files follow a specific structure containing station metadata
 ```json
 {
   "meta": {
-    "station_name": "Shinagawa",
-    "line_name": "Tokaido Shinkansen"
+    "header": {
+      "logo_url": "timetable/jt_orange.svg",
+      "line_name": { "local": "東海道新幹線", "en": "Tokaido Shinkansen" },
+      "for": { "local": "新大阪・博多方面", "en": "for Shin-Osaka & Hakata" }
+    }
   },
   "presets": {
     "types": [{ "local": "のぞみ", "en": "NOZOMI", "color": "#f39c12" }],
@@ -123,6 +126,10 @@ When deploying this project for actual use (e.g., Kiosk Mode in a station), **ca
 1.  **Meta Tags**: The application includes `<meta>` tags to discourage caching.
 2.  **Server Configuration (Recommended)**: Configure your web server (Nginx, Apache, Netlify, etc.) to send strict cache headers (e.g., `Cache-Control: no-store, no-cache, must-revalidate`).
 
-## License
+## Credits
+*   **Station & Line Logos**:
+    *   `JT_orange.svg` and `JU_orange.svg`: East Japan Railway Company, Public domain, via Wikimedia Commons
+    *   `JA_red.svg`: SEASONposter, [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0), via Wikimedia Commons
 
+## License
 This project is licensed under the MIT License.

@@ -10,8 +10,11 @@ const STORAGE_KEY = 'flapemu_editor_draft';
 // Empty timetable template
 const emptyTimetable = () => ({
 	meta: {
-		station_name: '',
-		line_name: ''
+		header: {
+			logo_url: 'timetable/logo.svg',
+			line_name: { local: '', en: '' },
+			for: { local: '', en: '' }
+		}
 	},
 	presets: {
 		types: [],
@@ -32,8 +35,11 @@ const $$ = (sel) => document.querySelectorAll(sel);
 
 const elements = {
 	// Meta
-	metaStation: $('#meta-station'),
-	metaLine: $('#meta-line'),
+	headerLineLocal: $('#header-line-local'),
+	headerLineEn: $('#header-line-en'),
+	headerForLocal: $('#header-for-local'),
+	headerForEn: $('#header-for-en'),
+	headerLogoUrl: $('#header-logo-url'),
 	// Preset lists
 	listTypes: $('#list-types'),
 	listDests: $('#list-dests'),
@@ -80,12 +86,24 @@ function init() {
 
 function setupEventListeners() {
 	// Meta inputs - live update
-	elements.metaStation.addEventListener('input', (e) => {
-		timetable.meta.station_name = e.target.value;
+	elements.headerLineLocal.addEventListener('input', (e) => {
+		timetable.meta.header.line_name.local = e.target.value;
 		saveDraft();
 	});
-	elements.metaLine.addEventListener('input', (e) => {
-		timetable.meta.line_name = e.target.value;
+	elements.headerLineEn.addEventListener('input', (e) => {
+		timetable.meta.header.line_name.en = e.target.value;
+		saveDraft();
+	});
+	elements.headerForLocal.addEventListener('input', (e) => {
+		timetable.meta.header.for.local = e.target.value;
+		saveDraft();
+	});
+	elements.headerForEn.addEventListener('input', (e) => {
+		timetable.meta.header.for.en = e.target.value;
+		saveDraft();
+	});
+	elements.headerLogoUrl.addEventListener('input', (e) => {
+		timetable.meta.header.logo_url = e.target.value;
 		saveDraft();
 	});
 
@@ -194,8 +212,16 @@ function renderAll() {
 }
 
 function renderMeta() {
-	elements.metaStation.value = timetable.meta.station_name || '';
-	elements.metaLine.value = timetable.meta.line_name || '';
+	const h = timetable.meta.header || {
+		line_name: { local: '', en: '' },
+		for: { local: '', en: '' },
+		logo_url: ''
+	};
+	elements.headerLineLocal.value = h.line_name?.local || '';
+	elements.headerLineEn.value = h.line_name?.en || '';
+	elements.headerForLocal.value = h.for?.local || '';
+	elements.headerForEn.value = h.for?.en || '';
+	elements.headerLogoUrl.value = h.logo_url || '';
 }
 
 function renderPresets(type) {
@@ -514,12 +540,18 @@ function handleImport(e) {
 			}
 
 			timetable = {
-				meta: data.meta || { station_name: '', line_name: '' },
+				meta: data.meta || {
+					header: {
+						logo_url: 'timetable/logo.svg',
+						line_name: { local: '', en: '' },
+						for: { local: '', en: '' }
+					}
+				},
 				presets: {
-					types: data.presets.types || [],
-					dests: data.presets.dests || [],
-					remarks: data.presets.remarks || [],
-					stops: data.presets.stops || []
+					types: data.presets?.types || [],
+					dests: data.presets?.dests || [],
+					remarks: data.presets?.remarks || [],
+					stops: data.presets?.stops || []
 				},
 				schedule: data.schedule || []
 			};
@@ -540,9 +572,10 @@ function handleImport(e) {
 
 function handleExport() {
 	// Validate before export
-	if (!timetable.meta.station_name) {
-		showToast('Please enter a station name', 'error');
-		elements.metaStation.focus();
+	const lineNameLocal = timetable.meta.header?.line_name?.local;
+	if (!lineNameLocal || lineNameLocal.trim() === '') {
+		showToast('Please enter a Line Name (Local)', 'error');
+		elements.headerLineLocal.focus();
 		return;
 	}
 
@@ -550,7 +583,7 @@ function handleExport() {
 	const blob = new Blob([json], { type: 'application/json' });
 	const url = URL.createObjectURL(blob);
 
-	const filename = sanitizeFilename(timetable.meta.station_name) + '.json';
+	const filename = sanitizeFilename(lineNameLocal) + '.json';
 
 	const a = document.createElement('a');
 	a.href = url;

@@ -64,18 +64,47 @@ async function fetchData() {
 		adjustColumnWidth('--col-rem-width', presetsData.remarks, extractFromSchedule(scheduleData, 'remarks'), 6);
 		adjustColumnWidth('--col-stop-width', presetsData.stops, extractFromSchedule(scheduleData, 'stops_at'), 4);
 
-		// Browser Tab Title
-		if (metaData.station_name || metaData.line_name) {
-			const sName = metaData.station_name || "";
-			const lName = metaData.line_name || "";
-			document.title = `${sName} ${lName}`;
+
+		// --- Browser Tab Title ---
+		const headerData = metaData.header;
+		if (headerData && headerData.line_name) {
+			document.title = headerData.line_name.local || "FlapEmu";
 		} else {
 			document.title = "FlapEmu";
 		}
 
-		const lineName = metaData.line_name || "DEPARTURES";
-		const leftTitle = document.getElementById('line-name-left');
-		if (leftTitle) leftTitle.textContent = lineName;
+
+		// --- Header Update Logic ---
+		if (headerData) {
+			const elLineLocal = document.getElementById('header-line-local');
+			const elLineEn = document.getElementById('header-line-en');
+
+			if (elLineLocal) elLineLocal.textContent = headerData.line_name.local;
+			if (elLineEn) elLineEn.textContent = headerData.line_name.en;
+
+			const elDestLocal = document.getElementById('header-dest-local');
+			const elDestEn = document.getElementById('header-dest-en');
+
+			if (elDestLocal) elDestLocal.textContent = headerData.for.local;
+			if (elDestEn) elDestEn.textContent = headerData.for.en;
+
+			// 3. Logo (SVG)
+			const elLogo = document.getElementById('header-logo');
+			if (elLogo && headerData.logo_url) {
+				elLogo.innerHTML = `<img src="${headerData.logo_url}" alt="Line Logo">`;
+				elLogo.style.display = 'flex';
+			} else if (elLogo) {
+				// User requested to preserve the square space
+				elLogo.innerHTML = '';
+				elLogo.style.display = 'flex';
+			}
+		} else {
+			// If no header data, we might want to hide the whole top bar or show error?
+			// But existing code for station_name title logic (browser tab) remains above.
+			// We will leave the DOM empty if no data.
+			console.warn("[System] 'header' metadata missing in JSON.");
+		}
+
 
 		if (!isInitialized) {
 			console.log("[System] Initializing Board...");
