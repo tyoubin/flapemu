@@ -97,7 +97,15 @@ async function fetchData() {
 			// 3. Logo (SVG)
 			const elLogo = document.getElementById('header-logo');
 			if (elLogo && headerData.logo_url) {
-				elLogo.innerHTML = `<img src="${headerData.logo_url}" alt="Line Logo">`;
+				// Only update if URL changed (similar to favicon logic)
+				const existingImg = elLogo.querySelector('img');
+				const currentSrc = existingImg ? existingImg.src : null;
+				const newUrl = headerData.logo_url;
+
+				// Check if URL has changed (handle both relative and absolute URLs)
+				if (!existingImg || (currentSrc !== newUrl && currentSrc !== window.location.origin + '/' + newUrl)) {
+					elLogo.innerHTML = `<img src="${newUrl}" alt="Line Logo">`;
+				}
 				elLogo.style.display = 'flex';
 			} else if (elLogo) {
 				// User requested to preserve the square space
