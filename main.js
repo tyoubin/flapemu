@@ -1,5 +1,5 @@
 import { DATA_SOURCE, PREVIEW_MODE, ROW_COUNT } from './js/config.js';
-import { sleep, calculateVisualLength } from './js/utils.js';
+import { sleep, calculateVisualLength, setFavicon } from './js/utils.js';
 import { TrainGroup } from './js/TrainGroup.js';
 
 let groups = [];
@@ -75,6 +75,10 @@ async function fetchData() {
 			document.title = "FlapEmu";
 		}
 
+		// --- Browser Tab Icon ---
+		if (headerData && headerData.logo_url) {
+			setFavicon(headerData.logo_url);
+		}
 
 		// --- Header Update Logic ---
 		if (headerData) {

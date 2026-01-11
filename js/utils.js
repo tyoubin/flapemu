@@ -36,3 +36,14 @@ export const calculateVisualLength = (text) => {
 	}
 	return visualLength;
 };
+
+/* favicon setter
+ */
+
+export const setFavicon = (url) => {
+	const link = document.createElement('link');
+	link.rel = 'icon';
+	link.type = 'image/svg+xml';
+	link.href = url;
+	document.head.appendChild(link);
+};
