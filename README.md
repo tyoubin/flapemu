@@ -128,6 +128,7 @@ When deploying this project for actual use (e.g., Kiosk Mode in a station), **ca
 
 ## Credits
 *   **Station & Line Logos**:
+    *   `Shinkansen_jrc.svg`: KANAO22, [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0), via Wikimedia Commons
     *   `JT_orange.svg` and `JU_orange.svg`: East Japan Railway Company, Public domain, via Wikimedia Commons
     *   `JA_red.svg`: SEASONposter, [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0), via Wikimedia Commons
 
