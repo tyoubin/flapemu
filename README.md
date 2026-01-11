@@ -127,10 +127,12 @@ When deploying this project for actual use (e.g., Kiosk Mode in a station), **ca
 2.  **Server Configuration (Recommended)**: Configure your web server (Nginx, Apache, Netlify, etc.) to send strict cache headers (e.g., `Cache-Control: no-store, no-cache, must-revalidate`).
 
 ## Credits
-*   **Station & Line Logos**:
-    *   `Shinkansen_jrc.svg`: KANAO22, [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0), via Wikimedia Commons
-    *   `JT_orange.svg` and `JU_orange.svg`: East Japan Railway Company, Public domain, via Wikimedia Commons
-    *   `JA_red.svg`: SEASONposter, [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0), via Wikimedia Commons
+
+*  `Shinkansen_jrc.svg`: KANAO22, [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0), via Wikimedia Commons
+*  `JT_orange.svg` and `JU_orange.svg`: East Japan Railway Company, Public domain, via Wikimedia Commons
+*  `JA_red.svg`: SEASONposter, [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0), via Wikimedia Commons
+
+The distinctive shape of the Shinkansen train and other visual identifiers are the property of the respective (JR) companies. This project is developed solely for technical demonstration purposes and is not an official application or affiliated with any company.
 
 ## License
 This project is licensed under the MIT License.
