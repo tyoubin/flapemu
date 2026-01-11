@@ -39,11 +39,19 @@ export const calculateVisualLength = (text) => {
 
 /* favicon setter
  */
+export function setFavicon(url) {
+	// 1. Find existing
+	let link = document.querySelector("link[rel~='icon']");
 
-export const setFavicon = (url) => {
-	const link = document.createElement('link');
-	link.rel = 'icon';
-	link.type = 'image/svg+xml';
-	link.href = url;
-	document.head.appendChild(link);
-};
+	// 2. Only create if it doesn't exist
+	if (!link) {
+		link = document.createElement('link');
+		link.rel = 'icon';
+		document.head.appendChild(link);
+	}
+
+	// 3. Only update if URL changed
+	if (link.href !== url && link.href !== window.location.origin + '/' + url) {
+		link.href = url;
+	}
+}
