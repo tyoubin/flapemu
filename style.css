@@ -275,6 +275,12 @@ body.mode-gate .train-group .col-stop {
     display: none;
 }
 
+/* Platform Mode: Hide 'col-plat' columns */
+body.mode-platform .header-row .col-plat.header-item,
+body.mode-platform .train-group .col-plat {
+    display: none;
+}
+
 /* =========================================
    5. FLAP UNIT VISUALS (Standard)
    ========================================= */

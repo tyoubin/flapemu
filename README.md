@@ -81,7 +81,7 @@ FlapEmu supports different display modes which can hide or show certain columns 
 
 *   **`?mode=concourse` (Default):** Optimized for main hall displays. In this mode, the "Train Stops" column (displaying intermediate stops for a train) is hidden to provide a cleaner, high-level overview.
 *   **`?mode=gate`:** Designed for ticket gate deployments. This mode hides the top navigation bar and the "Train Stops" column for a compact, focused display.
-*   `?mode=platform`: (Future)
+*   **`?mode=platform`:** Ideal for platform-specific displays. This mode hides the "Track No" column, making the display cleaner when the platform information is already obvious from the physical location.
 
 ### Data Structure
 
