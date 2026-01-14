@@ -64,6 +64,17 @@ You can customize the number of split-flap rows displayed on the board by adding
 *   Combine with a timetable:
     `board.html?t=shinagawa&rows=10`
 
+### Filtering by Track Number
+
+You can filter the displayed trains to show only specific track numbers by using the `track` URL parameter. Multiple track numbers can be specified as a comma-separated list.
+
+*   To show trains only for track 23:
+    `board.html?track=23`
+*   To show trains for tracks 23 and 24:
+    `board.html?track=23,24`
+*   Combine with other parameters:
+    `board.html?t=shinagawa&rows=5&track=14,15`
+
 ### Display Modes
 
 FlapEmu supports different display modes which can hide or show certain columns to optimize for various contexts (e.g., main concourse, gate area, platform). You can set the display mode using the `mode` URL parameter.

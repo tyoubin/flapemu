@@ -31,9 +31,16 @@ async function fetchData() {
 			json = await response.json();
 		}
 
-		const scheduleData = Array.isArray(json) ? json : json.schedule;
+		let scheduleData = Array.isArray(json) ? json : json.schedule;
 		const presetsData = Array.isArray(json) ? {} : json.presets;
 		const metaData = Array.isArray(json) ? {} : (json.meta || {});
+
+		// --- Apply Track Filtering (if FILTER_TRACKS is defined) ---
+		if (FILTER_TRACKS) {
+			scheduleData = scheduleData.filter(train => {
+				return FILTER_TRACKS.includes(String(train.track_no));
+			});
+		}
 
 		// Auto-Layout
 		const extractFromSchedule = (schedule, key) => {
