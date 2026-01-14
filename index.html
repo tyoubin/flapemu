@@ -166,24 +166,28 @@
 <body>
 
     <h1>FlapEmu</h1>
-    <p class="subtitle">Select a station</p>
+    <p class="subtitle">Select a demo</p>
 
     <div class="station-list">
-        <a href="board.html?t=shinagawa" class="station-card orange">
-            <div class="station-name">Shinagawa Demo</div>
-            <div class="line-name">Toukaido Shinkansen</div>
+        <a href="board.html?t=shinagawa&mode=concourse&rows=7" class="station-card orange">
+            <div class="station-name">Concourse Demo</div>
+            <div class="line-name">Big screen for concourse deployment</div>
         </a>
-        <a href="board.html?t=kumamoto" class="station-card red">
-            <div class="station-name">Kumamoto Demo</div>
-            <div class="line-name">Kyushu Shinkansen & Local Lines</div>
+        <a href="board.html?t=kumamoto&mode=gate&rows=3&track=11,12" class="station-card red">
+            <div class="station-name">Ticket Gate Demo</div>
+            <div class="line-name">Simplified element, filters tracks for riders using the gate</div>
         </a>
-        <a href="board.html?t=sendai" class="station-card green">
-            <div class="station-name">Sendai Demo</div>
-            <div class="line-name">Tohoku Shinkansen</div>
+        <a href="board.html?t=sendai&mode=platform&rows=2&track=11" class="station-card green">
+            <div class="station-name">Platform Demo</div>
+            <div class="line-name">Focus on a specific track</div>
         </a>
-        <a href="board.html" class="station-card blue">
-            <div class="station-name">Edge Case Demo</div>
-            <div class="line-name">With long text and various languages</div>
+        <a href="board.html?rows=4" class="station-card blue">
+            <div class="station-name">Auto Refresh</div>
+            <div class="line-name">Dense timetable for observing the auto-refresh feature</div>
+        </a>
+        <a href="board.html?t=foobar" class="station-card red">
+            <div class="station-name">Error Demo</div>
+            <div class="line-name">Emulates a data fetch error</div>
         </a>
         <a href="editor.html" class="station-card orange">
             <div class="station-name">✏️ Timetable Editor</div>
