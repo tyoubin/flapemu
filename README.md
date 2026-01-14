@@ -34,7 +34,7 @@ FlapEmuは、駅や空港に設置されている反転フラップ式案内表�
 ## Features
 
 *   **Realistic Flap Animation:** Smooth and authentic visual transitions for character and word changes.
-*   **Configurable Timetables:** Easily switch between different schedules by modifying URL parameters or JSON data files.
+*   **Configurable:** Easily customize the appearance and behavior by URL parameters.
 *   **Dynamic Data Loading:** Automatically fetches/updates schedule and preset data.
 *   **Timetable Editor:** Allows you to create and edit JSON timetable files with ease.
 
@@ -42,46 +42,25 @@ FlapEmuは、駅や空港に設置されている反転フラップ式案内表�
 
 FlapEmu loads its timetable data from JSON data located in the `timetable/` directory.
 
-### Switching Timetables
+### URL Parameters
 
-You can switch between different timetable files by appending a query parameter `t` to the URL. For example:
+The behavior and appearance of FlapEmu can be customized using URL query parameters in `board.html`.
 
-*   To load `timetable/demo.json` (default):
-    `board.html`
-*   To load `timetable/kumamoto.json`:
-    `board.html?t=kumamoto`
-*   To load `timetable/shinagawa.json`:
-    `board.html?t=shinagawa`
-*   To load `timetable/tohoku.json`:
-    `board.html?t=tohoku`
+*   **`t` (Timetable Source):** Specifies the JSON file to load from the `timetable/` directory.
+    *   Example: `board.html?t=shinagawa` (loads `timetable/shinagawa.json`)
+*   **`rows` (Row Count):** Sets the number of split-flap rows to display.
+    *   Example: `board.html?rows=6`
+*   **`track` (Track Filter):** Filters trains to show only specific track numbers. Accepts comma-separated values.
+    *   Example: `board.html?track=23` (show only track 23)
+    *   Example: `board.html?track=23,24` (show tracks 23 and 24)
+*   **`mode` (Display Mode):** Adjusts the display for different contexts.
+    *   `concourse` (Default): Hides the "Train Stops" column.
+    *   `gate`: Hides the line name, direction and "Train Stops" column.
+    *   `platform`: Hides the "Track No" column.
 
-### Configuring Row Count
-
-You can customize the number of split-flap rows displayed on the board by adding the `rows` parameter.
-
-*   To display 6 rows:
-    `board.html?rows=6`
-*   Combine with a timetable:
-    `board.html?t=shinagawa&rows=10`
-
-### Filtering by Track Number
-
-You can filter the displayed trains to show only specific track numbers by using the `track` URL parameter. Multiple track numbers can be specified as a comma-separated list.
-
-*   To show trains only for track 23:
-    `board.html?track=23`
-*   To show trains for tracks 23 and 24:
-    `board.html?track=23,24`
-*   Combine with other parameters:
-    `board.html?t=shinagawa&rows=5&track=14,15`
-
-### Display Modes
-
-FlapEmu supports different display modes which can hide or show certain columns to optimize for various contexts (e.g., main concourse, gate area, platform). You can set the display mode using the `mode` URL parameter.
-
-*   **`?mode=concourse` (Default):** Optimized for main hall displays. In this mode, the "Train Stops" column (displaying intermediate stops for a train) is hidden to provide a cleaner, high-level overview.
-*   **`?mode=gate`:** Designed for ticket gate deployments. This mode hides the top navigation bar and the "Train Stops" column for a compact, focused display.
-*   **`?mode=platform`:** Ideal for platform-specific displays. This mode hides the "Track No" column, making the display cleaner when the platform information is already obvious from the physical location.
+Examples combining parameters:
+*   `board.html?t=shinagawa&rows=10`
+*   `board.html?t=shinagawa&rows=5&track=14,15&mode=gate`
 
 ### Data Structure
 
