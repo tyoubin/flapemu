@@ -268,6 +268,13 @@ body.mode-concourse .train-group .col-stop {
     display: none;
 }
 
+/* Gate Mode: Hide 'top-bar' and 'col-stop' columns */
+body.mode-gate .top-bar,
+body.mode-gate .header-row .col-stop.header-item,
+body.mode-gate .train-group .col-stop {
+    display: none;
+}
+
 /* =========================================
    5. FLAP UNIT VISUALS (Standard)
    ========================================= */

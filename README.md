@@ -80,7 +80,7 @@ You can filter the displayed trains to show only specific track numbers by using
 FlapEmu supports different display modes which can hide or show certain columns to optimize for various contexts (e.g., main concourse, gate area, platform). You can set the display mode using the `mode` URL parameter.
 
 *   **`?mode=concourse` (Default):** Optimized for main hall displays. In this mode, the "Train Stops" column (displaying intermediate stops for a train) is hidden to provide a cleaner, high-level overview.
-*   `?mode=gate`: (Future)
+*   **`?mode=gate`:** Designed for ticket gate deployments. This mode hides the top navigation bar and the "Train Stops" column for a compact, focused display.
 *   `?mode=platform`: (Future)
 
 ### Data Structure
