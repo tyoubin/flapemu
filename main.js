@@ -1,4 +1,4 @@
-import { DATA_SOURCE, PREVIEW_MODE, ROW_COUNT } from './js/config.js';
+import { DATA_SOURCE, PREVIEW_MODE, DISPLAY_MODE, FILTER_TRACKS, ROW_COUNT } from './js/config.js';
 import { sleep, calculateVisualLength, setFavicon } from './js/utils.js';
 import { TrainGroup } from './js/TrainGroup.js';
 
@@ -176,6 +176,9 @@ async function fetchData() {
 }
 
 window.addEventListener('load', () => {
+	// Add display mode class to body for CSS targeting
+	document.body.classList.add(`mode-${DISPLAY_MODE}`);
+
 	fetchData();
 	setInterval(() => {
 		console.log(`[Auto-Update] Fetching...`);

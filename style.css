@@ -261,6 +261,13 @@ body {
     width: 100%;
 }
 
+/* --- Display Mode Specific Styles --- */
+/* Concourse Mode: Hide 'col-stop' columns */
+body.mode-concourse .header-row .col-stop.header-item,
+body.mode-concourse .train-group .col-stop {
+    display: none;
+}
+
 /* =========================================
    5. FLAP UNIT VISUALS (Standard)
    ========================================= */

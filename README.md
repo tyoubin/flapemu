@@ -57,12 +57,20 @@ You can switch between different timetable files by appending a query parameter 
 
 ### Configuring Row Count
 
-You can customize the number of split-flap rows displayed on the board by adding the `rows` parameter (default is 3).
+You can customize the number of split-flap rows displayed on the board by adding the `rows` parameter.
 
 *   To display 6 rows:
     `board.html?rows=6`
 *   Combine with a timetable:
     `board.html?t=shinagawa&rows=10`
+
+### Display Modes
+
+FlapEmu supports different display modes which can hide or show certain columns to optimize for various contexts (e.g., main concourse, gate area, platform). You can set the display mode using the `mode` URL parameter.
+
+*   **`?mode=concourse` (Default):** Optimized for main hall displays. In this mode, the "Train Stops" column (displaying intermediate stops for a train) is hidden to provide a cleaner, high-level overview.
+*   `?mode=gate`: (Future)
+*   `?mode=platform`: (Future)
 
 ### Data Structure
 
