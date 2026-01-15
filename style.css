@@ -742,7 +742,8 @@ footer a:hover {
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    width: 50%;
+    width: 90%;
+    max-width: 600px;
     z-index: 9999;
 
     display: flex;
@@ -767,14 +768,26 @@ footer a:hover {
 .status-error {
     color: #FFBF00;
     /* Amber */
-    font-family: "Courier New", Courier, monospace;
     font-weight: 800;
-    font-size: 32px;
-    /* Large flexible text */
-    text-transform: uppercase;
-    letter-spacing: 4px;
-    text-shadow: 0 0 15px rgba(255, 191, 0, 0.8);
-    animation: blink-status 3s infinite ease-in-out alternate;
+    text-shadow: 0 0 15px rgba(255, 191, 0, 0.5);
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    padding: 25px 20px;
+}
+
+.status-main {
+    font-size: 30px;
+    letter-spacing: 2px;
+}
+
+.status-description {
+    font-size: 14px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    line-height: 1.6;
+    opacity: 0.9;
+    text-shadow: none;
 }
 
 .status-ok {
@@ -782,19 +795,6 @@ footer a:hover {
     text-shadow: 0 0 5px rgba(46, 204, 113, 0.8);
     opacity: 0.5;
     font-size: 14px;
-}
-
-/* Breathing Animation (Macbook Style) */
-@keyframes blink-status {
-    0% {
-        opacity: 0.2;
-        text-shadow: 0 0 5px rgba(255, 191, 0, 0.2);
-    }
-
-    100% {
-        opacity: 1;
-        text-shadow: 0 0 20px rgba(255, 191, 0, 1);
-    }
 }
 
 /* Blur effect for the board when data is stale/error */
