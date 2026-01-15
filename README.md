@@ -1,6 +1,6 @@
 # FlapEmu: Split-flap Display Emulator
 
-https://github.com/user-attachments/assets/5fab661f-0162-4178-aec9-b20f25982a26
+<img width="1033" height="479" alt="image" src="https://github.com/user-attachments/assets/74419b16-5e89-466a-b655-5e4f4bd75761" />
 
 Demo: [https://tyoubin.github.io/flapemu/](https://tyoubin.github.io/flapemu/)
 
