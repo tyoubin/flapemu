@@ -628,14 +628,6 @@ body.mode-platform .train-group .col-plat {
     letter-spacing: 1px;
 }
 
-.disclaimer {
-    font-size: 10px;
-    color: #555;
-    font-weight: 700;
-    margin-bottom: 4px;
-    opacity: 0.8;
-}
-
 .board-footer a {
     color: #666;
     text-decoration: none;
