@@ -180,7 +180,7 @@ async function fetchData() {
 			statusEl.innerHTML = `
 				<div class="status-text status-error">
 					<div class="status-main">ただいま調整中 / System Adjustment</div>
-					<div class="status-description">表示の更新を停止しています。アナウンスにご注意ください。<br>Display update paused. Please refer to announcements</div>
+					<div class="status-description">表示の更新を停止しています。アナウンスにご注意ください。<br>Display update paused. Please refer to announcements.</div>
 				</div>
 			`;
 		}
