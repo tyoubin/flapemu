@@ -22,7 +22,7 @@
       {
         "local": "さくら",
         "en": "SAKURA",
-        "color": "#f39c12"
+        "color": "#e1597e"
       },
       {
         "local": "つばめ",
@@ -380,7 +380,7 @@
         "local": "さくら",
         "en": "SAKURA"
       },
-      "type_color_hex": "#f19ea6",
+      "type_color_hex": "#e1597e",
       "type_text_color": "#ffffff",
       "train_no": "548",
       "depart_time": "08:42",
