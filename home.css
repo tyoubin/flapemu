@@ -11,11 +11,12 @@ body {
 	color: var(--text-color);
 	font-family: "Helvetica Neue", Helvetica, Arial, "Hiragino Kaku Gothic ProN", sans-serif;
 	margin: 0;
-	padding: 40px 20px;
+	padding: calc(40px + env(safe-area-inset-top)) calc(20px + env(safe-area-inset-right)) calc(40px + env(safe-area-inset-bottom)) calc(20px + env(safe-area-inset-left));
 	display: flex;
 	flex-direction: column;
 	align-items: center;
 	min-height: 100vh;
+	box-sizing: border-box;
 }
 
 h1 {

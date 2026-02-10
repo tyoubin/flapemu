@@ -23,11 +23,15 @@ FlapEmuは、駅や空港に設置されている反転フラップ式案内表�
 │   ├── utils.js        # Helper functions
 │   ├── data-logic.js   # Physical list logic
 │   ├── FlapUnit.js     # Flap animation classes
-│   └── TrainGroup.js   # Row management class
+│   ├── TrainGroup.js   # Row management class
+│   └── pwa.js          # PWA & Dynamic Manifest logic
 ├── style.css           # Global styles
 ├── editor.css          # Editor-specific styles
 ├── editor.js           # Editor logic (CRUD, Import/Export)
 ├── timetable/          # JSON Data directory
+├── sw.js               # Service Worker
+├── manifest.json       # Web App Manifest
+├── icon.png            # App Icon
 └── README.md           # User facing documentation
 ```
 
@@ -37,6 +41,7 @@ FlapEmuは、駅や空港に設置されている反転フラップ式案内表�
 *   **Configurable:** Easily customize the appearance and behavior by URL parameters.
 *   **Dynamic Data Loading:** Automatically fetches/updates schedule and preset data.
 *   **Timetable Editor:** Allows you to create and edit JSON timetable files with ease.
+*   **PWA Support:** Installable on home screen for full-screen "kiosk" mode. Supports dynamic shortcuts that preserve specific board configurations.
 
 ## Configuration
 
@@ -106,6 +111,16 @@ The editor (`editor.html`) provides a visual interface for creating/editing JSON
 *   **Autosave**: Drafts saved to `localStorage` automatically.
 *   **Preview**: Opens `board.html?preview=1` which reads data from `sessionStorage`.
 *   **Export**: Downloads a `.json` file ready to place in `timetable/` directory.
+
+## PWA & Home Screen Installation
+
+FlapEmu supports **Progressive Web App (PWA)** features, allowing you to use it as a standalone application without the browser address bar.
+
+*   **iOS/Safari**: Tap the **Share** button → **"Add to Home Screen"**.
+*   **Android/Chrome**: Tap the **Menu (⋮)** → **"Install App"**.
+
+### Dynamic Board Shortcuts
+Unlike basic PWAs, FlapEmu uses a **Dynamic Manifest Strategy**. This means if you are viewing a specific board (e.g., `board.html?t=kumamoto&rows=3`), choosing "Add to Home Screen" will create a shortcut for **that specific station and configuration**. You can have multiple boards pinned to your home screen simultaneously.
 
 ## Development
 

@@ -67,6 +67,23 @@ To prevent GPU bottlenecks on mobile devices:
 *   **Font Stack:** "Hiragino Kaku Gothic ProN", "Helvetica Neue", Arial. (Prioritizes Japanese fonts for better centering of colons and full-width characters).
 *   **Vertical Alignment Hack:** In `.local-text` (72% height) and `.en-text` (28% height), the split is **not** 50/50. This is intentional to optically center the heavy Kanji/Hanzi characters. **Do not reset to 50/50.**
 
+### PWA & Standalone Mode Implementation
+
+To allow "Add to Home Screen" while maintaining the data-driven flexibility (URL parameters), FlapEmu uses a customized PWA stack.
+
+*   **Dynamic Manifest Strategy (`js/pwa.js`):**
+    *   Instead of a static `start_url` in `manifest.json`, the app generates a Blob URL for the manifest at runtime.
+    *   It captures the current `window.location.href` as the `start_url`.
+    *   This ensures that pinning a specific configuration (e.g., `?t=kumamoto&rows=3`) bookmarks that exact state.
+*   **Service Worker (`sw.js`) - Dual Strategy:**
+    *   **Assets:** Uses `stale-while-revalidate` for JS, CSS, and SVG icons to ensure instant loading of the "App Shell".
+    *   **Timetable Data:** Uses **Network-Only** fetch for `.json` files. This is intentional to ensure the app doesn't serve stale data and correctly triggers the "System Adjustment" (error) overlay if the server connection is lost, maintaining mechanical board realism.
+*   **iOS/Standalone Support:**
+    *   Uses `apple-mobile-web-app-capable` and `black-translucent` status bar styles.
+    *   **Safe Areas:** `style.css` and `home.css` use `env(safe-area-inset-*)` padding on the `body` to prevent the UI from being clipped by device notches or home indicators in standalone mode.
+
+---
+
 ## Important Caveats for Future Devs
 
 1.  **Do not use `innerHTML` on the whole board:** When updating, we only update the *target state* of the `FlapUnit`. Rebuilding DOM kills the animation.
