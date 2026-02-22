@@ -152,6 +152,7 @@
                 src += '?v=' + Date.now();
                 console.log('[Editor] Cache-busting active (JS)');
             }
+            script.type = 'module';
             script.src = src;
             document.body.appendChild(script);
         })();

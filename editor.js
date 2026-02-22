@@ -2,31 +2,14 @@
  * FlapEmu Timetable Editor
  * Core logic for creating and editing JSON timetable files
  */
+import { createEmptyTimetable, normalizeTimetable } from './js/data-normalize.js';
 
 // ================= DATA MODEL =================
 
 const STORAGE_KEY = 'flapemu_editor_draft';
 
-// Empty timetable template
-const emptyTimetable = () => ({
-	meta: {
-		header: {
-			logo_url: 'timetable/logo.svg',
-			line_name: { local: '', en: '' },
-			for: { local: '', en: '' }
-		}
-	},
-	presets: {
-		types: [],
-		dests: [],
-		remarks: [],
-		stops: []
-	},
-	schedule: []
-});
-
 // Current timetable data
-let timetable = emptyTimetable();
+let timetable = createEmptyTimetable();
 
 // ================= DOM REFERENCES =================
 
@@ -165,7 +148,7 @@ function loadDraft() {
 	try {
 		const data = localStorage.getItem(STORAGE_KEY);
 		if (data) {
-			timetable = JSON.parse(data);
+			timetable = normalizeTimetable(JSON.parse(data));
 			return true;
 		}
 	} catch (e) {
@@ -192,7 +175,7 @@ function checkForDraft() {
 			showToast('Draft restored', 'success');
 		} else {
 			clearDraft();
-			timetable = emptyTimetable();
+			timetable = createEmptyTimetable();
 			renderAll();
 		}
 	} else {
@@ -519,7 +502,7 @@ function handleNew() {
 	if (timetable.schedule.length > 0 || timetable.presets.types.length > 0) {
 		if (!confirm('Clear current data and start fresh?')) return;
 	}
-	timetable = emptyTimetable();
+	timetable = createEmptyTimetable();
 	clearDraft();
 	renderAll();
 	showToast('Started new timetable', 'success');
@@ -533,28 +516,7 @@ function handleImport(e) {
 	reader.onload = (event) => {
 		try {
 			const data = JSON.parse(event.target.result);
-
-			// Validate basic structure
-			if (!data.meta || !data.presets || !data.schedule) {
-				throw new Error('Invalid timetable format');
-			}
-
-			timetable = {
-				meta: data.meta || {
-					header: {
-						logo_url: 'timetable/logo.svg',
-						line_name: { local: '', en: '' },
-						for: { local: '', en: '' }
-					}
-				},
-				presets: {
-					types: data.presets?.types || [],
-					dests: data.presets?.dests || [],
-					remarks: data.presets?.remarks || [],
-					stops: data.presets?.stops || []
-				},
-				schedule: data.schedule || []
-			};
+			timetable = normalizeTimetable(data);
 
 			renderAll();
 			saveDraft();

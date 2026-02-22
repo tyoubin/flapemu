@@ -19,11 +19,13 @@ FlapEmuは、駅や空港に設置されている反転フラップ式案内表�
 ├── editor.html         # Timetable Editor interface
 ├── main.js             # Entry point (Fetch loop, Layout)
 ├── js/                 # ES Modules
-│   ├── config.js       # Configuration & Constants
-│   ├── utils.js        # Helper functions
+│   ├── board-schema.js # Column schema + display mode profiles
+│   ├── config.js       # URL parsing + runtime tuning constants
 │   ├── data-logic.js   # Physical list logic
+│   ├── data-normalize.js # Schema compatibility + normalization
 │   ├── FlapUnit.js     # Flap animation classes
 │   ├── TrainGroup.js   # Row management class
+│   ├── utils.js        # Helper functions
 │   └── pwa.js          # PWA & Dynamic Manifest logic
 ├── style.css           # Global styles
 ├── editor.css          # Editor-specific styles
@@ -53,19 +55,34 @@ The behavior and appearance of FlapEmu can be customized using URL query paramet
 
 *   **`t` (Timetable Source):** Specifies the JSON file to load from the `timetable/` directory.
     *   Example: `board.html?t=shinagawa` (loads `timetable/shinagawa.json`)
+    *   Safety: only `a-z`, `A-Z`, `0-9`, `_`, `-` are accepted. Invalid values fall back to `demo`.
 *   **`rows` (Row Count):** Sets the number of split-flap rows to display.
     *   Example: `board.html?rows=6`
+    *   Range: `1..30` (clamped)
 *   **`track` (Track Filter):** Filters trains to show only specific track numbers. Accepts comma-separated values.
     *   Example: `board.html?track=23` (show only track 23)
     *   Example: `board.html?track=23,24` (show tracks 23 and 24)
 *   **`mode` (Display Mode):** Adjusts the display for different contexts.
-    *   `concourse` (Default): Hides the "Train Stops" column.
-    *   `gate`: Hides the line name, direction and "Train Stops" column.
-    *   `platform`: Hides the "Track No" column.
+    *   `concourse` (Default, `rows=12`): Hides the "Train Stops" column.
+    *   `gate` (`rows=4`): Hides top bar and "Train Stops" column.
+    *   `platform` (`rows=3`): Hides the "Track No" column.
+
+### Advanced Runtime Tuning Parameters
+These are optional and intended for performance tuning and experimentation.
+
+*   **`refresh`**: Auto-fetch interval in ms. Default `30000`, range `5000..300000`.
+*   **`cascade`**: Delay between row updates in ms. Default `1000`, range `0..5000`.
+*   **`fallback`**: Flap animation fallback timeout in ms. Default `1000`, range `200..5000`.
+*   **`layoutMul`**: Auto-layout character width multiplier. Default `32`, range `16..64`.
+*   **`layoutPad`**: Auto-layout width padding. Default `20`, range `0..120`.
+*   **`capPad`**: Number of blank cards added to word spool capacity. Default `15`, range `0..80`.
+*   **`capMin`**: Minimum word spool capacity. Default `40`, range `10..240`.
+*   **`capMax`**: Maximum word spool capacity. Default `80`, range `10..240`.
 
 Examples combining parameters:
 *   `board.html?t=shinagawa&rows=10`
 *   `board.html?t=shinagawa&rows=5&track=14,15&mode=gate`
+*   `board.html?t=shinagawa&mode=concourse&refresh=10000&cascade=200`
 
 ### Data Structure
 
@@ -73,6 +90,7 @@ The JSON timetable files follow a specific structure containing station metadata
 
 ```json
 {
+  "schema_version": 2,
   "meta": {
     "header": {
       "logo_url": "timetable/jt_orange.svg",
@@ -102,6 +120,23 @@ The JSON timetable files follow a specific structure containing station metadata
 }
 ```
 *   **Key Note:** `color` applies to the card background. `textColor` applies to the font (default white).
+*   **Schema note:** `schema_version` is written by the editor and used for compatibility tracking.
+
+### Data Compatibility / Normalization
+The board accepts legacy/variant timetable formats and normalizes them to the canonical shape.
+
+*   Array root (`[...]`) is accepted as legacy schedule-only data.
+*   Alias field mapping in `schedule`:
+    *   `track` -> `track_no`
+    *   `no` -> `train_no`
+    *   `time` -> `depart_time`
+    *   `dest` / `to` -> `destination`
+    *   `remark` / `note` -> `remarks`
+    *   `stop` / `stops` -> `stops_at`
+    *   `train_type` / `kind` -> `type`
+    *   `type_color` -> `type_color_hex`
+    *   `type_text_color_hex` -> `type_text_color`
+*   String bilingual fields are accepted and converted to `{ local, en }`.
 
 ## Timetable Editor
 
@@ -111,6 +146,7 @@ The editor (`editor.html`) provides a visual interface for creating/editing JSON
 *   **Autosave**: Drafts saved to `localStorage` automatically.
 *   **Preview**: Opens `board.html?preview=1` which reads data from `sessionStorage`.
 *   **Export**: Downloads a `.json` file ready to place in `timetable/` directory.
+*   **Schema-aware import/export**: Imported files are normalized, and exports include `schema_version`.
 
 ## PWA & Home Screen Installation
 

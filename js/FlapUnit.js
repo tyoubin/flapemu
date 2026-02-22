@@ -1,4 +1,4 @@
-import { BLANK_DATA } from './config.js';
+import { BLANK_DATA, FLAP_ANIMATION_FALLBACK_MS } from './config.js';
 import { createPhysicalList, mergeIntoPhysicalList } from './data-logic.js';
 
 export class FlapUnit {
@@ -142,7 +142,7 @@ export class FlapUnit {
 			return;
 		}
 
-		const fallbackTimeout = setTimeout(onAnimationFinish, 1000);
+		const fallbackTimeout = setTimeout(onAnimationFinish, FLAP_ANIMATION_FALLBACK_MS);
 	}
 }
 

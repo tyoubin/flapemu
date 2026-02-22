@@ -1,9 +1,42 @@
-import { DATA_SOURCE, PREVIEW_MODE, DISPLAY_MODE, FILTER_TRACKS, ROW_COUNT } from './js/config.js';
+import {
+	CASCADE_DELAY_MS,
+	DATA_SOURCE,
+	DISPLAY_MODE,
+	FILTER_TRACKS,
+	LAYOUT_WIDTH_MULTIPLIER,
+	LAYOUT_WIDTH_PADDING,
+	PREVIEW_MODE,
+	REFRESH_INTERVAL_MS,
+	ROW_COUNT
+} from './js/config.js';
+import { getDisplayModeProfile, getDynamicWidthColumns, getVisibleColumns } from './js/board-schema.js';
+import { normalizeTimetable } from './js/data-normalize.js';
 import { sleep, calculateVisualLength, setFavicon } from './js/utils.js';
 import { TrainGroup } from './js/TrainGroup.js';
 
 let groups = [];
 let isInitialized = false;
+const visibleColumns = getVisibleColumns(DISPLAY_MODE);
+
+function renderHeaderRow(columns) {
+	const headerRow = document.getElementById('header-row');
+	if (!headerRow) return;
+
+	headerRow.innerHTML = '';
+	columns.forEach((column) => {
+		const item = document.createElement('div');
+		item.className = `${column.cssClass} header-item`;
+
+		const local = document.createElement('span');
+		local.textContent = column.header.local;
+		const en = document.createElement('span');
+		en.textContent = column.header.en;
+
+		item.appendChild(local);
+		item.appendChild(en);
+		headerRow.appendChild(item);
+	});
+}
 
 async function fetchData() {
 	try {
@@ -31,9 +64,10 @@ async function fetchData() {
 			json = await response.json();
 		}
 
-		let scheduleData = Array.isArray(json) ? json : json.schedule;
-		const presetsData = Array.isArray(json) ? {} : json.presets;
-		const metaData = Array.isArray(json) ? {} : (json.meta || {});
+		const normalized = normalizeTimetable(json);
+		let scheduleData = normalized.schedule;
+		const presetsData = normalized.presets;
+		const metaData = normalized.meta || {};
 
 		// --- Apply Track Filtering (if FILTER_TRACKS is defined) ---
 		if (FILTER_TRACKS) {
@@ -62,14 +96,18 @@ async function fetchData() {
 			});
 
 			if (maxLen < minChars) maxLen = minChars;
-			const pixelWidth = Math.ceil((maxLen * 32) + 20);
+			const pixelWidth = Math.ceil((maxLen * LAYOUT_WIDTH_MULTIPLIER) + LAYOUT_WIDTH_PADDING);
 			document.documentElement.style.setProperty(cssVar, `${pixelWidth}px`);
 		};
 
-		adjustColumnWidth('--col-type-width', presetsData.types, extractFromSchedule(scheduleData, 'type'), 4);
-		adjustColumnWidth('--col-dest-width', presetsData.dests, extractFromSchedule(scheduleData, 'destination'), 5);
-		adjustColumnWidth('--col-rem-width', presetsData.remarks, extractFromSchedule(scheduleData, 'remarks'), 6);
-		adjustColumnWidth('--col-stop-width', presetsData.stops, extractFromSchedule(scheduleData, 'stops_at'), 4);
+		getDynamicWidthColumns().forEach((column) => {
+			adjustColumnWidth(
+				column.widthVar,
+				presetsData[column.presetKey],
+				extractFromSchedule(scheduleData, column.sourceField),
+				column.minChars
+			);
+		});
 
 
 		// --- Browser Tab Title ---
@@ -133,7 +171,7 @@ async function fetchData() {
 			if (rowsContainer) {
 				rowsContainer.innerHTML = "";
 				for (let i = 0; i < ROW_COUNT; i++) {
-					groups.push(new TrainGroup(rowsContainer, presetsData, scheduleData));
+					groups.push(new TrainGroup(rowsContainer, presetsData, scheduleData, visibleColumns));
 				}
 				isInitialized = true;
 			}
@@ -165,7 +203,7 @@ async function fetchData() {
 			if (groups[i]) {
 				groups[i].update(displayTrains[i]);
 				if (i < ROW_COUNT - 1) {
-					await sleep(1000);
+					await sleep(CASCADE_DELAY_MS);
 				}
 			}
 		}
@@ -190,10 +228,17 @@ async function fetchData() {
 window.addEventListener('load', () => {
 	// Add display mode class to body for CSS targeting
 	document.body.classList.add(`mode-${DISPLAY_MODE}`);
+	renderHeaderRow(visibleColumns);
+
+	const modeProfile = getDisplayModeProfile(DISPLAY_MODE);
+	const topBar = document.querySelector('.top-bar');
+	if (topBar && modeProfile.showTopBar === false) {
+		topBar.style.display = 'none';
+	}
 
 	fetchData();
 	setInterval(() => {
 		console.log(`[Auto-Update] Fetching...`);
 		fetchData();
-	}, 30000);
+	}, REFRESH_INTERVAL_MS);
 });

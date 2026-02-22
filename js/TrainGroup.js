@@ -1,9 +1,10 @@
-import { CHARS_NUM, CHARS_ALPHANUM, BLANK_DATA } from './config.js';
+import { BLANK_DATA } from './config.js';
+import { DEFAULT_DISPLAY_MODE, getNumericCharset, getVisibleColumns } from './board-schema.js';
 import { getCap } from './utils.js';
 import { CharFlap, WordFlap } from './FlapUnit.js';
 
 export class TrainGroup {
-	constructor(container, presets, scheduleData) {
+	constructor(container, presets, scheduleData, columns = getVisibleColumns(DEFAULT_DISPLAY_MODE)) {
 		this.groupEl = document.createElement('div');
 		this.groupEl.className = 'train-group';
 		container.appendChild(this.groupEl);
@@ -12,125 +13,129 @@ export class TrainGroup {
 		this.rowPrimary.className = 'row-primary';
 		this.groupEl.appendChild(this.rowPrimary);
 
+		this.columns = columns;
 		this.controllers = {};
 
 		const safePresets = presets || {};
+		const actualByField = this.buildActualByField(scheduleData);
 
-		const extractActuals = (key) => {
-			if (!scheduleData) return [];
-			return scheduleData.map(item => item[key]).filter(x => x && x.local);
-		};
-
-		const actualTypes = extractActuals('type');
-		const actualDests = extractActuals('destination');
-		const actualRemarks = extractActuals('remarks');
-		const actualStops = extractActuals('stops_at');
-
-		// --- Init Flap Units ---
-
-		this.createCol(this.rowPrimary, 'plat', 'col-plat', () => {
-			let c = [];
-			for (let i = 0; i < 3; i++) {
-				c.push(new CharFlap(this.lastDiv, CHARS_ALPHANUM, 15));
-			}
-			return { type: 'chars', units: c };
-		});
-
-		this.createCol(this.rowPrimary, 'type', 'col-type', () => {
-			return { type: 'word', unit: new WordFlap(this.lastDiv, safePresets.types, actualTypes, getCap(safePresets.types, actualTypes)) };
-		});
-
-		this.createCol(this.rowPrimary, 'no', 'col-no', () => {
-			let c = [];
-			for (let i = 0; i < 5; i++) {
-				c.push(new CharFlap(this.lastDiv, CHARS_ALPHANUM, 50));
-			}
-			return { type: 'chars', units: c };
-		});
-
-		this.createCol(this.rowPrimary, 'time', 'col-time', () => {
-			let c = [];
-			c.push(new CharFlap(this.lastDiv, CHARS_NUM, 20)); c.push(new CharFlap(this.lastDiv, CHARS_NUM, 20));
-			let s = new CharFlap(this.lastDiv, ":", 1); s.setTarget(":"); c.push(s);
-			c.push(new CharFlap(this.lastDiv, CHARS_NUM, 20)); c.push(new CharFlap(this.lastDiv, CHARS_NUM, 20));
-			return { type: 'chars', units: c };
-		});
-
-		this.createCol(this.rowPrimary, 'dest', 'col-dest', () => {
-			return { type: 'word', unit: new WordFlap(this.lastDiv, safePresets.dests, actualDests, getCap(safePresets.dests, actualDests)) };
-		});
-
-		this.createCol(this.rowPrimary, 'remarks', 'col-remarks', () => {
-			return { type: 'word', unit: new WordFlap(this.lastDiv, safePresets.remarks, actualRemarks, getCap(safePresets.remarks, actualRemarks)) };
-		});
-
-		this.createCol(this.rowPrimary, 'stop', 'col-stop', () => {
-			return { type: 'word', unit: new WordFlap(this.lastDiv, safePresets.stops, actualStops, getCap(safePresets.stops, actualStops)) };
+		this.columns.forEach((column) => {
+			const colElement = this.createCol(this.rowPrimary, column.cssClass);
+			this.controllers[column.key] = this.buildController(column, colElement, safePresets, actualByField);
 		});
 	}
 
-	createCol(row, key, css, factory) {
-		this.lastDiv = document.createElement('div');
-		this.lastDiv.className = css;
-		row.appendChild(this.lastDiv);
-		this.controllers[key] = factory();
+	buildActualByField(scheduleData) {
+		const output = {};
+		if (!Array.isArray(scheduleData)) return output;
+
+		this.columns.forEach((column) => {
+			if (column.kind !== 'word') return;
+			output[column.sourceField] = scheduleData
+				.map(item => item[column.sourceField])
+				.filter(item => item && item.local);
+		});
+		return output;
+	}
+
+	buildController(column, parent, safePresets, actualByField) {
+		if (column.kind === 'chars') {
+			const units = [];
+			for (let i = 0; i < column.unitCount; i++) {
+				units.push(new CharFlap(parent, column.charset, column.unitCapacity));
+			}
+			return { kind: 'chars', units };
+		}
+
+		if (column.kind === 'time') {
+			const units = [];
+			const nums = getNumericCharset();
+			units.push(new CharFlap(parent, nums, column.unitCapacity));
+			units.push(new CharFlap(parent, nums, column.unitCapacity));
+			const separator = new CharFlap(parent, ":", 1);
+			separator.setTarget(":");
+			units.push(separator);
+			units.push(new CharFlap(parent, nums, column.unitCapacity));
+			units.push(new CharFlap(parent, nums, column.unitCapacity));
+			return { kind: 'chars', units };
+		}
+
+		if (column.kind === 'word') {
+			const presetList = safePresets[column.presetKey];
+			const actualList = actualByField[column.sourceField] || [];
+			return {
+				kind: 'word',
+				unit: new WordFlap(parent, presetList, actualList, getCap(presetList, actualList))
+			};
+		}
+
+		return null;
+	}
+
+	createCol(row, cssClass) {
+		const col = document.createElement('div');
+		col.className = cssClass;
+		row.appendChild(col);
+		return col;
 	}
 
 	update(record) {
-		this.updateChars('plat', (record.track_no || "").toString().padEnd(3, ' '));
+		this.columns.forEach((column) => {
+			const controller = this.controllers[column.key];
+			if (!controller) return;
 
-		let typeData = record.type ? {
-			local: record.type.local,
-			en: record.type.en,
-			color: record.type_color_hex,
-			textColor: record.type_text_color
-		} : null;
-		this.updateWord('type', typeData);
-		this.updateChars('no', (record.train_no || "").toString().padEnd(5, ' '));
-		this.updateChars('time', record.depart_time || "");
-		this.updateWord('dest', record.destination);
-		this.updateWord('remarks', record.remarks);
-		this.updateWord('stop', record.stops_at);
+			if (column.kind === 'chars') {
+				const raw = (record[column.sourceField] || "").toString();
+				const padded = raw.padEnd(column.padEnd || raw.length, ' ');
+				this.updateChars(controller, padded);
+				return;
+			}
+
+			if (column.kind === 'time') {
+				this.updateChars(controller, (record[column.sourceField] || "").toString());
+				return;
+			}
+
+			if (column.kind === 'word') {
+				let payload = record[column.sourceField];
+				if (column.keepTypeColors && record.type) {
+					payload = {
+						local: record.type.local,
+						en: record.type.en,
+						color: record.type_color_hex,
+						textColor: record.type_text_color
+					};
+				}
+				this.updateWord(controller, payload);
+			}
+		});
 	}
 
-	updateChars(key, txt) {
-		const c = this.controllers[key];
-		if (c && txt) {
-			txt.split('').forEach((char, i) => {
-				if (c.units[i]) c.units[i].setTarget(char);
-			});
-		}
+	updateChars(controller, txt) {
+		if (!controller || !txt) return;
+		txt.split('').forEach((char, i) => {
+			if (controller.units[i]) controller.units[i].setTarget(char);
+		});
 	}
 
-	updateWord(key, dataObj) {
-		const c = this.controllers[key];
+	updateWord(controller, dataObj) {
+		if (!controller) return;
 		const target = dataObj || BLANK_DATA;
-		if (c) c.unit.setTarget(target);
+		controller.unit.setTarget(target);
 	}
 
 	updatePhysicalLists(presets, scheduleData) {
-		const extractActuals = (key) => {
-			if (!scheduleData) return [];
-			return scheduleData.map(item => item[key]).filter(x => x && x.local);
-		};
-
 		const safePresets = presets || {};
-		const actualTypes = extractActuals('type');
-		const actualDests = extractActuals('destination');
-		const actualRemarks = extractActuals('remarks');
-		const actualStops = extractActuals('stops_at');
+		const actualByField = this.buildActualByField(scheduleData);
 
-		if (this.controllers['type']) {
-			this.controllers['type'].unit.updateList(safePresets.types, actualTypes, getCap(safePresets.types, actualTypes));
-		}
-		if (this.controllers['dest']) {
-			this.controllers['dest'].unit.updateList(safePresets.dests, actualDests, getCap(safePresets.dests, actualDests));
-		}
-		if (this.controllers['remarks']) {
-			this.controllers['remarks'].unit.updateList(safePresets.remarks, actualRemarks, getCap(safePresets.remarks, actualRemarks));
-		}
-		if (this.controllers['stop']) {
-			this.controllers['stop'].unit.updateList(safePresets.stops, actualStops, getCap(safePresets.stops, actualStops));
-		}
+		this.columns.forEach((column) => {
+			if (column.kind !== 'word') return;
+			const controller = this.controllers[column.key];
+			if (!controller) return;
+
+			const presetList = safePresets[column.presetKey];
+			const actualList = actualByField[column.sourceField] || [];
+			controller.unit.updateList(presetList, actualList, getCap(presetList, actualList));
+		});
 	}
 }

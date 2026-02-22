@@ -1,3 +1,5 @@
+import { WORD_CAPACITY_CONFIG } from './config.js';
+
 /**
  * Helper function: Sleep
  */
@@ -6,18 +8,18 @@ export const sleep = (ms) => new Promise(resolve => setTimeout(resolve, ms));
 /**
  * Dynamic Capacity Helper
  */
-export const getCap = (presets, actuals) => {
+export const getCap = (presets, actuals, capacityConfig = WORD_CAPACITY_CONFIG) => {
 	// Deduplication
 	const uniqueItems = new Set();
 	if (presets) presets.forEach(p => uniqueItems.add(p.local));
 	if (actuals) actuals.forEach(a => uniqueItems.add(a.local));
 	const uniqueCount = uniqueItems.size;
 
-	// add 15 blank cards
-	let cap = uniqueCount + 15;
+	// Add buffer cards so the spool keeps the mechanical travel feel.
+	let cap = uniqueCount + capacityConfig.blankCards;
 
-	// hard limit, ensure visual effect and not too long duration
-	return Math.min(Math.max(cap, 40), 80);
+	// Hard limits avoid excessive flip duration and GPU load.
+	return Math.min(Math.max(cap, capacityConfig.min), capacityConfig.max);
 };
 
 /**

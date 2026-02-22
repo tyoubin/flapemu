@@ -1,4 +1,4 @@
-const CACHE_NAME = 'flapemu-v1';
+const CACHE_NAME = 'flapemu-v2';
 const ASSETS = [
 	'/',
 	'/index.html',
@@ -9,8 +9,10 @@ const ASSETS = [
 	'/js/pwa.js',
 	'/js/FlapUnit.js',
 	'/js/TrainGroup.js',
+	'/js/board-schema.js',
 	'/js/config.js',
 	'/js/data-logic.js',
+	'/js/data-normalize.js',
 	'/js/utils.js',
 	'/icon.png',
 	'/manifest.json',
