@@ -11,7 +11,7 @@ Preserve skeuomorphic quality and mechanical behavior when making changes.
 ## Core Principles
 
 1. Keep the mechanical illusion intact (spool traversal, card thickness pulse, bezel shadow, lighting).
-2. Keep architecture data-driven and centralized (schema/config/normalize modules).
+2. Keep architecture data-driven and centralized (schema/config/pipeline/normalize modules).
 3. Do not introduce frameworks or toolchains unless explicitly requested.
 4. Prefer small, local changes; preserve existing visual behavior unless requested.
 
@@ -35,7 +35,8 @@ If a column or mode behavior changes, update this file first.
 
 ### 2. Runtime Config (`js/config.js`)
 Defines:
-* URL parsing/sanitization (`t`, `mode`, `rows`, `track`)
+* URL parsing/sanitization (`t`, `mode`, `rows`, `track`, `profile`)
+* Runtime profile presets (`default`, `kiosk`, `mobile`, `debug`)
 * Clamped runtime tuning parameters:
   * `refresh`, `cascade`, `fallback`
   * `layoutMul`, `layoutPad`
@@ -43,7 +44,22 @@ Defines:
 
 Do not hardcode timing/capacity/layout constants in feature code.
 
-### 3. Data Normalization (`js/data-normalize.js`)
+### 3. Board Data Pipeline (`js/board-pipeline.js`)
+Defines pure data flow helpers for board runtime:
+* normalize + filter + sort preparation (`prepareBoardData`)
+* display window selection (`selectDisplayTrains`)
+* schedule extraction helpers for layout sizing
+
+When changing board selection behavior, update pipeline functions first.
+
+### 4. Record Transforms (`js/record-transform.js`)
+Defines schema-driven record transforms used by `TrainGroup`:
+* word actuals extraction (`buildActualWordMap`)
+* per-column target payload mapping (`getColumnTarget`)
+
+Keep `TrainGroup` focused on rendering/updating controls, not field mapping logic.
+
+### 5. Data Normalization (`js/data-normalize.js`)
 Defines canonical schema and compatibility behavior:
 * `CURRENT_SCHEMA_VERSION = 2`
 * `createEmptyTimetable()`
@@ -52,10 +68,11 @@ Defines canonical schema and compatibility behavior:
 Board (`main.js`) and editor (`editor.js`) both rely on normalization.
 If new schema fields are added, update this module first.
 
-### 4. Physical Spool Logic (`js/data-logic.js`, `js/FlapUnit.js`)
+### 6. Physical Spool Logic (`js/data-logic.js`, `js/FlapUnit.js`)
 * Word flaps must traverse physical list index-by-index (`pointer -> targetPointer`), not jump.
 * `animationend` drives step chaining.
 * Fallback timeout is configurable via `FLAP_ANIMATION_FALLBACK_MS`.
+* Word flap target lookup uses cached local->index mapping; update map whenever list mutates.
 
 ---
 
@@ -63,10 +80,10 @@ If new schema fields are added, update this module first.
 
 1. `main.js` reads config from `js/config.js`.
 2. Header row is generated from visible columns in schema (`renderHeaderRow()`).
-3. Timetable JSON is fetched (or preview data loaded), then normalized (`normalizeTimetable()`).
+3. Timetable JSON is fetched (or preview data loaded), then prepared via pipeline.
 4. `TrainGroup` instances are created from visible schema columns.
 5. Updates run sequentially with configurable cascade delay (`CASCADE_DELAY_MS`).
-6. Auto-refresh runs with configurable interval (`REFRESH_INTERVAL_MS`).
+6. Auto-refresh runs with overlap protection and pauses when tab is hidden.
 
 ---
 
@@ -106,6 +123,7 @@ When adding new aliases or schema versions, keep normalization backward-compatib
 
 * `js/pwa.js`: dynamic manifest uses current URL for installable deep-link behavior.
 * `sw.js`: timetable JSON must remain network-only (to preserve stale-data error realism).
+* `sw.js` uses scope-aware precache URLs and cache cleanup on `activate`.
 * If app shell files change, bump service worker cache name and include new shell assets.
 
 ---
@@ -118,11 +136,13 @@ When adding new aliases or schema versions, keep normalization backward-compatib
    3. Ensure `TrainGroup` and header rendering still align.
 2. For timing/layout/capacity changes:
    1. Update `js/config.js`.
-   2. Consume values from config, do not duplicate magic numbers.
+   2. Respect runtime profile defaults before URL overrides.
+   3. Consume values from config, do not duplicate magic numbers.
 3. For timetable format changes:
    1. Update `js/data-normalize.js`.
    2. Validate editor import/export still works.
-4. Do not rebuild board rows each update cycle; only update flap targets and physical lists.
+4. For schedule selection/filtering behavior, update `js/board-pipeline.js` first.
+5. Do not rebuild board rows each update cycle; only update flap targets and physical lists.
 
 ---
 
@@ -134,6 +154,7 @@ When adding new aliases or schema versions, keep normalization backward-compatib
   * `gate`: 4
   * `platform`: 3
 * Very high `rows`, very large spool capacities, or very small refresh intervals can degrade mobile performance.
+* `profile=mobile` is the safer baseline for lower-end devices.
 
 ---
 
@@ -143,8 +164,10 @@ When adding new aliases or schema versions, keep normalization backward-compatib
 2. `board.html?t=kumamoto&mode=gate`
 3. `board.html?t=sendai&mode=platform`
 4. `board.html?t=shinagawa&refresh=10000&cascade=200`
-5. `board.html?t=foobar` (error overlay behavior)
-6. `editor.html`: import legacy JSON, preview, export (check `schema_version`)
+5. `board.html?t=shinagawa&profile=mobile`
+6. `board.html?t=foobar` (error overlay behavior)
+7. `editor.html`: import legacy JSON, preview, export (check `schema_version`)
+8. `node tests/data-normalize.test.mjs`
 
 ---
 

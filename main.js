@@ -3,6 +3,7 @@ import {
 	DATA_SOURCE,
 	DISPLAY_MODE,
 	FILTER_TRACKS,
+	INVALID_TIMETABLE_QUERY,
 	LAYOUT_WIDTH_MULTIPLIER,
 	LAYOUT_WIDTH_PADDING,
 	PREVIEW_MODE,
@@ -10,12 +11,14 @@ import {
 	ROW_COUNT
 } from './js/config.js';
 import { getDisplayModeProfile, getDynamicWidthColumns, getVisibleColumns } from './js/board-schema.js';
-import { normalizeTimetable } from './js/data-normalize.js';
+import { extractScheduleWords, prepareBoardData, selectDisplayTrains } from './js/board-pipeline.js';
 import { sleep, calculateVisualLength, setFavicon } from './js/utils.js';
 import { TrainGroup } from './js/TrainGroup.js';
 
 let groups = [];
 let isInitialized = false;
+let isFetchRunning = false;
+let refreshTimerId = null;
 const visibleColumns = getVisibleColumns(DISPLAY_MODE);
 
 function renderHeaderRow(columns) {
@@ -38,6 +41,31 @@ function renderHeaderRow(columns) {
 	});
 }
 
+function setHeaderLogo(elLogo, logoUrl) {
+	if (!elLogo) return;
+
+	if (!logoUrl) {
+		const existing = elLogo.querySelector('img');
+		if (existing) elLogo.removeChild(existing);
+		elLogo.style.display = 'flex';
+		return;
+	}
+
+	let img = elLogo.querySelector('img');
+	if (!img) {
+		img = document.createElement('img');
+		img.alt = 'Line Logo';
+		elLogo.replaceChildren(img);
+	}
+
+	const currentSrc = img.getAttribute('src') || '';
+	const nextHref = new URL(logoUrl, window.location.href).href;
+	if (currentSrc !== logoUrl && img.src !== nextHref) {
+		img.setAttribute('src', logoUrl);
+	}
+	elLogo.style.display = 'flex';
+}
+
 async function fetchData() {
 	try {
 		// Clear Previous Error State
@@ -58,33 +86,18 @@ async function fetchData() {
 				return;
 			}
 		} else {
+			if (INVALID_TIMETABLE_QUERY) {
+				throw new Error("Invalid timetable query parameter 't'.");
+			}
 			console.log(`[System] Fetching ${DATA_SOURCE}...`);
 			const response = await fetch(DATA_SOURCE, { cache: "no-store" });
 			if (!response.ok) throw new Error("API Network response was not ok");
 			json = await response.json();
 		}
 
-		const normalized = normalizeTimetable(json);
-		let scheduleData = normalized.schedule;
-		const presetsData = normalized.presets;
-		const metaData = normalized.meta || {};
-
-		// --- Apply Track Filtering (if FILTER_TRACKS is defined) ---
-		if (FILTER_TRACKS) {
-			scheduleData = scheduleData.filter(train => {
-				return FILTER_TRACKS.includes(String(train.track_no));
-			});
-		}
+		const { scheduleData, presetsData, metaData } = prepareBoardData(json, FILTER_TRACKS);
 
 		// Auto-Layout
-		const extractFromSchedule = (schedule, key) => {
-			if (!schedule) return [];
-			return schedule.map(item => {
-				if (item[key] && item[key].local) return item[key];
-				return { local: "" };
-			});
-		};
-
 		const adjustColumnWidth = (cssVar, presetList, scheduleList, minChars = 4) => {
 			const fullList = [...(presetList || []), ...(scheduleList || [])];
 			if (fullList.length === 0) return;
@@ -104,7 +117,7 @@ async function fetchData() {
 			adjustColumnWidth(
 				column.widthVar,
 				presetsData[column.presetKey],
-				extractFromSchedule(scheduleData, column.sourceField),
+				extractScheduleWords(scheduleData, column.sourceField),
 				column.minChars
 			);
 		});
@@ -141,22 +154,7 @@ async function fetchData() {
 
 			// 3. Logo (SVG)
 			const elLogo = document.getElementById('header-logo');
-			if (elLogo && headerData.logo_url) {
-				// Only update if URL changed (similar to favicon logic)
-				const existingImg = elLogo.querySelector('img');
-				const currentSrc = existingImg ? existingImg.src : null;
-				const newUrl = headerData.logo_url;
-
-				// Check if URL has changed (handle both relative and absolute URLs)
-				if (!existingImg || (currentSrc !== newUrl && currentSrc !== window.location.origin + '/' + newUrl)) {
-					elLogo.innerHTML = `<img src="${newUrl}" alt="Line Logo">`;
-				}
-				elLogo.style.display = 'flex';
-			} else if (elLogo) {
-				// User requested to preserve the square space
-				elLogo.innerHTML = '';
-				elLogo.style.display = 'flex';
-			}
+			setHeaderLogo(elLogo, headerData.logo_url);
 		} else {
 			// If no header data, we might want to hide the whole top bar or show error?
 			// But existing code for station_name title logic (browser tab) remains above.
@@ -181,23 +179,7 @@ async function fetchData() {
 
 		if (!scheduleData || scheduleData.length === 0) return;
 
-		scheduleData.sort((a, b) => a.depart_time.localeCompare(b.depart_time));
-
-		const now = new Date();
-		const currentHM = now.getHours() * 60 + now.getMinutes();
-
-		let startIndex = scheduleData.findIndex(train => {
-			const [h, m] = train.depart_time.split(':').map(Number);
-			return (h * 60 + m) >= currentHM;
-		});
-
-		if (startIndex === -1) startIndex = 0;
-
-		const displayTrains = [];
-		for (let i = 0; i < ROW_COUNT; i++) {
-			let dataIndex = (startIndex + i) % scheduleData.length;
-			displayTrains.push(scheduleData[dataIndex]);
-		}
+		const displayTrains = selectDisplayTrains(scheduleData, ROW_COUNT, new Date());
 
 		for (let i = 0; i < ROW_COUNT; i++) {
 			if (groups[i]) {
@@ -225,6 +207,51 @@ async function fetchData() {
 	}
 }
 
+async function requestFetch(trigger = 'manual') {
+	if (isFetchRunning) {
+		console.log(`[Auto-Update] Skip (${trigger}) - previous fetch cycle is still running.`);
+		return;
+	}
+
+	isFetchRunning = true;
+	try {
+		await fetchData();
+	} finally {
+		isFetchRunning = false;
+	}
+}
+
+function stopAutoRefresh() {
+	if (refreshTimerId !== null) {
+		clearInterval(refreshTimerId);
+		refreshTimerId = null;
+	}
+}
+
+function startAutoRefresh() {
+	stopAutoRefresh();
+
+	if (document.visibilityState === 'hidden') {
+		console.log('[Auto-Update] Polling paused (tab hidden).');
+		return;
+	}
+
+	refreshTimerId = setInterval(() => {
+		console.log('[Auto-Update] Fetching...');
+		requestFetch('interval');
+	}, REFRESH_INTERVAL_MS);
+}
+
+function handleVisibilityChange() {
+	if (document.visibilityState === 'hidden') {
+		stopAutoRefresh();
+		return;
+	}
+
+	requestFetch('visibility-resume');
+	startAutoRefresh();
+}
+
 window.addEventListener('load', () => {
 	// Add display mode class to body for CSS targeting
 	document.body.classList.add(`mode-${DISPLAY_MODE}`);
@@ -236,9 +263,7 @@ window.addEventListener('load', () => {
 		topBar.style.display = 'none';
 	}
 
-	fetchData();
-	setInterval(() => {
-		console.log(`[Auto-Update] Fetching...`);
-		fetchData();
-	}, REFRESH_INTERVAL_MS);
+	requestFetch('initial');
+	startAutoRefresh();
+	document.addEventListener('visibilitychange', handleVisibilityChange);
 });

@@ -20,16 +20,19 @@ FlapEmuは、駅や空港に設置されている反転フラップ式案内表�
 ├── main.js             # Entry point (Fetch loop, Layout)
 ├── js/                 # ES Modules
 │   ├── board-schema.js # Column schema + display mode profiles
+│   ├── board-pipeline.js # Prepare/filter/select board data pipeline
 │   ├── config.js       # URL parsing + runtime tuning constants
 │   ├── data-logic.js   # Physical list logic
 │   ├── data-normalize.js # Schema compatibility + normalization
 │   ├── FlapUnit.js     # Flap animation classes
+│   ├── record-transform.js # Column target/data transforms
 │   ├── TrainGroup.js   # Row management class
 │   ├── utils.js        # Helper functions
 │   └── pwa.js          # PWA & Dynamic Manifest logic
 ├── style.css           # Global styles
 ├── editor.css          # Editor-specific styles
 ├── editor.js           # Editor logic (CRUD, Import/Export)
+├── tests/              # Node-based compatibility tests
 ├── timetable/          # JSON Data directory
 ├── sw.js               # Service Worker
 ├── manifest.json       # Web App Manifest
@@ -55,7 +58,7 @@ The behavior and appearance of FlapEmu can be customized using URL query paramet
 
 *   **`t` (Timetable Source):** Specifies the JSON file to load from the `timetable/` directory.
     *   Example: `board.html?t=shinagawa` (loads `timetable/shinagawa.json`)
-    *   Safety: only `a-z`, `A-Z`, `0-9`, `_`, `-` are accepted. Invalid values fall back to `demo`.
+    *   Safety: only `a-z`, `A-Z`, `0-9`, `_`, `-` are accepted. Invalid values trigger the board error overlay.
 *   **`rows` (Row Count):** Sets the number of split-flap rows to display.
     *   Example: `board.html?rows=6`
     *   Range: `1..30` (clamped)
@@ -66,6 +69,11 @@ The behavior and appearance of FlapEmu can be customized using URL query paramet
     *   `concourse` (Default, `rows=12`): Hides the "Train Stops" column.
     *   `gate` (`rows=4`): Hides top bar and "Train Stops" column.
     *   `platform` (`rows=3`): Hides the "Track No" column.
+*   **`profile` (Runtime Profile):** Applies a pre-tuned runtime profile before URL overrides.
+    *   `default` (fallback)
+    *   `kiosk` (faster refresh, moderate cascade)
+    *   `mobile` (more conservative for device load)
+    *   `debug` (fast loop for iteration)
 
 ### Advanced Runtime Tuning Parameters
 These are optional and intended for performance tuning and experimentation.

@@ -532,13 +532,94 @@ function handleImport(e) {
 	e.target.value = '';
 }
 
+function validateTimetableForExport(data) {
+	const errors = [];
+	const warnings = [];
+
+	const schedule = Array.isArray(data.schedule) ? data.schedule : [];
+	if (schedule.length === 0) {
+		errors.push('Add at least one schedule row before export.');
+		return { errors, warnings };
+	}
+
+	const timePattern = /^([01]?\d|2[0-3]):[0-5]\d$/;
+	const seenTrainNo = new Map();
+	const seenTrainNoAndTime = new Map();
+
+	schedule.forEach((train, idx) => {
+		const row = idx + 1;
+		const departTime = (train.depart_time || '').toString().trim();
+		const trainNo = (train.train_no || '').toString().trim();
+		if (departTime && !timePattern.test(departTime)) {
+			warnings.push(`Row ${row}: Time should be HH:MM (24-hour).`);
+		}
+
+		if (trainNo) {
+			const trainRows = seenTrainNo.get(trainNo) || [];
+			trainRows.push(row);
+			seenTrainNo.set(trainNo, trainRows);
+		}
+
+		if (trainNo && departTime) {
+			const key = `${trainNo}::${departTime}`;
+			const keyRows = seenTrainNoAndTime.get(key) || [];
+			keyRows.push(row);
+			seenTrainNoAndTime.set(key, keyRows);
+		}
+	});
+
+	seenTrainNo.forEach((rows, trainNo) => {
+		if (rows.length > 1) {
+			warnings.push(`Train No. "${trainNo}" appears in multiple rows (${rows.join(', ')}).`);
+		}
+	});
+
+	seenTrainNoAndTime.forEach((rows, key) => {
+		if (rows.length > 1) {
+			const [trainNo, departTime] = key.split('::');
+			warnings.push(`Duplicate Train No. + Time "${trainNo}" @ "${departTime}" in rows (${rows.join(', ')}).`);
+		}
+	});
+
+	return { errors, warnings };
+}
+
+function showValidationAlert(title, messages) {
+	const lines = messages.slice(0, 8);
+	const suffix = messages.length > lines.length
+		? `\n...and ${messages.length - lines.length} more.`
+		: '';
+	alert(`${title}\n\n${lines.join('\n')}${suffix}`);
+}
+
 function handleExport() {
-	// Validate before export
+	// Validate required header fields
 	const lineNameLocal = timetable.meta.header?.line_name?.local;
 	if (!lineNameLocal || lineNameLocal.trim() === '') {
 		showToast('Please enter a Line Name (Local)', 'error');
 		elements.headerLineLocal.focus();
 		return;
+	}
+
+	const validation = validateTimetableForExport(timetable);
+	if (validation.errors.length > 0) {
+		showToast(`Export blocked: ${validation.errors.length} validation issue(s)`, 'error');
+		showValidationAlert('Please fix the following before export:', validation.errors);
+		return;
+	}
+
+	if (validation.warnings.length > 0) {
+		const lines = validation.warnings.slice(0, 8);
+		const suffix = validation.warnings.length > lines.length
+			? `\n...and ${validation.warnings.length - lines.length} more.`
+			: '';
+		const proceed = confirm(
+			`Validation warnings:\n\n${lines.join('\n')}${suffix}\n\nExport anyway?`
+		);
+		if (!proceed) {
+			showToast('Export canceled', 'info');
+			return;
+		}
 	}
 
 	const json = JSON.stringify(timetable, null, 2);

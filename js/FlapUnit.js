@@ -10,6 +10,7 @@ export class FlapUnit {
 		this.targetPointer = 0;
 		this.isAnimating = false;
 		this.physicalList = [];
+		this.wordIndexMap = null;
 
 		this.element.innerHTML = `
             <div class="top"><div class="card-content"></div></div><div class="bottom"><div class="card-content"></div></div>
@@ -65,6 +66,18 @@ export class FlapUnit {
 		}
 	}
 
+	rebuildWordIndexMap() {
+		if (this.type !== 'word') return;
+
+		this.wordIndexMap = new Map();
+		this.physicalList.forEach((item, idx) => {
+			const local = (item && item.local) ? item.local : BLANK_DATA.local;
+			if (!this.wordIndexMap.has(local)) {
+				this.wordIndexMap.set(local, idx);
+			}
+		});
+	}
+
 	setTarget(val) {
 		let nextIndex = 0;
 
@@ -78,7 +91,11 @@ export class FlapUnit {
 			if (targetLocal === BLANK_DATA.local || targetLocal === "") {
 				nextIndex = 0;
 			} else {
-				nextIndex = this.physicalList.findIndex(item => item.local === targetLocal);
+				if (this.wordIndexMap && this.wordIndexMap.has(targetLocal)) {
+					nextIndex = this.wordIndexMap.get(targetLocal);
+				} else {
+					nextIndex = this.physicalList.findIndex(item => item.local === targetLocal);
+				}
 				if (nextIndex === -1) {
 					console.warn(`[FlapUnit] Target '${targetLocal}' not found in physical list. Defaulting to blank.`);
 					nextIndex = 0;
@@ -162,11 +179,13 @@ export class WordFlap extends FlapUnit {
 	constructor(parent, presetList, actualList, capacity) {
 		super(parent, 'flap-word', 'word');
 		this.physicalList = createPhysicalList(presetList, actualList, capacity);
+		this.rebuildWordIndexMap();
 		this.renderTo(this.topContent, this.physicalList[0]);
 		this.renderTo(this.bottomContent, this.physicalList[0]);
 	}
 
 	updateList(presetList, actualList, capacity) {
 		mergeIntoPhysicalList(this.physicalList, presetList, actualList, capacity);
+		this.rebuildWordIndexMap();
 	}
 }

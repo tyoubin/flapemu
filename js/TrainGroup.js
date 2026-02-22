@@ -1,5 +1,6 @@
 import { BLANK_DATA } from './config.js';
 import { DEFAULT_DISPLAY_MODE, getNumericCharset, getVisibleColumns } from './board-schema.js';
+import { buildActualWordMap, getColumnTarget } from './record-transform.js';
 import { getCap } from './utils.js';
 import { CharFlap, WordFlap } from './FlapUnit.js';
 
@@ -17,25 +18,12 @@ export class TrainGroup {
 		this.controllers = {};
 
 		const safePresets = presets || {};
-		const actualByField = this.buildActualByField(scheduleData);
+		const actualByField = buildActualWordMap(this.columns, scheduleData);
 
 		this.columns.forEach((column) => {
 			const colElement = this.createCol(this.rowPrimary, column.cssClass);
 			this.controllers[column.key] = this.buildController(column, colElement, safePresets, actualByField);
 		});
-	}
-
-	buildActualByField(scheduleData) {
-		const output = {};
-		if (!Array.isArray(scheduleData)) return output;
-
-		this.columns.forEach((column) => {
-			if (column.kind !== 'word') return;
-			output[column.sourceField] = scheduleData
-				.map(item => item[column.sourceField])
-				.filter(item => item && item.local);
-		});
-		return output;
 	}
 
 	buildController(column, parent, safePresets, actualByField) {
@@ -83,30 +71,15 @@ export class TrainGroup {
 		this.columns.forEach((column) => {
 			const controller = this.controllers[column.key];
 			if (!controller) return;
+			const target = getColumnTarget(column, record);
 
-			if (column.kind === 'chars') {
-				const raw = (record[column.sourceField] || "").toString();
-				const padded = raw.padEnd(column.padEnd || raw.length, ' ');
-				this.updateChars(controller, padded);
-				return;
-			}
-
-			if (column.kind === 'time') {
-				this.updateChars(controller, (record[column.sourceField] || "").toString());
+			if (column.kind === 'chars' || column.kind === 'time') {
+				this.updateChars(controller, target);
 				return;
 			}
 
 			if (column.kind === 'word') {
-				let payload = record[column.sourceField];
-				if (column.keepTypeColors && record.type) {
-					payload = {
-						local: record.type.local,
-						en: record.type.en,
-						color: record.type_color_hex,
-						textColor: record.type_text_color
-					};
-				}
-				this.updateWord(controller, payload);
+				this.updateWord(controller, target);
 			}
 		});
 	}
@@ -126,7 +99,7 @@ export class TrainGroup {
 
 	updatePhysicalLists(presets, scheduleData) {
 		const safePresets = presets || {};
-		const actualByField = this.buildActualByField(scheduleData);
+		const actualByField = buildActualWordMap(this.columns, scheduleData);
 
 		this.columns.forEach((column) => {
 			if (column.kind !== 'word') return;
