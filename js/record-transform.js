@@ -5,7 +5,7 @@ export function buildActualWordMap(columns, scheduleData) {
 	columns.forEach((column) => {
 		if (column.kind !== 'word') return;
 		output[column.sourceField] = scheduleData
-			.map((item) => item[column.sourceField])
+			.map((item) => getColumnTarget(column, item))
 			.filter((item) => item && item.local);
 	});
 
