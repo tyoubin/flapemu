@@ -40,7 +40,7 @@ export const COLUMN_SCHEMA = [
 		kind: 'word',
 		sourceField: 'type',
 		presetKey: 'types',
-		keepTypeColors: true,
+		colorFields: { background: 'type_color_hex', text: 'type_text_color' },
 		widthVar: '--col-type-width',
 		minChars: 4
 	},

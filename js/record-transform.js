@@ -25,15 +25,15 @@ export function getColumnTarget(column, record) {
 	}
 
 	if (column.kind === 'word') {
-		if (column.keepTypeColors && safeRecord.type) {
+		const target = safeRecord[column.sourceField] || null;
+		if (target && column.colorFields) {
 			return {
-				local: safeRecord.type.local,
-				en: safeRecord.type.en,
-				color: safeRecord.type_color_hex,
-				textColor: safeRecord.type_text_color
+				...target,
+				color: safeRecord[column.colorFields.background],
+				textColor: safeRecord[column.colorFields.text]
 			};
 		}
-		return safeRecord[column.sourceField] || null;
+		return target;
 	}
 
 	return null;
