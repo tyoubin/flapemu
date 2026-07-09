@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>FlapEmu — Narita Airport</title>
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+    <link rel="stylesheet" href="style.css">
+    <link rel="manifest" href="manifest.json">
+    <link rel="apple-touch-icon" href="icon.png">
+    <meta name="theme-color" content="#000000">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <script src="js/pwa.js"></script>
+    <style>
+        .col-flight { flex: 0 0 auto; width: calc((var(--char-width) + 2px) * 7 - 2px); }
+        .col-airport-dest { flex: 2 1 var(--col-dest-width, 220px); }
+        .col-airline { flex: 1 1 var(--col-airline-width, 150px); }
+        .col-gate { flex: 0 0 auto; width: calc((var(--char-width) + 2px) * 4 - 2px); justify-content: center; }
+        .col-status { flex: 1 1 var(--col-status-width, 150px); }
+        .header-row .col-airline { align-items: flex-start; }
+    </style>
+</head>
+<body class="mode-departures">
+    <div class="system-status" id="system-status"></div>
+    <div class="main-container">
+        <div class="top-bar">
+            <div class="header-logo-section" id="header-logo"></div>
+            <div class="header-info-section">
+                <div class="header-line-name">
+                    <span class="header-text-local" id="header-line-local"></span>
+                    <span class="header-text-en" id="header-line-en"></span>
+                </div>
+                <div class="header-direction">
+                    <span class="header-text-local" id="header-dest-local"></span>
+                    <span class="header-text-en" id="header-dest-en"></span>
+                </div>
+            </div>
+        </div>
+        <div class="schedule-board" id="board">
+            <div class="header-row" id="header-row"></div>
+            <div id="board-rows">
+                <!-- row-group will be inserted here by JS -->
+            </div>
+        </div>
+        <div class="board-footer">
+            <div class="copyright">
+                Powered by <a href="https://github.com/tyoubin/flapemu" target="_blank">FlapEmu</a>
+            </div>
+        </div>
+    </div>
+    <script type="module" src="airport.js"></script>
+</body>
+</html>
