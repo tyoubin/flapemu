@@ -11,23 +11,16 @@ function parseDepartMinutes(departTime) {
 	return (hours * 60) + minutes;
 }
 
-export function applyTrackFilter(scheduleData, filterTracks) {
-	if (!Array.isArray(scheduleData)) return [];
-	if (!filterTracks || filterTracks.length === 0) return [...scheduleData];
-
-	return scheduleData.filter((train) => filterTracks.includes(String(train.track_no)));
-}
-
-export function sortScheduleByDepartTime(scheduleData) {
+export function sortByField(scheduleData, field) {
 	if (!Array.isArray(scheduleData)) return [];
 	return [...scheduleData].sort((a, b) => {
-		const left = a?.depart_time || '';
-		const right = b?.depart_time || '';
+		const left = a?.[field] || '';
+		const right = b?.[field] || '';
 		return left.localeCompare(right);
 	});
 }
 
-export function extractScheduleWords(scheduleData, field) {
+export function extractFieldWords(scheduleData, field) {
 	if (!Array.isArray(scheduleData)) return [];
 	return scheduleData.map((item) => {
 		if (item[field] && item[field].local) return item[field];
@@ -35,32 +28,32 @@ export function extractScheduleWords(scheduleData, field) {
 	});
 }
 
-export function selectDisplayRows(scheduleData, rowCount, now = new Date()) {
+export function selectDisplayRows(scheduleData, rowCount, timeField, now = new Date()) {
 	if (!Array.isArray(scheduleData) || scheduleData.length === 0 || rowCount <= 0) return [];
 
 	const currentMinutes = (now.getHours() * 60) + now.getMinutes();
-	let startIndex = scheduleData.findIndex((train) => {
-		const departMinutes = parseDepartMinutes(train.depart_time);
+	let startIndex = scheduleData.findIndex((row) => {
+		const departMinutes = parseDepartMinutes(row[timeField]);
 		return departMinutes !== null && departMinutes >= currentMinutes;
 	});
 
 	if (startIndex === -1) startIndex = 0;
 
-	const displayTrains = [];
+	const displayRows = [];
 	for (let i = 0; i < rowCount; i++) {
 		const dataIndex = (startIndex + i) % scheduleData.length;
-		displayTrains.push(scheduleData[dataIndex]);
+		displayRows.push(scheduleData[dataIndex]);
 	}
-	return displayTrains;
+	return displayRows;
 }
 
-export function prepareBoardData(rawData, filterTracks) {
+export function prepareBoardData(rawData) {
 	const normalized = normalizeTimetable(rawData);
-	const scheduleData = sortScheduleByDepartTime(applyTrackFilter(normalized.schedule, filterTracks));
-
 	return {
 		presetsData: normalized.presets || {},
 		metaData: normalized.meta || {},
-		scheduleData
+		scheduleData: normalized.schedule
 	};
 }
+
+export { parseDepartMinutes };

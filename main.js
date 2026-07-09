@@ -11,7 +11,7 @@ import {
 	ROW_COUNT
 } from './js/config.js';
 import { getDisplayModeProfile, getDynamicWidthColumns, getVisibleColumns } from './js/board-schema.js';
-import { extractScheduleWords, prepareBoardData, selectDisplayRows } from './js/board-pipeline.js';
+import { extractScheduleWords, selectDisplayTrains, prepareTrainBoardData } from './js/train-pipeline.js';
 import { sleep, calculateVisualLength, setFavicon } from './js/utils.js';
 import { RowGroup } from './js/RowGroup.js';
 
@@ -95,7 +95,7 @@ async function fetchData() {
 			json = await response.json();
 		}
 
-		const { scheduleData, presetsData, metaData } = prepareBoardData(json, FILTER_TRACKS);
+		const { scheduleData, presetsData, metaData } = prepareTrainBoardData(json, FILTER_TRACKS);
 
 		// Auto-Layout
 		const adjustColumnWidth = (cssVar, presetList, scheduleList, minChars = 4) => {
@@ -179,7 +179,7 @@ async function fetchData() {
 
 		if (!scheduleData || scheduleData.length === 0) return;
 
-		const displayTrains = selectDisplayRows(scheduleData, ROW_COUNT, new Date());
+		const displayTrains = selectDisplayTrains(scheduleData, ROW_COUNT, new Date());
 
 		for (let i = 0; i < ROW_COUNT; i++) {
 			if (groups[i]) {

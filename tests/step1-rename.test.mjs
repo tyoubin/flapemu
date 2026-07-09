@@ -6,17 +6,17 @@ function test_selectDisplayRows_ExportsCorrectFunctionName() {
 }
 
 function test_selectDisplayRows_returnsEmptyForEmptyData() {
-	const result = selectDisplayRows([], 5, new Date());
+	const result = selectDisplayRows([], 5, 'depart_time', new Date());
 	assert.deepEqual(result, []);
 }
 
 function test_selectDisplayRows_returnsEmptyForNullData() {
-	const result = selectDisplayRows(null, 5, new Date());
+	const result = selectDisplayRows(null, 5, 'depart_time', new Date());
 	assert.deepEqual(result, []);
 }
 
 function test_selectDisplayRows_returnsEmptyForNonPositiveRowCount() {
-	const result = selectDisplayRows([{ depart_time: '10:00' }], 0, new Date());
+	const result = selectDisplayRows([{ depart_time: '10:00' }], 0, 'depart_time', new Date());
 	assert.deepEqual(result, []);
 }
 
@@ -28,7 +28,7 @@ function test_selectDisplayRows_selectsRowsAfterCurrentTime() {
 		{ depart_time: '12:00' },
 	];
 	const now = new Date('2025-01-01T10:30:00');
-	const result = selectDisplayRows(data, 2, now);
+	const result = selectDisplayRows(data, 2, 'depart_time', now);
 	assert.equal(result.length, 2);
 	assert.equal(result[0].depart_time, '11:00');
 	assert.equal(result[1].depart_time, '12:00');
@@ -40,7 +40,7 @@ function test_selectDisplayRows_wrapsAroundWhenEndReached() {
 		{ depart_time: '10:00' },
 	];
 	const now = new Date('2025-01-01T11:00:00');
-	const result = selectDisplayRows(data, 3, now);
+	const result = selectDisplayRows(data, 3, 'depart_time', now);
 	assert.equal(result.length, 3);
 	assert.equal(result[0].depart_time, '09:00');
 	assert.equal(result[1].depart_time, '10:00');
@@ -53,7 +53,7 @@ function test_selectDisplayRows_startsWithFirstEntryWhenNoneMatch() {
 		{ depart_time: '10:00' },
 	];
 	const now = new Date('2025-01-01T23:00:00');
-	const result = selectDisplayRows(data, 1, now);
+	const result = selectDisplayRows(data, 1, 'depart_time', now);
 	assert.equal(result.length, 1);
 	assert.equal(result[0].depart_time, '09:00');
 }
