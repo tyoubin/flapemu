@@ -137,15 +137,15 @@ Today this is split across hard-coded schema (`js/board-schema.js`), URL params 
 | Generic color mapping | Replace `keepTypeColors` with `colorFields: { background, text }` (any word column) | ✅ |
 | Generic `record-transform` | Single path for chars / time / word; no key-specific branches | ✅ |
 | Split pipeline | Generic: bilingual helpers, take-N window, cascade hooks. Train adapter: track filter, sort by depart time, `nextByTime` strategy | ✅ |
-| Soften layout CSS | Prefer `col-${key}` from schema; avoid new hard-coded mode×column hide rules; dual-support existing keys | |
-| Proof schema | Second in-code schema (airport or bus) renders via same `RowGroup` path | |
+| Soften layout CSS | Prefer `col-${key}` from schema; avoid new hard-coded mode×column hide rules; dual-support existing keys | ✅ |
+| Proof schema | Second in-code schema (airport) renders via `airport.html` using `RowGroup` + generic pipeline | ✅ |
 
 **Leave alone in Step 1:** `FlapUnit` / spool physics / flip CSS quality; full editor rewrite; npm publish; public URL breakage.
 
 **Done when:**
 
 1. Existing demos (`shinagawa`, `kumamoto`, `sendai`, modes, URL params) behave the same.
-2. A non-train column schema renders without editing core flap code.
+2. A non-train column schema renders without editing core flap code. — ✅ (`airport.html` renders via `RowGroup`, no core changes)
 3. No train field names required inside `RowGroup` / `FlapUnit` — ✅ (`RowGroup` imports no train-specific names)
 
 ### Step 2 — Single JSON as source of truth
@@ -227,7 +227,7 @@ Regression checklist (always):
 | Milestone | Status |
 |-----------|--------|
 | Step 0 — Roadmap | **Complete** |
-| Step 1 — Decouple & generic components | **In progress** (5/7 tasks done; CSS soften + proof schema remain) |
+| Step 1 — Decouple & generic components | **Complete** |
 | Step 2 — Single JSON config | Not started |
 | Step 3 — Library surface | Not started |
 | Step 4 — Product polish | Not started |

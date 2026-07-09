@@ -11,6 +11,7 @@ const APP_SHELL_ASSETS = [
 	'js/RowGroup.js',
 	'js/board-schema.js',
 	'js/board-pipeline.js',
+	'js/train-pipeline.js',
 	'js/config.js',
 	'js/data-logic.js',
 	'js/data-normalize.js',
