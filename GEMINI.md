@@ -29,7 +29,7 @@ Defines:
   * labels
   * source fields
   * column type (`chars`, `time`, `word`)
-  * dynamic width metadata (`widthVar`, `minChars`) for word columns
+  * `colorFields` on word columns — generic `{ background, text }` field references replace `keepTypeColors`
 
 If a column or mode behavior changes, update this file first.
 
@@ -45,12 +45,22 @@ Defines:
 Do not hardcode timing/capacity/layout constants in feature code.
 
 ### 3. Board Data Pipeline (`js/board-pipeline.js`)
-Defines pure data flow helpers for board runtime:
-* normalize + filter + sort preparation (`prepareBoardData`)
-* display window selection (`selectDisplayRows`)
-* schedule extraction helpers for layout sizing
+Defines generic (domain-neutral) data flow helpers:
+* normalize + prepare (`prepareBoardData(raw)`)
+* display window selection (`selectDisplayRows(data, n, timeField, now)`)
+* field sort (`sortByField(data, field)`)
+* field word extraction (`extractFieldWords(data, field)`)
 
-When changing board selection behavior, update pipeline functions first.
+No train-specific field names are hardcoded here. Domain adapters (`js/train-pipeline.js`) supply field names and compose operations.
+
+### 3b. Train Pipeline Adapter (`js/train-pipeline.js`)
+Train-domain wrapper over the generic pipeline:
+* `applyTrackFilter(data, tracks)` — filters by `track_no`
+* `sortScheduleByDepartTime(data)` — sorts by `depart_time`
+* `selectDisplayTrains(data, n, now)` — wraps `selectDisplayRows` with `timeField='depart_time'`
+* `prepareTrainBoardData(raw, filterTracks)` — normalize + filter + sort in one call
+
+Add new adapters (e.g. airport, bus) without touching core flap code.
 
 ### 4. Record Transforms (`js/record-transform.js`)
 Defines schema-driven record transforms used by `RowGroup`:
@@ -141,7 +151,7 @@ When adding new aliases or schema versions, keep normalization backward-compatib
 3. For timetable format changes:
    1. Update `js/data-normalize.js`.
    2. Validate editor import/export still works.
-4. For schedule selection/filtering behavior, update `js/board-pipeline.js` first.
+4. For schedule selection/filtering behavior, update `js/board-pipeline.js` first, or `js/train-pipeline.js` if train-specific.
 5. Do not rebuild board rows each update cycle; only update flap targets and physical lists.
 
 ---

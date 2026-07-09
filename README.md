@@ -20,7 +20,8 @@ FlapEmuは、駅や空港に設置されている反転フラップ式案内表�
 ├── main.js             # Entry point (Fetch loop, Layout)
 ├── js/                 # ES Modules
 │   ├── board-schema.js # Column schema + display mode profiles
-│   ├── board-pipeline.js # Prepare/filter/select board data pipeline
+│   ├── board-pipeline.js # Generic data pipeline (domain-neutral)
+│   ├── train-pipeline.js # Train-domain adapter wrapper
 │   ├── config.js       # URL parsing + runtime tuning constants
 │   ├── data-logic.js   # Physical list logic
 │   ├── data-normalize.js # Schema compatibility + normalization
