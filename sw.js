@@ -8,7 +8,7 @@ const APP_SHELL_ASSETS = [
 	'main.js',
 	'js/pwa.js',
 	'js/FlapUnit.js',
-	'js/TrainGroup.js',
+	'js/RowGroup.js',
 	'js/board-schema.js',
 	'js/board-pipeline.js',
 	'js/config.js',

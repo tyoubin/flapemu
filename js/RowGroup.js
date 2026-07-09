@@ -4,10 +4,10 @@ import { buildActualWordMap, getColumnTarget } from './record-transform.js';
 import { getCap } from './utils.js';
 import { CharFlap, WordFlap } from './FlapUnit.js';
 
-export class TrainGroup {
+export class RowGroup {
 	constructor(container, presets, scheduleData, columns = getVisibleColumns(DEFAULT_DISPLAY_MODE)) {
 		this.groupEl = document.createElement('div');
-		this.groupEl.className = 'train-group';
+		this.groupEl.className = 'row-group train-group';
 		container.appendChild(this.groupEl);
 
 		this.rowPrimary = document.createElement('div');

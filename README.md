@@ -26,7 +26,7 @@ FlapEmuは、駅や空港に設置されている反転フラップ式案内表�
 │   ├── data-normalize.js # Schema compatibility + normalization
 │   ├── FlapUnit.js     # Flap animation classes
 │   ├── record-transform.js # Column target/data transforms
-│   ├── TrainGroup.js   # Row management class
+│   ├── RowGroup.js     # Row management class
 │   ├── utils.js        # Helper functions
 │   └── pwa.js          # PWA & Dynamic Manifest logic
 ├── style.css           # Global styles

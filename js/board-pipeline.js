@@ -35,7 +35,7 @@ export function extractScheduleWords(scheduleData, field) {
 	});
 }
 
-export function selectDisplayTrains(scheduleData, rowCount, now = new Date()) {
+export function selectDisplayRows(scheduleData, rowCount, now = new Date()) {
 	if (!Array.isArray(scheduleData) || scheduleData.length === 0 || rowCount <= 0) return [];
 
 	const currentMinutes = (now.getHours() * 60) + now.getMinutes();

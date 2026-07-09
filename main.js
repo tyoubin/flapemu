@@ -11,9 +11,9 @@ import {
 	ROW_COUNT
 } from './js/config.js';
 import { getDisplayModeProfile, getDynamicWidthColumns, getVisibleColumns } from './js/board-schema.js';
-import { extractScheduleWords, prepareBoardData, selectDisplayTrains } from './js/board-pipeline.js';
+import { extractScheduleWords, prepareBoardData, selectDisplayRows } from './js/board-pipeline.js';
 import { sleep, calculateVisualLength, setFavicon } from './js/utils.js';
-import { TrainGroup } from './js/TrainGroup.js';
+import { RowGroup } from './js/RowGroup.js';
 
 let groups = [];
 let isInitialized = false;
@@ -169,7 +169,7 @@ async function fetchData() {
 			if (rowsContainer) {
 				rowsContainer.innerHTML = "";
 				for (let i = 0; i < ROW_COUNT; i++) {
-					groups.push(new TrainGroup(rowsContainer, presetsData, scheduleData, visibleColumns));
+					groups.push(new RowGroup(rowsContainer, presetsData, scheduleData, visibleColumns));
 				}
 				isInitialized = true;
 			}
@@ -179,7 +179,7 @@ async function fetchData() {
 
 		if (!scheduleData || scheduleData.length === 0) return;
 
-		const displayTrains = selectDisplayTrains(scheduleData, ROW_COUNT, new Date());
+		const displayTrains = selectDisplayRows(scheduleData, ROW_COUNT, new Date());
 
 		for (let i = 0; i < ROW_COUNT; i++) {
 			if (groups[i]) {

@@ -47,17 +47,17 @@ Do not hardcode timing/capacity/layout constants in feature code.
 ### 3. Board Data Pipeline (`js/board-pipeline.js`)
 Defines pure data flow helpers for board runtime:
 * normalize + filter + sort preparation (`prepareBoardData`)
-* display window selection (`selectDisplayTrains`)
+* display window selection (`selectDisplayRows`)
 * schedule extraction helpers for layout sizing
 
 When changing board selection behavior, update pipeline functions first.
 
 ### 4. Record Transforms (`js/record-transform.js`)
-Defines schema-driven record transforms used by `TrainGroup`:
+Defines schema-driven record transforms used by `RowGroup`:
 * word actuals extraction (`buildActualWordMap`)
 * per-column target payload mapping (`getColumnTarget`)
 
-Keep `TrainGroup` focused on rendering/updating controls, not field mapping logic.
+Keep `RowGroup` focused on rendering/updating controls, not field mapping logic.
 
 ### 5. Data Normalization (`js/data-normalize.js`)
 Defines canonical schema and compatibility behavior:
@@ -81,7 +81,7 @@ If new schema fields are added, update this module first.
 1. `main.js` reads config from `js/config.js`.
 2. Header row is generated from visible columns in schema (`renderHeaderRow()`).
 3. Timetable JSON is fetched (or preview data loaded), then prepared via pipeline.
-4. `TrainGroup` instances are created from visible schema columns.
+4. `RowGroup` instances are created from visible schema columns.
 5. Updates run sequentially with configurable cascade delay (`CASCADE_DELAY_MS`).
 6. Auto-refresh runs with overlap protection and pauses when tab is hidden.
 
@@ -133,7 +133,7 @@ When adding new aliases or schema versions, keep normalization backward-compatib
 1. For column or mode changes:
    1. Update `js/board-schema.js`.
    2. Ensure `style.css` has compatible `col-*` layout rules.
-   3. Ensure `TrainGroup` and header rendering still align.
+   3. Ensure `RowGroup` and header rendering still align.
 2. For timing/layout/capacity changes:
    1. Update `js/config.js`.
    2. Respect runtime profile defaults before URL overrides.
