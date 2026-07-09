@@ -20,16 +20,16 @@ function normalizeBilingual(value) {
 	return { local: '', en: '' };
 }
 
-function normalizeTypePresetItem(item) {
-	const normalized = normalizeBilingual(item);
-	if (item && typeof item === 'object') {
-		if (item.color) normalized.color = toSafeString(item.color);
-		if (item.textColor) normalized.textColor = toSafeString(item.textColor);
+function normalizePresetItem(value) {
+	const base = normalizeBilingual(value);
+	if (value && typeof value === 'object') {
+		if (value.color) base.color = toSafeString(value.color);
+		if (value.textColor) base.textColor = toSafeString(value.textColor);
 	}
-	return normalized;
+	return base;
 }
 
-function normalizePresetList(list, itemNormalizer = normalizeBilingual) {
+function normalizePresetList(list, itemNormalizer = normalizePresetItem) {
 	if (!Array.isArray(list)) return [];
 	return list.map(itemNormalizer);
 }
@@ -39,6 +39,7 @@ function normalizeScheduleRecord(record) {
 	const safeType = normalizeBilingual(safeRecord.type || safeRecord.train_type || safeRecord.kind);
 
 	return {
+		...safeRecord,
 		track_no: toSafeString(safeRecord.track_no ?? safeRecord.track, ''),
 		type: safeType,
 		type_color_hex: toSafeString(
@@ -110,10 +111,14 @@ export function normalizeTimetable(raw) {
 			header: normalizeHeader(safeRaw.meta)
 		},
 		presets: {
-			types: normalizePresetList(safePresets.types, normalizeTypePresetItem),
+			types: normalizePresetList(safePresets.types),
 			dests: normalizePresetList(safePresets.dests),
 			remarks: normalizePresetList(safePresets.remarks),
-			stops: normalizePresetList(safePresets.stops)
+			stops: normalizePresetList(safePresets.stops),
+			...Object.fromEntries(
+				Object.entries(safePresets).filter(([k]) => !['types', 'dests', 'remarks', 'stops'].includes(k))
+					.map(([k, v]) => [k, normalizePresetList(v)])
+			)
 		},
 		schedule: safeSchedule.map(normalizeScheduleRecord)
 	};
