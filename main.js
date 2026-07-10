@@ -4,6 +4,7 @@ import { mountBoard } from './js/flapemu.js';
 let boardInstance = null;
 let isFetchRunning = false;
 let refreshTimerId = null;
+let storedStatus = null;
 
 function getDataSource() {
 	const t = new URLSearchParams(window.location.search).get('t');
@@ -28,21 +29,7 @@ async function fetchData() {
 		const json = await response.json();
 
 		const config = prepareTrainBoardData(json, null);
-		const hasRows = config.rows && config.rows.length > 0;
-
-		if (!hasRows) {
-			const st = config.ui && config.ui.status;
-			if (board) board.classList.add('board-error');
-			if (statusEl) {
-				statusEl.innerHTML = `
-					<div class="status-text status-error">
-						<div class="status-main">${st && st.main ? st.main : '只今サービスを停止しています / Service Suspended'}</div>
-						${(st && st.description) ? `<div class="status-description">${st.description}</div>` : ''}
-					</div>
-				`;
-			}
-			return;
-		}
+		storedStatus = (config.ui && config.ui.status) || null;
 
 		if (!boardInstance) {
 			console.log("[System] Initializing Board...");
@@ -57,11 +44,12 @@ async function fetchData() {
 		const board = document.getElementById('board');
 		const statusEl = document.getElementById('system-status');
 		if (board) board.classList.add('board-error');
+		const st = storedStatus;
 		if (statusEl) {
 			statusEl.innerHTML = `
 				<div class="status-text status-error">
-					<div class="status-main">ただいま調整中 / System Adjustment</div>
-					<div class="status-description">表示の更新を停止しています。アナウンスにご注意ください。<br>Display update paused. Please refer to announcements.</div>
+					<div class="status-main">${st && st.main ? st.main : 'ただいま調整中 / System Adjustment'}</div>
+					${st && st.description ? `<div class="status-description">${st.description}</div>` : '<div class="status-description">表示の更新を停止しています。アナウンスにご注意ください。<br>Display update paused. Please refer to announcements.</div>'}
 				</div>
 			`;
 		}
