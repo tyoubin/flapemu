@@ -1,6 +1,8 @@
 /**
- * FlapEmu Timetable Editor
- * Core logic for creating and editing JSON timetable files
+ * FlapEmu Timetable Editor — DEPRECATED
+ *
+ * Manual JSON editor kept for reference only. No longer linked from index.
+ * Production boards should generate JSON programmatically (Python, Go, etc.).
  */
 import { createEmptyBoardConfig, normalizeBoardConfig, TRAIN_COLUMN_DEFAULTS } from './js/data-normalize.js';
 

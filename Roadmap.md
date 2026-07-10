@@ -171,10 +171,11 @@ V3 is live. After Step 3, `meta` and `showTopBar` move to the page shell:
 |------|--------|--------|
 | Strip `meta` from board config | `normalizeBoardConfig` stops returning `meta`; page shell fetches and renders its own header | ⬜ |
 | Strip `showTopBar` from `ui` | The board doesn't manage visibility of elements it doesn't own | ⬜ |
-| Deprecate URL params in board path | `config.js` stops reading URL params for the board; product shell (main.js) handles data source URL reading | ⬜ |
-| Remove top-bar DOM from `board.html` | Page shell adds its own header if desired; board.html becomes a minimal container | ⬜ |
-| Clean `style.css` of page-chrome rules | Keep only `.schedule-board` and column layout rules; move top-bar/header styles to product shell | ⬜ |
-| Update all timetable JSONs | `meta` becomes an optional page-shell concern, not part of board config | ⬜ |
+| Deprecate visual editor | Manual JSON editing is no longer linked from index; machine generation is the intended path | ✅ |
+| Strip URL params | Only `?t=` data-source pointer remains; `mode`, `rows`, `track` removed from main.js | ✅ |
+| Remove top-bar DOM from `board.html` | Page shell adds its own header if desired; board.html becomes a minimal container | ✅ |
+| Clean `style.css` of page-chrome rules | Keep only `.schedule-board` and column layout rules; move top-bar/header styles to product shell | ✅ |
+| Update all timetable JSONs | `showTopBar` removed; `meta` is product-shell data, not board config | ✅ |
 
 **Done when:**
 
@@ -201,22 +202,20 @@ V3 is live. After Step 3, `meta` and `showTopBar` move to the page shell:
 
 ### Step 5 — Product polish (optional / later)
 
-- Generic schema-aware **editor** (not train-only tables)
 - Board templates gallery (station, airport, bus, scoreboard)
 - Theme tokens (bezel, flap speed, fonts) in JSON
-- Stronger tests around normalize, transforms, window strategies
+- Stronger tests around transforms, window strategies
 - Remove legacy `normalizeTimetable` v1/v2 upgrade paths (keep only `normalizeBoardConfig` v3)
 
 ---
 
 Regression checklist (always):
 
-- `board.html?t=shinagawa&mode=concourse`
-- `board.html?t=kumamoto&mode=gate`
-- `board.html?t=sendai&mode=platform`
 - `board.html?t=shinagawa`
+- `board.html?t=kumamoto`
+- `board.html?t=sendai`
+- `board.html?t=demo`
 - `airport.html?t=narita`
-- `editor.html`
 - `node tests/board-config.test.mjs && node tests/train-pipeline.test.mjs && node tests/step1-rename.test.mjs`
 
 ---
@@ -227,7 +226,7 @@ Regression checklist (always):
 - Change mechanical flap feel (spool traversal, bezel, lighting) unless separately requested
 - Force-breaking removal of legacy timetable JSON without a normalize path
 - URL params as a board concern — they are product-shell only
-- Full-featured visual editor before Step 3 is stable
+- Full-featured visual editor — deprecated in favor of machine-generated JSON (see `timetable_csv.py`)
 
 ---
 
