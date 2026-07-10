@@ -210,12 +210,10 @@ V3 is live. After Step 3, `meta` and `showTopBar` move to the page shell:
 
 Regression checklist (always):
 
-- `hongqiao.html` (library surface demo)
-- `board.html?t=shinagawa`
-- `board.html?t=kumamoto`
-- `board.html?t=sendai`
 - `board.html?t=demo`
-- `airport.html?t=narita`
+- `board.html?t=hongqiao`
+- `board.html?t=narita`
+- `board.html?t=__nonexistent__` (error overlay)
 - `node tests/board-config.test.mjs && node tests/train-pipeline.test.mjs && node tests/step1-rename.test.mjs`
 
 ---
@@ -224,7 +222,6 @@ Regression checklist (always):
 
 - Rebuild on a framework (React/Vue/etc.)
 - Change mechanical flap feel (spool traversal, bezel, lighting) unless separately requested
-- Force-breaking removal of legacy timetable JSON without a normalize path
 - URL params as a board concern — they are product-shell only
 - Full-featured visual editor — deprecated in favor of machine-generated JSON (see `timetable_csv.py`)
 

@@ -159,14 +159,11 @@ When adding new aliases or schema versions, keep normalization backward-compatib
 
 ## Quick Regression Checklist
 
-1. `hongqiao.html` (library surface demo)
-2. `board.html?t=shinagawa`
-2. `board.html?t=kumamoto`
-3. `board.html?t=sendai`
-4. `board.html?t=demo`
-5. `airport.html`
-6. `board.html?t=__nonexistent__` (error overlay behavior)
-7. `node tests/board-config.test.mjs && node tests/train-pipeline.test.mjs && node tests/step1-rename.test.mjs`
+1. `board.html?t=demo`
+2. `board.html?t=hongqiao`
+3. `board.html?t=narita`
+4. `board.html?t=__nonexistent__` (error overlay behavior)
+5. `node tests/board-config.test.mjs && node tests/train-pipeline.test.mjs && node tests/step1-rename.test.mjs`
 
 ---
 
