@@ -176,18 +176,7 @@ body {
     margin-top: -2px;
 }
 
-.header-row .col-plat,
-.header-row .col-type,
-.header-row .col-no,
-.header-row .col-time,
-.header-row .col-dest,
-.header-row .col-remarks,
-.header-row .col-stop,
-.header-row .col-flight,
-.header-row .col-airport-dest,
-.header-row .col-airline,
-.header-row .col-gate,
-.header-row .col-status {
+.header-row .header-item {
     align-items: flex-start;
 }
 
