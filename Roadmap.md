@@ -1,9 +1,11 @@
 # FlapEmu Roadmap
 
 **Branch:** `roadmap/library-decoupling`  
-**Vision:** People import FlapEmu as a library and configure a split-flap board from a JSON — column definitions, presets, row data, and UI tuning. The page shell owns everything else.
+**Vision:** People import FlapEmu as a library and configure a split-flap board from JSON — columns, presets, rows, and UI tuning. The page shell owns chrome, routing, and data fetch.
 
 This document is the working plan. Keep it current as milestones land.
+
+**Last verified:** 2026-07-09 (branch review vs `main`, tests run, sample JSONs parsed).
 
 ---
 
@@ -20,24 +22,22 @@ const board = mountBoard('#board', {
 });
 ```
 
-The board owns only the schedule board. One config object defines it:
-
 | Section | Responsibility |
 |---------|----------------|
-| `columns[]` | Headers, kinds (`chars` / `time` / `word`), fields, charsets, visibility, colors |
+| `columns[]` | Headers, kinds (`chars` / `time` / `word`), fields, charsets, visibility, colors, layout hints |
 | `presets` | Word-flap spool catalogs |
 | `rows` | Actual display records |
-| `ui` | Board tuning: rows, cascade, refresh, mode, window strategy |
+| `ui` | Board tuning: rows, cascade, mode, hidden columns, window strategy, flap speed, gaps, error copy |
 
 The page shell owns everything else — header, logo, top-bar, data fetching, URL routing.
 
 **Principle:** Flaps know cards. Rows know columns. The page shell knows the domain.
 
+**Bilingual text (planned canonical keys):** `{ main, alt }` — not yet implemented. Runtime and samples still use `{ local, en }`. See [Open work](#open-work-post-review).
+
 ---
 
-## Target config shape
-
-V3 is live. After Step 3, `meta` and `showTopBar` move to the page shell:
+## Target config shape (as implemented today)
 
 ```json
 {
@@ -47,28 +47,34 @@ V3 is live. After Step 3, `meta` and `showTopBar` move to the page shell:
     "mode": "concourse",
     "cascadeMs": 800,
     "refreshMs": 30000,
-    "window": { "strategy": "nextByTime", "timeField": "depart_time" }
+    "hiddenColumns": [],
+    "window": { "strategy": "nextByTime", "timeField": "depart_time" },
+    "errorMessage": {
+      "main": "…",
+      "description": "…"
+    }
   },
   "columns": [
     {
       "key": "time",
       "header": { "local": "時刻", "en": "Time" },
       "kind": "time",
-      "field": "depart_time"
+      "sourceField": "depart_time"
     },
     {
       "key": "dest",
       "header": { "local": "行先", "en": "Dest." },
       "kind": "word",
-      "field": "destination",
-      "preset": "dests"
+      "sourceField": "destination",
+      "presetKey": "dests",
+      "widthVar": "--col-dest-width"
     },
     {
       "key": "type",
       "header": { "local": "種別", "en": "Type" },
       "kind": "word",
-      "field": "type",
-      "preset": "types",
+      "sourceField": "type",
+      "presetKey": "types",
       "colorFields": {
         "background": "type_color_hex",
         "text": "type_text_color"
@@ -83,163 +89,263 @@ V3 is live. After Step 3, `meta` and `showTopBar` move to the page shell:
 }
 ```
 
+Notes:
+
+- Canonical bilingual keys are still **`local` / `en`** in columns, presets, and rows.
+- `errorMessage` already uses **`main` / `description`** (product-shell overlay only).
+- Column data path uses **`sourceField`** + **`presetKey`** (not `field` / `preset`).
+- Layout is largely **inline styles** from the library (`kind`, `unitCount`, `fullWidth`, `widthVar`, `textAlign`), not hard-coded train column CSS.
+
 ---
 
-## Layer model
+## Layer model (current tree)
 
 ```text
 ┌──────────────────────────────────────────────┐
 │  Product shell                               │
-│  main.js · demos                             │
-│  owns: top-bar, header, logo, data fetching, │
-│        URL routing, page chrome              │
+│  main.js · index.html · board.html chrome    │
+│  owns: top-bar placeholder, fetch, ?t=,      │
+│        auto-refresh, error overlay           │
 ├──────────────────────────────────────────────┤
-│  Board shell (generic)                       │
-│  RowGroup · columns · presets · rows │
-│  cascade · schedule board rendering          │
-│  owns: the .schedule-board div only          │
+│  Board shell (library)                       │
+│  flapemu.js → RowGroup · record-transform    │
+│  owns: .schedule-board contents only         │
 ├──────────────────────────────────────────────┤
-│  Core (library heart)                        │
-│  FlapUnit · physical spool · flap CSS        │
+│  Pipelines                                   │
+│  board-pipeline.js (generic)                 │
+│  train-pipeline.js (sort/filter helpers)     │
+├──────────────────────────────────────────────┤
+│  Core                                        │
+│  FlapUnit · data-logic · flap CSS            │
 └──────────────────────────────────────────────┘
 ```
 
-| Layer | Owns | Receives from above |
-|-------|------|---------------------|
-| **Product shell** | Chrome, routing, data fetch, editor UI | URL, user input, filesystem |
-| **Board shell** | `.schedule-board` — columns, presets, rows, timing | `{ columns, presets, rows, ui }` |
-| **Core** | Flap DOM, spool state, flip animation | `(element, cards, kind)` |
+| Layer | Owns | Must not own |
+|-------|------|--------------|
+| **Product shell** | Chrome, `?t=`, fetch, error UI, refresh timer | Flap DOM internals |
+| **Board shell** | Header row of columns, rows, cascade, widths | Top bar, URL parsing |
+| **Core** | Card flip, spool list | Domain field names |
+
+Public package entry: `package.json` → `js/flapemu.js` (`mountBoard`).
 
 ---
 
-## Milestone plan
+## Milestone status (verified)
 
-### Step 0 — Plan (this branch)
+### Step 0 — Plan
 
 - [x] Publish roadmap on `roadmap/library-decoupling`
-- [ ] Align maintainers on milestone order and “done” criteria below
 
-### Step 1 — Decouple & generic components
+### Step 1 — Decouple & generic components — **Complete (with residual naming debt)**
 
-**Goal:** Train board becomes *one schema*, not the architecture. A second domain (e.g. airport) can render with the same path without touching `FlapUnit`.
+| Task | Status | Evidence |
+|------|--------|----------|
+| `TrainGroup` → `RowGroup`, neutral row APIs | ✅ | `js/RowGroup.js`, CSS `.row-group` |
+| Neutral column contract in JSON | ✅ | Sample boards define own `columns[]` |
+| `keepTypeColors` → `colorFields` | ✅ | `record-transform.js` + demo columns |
+| Generic `record-transform` | ✅ | Kind-based path; `sourceField \|\| key` fallback |
+| Split pipeline | ✅ | `board-pipeline.js` + `train-pipeline.js` |
+| Soften layout CSS | ✅ | Inline layout styles; demos not tied to JR-only CSS |
+| Proof multi-domain boards | ✅ | `demo`, `hongqiao`, `narita`, `coco` via same shell |
 
-| Task | Detail | Status |
-|------|--------|--------|
-| Rename domain language | `TrainGroup` → `RowGroup`; `.train-group` → `.row-group` (keep CSS dual-class during transition); `selectDisplayTrains` → `selectDisplayRows`; board APIs use `rows` / `records` | ✅ |
-| Neutral column contract | Schema stays presentation-only: `key`, `header`, `kind`, `field`, units, charset, preset, width hints | ✅ |
-| Generic color mapping | Replace `keepTypeColors` with `colorFields: { background, text }` (any word column) | ✅ |
-| Generic `record-transform` | Single path for chars / time / word; no key-specific branches | ✅ |
-| Split pipeline | Generic: bilingual helpers, take-N window, cascade hooks. Train adapter: track filter, sort by depart time, `nextByTime` strategy | ✅ |
-| Soften layout CSS | Prefer `col-${key}` from schema; avoid new hard-coded mode×column hide rules; dual-support existing keys | ✅ |
-| Proof schema | Second in-code schema (airport) renders via `airport.html` using `RowGroup` + generic pipeline | ✅ |
+### Step 2 — Single JSON as source of truth — **Mostly complete**
 
-**Leave alone in Step 1:** `FlapUnit` / spool physics / flip CSS quality; full editor rewrite; npm publish; public URL breakage.
+| Task | Status | Notes |
+|------|--------|-------|
+| `schema_version: 3` + `normalizeBoardConfig` | ✅ | Thin passthrough only |
+| Columns / ui / presets / rows in JSON | ✅ | Live samples |
+| Window / cascade / rows from JSON | ⚠️ | `timeField` used; `strategy` not honored; see open work |
+| Multi-domain samples | ✅ | Train, Chinese HSR, airport, shop order board |
+| Legacy v1/v2 normalize | ❌ | **Removed.** Docs that claim legacy aliases still work are wrong |
+| Visual editor v3 | ❌ | **Deleted** (intentional; not “updated”) |
 
-**Done when:**
+### Step 3 — Board owns only the board — **Complete (demo shell is thin)**
 
-1. Existing demos (`shinagawa`, `kumamoto`, `sendai`, modes, URL params) behave the same.
-2. A non-train column schema renders without editing core flap code. — ✅ (`airport.html` renders via `RowGroup`, no core changes)
-3. No train field names required inside `RowGroup` / `FlapUnit` — ✅ (`RowGroup` imports no train-specific names)
+| Task | Status | Notes |
+|------|--------|-------|
+| Board config without `meta` / top-bar ownership | ✅ | Shell has static chrome in `board.html` |
+| URL params stripped from board path | ✅ | Only demo shell reads `?t=` |
+| PWA / service worker | ✅ removed | Consumers own installability |
+| Editor removed | ✅ | Manual / machine-generated JSON path |
 
-### Step 2 — Single JSON as source of truth ✅
+### Step 4 — Library surface — **Usable, not polished**
 
-**Goal:** Board config (columns + ui + meta + presets + rows) loads from one document. Code path no longer hard-codes JR columns.
+| Task | Status | Notes |
+|------|--------|-------|
+| `mountBoard` / `updateBoard` / `destroyBoard` | ✅ | Returned from `mountBoard` |
+| `package.json` zero-build entry | ✅ | `"main": "js/flapemu.js"` |
+| README library section | ⚠️ | Partially stale (legacy claims, sample `meta`) |
+| Clean export boundary | ⚠️ | `flapemu.js` imports `extractScheduleWords` from **train-pipeline** |
 
-| Task | Detail | Status |
-|------|--------|--------|
-| Define `schema_version: 3` (or next) | Formal board config schema + `normalizeBoardConfig` loader | ✅ |
-| Loader | `normalizeBoardConfig(raw)` accepts v3 config and returns it cleanly | ✅ |
-| Move columns into JSON | `TRAIN_COLUMN_DEFAULTS` in `data-normalize.js`; train demos ship as full board JSON | ✅ |
-| UI from config | `rows`, `showTopBar`, `mode` from JSON; URL params remain overrides | ✅ |
-| Window strategies | Config-driven: `nextByTime`, time field, filter fields | ✅ |
-| Layout CSS from column keys | Airport column classes (`col-flight`, `col-airline`, etc.) moved into `style.css` | ✅ |
-| Editor updated | v3 create/import/export; uses `timetable.rows` instead of `timetable.schedule` | ✅ |
-| Legacy code stripped | `normalizeTimetable`, `COLUMN_SCHEMA`, `DISPLAY_MODE_PROFILES`, `DEFAULT_DISPLAY_MODE`, `getVisibleColumns`, `getDisplayModeProfile` removed | ✅ |
-| Dead files removed | `airport-schema.js`, `airport-pipeline.js`, `tests/data-normalize.test.mjs` | ✅ |
+### Step 5 — Polish / remaining product work — **Not done**
 
-**Done when:**
-
-1. A single JSON file fully defines a board (no JS schema edit required). — ✅
-2. Legacy timetable files still work via compatibility normalize. — ✅
-3. At least two sample boards (train + one other domain) are JSON-only. — ✅ (`narita.json` is airport, `demo.json`/`shinagawa.json`/etc. are train)
-
-### Step 3 — Board owns only the board
-
-**Goal:** The board component renders a `.schedule-board` and nothing else. `meta` and `showTopBar` move to the product shell. URL params are not parsed by the board path.
-
-| Task | Detail | Status |
-|------|--------|--------|
-| Strip `meta` from board config | `normalizeBoardConfig` stops returning `meta`; page shell fetches and renders its own header | ✅ |
-| Strip `showTopBar` from `ui` | The board doesn't manage visibility of elements it doesn't own | ✅ |
-| Deprecate visual editor | Manual JSON editing is no longer linked from index; machine generation is the intended path | ✅ |
-| Strip URL params | Only `?t=` data-source pointer remains; `mode`, `rows`, `track` removed from main.js | ✅ |
-| Remove top-bar DOM from `board.html` | Page shell adds its own header if desired; board.html becomes a minimal container | ✅ |
-| Clean `style.css` of page-chrome rules | Keep only `.schedule-board` and column layout rules; move top-bar/header styles to product shell | ✅ |
-| Update all timetable JSONs | `showTopBar` removed; `meta` is product-shell data, not board config | ✅ |
-
-**Done when:**
-
-1. `normalizeBoardConfig` returns only `{ schema_version, columns, presets, rows, ui }` — no `meta` or `showTopBar`. — ✅
-2. No board JS file reads `window.location.search`. — ✅ (only `pwa.js` reads it, which is product shell)
-3. The product shell (`main.js`, `airport.js`) owns all header, logo, and top-bar rendering. — ✅
-4. All existing demos still render identically (chrome is provided by the page shell). — ✅
-
-### Step 4 — Library surface
-
-**Goal:** Third parties import the board as a module and mount it programmatically.
-
-| Task | Detail | Status |
-|------|--------|--------|
-| Public API | `mountBoard(el, options)`, `updateBoard(presets, rows)`, `destroyBoard()` | ✅ |
-| Package layout | `package.json`, flat `js/` layout, zero-build | ✅ |
-| Export surface | `js/flapemu.js` exports `mountBoard` only; product shell code stays in `main.js`/`airport.js` | ✅ |
-| Docs | README section: install, minimal JSON, presets, custom columns | ✅ |
-
-**Done when:**
-
-1. External consumer can `npm install flapemu` and render a board from `{ columns, presets, rows, ui }`. — ✅
-2. Current hosted demo still works (product shell uses the same library). — ✅
-
-### Step 5 — Other
-
-- Settings (flap speed, fonts) in JSON
+See [Open work](#open-work-post-review).
 
 ---
 
-Regression checklist (always):
+## Demo boards (current)
 
-- `board.html?t=demo`
-- `board.html?t=hongqiao`
-- `board.html?t=narita`
-- `board.html?t=__nonexistent__` (error overlay)
-- `node tests/board-config.test.mjs && node tests/train-pipeline.test.mjs && node tests/step1-rename.test.mjs`
+| Query | File | Domain |
+|-------|------|--------|
+| `board.html?t=demo` | `timetable/demo.json` | Full train board |
+| `board.html?t=hongqiao` | `timetable/hongqiao.json` | Shanghai Hongqiao-style |
+| `board.html?t=narita` | `timetable/narita.json` | Airport departures |
+| `board.html?t=coco` | `timetable/coco.json` | Order / pickup board |
+| `board.html?t=__nonexistent__` | — | Error overlay |
+
+Removed from tree (do not document as live): `shinagawa`, `kumamoto`, `sendai`, `editor.*`, `airport.html` / `airport.js`, PWA (`sw.js`, `manifest.json`, `pwa.js`).
+
+---
+
+## Verification report (2026-07-09)
+
+### What was checked
+
+1. **Diff scope vs `main`:** ~38 paths; large rewrite toward library + v3 JSON.
+2. **Unit tests:**
+   ```text
+   node --test tests/*.mjs
+   → board-config, step1-rename, train-pipeline — all pass
+   ```
+3. **Sample JSON parse:** `demo`, `hongqiao`, `narita`, `coco` all `schema_version: 3` and parse cleanly.
+4. **Architecture spot-check:** `mountBoard`, `RowGroup`, `colorFields`, multi-demo `index.html` links.
+
+### Verdict
+
+The other agent **did deliver the architectural arc** of Steps 1–4: generic rows, JSON-defined columns, multi-domain demos, and a real `mountBoard` entry point. Tests that exist pass.
+
+However, **the previous Roadmap overstated completeness**, and **docs disagree with code** in several places. Treat Steps 2–4 as “shipped shape, needs cleanup,” not “done forever.”
+
+### Issues found (severity)
+
+#### Bugs / incorrect behavior
+
+1. **`ui.refreshMs` ignored by demo shell**  
+   - File: `main.js` (hardcoded `30000`)  
+   - JSON fields like `refreshMs` on demo/narita have no effect.
+
+2. **`ui.window.strategy` ignored**  
+   - File: `js/flapemu.js`  
+   - Only `ui.window.timeField` is read; selection always uses next-by-time logic in `selectDisplayRows`. A `static` (or other) strategy cannot be configured despite appearing in JSON.
+
+3. **Custom blank color vs hard-coded dark check**  
+   - File: `js/FlapUnit.js` compares `data.color !== "#202020"`  
+   - Custom `ui.blankColor` can still be treated as “has color” inconsistently with spool blanks.
+
+#### Design / API debt
+
+4. **Bilingual keys still `local` / `en`**  
+   - User request: rename to **`main` / `alt`**.  
+   - Not implemented in core, samples, or tests (only `errorMessage.main` exists).
+
+5. **Library depends on train-named helper**  
+   - `js/flapemu.js` imports `extractScheduleWords` from `train-pipeline.js`.  
+   - Should use `extractFieldWords` from `board-pipeline.js` (or rename adapters).
+
+6. **`normalizeBoardConfig` is passthrough-only**  
+   - No column schema defaults, no bilingual coercion, no `schedule`→`rows` alias, no unknown-field policy.  
+   - README still claims full legacy alias mapping — **false**.
+
+7. **`mountBoard` mutates input column objects**  
+   - Assigns `col.cssClass` / `col.inlineStyle` in place; surprising for library consumers.
+
+8. **Naming leftovers**  
+   - `scheduleData` aliases, `selectDisplayTrains`, `prepareTrainBoardData` still mixed into APIs used by the generic path.
+
+#### Docs drift
+
+9. **README** claims legacy v1/v2 normalize and still shows `meta` in the “board JSON” sample.  
+10. **GEMINI.md** still references `airport.js`, outdated config surface.  
+11. **Earlier Roadmap** marked editor “updated,” legacy “working,” and airport HTML demos live — none of that matches the tree now.
+
+### Residual risk
+
+- No browser/e2e smoke in CI; visual regression of flap animation not automated.  
+- Large timetable (`demo.json` ~378 rows) + cascade still untested for performance under `node`.  
+- 11 local commits not yet on `origin` at last check — push when ready so the remote matches review.
+
+---
+
+## Open work (post-review)
+
+Priority order for continuing on this branch:
+
+### P0 — Correctness / honesty
+
+- [ ] Honor `ui.refreshMs` in `main.js` (with sensible clamp/default).
+- [ ] Honor `ui.window.strategy` (`nextByTime` | `static` at minimum); document contract.
+- [ ] Fix blank-color comparison to use configured blank color, not literal `#202020`.
+- [ ] Fix README / GEMINI to match v3-only reality (remove false legacy claims).
+
+### P1 — User-requested naming
+
+- [ ] Rename bilingual text keys **`local` → `main`**, **`en` → `alt`** across:
+  - Core: `FlapUnit`, `data-logic`, `config.makeBlankData`, `record-transform`, `utils.getCap`, CSS classes (`.main-text` / `.alt-text`, dual-class optional during transition)
+  - Samples: all `timetable/*.json`
+  - Tests + README / GEMINI / this roadmap’s examples
+- [ ] Decide error overlay shape: keep `errorMessage.main` / `description`, or align to `main` / `alt` only.
+
+### P2 — Library cleanup
+
+- [ ] Stop importing train-pipeline from `flapemu.js`; keep train adapter optional for shells that need track filter.
+- [ ] Avoid mutating caller’s `columns` array (clone or assign styles on DOM only).
+- [ ] Trim `scheduleData` / `selectDisplayTrains` naming from generic paths.
+- [ ] Expand unit tests: `getColumnTarget` + `colorFields`, window strategies, bilingual key behavior.
+
+### P3 — Product polish
+
+- [ ] Theme tokens in JSON (fonts, flap speed already partial via `flapAnimationMs`).
+- [ ] Optional npm publish checklist (package files field, exports map, CSS import story).
+- [ ] Optional schema-aware JSON editor later (explicitly out of scope until API stable).
+
+---
+
+## Regression checklist
+
+```text
+# Unit
+node --test tests/*.mjs
+
+# Manual (python3 serve.py → :8086)
+board.html?t=demo
+board.html?t=hongqiao
+board.html?t=narita
+board.html?t=coco
+board.html?t=__nonexistent__
+```
 
 ---
 
 ## Non-goals (near term)
 
 - Rebuild on a framework (React/Vue/etc.)
-- Change mechanical flap feel (spool traversal, bezel, lighting) unless separately requested
-- URL params as a board concern — they are product-shell only
-- Full-featured visual editor — deprecated in favor of machine-generated JSON (see `timetable_csv.py`)
+- Change mechanical flap feel unless separately requested
+- URL params as a board concern (product shell only)
+- Full visual editor before bilingual keys + window/refresh contracts are stable
+- Reintroducing silent legacy timetable formats without an explicit compat policy
 
 ---
 
-## Status
+## Status summary
 
 | Milestone | Status |
 |-----------|--------|
 | Step 0 — Roadmap | **Complete** |
-| Step 1 — Decouple & generic components | **Complete** |
-| Step 2 — Single JSON config | **Complete** |
+| Step 1 — Decouple & generic components | **Complete** (naming debt remains) |
+| Step 2 — Single JSON config | **Mostly complete** (strategy/refresh/docs gaps) |
 | Step 3 — Board owns only the board | **Complete** |
-| Step 4 — Library surface | **Complete** |
-| Step 5 — Product polish | Not started |
+| Step 4 — Library surface | **Usable / needs cleanup** |
+| Step 5 — Polish + `main`/`alt` rename | **Open** (see open work) |
 
 ---
 
 ## References
 
-- Current architecture contracts: `GEMINI.md`
-- User-facing behavior: `README.md`
-- Key modules today: `js/flapemu.js` (entry), `js/FlapUnit.js`, `js/RowGroup.js`, `js/board-schema.js`, `js/board-pipeline.js`, `js/train-pipeline.js`, `js/record-transform.js`, `js/data-normalize.js`
+- Architecture contracts: `GEMINI.md` (partially stale — update with P0 docs pass)
+- User-facing docs: `README.md` (partially stale)
+- Public entry: `js/flapemu.js`
+- Core: `js/FlapUnit.js`, `js/data-logic.js`, `js/RowGroup.js`
+- Pipelines: `js/board-pipeline.js`, `js/train-pipeline.js`
+- Normalize: `js/data-normalize.js`
+- Demo shell: `main.js`, `board.html`, `index.html`
+- Samples: `timetable/{demo,hongqiao,narita,coco}.json`
