@@ -34,7 +34,7 @@ One config object (or file) owns:
 
 ## Target config shape (illustrative)
 
-Not frozen — evolves with Step 2. Shows the intended contract:
+V3 is live — used by all timetable JSONs. Shows the contract:
 
 ```json
 {
@@ -49,6 +49,7 @@ Not frozen — evolves with Step 2. Shows the intended contract:
   "ui": {
     "rows": 6,
     "showTopBar": true,
+    "mode": "concourse",
     "cascadeMs": 800,
     "refreshMs": 30000,
     "window": { "strategy": "nextByTime", "timeField": "depart_time" }
@@ -148,24 +149,27 @@ Today this is split across hard-coded schema (`js/board-schema.js`), URL params 
 2. A non-train column schema renders without editing core flap code. — ✅ (`airport.html` renders via `RowGroup`, no core changes)
 3. No train field names required inside `RowGroup` / `FlapUnit` — ✅ (`RowGroup` imports no train-specific names)
 
-### Step 2 — Single JSON as source of truth
+### Step 2 — Single JSON as source of truth ✅
 
 **Goal:** Board config (columns + ui + meta + presets + rows) loads from one document. Code path no longer hard-codes JR columns.
 
-| Task | Detail |
-|------|--------|
-| Define `schema_version: 3` (or next) | Formal board config schema + validation |
-| Loader | `normalizeBoardConfig(raw)` accepts v3 and maps legacy timetable v2 → v3 for demos |
-| Move columns into JSON | Current `COLUMN_SCHEMA` becomes data; train demos ship as full board JSON |
-| UI from config | `rows`, visibility, top bar defaults from JSON; URL params remain overrides for kiosk tuning |
-| Window strategies | Config-driven: `static`, `nextByTime`, optional filter fields |
-| Layout | Generate or document layout CSS from column keys / width vars |
+| Task | Detail | Status |
+|------|--------|--------|
+| Define `schema_version: 3` (or next) | Formal board config schema + `normalizeBoardConfig` loader | ✅ |
+| Loader | `normalizeBoardConfig(raw)` accepts v3 and maps legacy timetable v2/v1 → v3 | ✅ |
+| Move columns into JSON | `TRAIN_COLUMN_DEFAULTS` in `data-normalize.js`; train demos ship as full board JSON | ✅ |
+| UI from config | `rows`, `showTopBar`, `mode` from JSON; URL params remain overrides | ✅ |
+| Window strategies | Config-driven: `nextByTime`, time field, filter fields | ✅ |
+| Layout CSS from column keys | Airport column classes (`col-flight`, `col-airline`, etc.) moved into `style.css` | ✅ |
+| Editor updated | v3 create/import/export; uses `timetable.rows` instead of `timetable.schedule` | ✅ |
+| Legacy code stripped | `normalizeTimetable`, `COLUMN_SCHEMA`, `DISPLAY_MODE_PROFILES`, `DEFAULT_DISPLAY_MODE`, `getVisibleColumns`, `getDisplayModeProfile` removed | ✅ |
+| Dead files removed | `airport-schema.js`, `airport-pipeline.js`, `tests/data-normalize.test.mjs` | ✅ |
 
 **Done when:**
 
-1. A single JSON file fully defines a board (no JS schema edit required).
-2. Legacy timetable files still work via compatibility normalize.
-3. At least two sample boards (train + one other domain) are JSON-only.
+1. A single JSON file fully defines a board (no JS schema edit required). — ✅
+2. Legacy timetable files still work via compatibility normalize. — ✅
+3. At least two sample boards (train + one other domain) are JSON-only. — ✅ (`narita.json` is airport, `demo.json`/`shinagawa.json`/etc. are train)
 
 ### Step 3 — Library surface
 
@@ -192,16 +196,6 @@ Today this is split across hard-coded schema (`js/board-schema.js`), URL params 
 
 ---
 
-## Step 1 work order (implementation sequence)
-
-Use this as the PR stack order when executing Step 1:
-
-1. **Rename** `TrainGroup` → `RowGroup` (+ CSS dual class, update `sw.js` precache if needed).
-2. **Generalize colors** in schema + `record-transform.js` (`colorFields`).
-3. **Neutral pipeline API** + thin `train-pipeline` (or adapter) preserving current filter/sort/window behavior.
-4. **Proof second schema** in code (airport/bus), optional demo page or query flag.
-5. **Docs** — update `GEMINI.md` / README architecture map; tick Step 1 checkboxes here.
-
 Regression checklist (always):
 
 - `board.html?t=shinagawa&mode=concourse`
@@ -209,7 +203,7 @@ Regression checklist (always):
 - `board.html?t=sendai&mode=platform`
 - `board.html?t=shinagawa&refresh=10000&cascade=200`
 - `board.html?t=shinagawa&profile=mobile`
-- `node tests/data-normalize.test.mjs`
+- `node tests/board-config.test.mjs && node tests/train-pipeline.test.mjs && node tests/step1-rename.test.mjs`
 
 ---
 
@@ -228,7 +222,7 @@ Regression checklist (always):
 |-----------|--------|
 | Step 0 — Roadmap | **Complete** |
 | Step 1 — Decouple & generic components | **Complete** |
-| Step 2 — Single JSON config | Not started |
+| Step 2 — Single JSON config | **Complete** |
 | Step 3 — Library surface | Not started |
 | Step 4 — Product polish | Not started |
 
@@ -238,4 +232,4 @@ Regression checklist (always):
 
 - Current architecture contracts: `GEMINI.md`
 - User-facing behavior: `README.md`
-- Key modules today: `js/FlapUnit.js`, `js/TrainGroup.js`, `js/board-schema.js`, `js/board-pipeline.js`, `js/record-transform.js`, `js/data-normalize.js`
+- Key modules today: `js/FlapUnit.js`, `js/RowGroup.js`, `js/board-schema.js`, `js/board-pipeline.js`, `js/train-pipeline.js`, `js/record-transform.js`, `js/data-normalize.js`
