@@ -48,9 +48,7 @@ The board renders into the given element. All visual configuration comes from th
 /
 ├── index.html          # Portal page (demo selector)
 ├── board.html          # The main simulator view (The Board)
-├── airport.html        # Airport-style board demo
-├── main.js             # Product shell for board.html (fetch, chrome, auto-refresh)
-├── airport.js          # Product shell for airport.html
+├── main.js             # Product shell for board.html (fetch, data, auto-refresh)
 ├── package.json        # npm package entry
 ├── js/                 # ES Modules
 │   ├── flapemu.js      # Public entry point (mountBoard)
@@ -63,22 +61,18 @@ The board renders into the given element. All visual configuration comes from th
 │   ├── record-transform.js # Column target/data transforms
 │   ├── RowGroup.js     # Row management class
 │   ├── utils.js        # Helper functions
-│   └── pwa.js          # PWA & Dynamic Manifest logic
 ├── style.css           # Global styles
 ├── tests/              # Node-based compatibility tests
 ├── timetable/          # JSON Data directory
-├── sw.js               # Service Worker
-├── manifest.json       # Web App Manifest
-├── icon.png            # App Icon
 └── README.md           # User facing documentation
 ```
 
 ## Demo Boards
 
-The hosted demo is a product shell (`main.js`, `airport.js`) that demonstrates how to use the library in production. Visit `index.html` to select a board.
+The hosted demo is a product shell (`main.js`) that demonstrates how to use the library in production. Visit `index.html` to select a board.
 
 Only one URL parameter is used by the demo shell:
-- **`?t=`** — Selects the JSON file from `timetable/`. Example: `board.html?t=shinagawa` loads `timetable/shinagawa.json`. Only `a-z`, `A-Z`, `0-9`, `_`, `-` are accepted.
+- **`?t=`** — Selects the JSON file from `timetable/`. Example: `board.html?t=demo` loads `timetable/demo.json`. Only `a-z`, `A-Z`, `0-9`, `_`, `-` are accepted.
 
 All other display parameters (`rows`, `mode`, `track`, `cascade`, etc.) are specified inside the JSON file under `ui`.
 
@@ -156,18 +150,6 @@ The board accepts legacy v1/v2 timetable formats and normalizes them to v3.
 * **Realistic Flap Animation:** Smooth and authentic visual transitions for character and word changes.
 * **JSON-Driven:** A single JSON file fully defines the board — columns, presets, rows, and UI settings.
 * **Dynamic Data Loading:** Automatically fetches/updates schedule data with configurable refresh interval.
-* **PWA Support:** Installable on home screen for full-screen "kiosk" mode.
-
-## PWA & Home Screen Installation
-
-FlapEmu supports **Progressive Web App (PWA)** features, allowing you to use it as a standalone application without the browser address bar.
-
-* **iOS/Safari**: Tap the **Share** button → **"Add to Home Screen"**.
-* **Android/Chrome**: Tap the **Menu (⋮)** → **"Install App"**.
-
-### Dynamic Board Shortcuts
-
-FlapEmu uses a **Dynamic Manifest Strategy**. If you are viewing a specific board (e.g., `board.html?t=kumamoto`), choosing "Add to Home Screen" will create a shortcut for **that specific station and configuration**.
 
 ## Development
 
@@ -175,7 +157,7 @@ Using `file:///` to open the files will not work because CORS policy. Use the pr
 
 * **Run Server**: `python3 serve.py`
 * **Port**: `8086`
-* **URL**: `http://localhost:8086/board.html?t=shinagawa`
+* **URL**: `http://localhost:8086/board.html?t=demo`
 * **Mechanism**: Sends `Cache-Control: no-cache, no-store, must-revalidate` headers for all files.
 
 ## Deployment & Production

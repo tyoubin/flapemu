@@ -131,13 +131,12 @@ When adding new aliases or schema versions, keep normalization backward-compatib
 
 ---
 
-## PWA / Cache Constraints
-
-* `js/pwa.js`: dynamic manifest uses current URL for installable deep-link behavior.
-* `sw.js`: timetable JSON must remain network-only.
-* If app shell files change, bump service worker cache name and include new shell assets.
-
 ---
+
+## Cache Constraints
+
+* Timetable JSON (`timetable/*.json`) must remain network-only — never cache it.
+* If using a service worker, bump the cache name when shell assets change.
 
 ## Editing Rules for Future AI Agents
 

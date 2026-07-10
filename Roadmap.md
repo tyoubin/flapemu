@@ -90,7 +90,7 @@ V3 is live. After Step 3, `meta` and `showTopBar` move to the page shell:
 ```text
 ┌──────────────────────────────────────────────┐
 │  Product shell                               │
-│  main.js · airport.js · editor · PWA · demos │
+│  main.js · demos                             │
 │  owns: top-bar, header, logo, data fetching, │
 │        URL routing, page chrome              │
 ├──────────────────────────────────────────────┤
