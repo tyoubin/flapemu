@@ -11,7 +11,7 @@ function columnLayoutStyle(col) {
 	}
 	if (col.kind === 'chars') {
 		const n = col.unitCount || 4;
-		return `flex: 0 0 auto; width: calc((var(--char-width) + 2px) * ${n} - 2px);`;
+		return `flex: 0 0 auto; width: calc((var(--char-width) + 2px) * ${n} - 2px); justify-content: center;`;
 	}
 	if (col.kind === 'word' && col.widthVar) {
 		const grow = col.flexGrow || 1;

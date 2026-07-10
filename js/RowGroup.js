@@ -54,7 +54,7 @@ export class RowGroup {
 			const actualList = actualByField[column.sourceField] || [];
 			return {
 				kind: 'word',
-				unit: new WordFlap(parent, presetList, actualList, getCap(presetList, actualList), this.blankData)
+				unit: new WordFlap(parent, presetList, actualList, getCap(presetList, actualList), this.blankData, column.textAlign)
 			};
 		}
 

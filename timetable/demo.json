@@ -82,7 +82,8 @@
       "widthVar": "--col-dest-width",
       "minChars": 5,
       "sourceField": "destination",
-      "presetKey": "dests"
+      "presetKey": "dests",
+      "textAlign": "left"
     },
     {
       "key": "remarks",
@@ -95,7 +96,8 @@
       "widthVar": "--col-rem-width",
       "minChars": 6,
       "sourceField": "remarks",
-      "presetKey": "remarks"
+      "presetKey": "remarks",
+      "textAlign": "left"
     },
     {
       "key": "stop",
@@ -108,7 +110,8 @@
       "widthVar": "--col-stop-width",
       "minChars": 4,
       "sourceField": "stops_at",
-      "presetKey": "stops"
+      "presetKey": "stops",
+      "textAlign": "left"
     }
   ],
   "presets": {

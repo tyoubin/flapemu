@@ -30,7 +30,8 @@
       },
       "presetKey": "dests",
       "sourceField": "destination",
-      "widthVar": "--col-dest-width"
+      "widthVar": "--col-dest-width",
+      "textAlign": "left"
     },
     {
       "key": "depart_time",
@@ -61,7 +62,8 @@
       },
       "presetKey": "remarks",
       "sourceField": "remarks",
-      "widthVar": "--col-rem-width"
+      "widthVar": "--col-rem-width",
+      "textAlign": "left"
     }
   ],
   "presets": {

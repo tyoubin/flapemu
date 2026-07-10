@@ -215,65 +215,10 @@ body {
     margin: 0;
 }
 
-/* 
-   Fixed width columns (Track number, Train Number, Time) 
-*/
-.col-plat {
-    flex: 0 0 auto;
-    justify-content: center;
-    width: calc((var(--char-width) + 2px) * 3 - 2px);
-}
-
-/* minimal 5 digit width */
-.col-no {
-    flex: 0 0 auto;
-    width: calc((var(--char-width) + 2px) * 5 - 2px);
-}
-
-.col-time {
-    flex: 0 0 auto;
-    width: calc((var(--char-width) + 2px) * 5 - 2px);
-}
-
-/* 
-   Variable width columns (Type, Dest, Remarks) 
-*/
-.col-type {
-    flex: 1 1 var(--col-type-width, 130px);
-}
-
-.col-dest {
-    flex: 2 1 var(--col-dest-width, 200px);
-}
-
-.col-remarks {
-    flex: 2 1 var(--col-rem-width, 260px);
-}
-
 /* Train Stops column uses Flexbox to wrap */
 .col-stop {
     flex: 1 1 100%;
     width: 100%;
-}
-
-/* Airport/Flight columns */
-.col-flight {
-    flex: 0 0 auto;
-    width: calc((var(--char-width) + 2px) * 7 - 2px);
-}
-.col-airport-dest {
-    flex: 2 1 var(--col-dest-width, 220px);
-}
-.col-airline {
-    flex: 1 1 var(--col-airline-width, 150px);
-}
-.col-gate {
-    flex: 0 0 auto;
-    width: calc((var(--char-width) + 2px) * 4 - 2px);
-    justify-content: center;
-}
-.col-status {
-    flex: 1 1 var(--col-status-width, 150px);
 }
 
 /* --- Display Mode Specific Styles --- */
@@ -424,16 +369,6 @@ body.mode-gate .top-bar {
     line-height: 1;
     white-space: nowrap;
     overflow: hidden;
-}
-
-.col-stop .local-text,
-.col-stop .en-text,
-.col-remarks .local-text,
-.col-remarks .en-text,
-.col-dest .local-text,
-.col-dest .en-text {
-    justify-content: flex-start;
-    padding-left: 15px;
 }
 
 /* Structural style */

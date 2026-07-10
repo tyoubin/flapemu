@@ -178,9 +178,10 @@ export class CharFlap extends FlapUnit {
 }
 
 export class WordFlap extends FlapUnit {
-	constructor(parent, presetList, actualList, capacity, blankData) {
+	constructor(parent, presetList, actualList, capacity, blankData, textAlign) {
 		super(parent, 'flap-word', 'word');
 		this.blankData = blankData;
+		this.textAlign = textAlign || 'center';
 		this.physicalList = createPhysicalList(presetList, actualList, capacity, blankData);
 		this.rebuildWordIndexMap();
 		this.renderTo(this.topContent, this.physicalList[0]);
@@ -190,5 +191,16 @@ export class WordFlap extends FlapUnit {
 	updateList(presetList, actualList, capacity) {
 		mergeIntoPhysicalList(this.physicalList, presetList, actualList, capacity, this.blankData);
 		this.rebuildWordIndexMap();
+	}
+
+	renderTo(container, data) {
+		super.renderTo(container, data);
+		if (this.type === 'word' && this.textAlign === 'left') {
+			const items = container.querySelectorAll('.local-text, .en-text');
+			items.forEach(el => {
+				el.style.justifyContent = 'flex-start';
+				el.style.paddingLeft = '15px';
+			});
+		}
 	}
 }
