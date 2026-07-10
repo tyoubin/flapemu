@@ -94,7 +94,6 @@
     },
     {
       "key": "stop",
-      "cssClass": "col-stop",
       "header": {
         "local": "停車駅",
         "en": "Train Stops"
@@ -104,7 +103,8 @@
       "minChars": 4,
       "sourceField": "stops_at",
       "presetKey": "stops",
-      "textAlign": "left"
+      "textAlign": "left",
+      "fullWidth": true
     }
   ],
   "presets": {

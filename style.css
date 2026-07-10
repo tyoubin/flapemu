@@ -215,12 +215,6 @@ body {
     margin: 0;
 }
 
-/* Train Stops column uses Flexbox to wrap */
-.col-stop {
-    flex: 1 1 100%;
-    width: 100%;
-}
-
 /* --- Display Mode Specific Styles --- */
 /* Top bar visibility is controlled by JS (showTopBar mode profile) */
 body.mode-gate .top-bar {
