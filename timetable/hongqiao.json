@@ -23,7 +23,6 @@
     {
       "key": "destination",
       "kind": "word",
-      "cssClass": "col-dest",
       "header": {
         "local": "终到站",
         "en": "Destination"
@@ -55,7 +54,6 @@
     {
       "key": "remarks",
       "kind": "word",
-      "cssClass": "col-remarks",
       "header": {
         "local": "状态",
         "en": "Status"

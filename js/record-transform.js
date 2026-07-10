@@ -22,7 +22,11 @@ export function getColumnTarget(column, record) {
 	}
 
 	if (column.kind === 'time') {
-		return (safeRecord[sourceField] || '').toString();
+		let raw = (safeRecord[sourceField] || '').toString();
+		if (column.timeSeparator) {
+			raw = raw.replace(':', column.timeSeparator);
+		}
+		return raw;
 	}
 
 	if (column.kind === 'word') {

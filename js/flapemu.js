@@ -31,7 +31,7 @@ export function mountBoard(el, config) {
 	const blankData = makeBlankData(ui.blankColor, ui.blankTextColor);
 
 	visibleColumns.forEach(col => {
-		col.cssClass = col.cssClass || `col-${col.key}`;
+		col.cssClass = col.cssClass || `col-${col.kind}`;
 		if (!col.inlineStyle) {
 			col.inlineStyle = columnLayoutStyle(col);
 		}

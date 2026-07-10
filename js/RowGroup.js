@@ -6,7 +6,7 @@ import { CharFlap, WordFlap } from './FlapUnit.js';
 export class RowGroup {
 	constructor(container, presets, scheduleData, columns = [], blankData) {
 		this.groupEl = document.createElement('div');
-		this.groupEl.className = 'row-group train-group';
+		this.groupEl.className = 'row-group';
 		container.appendChild(this.groupEl);
 
 		this.rowPrimary = document.createElement('div');

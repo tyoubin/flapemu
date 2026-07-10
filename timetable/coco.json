@@ -23,7 +23,6 @@
     {
       "key": "drink",
       "kind": "word",
-      "cssClass": "col-drink",
       "header": {
         "local": "饮品",
         "en": "Drink"
@@ -48,7 +47,6 @@
     {
       "key": "status",
       "kind": "word",
-      "cssClass": "col-status",
       "header": {
         "local": "状态",
         "en": "Status"
@@ -61,40 +59,226 @@
   ],
   "presets": {
     "drinks": [
-      { "local": "珍珠奶茶", "en": "Bubble Milk Tea" },
-      { "local": "椰果奶茶", "en": "Coconut Milk Tea" },
-      { "local": "红豆奶茶", "en": "Red Bean Milk Tea" },
-      { "local": "芒果冰沙", "en": "Mango Smoothie" },
-      { "local": "百香果茶", "en": "Passion Fruit Tea" },
-      { "local": "柠檬茶", "en": "Lemon Tea" },
-      { "local": "抹茶拿铁", "en": "Matcha Latte" },
-      { "local": "巧克力冰沙", "en": "Chocolate Smoothie" },
-      { "local": "芋泥奶茶", "en": "Taro Milk Tea" },
-      { "local": "黑糖珍珠", "en": "Brown Sugar Pearl" },
-      { "local": "养乐多绿", "en": "Yakult Green" },
-      { "local": "冰淇淋红茶", "en": "Ice Cream Black Tea" },
-      { "local": "葡萄柚茶", "en": "Grapefruit Tea" },
-      { "local": "蜂蜜柚子茶", "en": "Honey Yuzu Tea" }
+      {
+        "local": "珍珠奶茶",
+        "en": "Bubble Milk Tea"
+      },
+      {
+        "local": "椰果奶茶",
+        "en": "Coconut Milk Tea"
+      },
+      {
+        "local": "红豆奶茶",
+        "en": "Red Bean Milk Tea"
+      },
+      {
+        "local": "芒果冰沙",
+        "en": "Mango Smoothie"
+      },
+      {
+        "local": "百香果茶",
+        "en": "Passion Fruit Tea"
+      },
+      {
+        "local": "柠檬茶",
+        "en": "Lemon Tea"
+      },
+      {
+        "local": "抹茶拿铁",
+        "en": "Matcha Latte"
+      },
+      {
+        "local": "巧克力冰沙",
+        "en": "Chocolate Smoothie"
+      },
+      {
+        "local": "芋泥奶茶",
+        "en": "Taro Milk Tea"
+      },
+      {
+        "local": "黑糖珍珠",
+        "en": "Brown Sugar Pearl"
+      },
+      {
+        "local": "养乐多绿",
+        "en": "Yakult Green"
+      },
+      {
+        "local": "冰淇淋红茶",
+        "en": "Ice Cream Black Tea"
+      },
+      {
+        "local": "葡萄柚茶",
+        "en": "Grapefruit Tea"
+      },
+      {
+        "local": "蜂蜜柚子茶",
+        "en": "Honey Yuzu Tea"
+      }
     ],
     "statuses": [
-      { "local": "制作中", "en": "Preparing" },
-      { "local": "已备好", "en": "Ready" },
-      { "local": "待取餐", "en": "Pick Up" },
-      { "local": "已完成", "en": "Done" }
+      {
+        "local": "制作中",
+        "en": "Preparing"
+      },
+      {
+        "local": "已备好",
+        "en": "Ready"
+      },
+      {
+        "local": "待取餐",
+        "en": "Pick Up"
+      },
+      {
+        "local": "已完成",
+        "en": "Done"
+      }
     ]
   },
   "rows": [
-    { "order_no": "087", "drink": { "local": "珍珠奶茶", "en": "Bubble Milk Tea" }, "qty": "2", "status": { "local": "已备好", "en": "Ready" } },
-    { "order_no": "088", "drink": { "local": "芒果冰沙", "en": "Mango Smoothie" }, "qty": "1", "status": { "local": "已备好", "en": "Ready" } },
-    { "order_no": "089", "drink": { "local": "黑糖珍珠", "en": "Brown Sugar Pearl" }, "qty": "1", "status": { "local": "待取餐", "en": "Pick Up" } },
-    { "order_no": "090", "drink": { "local": "椰果奶茶", "en": "Coconut Milk Tea" }, "qty": "3", "status": { "local": "制作中", "en": "Preparing" } },
-    { "order_no": "091", "drink": { "local": "抹茶拿铁", "en": "Matcha Latte" }, "qty": "1", "status": { "local": "制作中", "en": "Preparing" } },
-    { "order_no": "092", "drink": { "local": "百香果茶", "en": "Passion Fruit Tea" }, "qty": "2", "status": { "local": "制作中", "en": "Preparing" } },
-    { "order_no": "093", "drink": { "local": "冰淇淋红茶", "en": "Ice Cream Black Tea" }, "qty": "1", "status": { "local": "待取餐", "en": "Pick Up" } },
-    { "order_no": "094", "drink": { "local": "葡萄柚茶", "en": "Grapefruit Tea" }, "qty": "1", "status": { "local": "制作中", "en": "Preparing" } },
-    { "order_no": "095", "drink": { "local": "蜂蜜柚子茶", "en": "Honey Yuzu Tea" }, "qty": "1", "status": { "local": "待取餐", "en": "Pick Up" } },
-    { "order_no": "096", "drink": { "local": "芋泥奶茶", "en": "Taro Milk Tea" }, "qty": "2", "status": { "local": "制作中", "en": "Preparing" } },
-    { "order_no": "097", "drink": { "local": "红豆奶茶", "en": "Red Bean Milk Tea" }, "qty": "1", "status": { "local": "已备好", "en": "Ready" } },
-    { "order_no": "098", "drink": { "local": "养乐多绿", "en": "Yakult Green" }, "qty": "1", "status": { "local": "制作中", "en": "Preparing" } }
+    {
+      "order_no": "087",
+      "drink": {
+        "local": "珍珠奶茶",
+        "en": "Bubble Milk Tea"
+      },
+      "qty": "2",
+      "status": {
+        "local": "已备好",
+        "en": "Ready"
+      }
+    },
+    {
+      "order_no": "088",
+      "drink": {
+        "local": "芒果冰沙",
+        "en": "Mango Smoothie"
+      },
+      "qty": "1",
+      "status": {
+        "local": "已备好",
+        "en": "Ready"
+      }
+    },
+    {
+      "order_no": "089",
+      "drink": {
+        "local": "黑糖珍珠",
+        "en": "Brown Sugar Pearl"
+      },
+      "qty": "1",
+      "status": {
+        "local": "待取餐",
+        "en": "Pick Up"
+      }
+    },
+    {
+      "order_no": "090",
+      "drink": {
+        "local": "椰果奶茶",
+        "en": "Coconut Milk Tea"
+      },
+      "qty": "3",
+      "status": {
+        "local": "制作中",
+        "en": "Preparing"
+      }
+    },
+    {
+      "order_no": "091",
+      "drink": {
+        "local": "抹茶拿铁",
+        "en": "Matcha Latte"
+      },
+      "qty": "1",
+      "status": {
+        "local": "制作中",
+        "en": "Preparing"
+      }
+    },
+    {
+      "order_no": "092",
+      "drink": {
+        "local": "百香果茶",
+        "en": "Passion Fruit Tea"
+      },
+      "qty": "2",
+      "status": {
+        "local": "制作中",
+        "en": "Preparing"
+      }
+    },
+    {
+      "order_no": "093",
+      "drink": {
+        "local": "冰淇淋红茶",
+        "en": "Ice Cream Black Tea"
+      },
+      "qty": "1",
+      "status": {
+        "local": "待取餐",
+        "en": "Pick Up"
+      }
+    },
+    {
+      "order_no": "094",
+      "drink": {
+        "local": "葡萄柚茶",
+        "en": "Grapefruit Tea"
+      },
+      "qty": "1",
+      "status": {
+        "local": "制作中",
+        "en": "Preparing"
+      }
+    },
+    {
+      "order_no": "095",
+      "drink": {
+        "local": "蜂蜜柚子茶",
+        "en": "Honey Yuzu Tea"
+      },
+      "qty": "1",
+      "status": {
+        "local": "待取餐",
+        "en": "Pick Up"
+      }
+    },
+    {
+      "order_no": "096",
+      "drink": {
+        "local": "芋泥奶茶",
+        "en": "Taro Milk Tea"
+      },
+      "qty": "2",
+      "status": {
+        "local": "制作中",
+        "en": "Preparing"
+      }
+    },
+    {
+      "order_no": "097",
+      "drink": {
+        "local": "红豆奶茶",
+        "en": "Red Bean Milk Tea"
+      },
+      "qty": "1",
+      "status": {
+        "local": "已备好",
+        "en": "Ready"
+      }
+    },
+    {
+      "order_no": "098",
+      "drink": {
+        "local": "养乐多绿",
+        "en": "Yakult Green"
+      },
+      "qty": "1",
+      "status": {
+        "local": "制作中",
+        "en": "Preparing"
+      }
+    }
   ]
 }

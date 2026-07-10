@@ -16,7 +16,6 @@
   "columns": [
     {
       "key": "flight",
-      "cssClass": "col-flight",
       "header": {
         "local": "便名",
         "en": "Flight"
@@ -31,7 +30,6 @@
     },
     {
       "key": "dest",
-      "cssClass": "col-airport-dest",
       "header": {
         "local": "目的地",
         "en": "Destination"
@@ -44,7 +42,6 @@
     },
     {
       "key": "airline",
-      "cssClass": "col-airline",
       "header": {
         "local": "航空会社",
         "en": "Airline"
@@ -61,7 +58,6 @@
     },
     {
       "key": "gate",
-      "cssClass": "col-gate",
       "header": {
         "local": "搭乗口",
         "en": "Gate"
@@ -75,7 +71,6 @@
     },
     {
       "key": "status",
-      "cssClass": "col-status",
       "header": {
         "local": "状況",
         "en": "Status"
@@ -92,7 +87,6 @@
     },
     {
       "key": "remarks",
-      "cssClass": "col-remarks",
       "header": {
         "local": "備考",
         "en": "Remarks"

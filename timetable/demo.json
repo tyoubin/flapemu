@@ -16,7 +16,6 @@
   "columns": [
     {
       "key": "plat",
-      "cssClass": "col-plat",
       "header": {
         "local": "のりば",
         "en": "Track"
@@ -30,7 +29,6 @@
     },
     {
       "key": "type",
-      "cssClass": "col-type",
       "header": {
         "local": "種別",
         "en": "Type"
@@ -47,7 +45,6 @@
     },
     {
       "key": "no",
-      "cssClass": "col-no",
       "header": {
         "local": "列車番号",
         "en": "Train No."
@@ -61,19 +58,16 @@
     },
     {
       "key": "time",
-      "cssClass": "col-time",
       "header": {
         "local": "時刻",
         "en": "Time"
       },
       "kind": "time",
       "unitCapacity": 20,
-      "sourceField": "depart_time",
-      "timeSeparator": "."
+      "sourceField": "depart_time"
     },
     {
       "key": "dest",
-      "cssClass": "col-dest",
       "header": {
         "local": "行先",
         "en": "Dest."
@@ -87,7 +81,6 @@
     },
     {
       "key": "remarks",
-      "cssClass": "col-remarks",
       "header": {
         "local": "記事",
         "en": "Remarks"
