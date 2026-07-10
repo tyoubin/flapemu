@@ -1,18 +1,5 @@
 {
   "schema_version": 3,
-  "meta": {
-    "header": {
-      "logo_url": "timetable/logo.svg",
-      "line_name": {
-        "local": "成田国際空港",
-        "en": "Narita International Airport"
-      },
-      "for": {
-        "local": "出発便",
-        "en": "Departures"
-      }
-    }
-  },
   "ui": {
     "rows": 8,
     "cascadeMs": 800,

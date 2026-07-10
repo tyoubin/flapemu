@@ -1,18 +1,5 @@
 {
   "schema_version": 3,
-  "meta": {
-    "header": {
-      "logo_url": "timetable/logo.svg",
-      "line_name": {
-        "local": "Demo線",
-        "en": "Demo Line"
-      },
-      "for": {
-        "local": "東西方面",
-        "en": "for East & West"
-      }
-    }
-  },
   "ui": {
     "rows": 12,
     "cascadeMs": 1000,
