@@ -6,7 +6,11 @@
     "cascadeMs": 600,
     "colGap": "16px",
     "flapAnimationMs": 140,
-    "showHeader": true
+    "showHeader": true,
+    "status": {
+      "main": "CoCo 都可 取餐顯示 / Order Ready",
+      "description": "請憑號碼牌取餐 / Please pick up your order"
+    }
   },
   "columns": [
     {

@@ -37,6 +37,16 @@ async function fetchData() {
 				boardInstance.updateBoard(config.presets, config.rows);
 			}
 		}
+
+		const st = config.ui && config.ui.status;
+		if (statusEl && st && st.main) {
+			statusEl.innerHTML = `
+				<div class="status-text status-info">
+					<div class="status-main">${st.main}</div>
+					${st.description ? `<div class="status-description">${st.description}</div>` : ''}
+				</div>
+			`;
+		}
 	} catch (e) {
 		console.error("Error fetching data:", e);
 		const board = document.getElementById('board');

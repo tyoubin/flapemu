@@ -6,7 +6,11 @@
     "cascadeMs": 1000,
     "hiddenColumns": [],
     "colGap": "6px",
-    "flapAnimationMs": 120
+    "flapAnimationMs": 120,
+    "status": {
+      "main": "上海虹橋駅 発車案内 / Shanghai Hongqiao Departures",
+      "description": "情報は定期的に更新されます / Information is updated periodically"
+    }
   },
   "columns": [
     {
