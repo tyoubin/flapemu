@@ -1,16 +1,14 @@
 import {
 	CASCADE_DELAY_MS,
 	DATA_SOURCE,
-	DISPLAY_MODE,
+	DISPLAY_MODE as URL_DISPLAY_MODE,
 	FILTER_TRACKS,
 	INVALID_TIMETABLE_QUERY,
 	LAYOUT_WIDTH_MULTIPLIER,
 	LAYOUT_WIDTH_PADDING,
 	PREVIEW_MODE,
-	REFRESH_INTERVAL_MS,
-	ROW_COUNT
+	REFRESH_INTERVAL_MS
 } from './js/config.js';
-import { getDisplayModeProfile, getDynamicWidthColumns, getVisibleColumns } from './js/board-schema.js';
 import { extractScheduleWords, selectDisplayTrains, prepareTrainBoardData } from './js/train-pipeline.js';
 import { sleep, calculateVisualLength, setFavicon } from './js/utils.js';
 import { RowGroup } from './js/RowGroup.js';
@@ -19,7 +17,6 @@ let groups = [];
 let isInitialized = false;
 let isFetchRunning = false;
 let refreshTimerId = null;
-const visibleColumns = getVisibleColumns(DISPLAY_MODE);
 
 function renderHeaderRow(columns) {
 	const headerRow = document.getElementById('header-row');
@@ -66,6 +63,14 @@ function setHeaderLogo(elLogo, logoUrl) {
 	elLogo.style.display = 'flex';
 }
 
+function parseUrlRows() {
+	const raw = new URLSearchParams(window.location.search).get('rows');
+	if (raw === null || raw === '') return null;
+	const parsed = parseInt(raw, 10);
+	if (!Number.isFinite(parsed)) return null;
+	return Math.min(Math.max(parsed, 1), 30);
+}
+
 async function fetchData() {
 	try {
 		// Clear Previous Error State
@@ -95,7 +100,24 @@ async function fetchData() {
 			json = await response.json();
 		}
 
-		const { scheduleData, presetsData, metaData } = prepareTrainBoardData(json, FILTER_TRACKS);
+		const config = prepareTrainBoardData(json, FILTER_TRACKS);
+		const { meta, presets, rows, columns, ui } = config;
+
+		// Determine display mode: URL param overrides config
+		const displayMode = URL_DISPLAY_MODE || ui.mode || 'concourse';
+		const hiddenColumns = new Set(ui.hiddenColumns || []);
+		const visibleColumns = columns.filter(col => !hiddenColumns.has(col.key));
+		const rowCount = parseUrlRows() || ui.rows || 12;
+
+		// Render header and apply mode on first fetch
+		if (!isInitialized) {
+			document.body.classList.add(`mode-${displayMode}`);
+			renderHeaderRow(visibleColumns);
+			const topBar = document.querySelector('.top-bar');
+			if (topBar && !ui.showTopBar) {
+				topBar.style.display = 'none';
+			}
+		}
 
 		// Auto-Layout
 		const adjustColumnWidth = (cssVar, presetList, scheduleList, minChars = 4) => {
@@ -113,18 +135,19 @@ async function fetchData() {
 			document.documentElement.style.setProperty(cssVar, `${pixelWidth}px`);
 		};
 
-		getDynamicWidthColumns().forEach((column) => {
+		const dynamicWidthColumns = columns.filter(col => col.kind === 'word' && col.widthVar);
+		dynamicWidthColumns.forEach((column) => {
 			adjustColumnWidth(
 				column.widthVar,
-				presetsData[column.presetKey],
-				extractScheduleWords(scheduleData, column.sourceField),
+				presets[column.presetKey],
+				extractScheduleWords(rows, column.sourceField),
 				column.minChars
 			);
 		});
 
 
 		// --- Browser Tab Title ---
-		const headerData = metaData.header;
+		const headerData = meta.header;
 		if (headerData && headerData.line_name && headerData.for) {
 			document.title = `${headerData.line_name.local} ${headerData.for.local}`;
 		} else if (headerData && headerData.line_name) {
@@ -156,9 +179,6 @@ async function fetchData() {
 			const elLogo = document.getElementById('header-logo');
 			setHeaderLogo(elLogo, headerData.logo_url);
 		} else {
-			// If no header data, we might want to hide the whole top bar or show error?
-			// But existing code for station_name title logic (browser tab) remains above.
-			// We will leave the DOM empty if no data.
 			console.warn("[System] 'header' metadata missing in JSON.");
 		}
 
@@ -168,23 +188,23 @@ async function fetchData() {
 			const rowsContainer = document.getElementById('board-rows');
 			if (rowsContainer) {
 				rowsContainer.innerHTML = "";
-				for (let i = 0; i < ROW_COUNT; i++) {
-					groups.push(new RowGroup(rowsContainer, presetsData, scheduleData, visibleColumns));
+				for (let i = 0; i < rowCount; i++) {
+					groups.push(new RowGroup(rowsContainer, presets, rows, visibleColumns));
 				}
 				isInitialized = true;
 			}
 		} else {
-			groups.forEach(g => g.updatePhysicalLists(presetsData, scheduleData));
+			groups.forEach(g => g.updatePhysicalLists(presets, rows));
 		}
 
-		if (!scheduleData || scheduleData.length === 0) return;
+		if (!rows || rows.length === 0) return;
 
-		const displayTrains = selectDisplayTrains(scheduleData, ROW_COUNT, new Date());
+		const displayTrains = selectDisplayTrains(rows, rowCount, new Date());
 
-		for (let i = 0; i < ROW_COUNT; i++) {
+		for (let i = 0; i < rowCount; i++) {
 			if (groups[i]) {
 				groups[i].update(displayTrains[i]);
-				if (i < ROW_COUNT - 1) {
+				if (i < rowCount - 1) {
 					await sleep(CASCADE_DELAY_MS);
 				}
 			}
@@ -253,17 +273,9 @@ function handleVisibilityChange() {
 }
 
 window.addEventListener('load', () => {
-	// Add display mode class to body for CSS targeting
-	document.body.classList.add(`mode-${DISPLAY_MODE}`);
-	renderHeaderRow(visibleColumns);
+	requestFetch('initial').then(() => {
+		startAutoRefresh();
+	});
 
-	const modeProfile = getDisplayModeProfile(DISPLAY_MODE);
-	const topBar = document.querySelector('.top-bar');
-	if (topBar && modeProfile.showTopBar === false) {
-		topBar.style.display = 'none';
-	}
-
-	requestFetch('initial');
-	startAutoRefresh();
 	document.addEventListener('visibilitychange', handleVisibilityChange);
 });

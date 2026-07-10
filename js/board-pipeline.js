@@ -1,4 +1,4 @@
-import { normalizeTimetable } from './data-normalize.js';
+import { normalizeBoardConfig } from './data-normalize.js';
 
 function parseDepartMinutes(departTime) {
 	if (typeof departTime !== 'string') return null;
@@ -11,28 +11,28 @@ function parseDepartMinutes(departTime) {
 	return (hours * 60) + minutes;
 }
 
-export function sortByField(scheduleData, field) {
-	if (!Array.isArray(scheduleData)) return [];
-	return [...scheduleData].sort((a, b) => {
+export function sortByField(rows, field) {
+	if (!Array.isArray(rows)) return [];
+	return [...rows].sort((a, b) => {
 		const left = a?.[field] || '';
 		const right = b?.[field] || '';
 		return left.localeCompare(right);
 	});
 }
 
-export function extractFieldWords(scheduleData, field) {
-	if (!Array.isArray(scheduleData)) return [];
-	return scheduleData.map((item) => {
+export function extractFieldWords(rows, field) {
+	if (!Array.isArray(rows)) return [];
+	return rows.map((item) => {
 		if (item[field] && item[field].local) return item[field];
 		return { local: '' };
 	});
 }
 
-export function selectDisplayRows(scheduleData, rowCount, timeField, now = new Date()) {
-	if (!Array.isArray(scheduleData) || scheduleData.length === 0 || rowCount <= 0) return [];
+export function selectDisplayRows(rows, rowCount, timeField, now = new Date()) {
+	if (!Array.isArray(rows) || rows.length === 0 || rowCount <= 0) return [];
 
 	const currentMinutes = (now.getHours() * 60) + now.getMinutes();
-	let startIndex = scheduleData.findIndex((row) => {
+	let startIndex = rows.findIndex((row) => {
 		const departMinutes = parseDepartMinutes(row[timeField]);
 		return departMinutes !== null && departMinutes >= currentMinutes;
 	});
@@ -41,18 +41,21 @@ export function selectDisplayRows(scheduleData, rowCount, timeField, now = new D
 
 	const displayRows = [];
 	for (let i = 0; i < rowCount; i++) {
-		const dataIndex = (startIndex + i) % scheduleData.length;
-		displayRows.push(scheduleData[dataIndex]);
+		const dataIndex = (startIndex + i) % rows.length;
+		displayRows.push(rows[dataIndex]);
 	}
 	return displayRows;
 }
 
 export function prepareBoardData(rawData) {
-	const normalized = normalizeTimetable(rawData);
+	const config = normalizeBoardConfig(rawData);
 	return {
-		presetsData: normalized.presets || {},
-		metaData: normalized.meta || {},
-		scheduleData: normalized.schedule
+		meta: config.meta,
+		presets: config.presets,
+		rows: config.rows,
+		scheduleData: config.rows,
+		columns: config.columns,
+		ui: config.ui
 	};
 }
 

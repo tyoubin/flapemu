@@ -1,21 +1,8 @@
 import { sleep, calculateVisualLength, setFavicon } from './js/utils.js';
 import { RowGroup } from './js/RowGroup.js';
-import {
-	getDisplayModeProfile,
-	getDynamicWidthColumns,
-	getVisibleColumns,
-	DEFAULT_DISPLAY_MODE
-} from './js/airport-schema.js';
-import { selectDisplayFlights, prepareAirportBoardData } from './js/airport-pipeline.js';
+import { prepareBoardData, selectDisplayRows } from './js/board-pipeline.js';
 
-const ROW_COUNT = 8;
-const CASCADE_DELAY_MS = 800;
-const REFRESH_INTERVAL_MS = 30000;
-const LAYOUT_WIDTH_MULTIPLIER = 32;
-const LAYOUT_WIDTH_PADDING = 20;
-const DISPLAY_MODE = DEFAULT_DISPLAY_MODE;
-const visibleColumns = getVisibleColumns(DISPLAY_MODE);
-const PRESETS_SOURCE = './timetable/narita.json';
+const DATA_SOURCE = './timetable/narita.json';
 
 let groups = [];
 let isInitialized = false;
@@ -64,27 +51,43 @@ async function fetchData() {
 		if (board) board.classList.remove('board-error');
 		if (statusEl) statusEl.innerHTML = '';
 
-		const response = await fetch(PRESETS_SOURCE, { cache: 'no-store' });
+		const response = await fetch(DATA_SOURCE, { cache: 'no-store' });
 		if (!response.ok) throw new Error('Network response was not ok');
 		const json = await response.json();
 
-		const { scheduleData, presetsData, metaData } = prepareAirportBoardData(json);
+		const config = prepareBoardData(json);
+		const { meta, presets, rows, columns, ui } = config;
 
-		// Auto-layout
-		getDynamicWidthColumns().forEach((column) => {
-			const fullList = [...(presetsData[column.presetKey] || [])];
+		const hiddenColumns = new Set(ui.hiddenColumns || []);
+		const visibleColumns = columns.filter(col => !hiddenColumns.has(col.key));
+		const rowCount = ui.rows || 8;
+		const timeField = (ui.window && ui.window.timeField) || 'depart_time';
+
+		if (!isInitialized) {
+			document.body.classList.add(`mode-${ui.mode || 'departures'}`);
+			renderHeaderRow(visibleColumns);
+			const topBar = document.querySelector('.top-bar');
+			if (topBar && !ui.showTopBar) {
+				topBar.style.display = 'none';
+			}
+		}
+
+		// Auto-layout for dynamic width columns
+		const dynamicWidthColumns = columns.filter(col => col.kind === 'word' && col.widthVar);
+		dynamicWidthColumns.forEach((column) => {
+			const fullList = [...(presets[column.presetKey || column.preset] || [])];
 			let maxLen = 0;
 			fullList.forEach(item => {
 				const visualLength = calculateVisualLength(item.local);
 				if (visualLength > maxLen) maxLen = visualLength;
 			});
 			if (maxLen < column.minChars) maxLen = column.minChars;
-			const pixelWidth = Math.ceil((maxLen * LAYOUT_WIDTH_MULTIPLIER) + LAYOUT_WIDTH_PADDING);
+			const pixelWidth = Math.ceil((maxLen * 32) + 20);
 			document.documentElement.style.setProperty(column.widthVar, `${pixelWidth}px`);
 		});
 
 		// Tab title / icon
-		const headerData = metaData.header;
+		const headerData = meta.header;
 		if (headerData) {
 			if (headerData.line_name && headerData.for) {
 				document.title = `${headerData.line_name.local} ${headerData.for.local}`;
@@ -108,22 +111,22 @@ async function fetchData() {
 			const rowsContainer = document.getElementById('board-rows');
 			if (rowsContainer) {
 				rowsContainer.innerHTML = '';
-				for (let i = 0; i < ROW_COUNT; i++) {
-					groups.push(new RowGroup(rowsContainer, presetsData, scheduleData, visibleColumns));
+				for (let i = 0; i < rowCount; i++) {
+					groups.push(new RowGroup(rowsContainer, presets, rows, visibleColumns));
 				}
 				isInitialized = true;
 			}
 		} else {
-			groups.forEach(g => g.updatePhysicalLists(presetsData, scheduleData));
+			groups.forEach(g => g.updatePhysicalLists(presets, rows));
 		}
 
-		if (!scheduleData || scheduleData.length === 0) return;
+		if (!rows || rows.length === 0) return;
 
-		const displayRows = selectDisplayFlights(scheduleData, ROW_COUNT, new Date());
-		for (let i = 0; i < ROW_COUNT; i++) {
+		const displayRows = selectDisplayRows(rows, rowCount, timeField, new Date());
+		for (let i = 0; i < rowCount; i++) {
 			if (groups[i]) {
 				groups[i].update(displayRows[i]);
-				if (i < ROW_COUNT - 1) await new Promise(r => setTimeout(r, CASCADE_DELAY_MS));
+				if (i < rowCount - 1) await new Promise(r => setTimeout(r, ui.cascadeMs || 800));
 			}
 		}
 	} catch (e) {
@@ -143,15 +146,6 @@ async function fetchData() {
 }
 
 window.addEventListener('load', () => {
-	document.body.classList.add(`mode-${DISPLAY_MODE}`);
-	renderHeaderRow(visibleColumns);
-
-	const modeProfile = getDisplayModeProfile(DISPLAY_MODE);
-	const topBar = document.querySelector('.top-bar');
-	if (topBar && modeProfile.showTopBar === false) {
-		topBar.style.display = 'none';
-	}
-
 	fetchData();
-	refreshTimerId = setInterval(fetchData, REFRESH_INTERVAL_MS);
+	refreshTimerId = setInterval(fetchData, 30000);
 });

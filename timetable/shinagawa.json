@@ -1,4 +1,5 @@
 {
+  "schema_version": 3,
   "meta": {
     "header": {
       "logo_url": "timetable/Shinkansen_jrc.svg",
@@ -12,6 +13,118 @@
       }
     }
   },
+  "ui": {
+    "rows": 12,
+    "showTopBar": true,
+    "cascadeMs": 1000,
+    "refreshMs": 30000,
+    "mode": "concourse",
+    "hiddenColumns": [
+      "stop"
+    ],
+    "window": {
+      "strategy": "nextByTime",
+      "timeField": "depart_time",
+      "trackField": "track_no"
+    }
+  },
+  "columns": [
+    {
+      "key": "plat",
+      "cssClass": "col-plat",
+      "header": {
+        "local": "のりば",
+        "en": "Track"
+      },
+      "kind": "chars",
+      "field": "track_no",
+      "padEnd": 3,
+      "unitCount": 3,
+      "charset": " 0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ",
+      "unitCapacity": 15
+    },
+    {
+      "key": "type",
+      "cssClass": "col-type",
+      "header": {
+        "local": "種別",
+        "en": "Type"
+      },
+      "kind": "word",
+      "field": "type",
+      "preset": "types",
+      "colorFields": {
+        "background": "type_color_hex",
+        "text": "type_text_color"
+      },
+      "widthVar": "--col-type-width",
+      "minChars": 4
+    },
+    {
+      "key": "no",
+      "cssClass": "col-no",
+      "header": {
+        "local": "列車番号",
+        "en": "Train No."
+      },
+      "kind": "chars",
+      "field": "train_no",
+      "padEnd": 5,
+      "unitCount": 5,
+      "charset": " 0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ",
+      "unitCapacity": 50
+    },
+    {
+      "key": "time",
+      "cssClass": "col-time",
+      "header": {
+        "local": "時刻",
+        "en": "Time"
+      },
+      "kind": "time",
+      "field": "depart_time",
+      "unitCapacity": 20
+    },
+    {
+      "key": "dest",
+      "cssClass": "col-dest",
+      "header": {
+        "local": "行先",
+        "en": "Dest."
+      },
+      "kind": "word",
+      "field": "destination",
+      "preset": "dests",
+      "widthVar": "--col-dest-width",
+      "minChars": 5
+    },
+    {
+      "key": "remarks",
+      "cssClass": "col-remarks",
+      "header": {
+        "local": "記事",
+        "en": "Remarks"
+      },
+      "kind": "word",
+      "field": "remarks",
+      "preset": "remarks",
+      "widthVar": "--col-rem-width",
+      "minChars": 6
+    },
+    {
+      "key": "stop",
+      "cssClass": "col-stop",
+      "header": {
+        "local": "停車駅",
+        "en": "Train Stops"
+      },
+      "kind": "word",
+      "field": "stops_at",
+      "preset": "stops",
+      "widthVar": "--col-stop-width",
+      "minChars": 4
+    }
+  ],
   "presets": {
     "types": [
       {
@@ -186,7 +299,7 @@
       }
     ]
   },
-  "schedule": [
+  "rows": [
     {
       "track_no": "14",
       "type": {
