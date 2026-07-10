@@ -13,6 +13,10 @@ function columnLayoutStyle(col) {
 		const n = col.unitCount || 4;
 		return `flex: 0 0 auto; width: calc((var(--char-width) + 2px) * ${n} - 2px);`;
 	}
+	if (col.kind === 'word' && col.widthVar) {
+		const grow = col.flexGrow || 1;
+		return `flex: ${grow} 1 var(${col.widthVar}, 200px);`;
+	}
 	return '';
 }
 
