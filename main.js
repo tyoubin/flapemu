@@ -29,7 +29,7 @@ async function fetchData() {
 		const json = await response.json();
 
 		const config = prepareTrainBoardData(json, null);
-		storedStatus = (config.ui && config.ui.status) || null;
+		storedStatus = (config.ui && config.ui.errorMessage) || null;
 
 		if (!boardInstance) {
 			console.log("[System] Initializing Board...");

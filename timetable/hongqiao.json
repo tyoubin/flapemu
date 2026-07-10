@@ -7,7 +7,7 @@
     "hiddenColumns": [],
     "colGap": "6px",
     "flapAnimationMs": 120,
-    "status": {
+    "errorMessage": {
       "main": "本日の運転は終了しました / Service Ended for Today",
       "description": "最終列車は既に出発しました / The last train has departed"
     }

@@ -7,7 +7,7 @@
     "colGap": "16px",
     "flapAnimationMs": 140,
     "showHeader": true,
-    "status": {
+    "errorMessage": {
       "main": "本日の営業は終了しました / Store Closed",
       "description": "またのご利用をお待ちしております / Thank you for your visit"
     }
