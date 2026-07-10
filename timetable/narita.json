@@ -8,6 +8,10 @@
     "hiddenColumns": [],
     "colGap": "14px",
     "flapAnimationMs": 180,
+    "status": {
+      "main": "本日の運航は終了しました / All Flights Have Departed",
+      "description": "最終便は既に出発しました / The last flight has departed"
+    },
     "window": {
       "strategy": "nextByTime",
       "timeField": "depart_time"

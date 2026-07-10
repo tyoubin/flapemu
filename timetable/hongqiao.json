@@ -8,8 +8,8 @@
     "colGap": "6px",
     "flapAnimationMs": 120,
     "status": {
-      "main": "上海虹橋駅 発車案内 / Shanghai Hongqiao Departures",
-      "description": "情報は定期的に更新されます / Information is updated periodically"
+      "main": "本日の運転は終了しました / Service Ended for Today",
+      "description": "最終列車は既に出発しました / The last train has departed"
     }
   },
   "columns": [

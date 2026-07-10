@@ -8,8 +8,8 @@
     "flapAnimationMs": 140,
     "showHeader": true,
     "status": {
-      "main": "CoCo 都可 取餐顯示 / Order Ready",
-      "description": "請憑號碼牌取餐 / Please pick up your order"
+      "main": "本日の営業は終了しました / Store Closed",
+      "description": "またのご利用をお待ちしております / Thank you for your visit"
     }
   },
   "columns": [
