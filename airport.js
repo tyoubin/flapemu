@@ -1,29 +1,11 @@
-import { sleep, calculateVisualLength, setFavicon } from './js/utils.js';
-import { RowGroup } from './js/RowGroup.js';
-import { prepareBoardData, selectDisplayRows } from './js/board-pipeline.js';
+import { prepareBoardData } from './js/board-pipeline.js';
+import { mountBoard } from './js/flapemu.js';
+import { setFavicon } from './js/utils.js';
 
 const DATA_SOURCE = './timetable/narita.json';
 
-let groups = [];
-let isInitialized = false;
+let boardInstance = null;
 let refreshTimerId = null;
-
-function renderHeaderRow(columns) {
-	const headerRow = document.getElementById('header-row');
-	if (!headerRow) return;
-	headerRow.innerHTML = '';
-	columns.forEach((column) => {
-		const item = document.createElement('div');
-		item.className = `${column.cssClass} header-item`;
-		const local = document.createElement('span');
-		local.textContent = column.header.local;
-		const en = document.createElement('span');
-		en.textContent = column.header.en;
-		item.appendChild(local);
-		item.appendChild(en);
-		headerRow.appendChild(item);
-	});
-}
 
 function renderTopBar(meta) {
 	let topBar = document.querySelector('.top-bar');
@@ -92,65 +74,25 @@ async function fetchData() {
 		const json = await response.json();
 
 		const config = prepareBoardData(json);
-		const { presets, rows, columns, ui } = config;
 
-		const hiddenColumns = new Set(ui.hiddenColumns || []);
-		const visibleColumns = columns.filter(col => !hiddenColumns.has(col.key));
-		const rowCount = ui.rows || 8;
-		const timeField = (ui.window && ui.window.timeField) || 'depart_time';
-
-		if (!isInitialized) {
-			document.body.classList.add(`mode-${ui.mode || 'departures'}`);
-			renderHeaderRow(visibleColumns);
-
+		if (!boardInstance) {
 			const meta = json.meta;
 			if (meta && meta.header) {
 				renderTopBar(meta.header);
 			}
-		}
 
-		const dynamicWidthColumns = columns.filter(col => col.kind === 'word' && col.widthVar);
-		dynamicWidthColumns.forEach((column) => {
-			const fullList = [...(presets[column.presetKey || column.preset] || [])];
-			let maxLen = 0;
-			fullList.forEach(item => {
-				const visualLength = calculateVisualLength(item.local);
-				if (visualLength > maxLen) maxLen = visualLength;
-			});
-			if (maxLen < column.minChars) maxLen = column.minChars;
-			const pixelWidth = Math.ceil((maxLen * 32) + 20);
-			document.documentElement.style.setProperty(column.widthVar, `${pixelWidth}px`);
-		});
-
-		const headerData = json.meta ? json.meta.header : null;
-		if (headerData) {
-			if (headerData.line_name && headerData.for) {
-				document.title = `${headerData.line_name.local} ${headerData.for.local}`;
-			}
-			if (headerData.logo_url) setFavicon(headerData.logo_url);
-		}
-
-		if (!isInitialized) {
-			const rowsContainer = document.getElementById('board-rows');
-			if (rowsContainer) {
-				rowsContainer.innerHTML = '';
-				for (let i = 0; i < rowCount; i++) {
-					groups.push(new RowGroup(rowsContainer, presets, rows, visibleColumns));
+			const headerData = json.meta ? json.meta.header : null;
+			if (headerData) {
+				if (headerData.line_name && headerData.for) {
+					document.title = `${headerData.line_name.local} ${headerData.for.local}`;
 				}
-				isInitialized = true;
+				if (headerData.logo_url) setFavicon(headerData.logo_url);
 			}
+
+			boardInstance = mountBoard(board, config);
 		} else {
-			groups.forEach(g => g.updatePhysicalLists(presets, rows));
-		}
-
-		if (!rows || rows.length === 0) return;
-
-		const displayRows = selectDisplayRows(rows, rowCount, timeField, new Date());
-		const cascadeMs = ui.cascadeMs || 800;
-		for (let i = 0; i < rowCount; i++) {
-			if (groups[i]) {
-				groups[i].update(displayRows[i]);
-				if (i < rowCount - 1) await new Promise(r => setTimeout(r, cascadeMs));
+			if (config.rows && config.rows.length > 0) {
+				boardInstance.updateBoard(config.presets, config.rows);
 			}
 		}
 	} catch (e) {

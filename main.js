@@ -1,32 +1,10 @@
-import { LAYOUT_WIDTH_MULTIPLIER, LAYOUT_WIDTH_PADDING } from './js/config.js';
-import { extractScheduleWords, selectDisplayTrains, prepareTrainBoardData } from './js/train-pipeline.js';
-import { sleep, calculateVisualLength, setFavicon } from './js/utils.js';
-import { RowGroup } from './js/RowGroup.js';
+import { prepareTrainBoardData } from './js/train-pipeline.js';
+import { mountBoard } from './js/flapemu.js';
+import { setFavicon } from './js/utils.js';
 
-let groups = [];
-let isInitialized = false;
+let boardInstance = null;
 let isFetchRunning = false;
 let refreshTimerId = null;
-
-function renderHeaderRow(columns) {
-	const headerRow = document.getElementById('header-row');
-	if (!headerRow) return;
-
-	headerRow.innerHTML = '';
-	columns.forEach((column) => {
-		const item = document.createElement('div');
-		item.className = `${column.cssClass} header-item`;
-
-		const local = document.createElement('span');
-		local.textContent = column.header.local;
-		const en = document.createElement('span');
-		en.textContent = column.header.en;
-
-		item.appendChild(local);
-		item.appendChild(en);
-		headerRow.appendChild(item);
-	});
-}
 
 function renderTopBar(meta) {
 	let topBar = document.querySelector('.top-bar');
@@ -89,15 +67,10 @@ function setHeaderLogo(elLogo, logoUrl) {
 	elLogo.style.display = 'flex';
 }
 
-function parseUrlParams() {
-	const params = new URLSearchParams(window.location.search);
-	const t = params.get('t');
-	const timetableName = !t ? 'demo' : /^[a-zA-Z0-9_-]+$/.test(t) ? t : '__invalid__';
-	return {
-		dataSource: `./timetable/${timetableName}.json`,
-		invalidQuery: timetableName === '__invalid__',
-		previewMode: params.has('preview')
-	};
+function getDataSource() {
+	const t = new URLSearchParams(window.location.search).get('t');
+	const name = !t ? 'demo' : /^[a-zA-Z0-9_-]+$/.test(t) ? t : null;
+	return { dataSource: `./timetable/${name || 'demo'}.json`, invalidQuery: name === null };
 }
 
 async function fetchData() {
@@ -107,112 +80,43 @@ async function fetchData() {
 		if (board) board.classList.remove('board-error');
 		if (statusEl) statusEl.innerHTML = '';
 
-		const urlParams = parseUrlParams();
-		let json;
-
-		if (urlParams.previewMode) {
-			const previewData = sessionStorage.getItem('flapemu_preview');
-			if (previewData) {
-				console.log('[System] Loading preview data from editor...');
-				json = JSON.parse(previewData);
-			} else {
-				console.warn('[System] Preview mode but no data found in sessionStorage');
-				return;
-			}
-		} else {
-			if (urlParams.invalidQuery) {
-				throw new Error("Invalid timetable query parameter 't'.");
-			}
-			console.log(`[System] Fetching ${urlParams.dataSource}...`);
-			const response = await fetch(urlParams.dataSource, { cache: "no-store" });
-			if (!response.ok) throw new Error("API Network response was not ok");
-			json = await response.json();
+		const urlParams = getDataSource();
+		if (urlParams.invalidQuery) {
+			throw new Error("Invalid timetable query parameter 't'.");
 		}
+		console.log(`[System] Fetching ${urlParams.dataSource}...`);
+		const response = await fetch(urlParams.dataSource, { cache: "no-store" });
+		if (!response.ok) throw new Error("API Network response was not ok");
+		const json = await response.json();
 
 		const config = prepareTrainBoardData(json, null);
-		const { presets, rows, columns, ui } = config;
 
-		const displayMode = ui.mode || 'concourse';
-		const hiddenColumns = new Set(ui.hiddenColumns || []);
-		const visibleColumns = columns.filter(col => !hiddenColumns.has(col.key));
-		const rowCount = ui.rows || 12;
-
-		if (!isInitialized) {
-			document.body.classList.add(`mode-${displayMode}`);
-			renderHeaderRow(visibleColumns);
-
+		if (!boardInstance) {
 			const meta = json.meta;
 			if (meta && meta.header) {
 				renderTopBar(meta.header);
 			}
-		}
 
-		const adjustColumnWidth = (cssVar, presetList, scheduleList, minChars = 4) => {
-			const fullList = [...(presetList || []), ...(scheduleList || [])];
-			if (fullList.length === 0) return;
+			const headerData = json.meta ? json.meta.header : null;
+			if (headerData && headerData.line_name && headerData.for) {
+				document.title = `${headerData.line_name.local} ${headerData.for.local}`;
+			} else if (headerData && headerData.line_name) {
+				document.title = headerData.line_name.local || "FlapEmu";
+			} else {
+				document.title = "FlapEmu";
+			}
 
-			let maxLen = 0;
-			fullList.forEach(item => {
-				const visualLength = calculateVisualLength(item.local);
-				if (visualLength > maxLen) maxLen = visualLength;
-			});
+			if (headerData && headerData.logo_url) {
+				setFavicon(headerData.logo_url);
+			}
 
-			if (maxLen < minChars) maxLen = minChars;
-			const pixelWidth = Math.ceil((maxLen * LAYOUT_WIDTH_MULTIPLIER) + LAYOUT_WIDTH_PADDING);
-			document.documentElement.style.setProperty(cssVar, `${pixelWidth}px`);
-		};
-
-		const dynamicWidthColumns = columns.filter(col => col.kind === 'word' && col.widthVar);
-		dynamicWidthColumns.forEach((column) => {
-			adjustColumnWidth(
-				column.widthVar,
-				presets[column.presetKey],
-				extractScheduleWords(rows, column.sourceField),
-				column.minChars
-			);
-		});
-
-		const headerData = json.meta ? json.meta.header : null;
-		if (headerData && headerData.line_name && headerData.for) {
-			document.title = `${headerData.line_name.local} ${headerData.for.local}`;
-		} else if (headerData && headerData.line_name) {
-			document.title = headerData.line_name.local || "FlapEmu";
-		} else {
-			document.title = "FlapEmu";
-		}
-
-		if (headerData && headerData.logo_url) {
-			setFavicon(headerData.logo_url);
-		}
-
-		if (!isInitialized) {
 			console.log("[System] Initializing Board...");
-			const rowsContainer = document.getElementById('board-rows');
-			if (rowsContainer) {
-				rowsContainer.innerHTML = "";
-				for (let i = 0; i < rowCount; i++) {
-					groups.push(new RowGroup(rowsContainer, presets, rows, visibleColumns));
-				}
-				isInitialized = true;
-			}
+			boardInstance = mountBoard(board, config);
 		} else {
-			groups.forEach(g => g.updatePhysicalLists(presets, rows));
-		}
-
-		if (!rows || rows.length === 0) return;
-
-		const displayTrains = selectDisplayTrains(rows, rowCount, new Date());
-		const cascadeMs = ui.cascadeMs || 1000;
-
-		for (let i = 0; i < rowCount; i++) {
-			if (groups[i]) {
-				groups[i].update(displayTrains[i]);
-				if (i < rowCount - 1) {
-					await sleep(cascadeMs);
-				}
+			if (config.rows && config.rows.length > 0) {
+				boardInstance.updateBoard(config.presets, config.rows);
 			}
 		}
-
 	} catch (e) {
 		console.error("Error fetching data:", e);
 		const board = document.getElementById('board');

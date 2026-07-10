@@ -190,15 +190,15 @@ V3 is live. After Step 3, `meta` and `showTopBar` move to the page shell:
 
 | Task | Detail | Status |
 |------|--------|--------|
-| Public API | `mountBoard(el, options)`, `updateBoard(rows)`, `destroyBoard()` | ⬜ |
-| Package layout | `core/` + `board/` + optional CSS; zero-build usable | ⬜ |
-| Export surface | Board shell and core only; no product-specific code | ⬜ |
+| Public API | `mountBoard(el, options)`, `updateBoard(presets, rows)`, `destroyBoard()` | ✅ |
+| Package layout | `package.json`, flat `js/` layout, zero-build | ✅ |
+| Export surface | `js/flapemu.js` exports `mountBoard` only; product shell code stays in `main.js`/`airport.js` | ✅ |
 | Docs | README section: install, minimal JSON, presets, custom columns | ⬜ |
 
 **Done when:**
 
-1. External consumer can `npm install flapemu` and render a board from `{ columns, presets, rows, ui }`.
-2. Current hosted demo still works (product shell uses the same library).
+1. External consumer can `npm install flapemu` and render a board from `{ columns, presets, rows, ui }`. — ✅
+2. Current hosted demo still works (product shell uses the same library). — ✅
 
 ### Step 5 — Product polish (optional / later)
 
@@ -238,7 +238,7 @@ Regression checklist (always):
 | Step 1 — Decouple & generic components | **Complete** |
 | Step 2 — Single JSON config | **Complete** |
 | Step 3 — Board owns only the board | **Complete** |
-| Step 4 — Library surface | Not started |
+| Step 4 — Library surface | In progress |
 | Step 5 — Product polish | Not started |
 
 ---
@@ -247,4 +247,4 @@ Regression checklist (always):
 
 - Current architecture contracts: `GEMINI.md`
 - User-facing behavior: `README.md`
-- Key modules today: `js/FlapUnit.js`, `js/RowGroup.js`, `js/board-schema.js`, `js/board-pipeline.js`, `js/train-pipeline.js`, `js/record-transform.js`, `js/data-normalize.js`
+- Key modules today: `js/flapemu.js` (entry), `js/FlapUnit.js`, `js/RowGroup.js`, `js/board-schema.js`, `js/board-pipeline.js`, `js/train-pipeline.js`, `js/record-transform.js`, `js/data-normalize.js`
