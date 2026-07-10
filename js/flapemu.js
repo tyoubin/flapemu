@@ -4,6 +4,17 @@ import { sleep, calculateVisualLength } from './utils.js';
 import { LAYOUT_WIDTH_MULTIPLIER, LAYOUT_WIDTH_PADDING } from './config.js';
 import { RowGroup } from './RowGroup.js';
 
+function columnLayoutStyle(col) {
+	if (col.kind === 'time') {
+		return 'flex: 0 0 auto; width: calc((var(--char-width) + 2px) * 5 - 2px); justify-content: center;';
+	}
+	if (col.kind === 'chars') {
+		const n = col.unitCount || 4;
+		return `flex: 0 0 auto; width: calc((var(--char-width) + 2px) * ${n} - 2px);`;
+	}
+	return '';
+}
+
 export function mountBoard(el, config) {
 	const { presets, rows, columns, ui } = config;
 
@@ -11,6 +22,11 @@ export function mountBoard(el, config) {
 	const hiddenColumns = new Set(ui.hiddenColumns || []);
 	const visibleColumns = columns.filter(col => !hiddenColumns.has(col.key));
 	const rowCount = ui.rows || 12;
+
+	visibleColumns.forEach(col => {
+		col.cssClass = col.cssClass || `col-${col.key}`;
+		col.inlineStyle = columnLayoutStyle(col);
+	});
 
 	el.classList.add(`mode-${displayMode}`);
 	el.innerHTML = '';
@@ -22,6 +38,7 @@ export function mountBoard(el, config) {
 	visibleColumns.forEach((column) => {
 		const item = document.createElement('div');
 		item.className = `${column.cssClass} header-item`;
+		item.style.cssText = column.inlineStyle;
 		const local = document.createElement('span');
 		local.textContent = column.header.local;
 		const en = document.createElement('span');

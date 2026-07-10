@@ -21,7 +21,7 @@ export class RowGroup {
 		const actualByField = buildActualWordMap(this.columns, scheduleData);
 
 		this.columns.forEach((column) => {
-			const colElement = this.createCol(this.rowPrimary, column.cssClass);
+			const colElement = this.createCol(this.rowPrimary, column.cssClass, column.inlineStyle);
 			this.controllers[column.key] = this.buildController(column, colElement, safePresets, actualByField);
 		});
 	}
@@ -60,9 +60,10 @@ export class RowGroup {
 		return null;
 	}
 
-	createCol(row, cssClass) {
+	createCol(row, cssClass, inlineStyle) {
 		const col = document.createElement('div');
 		col.className = cssClass;
+		if (inlineStyle) col.style.cssText = inlineStyle;
 		row.appendChild(col);
 		return col;
 	}
