@@ -1,7 +1,7 @@
 # FlapEmu Roadmap
 
 **Branch:** `roadmap/library-decoupling`  
-**Vision:** People import FlapEmu as a library and configure a full split-flap board from **one JSON** — metadata, column definitions, UI visibility, presets, and row data.
+**Vision:** People import FlapEmu as a library and configure a split-flap board from a JSON — column definitions, presets, row data, and UI tuning. The page shell owns everything else.
 
 This document is the working plan. Keep it current as milestones land.
 
@@ -12,43 +12,38 @@ This document is the working plan. Keep it current as milestones land.
 ```text
 import { mountBoard } from 'flapemu';
 
-mountBoard('#board', {
-  // or: await fetch('my-board.json').then(r => r.json())
-  config: boardJson
+const board = mountBoard('#board', {
+  columns: boardJson.columns,
+  presets: boardJson.presets,
+  rows: boardJson.rows,
+  ui: boardJson.ui
 });
 ```
 
-One config object (or file) owns:
+The board owns only the schedule board. One config object defines it:
 
 | Section | Responsibility |
 |---------|----------------|
-| `meta` | Header, logo, titles (local / en) |
-| `ui` | Rows, cascade, refresh, top bar, modes |
 | `columns[]` | Headers, kinds (`chars` / `time` / `word`), fields, charsets, visibility, colors |
 | `presets` | Word-flap spool catalogs |
 | `rows` | Actual display records |
+| `ui` | Board tuning: rows, cascade, refresh, mode, window strategy |
 
-**Principle:** Flaps know cards. Rows know columns. The app (or JSON) knows the domain.
+The page shell owns everything else — header, logo, top-bar, data fetching, URL routing.
+
+**Principle:** Flaps know cards. Rows know columns. The page shell knows the domain.
 
 ---
 
-## Target config shape (illustrative)
+## Target config shape
 
-V3 is live — used by all timetable JSONs. Shows the contract:
+V3 is live. After Step 3, `meta` and `showTopBar` move to the page shell:
 
 ```json
 {
   "schema_version": 3,
-  "meta": {
-    "header": {
-      "logo_url": "logo.svg",
-      "title": { "local": "成田空港", "en": "Narita Airport" },
-      "subtitle": { "local": "国際線出発", "en": "International Departures" }
-    }
-  },
   "ui": {
     "rows": 6,
-    "showTopBar": true,
     "mode": "concourse",
     "cascadeMs": 800,
     "refreshMs": 30000,
@@ -59,16 +54,14 @@ V3 is live — used by all timetable JSONs. Shows the contract:
       "key": "time",
       "header": { "local": "時刻", "en": "Time" },
       "kind": "time",
-      "field": "depart_time",
-      "visible": true
+      "field": "depart_time"
     },
     {
       "key": "dest",
       "header": { "local": "行先", "en": "Dest." },
       "kind": "word",
       "field": "destination",
-      "preset": "dests",
-      "visible": true
+      "preset": "dests"
     },
     {
       "key": "type",
@@ -79,8 +72,7 @@ V3 is live — used by all timetable JSONs. Shows the contract:
       "colorFields": {
         "background": "type_color_hex",
         "text": "type_text_color"
-      },
-      "visible": true
+      }
     }
   ],
   "presets": {
@@ -91,8 +83,6 @@ V3 is live — used by all timetable JSONs. Shows the contract:
 }
 ```
 
-Today this is split across hard-coded schema (`js/board-schema.js`), URL params (`js/config.js`), and timetable JSON. The roadmap collapses that into one document.
-
 ---
 
 ## Layer model
@@ -100,23 +90,25 @@ Today this is split across hard-coded schema (`js/board-schema.js`), URL params 
 ```text
 ┌──────────────────────────────────────────────┐
 │  Product shell                               │
-│  main.js · editor · PWA · demos              │
-│  (train-specific adapters during migration)  │
+│  main.js · airport.js · editor · PWA · demos │
+│  owns: top-bar, header, logo, data fetching, │
+│        URL routing, page chrome              │
 ├──────────────────────────────────────────────┤
 │  Board shell (generic)                       │
-│  RowGroup · schema · transforms · layout     │
-│  cascade · header from columns               │
+│  RowGroup · columns · presets · rows │
+│  cascade · schedule board rendering          │
+│  owns: the .schedule-board div only          │
 ├──────────────────────────────────────────────┤
 │  Core (library heart)                        │
 │  FlapUnit · physical spool · flap CSS        │
 └──────────────────────────────────────────────┘
 ```
 
-| Layer | Knows about | Must not know about |
-|-------|-------------|---------------------|
-| **Core** | Cards, pointers, spool capacity, flip animation | Trains, tracks, columns, JSON schema |
-| **Board shell** | Columns, kinds, presets, rows, UI flags | JR field names as hard requirements |
-| **Product / adapter** | Train aliases, editor CRUD, station demos | Flap DOM internals |
+| Layer | Owns | Receives from above |
+|-------|------|---------------------|
+| **Product shell** | Chrome, routing, data fetch, editor UI | URL, user input, filesystem |
+| **Board shell** | `.schedule-board` — columns, presets, rows, timing | `{ columns, presets, rows, ui }` |
+| **Core** | Flap DOM, spool state, flip animation | `(element, cards, kind)` |
 
 ---
 
@@ -171,28 +163,49 @@ Today this is split across hard-coded schema (`js/board-schema.js`), URL params 
 2. Legacy timetable files still work via compatibility normalize. — ✅
 3. At least two sample boards (train + one other domain) are JSON-only. — ✅ (`narita.json` is airport, `demo.json`/`shinagawa.json`/etc. are train)
 
-### Step 3 — Library surface
+### Step 3 — Board owns only the board
 
-**Goal:** Third parties import FlapEmu and mount a board programmatically.
+**Goal:** The board component renders a `.schedule-board` and nothing else. `meta` and `showTopBar` move to the product shell. URL params are not parsed by the board path.
 
-| Task | Detail |
-|------|--------|
-| Public API | e.g. `mountBoard(el, options)`, `updateBoard(rows)`, `destroyBoard()` |
-| Package layout | `core/` + `board/` + optional CSS entry; no framework, keep ES modules |
-| Docs | README section: install, minimal JSON, custom columns, presets |
-| Distribution | npm and/or CDN-friendly build (decide later; keep zero-build usable if possible) |
+| Task | Detail | Status |
+|------|--------|--------|
+| Strip `meta` from board config | `normalizeBoardConfig` stops returning `meta`; page shell fetches and renders its own header | ⬜ |
+| Strip `showTopBar` from `ui` | The board doesn't manage visibility of elements it doesn't own | ⬜ |
+| Deprecate URL params in board path | `config.js` stops reading URL params for the board; product shell (main.js) handles data source URL reading | ⬜ |
+| Remove top-bar DOM from `board.html` | Page shell adds its own header if desired; board.html becomes a minimal container | ⬜ |
+| Clean `style.css` of page-chrome rules | Keep only `.schedule-board` and column layout rules; move top-bar/header styles to product shell | ⬜ |
+| Update all timetable JSONs | `meta` becomes an optional page-shell concern, not part of board config | ⬜ |
 
 **Done when:**
 
-1. External consumer can depend on the package and render a board from JSON only.
+1. `mountBoard(el, { columns, presets, rows, ui })` renders the board with zero chrome.
+2. No board JS file reads `window.location.search`.
+3. The product shell (`main.js`, `airport.js`) owns all header, logo, and top-bar rendering.
+4. All existing demos still render identically (chrome is provided by the page shell).
+
+### Step 4 — Library surface
+
+**Goal:** Third parties import the board as a module and mount it programmatically.
+
+| Task | Detail | Status |
+|------|--------|--------|
+| Public API | `mountBoard(el, options)`, `updateBoard(rows)`, `destroyBoard()` | ⬜ |
+| Package layout | `core/` + `board/` + optional CSS; zero-build usable | ⬜ |
+| Export surface | Board shell and core only; no product-specific code | ⬜ |
+| Docs | README section: install, minimal JSON, presets, custom columns | ⬜ |
+
+**Done when:**
+
+1. External consumer can `npm install flapemu` and render a board from `{ columns, presets, rows, ui }`.
 2. Current hosted demo still works (product shell uses the same library).
 
-### Step 4 — Product polish (optional / later)
+### Step 5 — Product polish (optional / later)
 
-- Generic or schema-aware **editor** (not train-only tables)
+- Generic schema-aware **editor** (not train-only tables)
 - Board templates gallery (station, airport, bus, scoreboard)
 - Theme tokens (bezel, flap speed, fonts) in JSON
 - Stronger tests around normalize, transforms, window strategies
+- Remove legacy `normalizeTimetable` v1/v2 upgrade paths (keep only `normalizeBoardConfig` v3)
 
 ---
 
@@ -201,8 +214,9 @@ Regression checklist (always):
 - `board.html?t=shinagawa&mode=concourse`
 - `board.html?t=kumamoto&mode=gate`
 - `board.html?t=sendai&mode=platform`
-- `board.html?t=shinagawa&refresh=10000&cascade=200`
-- `board.html?t=shinagawa&profile=mobile`
+- `board.html?t=shinagawa`
+- `airport.html?t=narita`
+- `editor.html`
 - `node tests/board-config.test.mjs && node tests/train-pipeline.test.mjs && node tests/step1-rename.test.mjs`
 
 ---
@@ -212,7 +226,8 @@ Regression checklist (always):
 - Rebuild on a framework (React/Vue/etc.)
 - Change mechanical flap feel (spool traversal, bezel, lighting) unless separately requested
 - Force-breaking removal of legacy timetable JSON without a normalize path
-- Full multi-domain editor before Step 2 schema is stable
+- URL params as a board concern — they are product-shell only
+- Full-featured visual editor before Step 3 is stable
 
 ---
 
@@ -223,8 +238,9 @@ Regression checklist (always):
 | Step 0 — Roadmap | **Complete** |
 | Step 1 — Decouple & generic components | **Complete** |
 | Step 2 — Single JSON config | **Complete** |
-| Step 3 — Library surface | Not started |
-| Step 4 — Product polish | Not started |
+| Step 3 — Board owns only the board | Not started |
+| Step 4 — Library surface | Not started |
+| Step 5 — Product polish | Not started |
 
 ---
 
