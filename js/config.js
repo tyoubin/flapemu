@@ -1,5 +1,3 @@
-import { DEFAULT_DISPLAY_MODE, DISPLAY_MODE_PROFILES } from './board-schema.js';
-
 export const BLANK_DATA = { local: " ", en: " ", color: "#202020", textColor: "#f5f5f5" };
 
 const urlParams = new URLSearchParams(window.location.search);
@@ -72,10 +70,8 @@ export const DATA_SOURCE = `./timetable/${timetableName}.json`;
 export const INVALID_TIMETABLE_QUERY = timetableName === '__invalid_query__';
 export const PREVIEW_MODE = urlParams.has('preview');
 
-// --- Display Mode ---
-const requestedMode = urlParams.get('mode');
-export const DISPLAY_MODE = DISPLAY_MODE_PROFILES[requestedMode] ? requestedMode : DEFAULT_DISPLAY_MODE;
-const modeProfile = DISPLAY_MODE_PROFILES[DISPLAY_MODE];
+// --- Display Mode (raw URL override) ---
+export const DISPLAY_MODE = urlParams.get('mode') || null;
 
 // --- Track Filtering ---
 const trackParam = urlParams.get('track');
@@ -88,9 +84,8 @@ const profileParam = urlParams.get('profile');
 export const RUNTIME_PROFILE = RUNTIME_PROFILES[profileParam] ? profileParam : 'default';
 const runtimeProfile = RUNTIME_PROFILES[RUNTIME_PROFILE];
 
-// --- Row Count ---
-const configuredRows = parseIntParam('rows', modeProfile.defaultRows, 1, 30);
-export const ROW_COUNT = configuredRows;
+// --- Row Count (raw URL override) ---
+export const ROW_COUNT = parseIntParam('rows', null, 1, 30);
 
 // --- Runtime Tuning ---
 export const REFRESH_INTERVAL_MS = parseIntParam('refresh', runtimeProfile.refresh, 5000, 300000);

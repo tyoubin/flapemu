@@ -39,7 +39,6 @@ function test_v2_upgrade_addsTrainColumns() {
 	assert.equal(output.rows[0].depart_time, '09:00');
 	assert.equal(output.rows[0].destination.local, '東京');
 	assert.equal(output.ui.mode, 'concourse');
-	assert.deepEqual(output.ui.hiddenColumns, ['stop']);
 	console.log('  v2 upgrade adds train columns and ui defaults');
 }
 

@@ -147,7 +147,7 @@ async function fetchData() {
 
 
 		// --- Browser Tab Title ---
-		const headerData = meta.header;
+		const headerData = meta;
 		if (headerData && headerData.line_name && headerData.for) {
 			document.title = `${headerData.line_name.local} ${headerData.for.local}`;
 		} else if (headerData && headerData.line_name) {
@@ -166,14 +166,14 @@ async function fetchData() {
 			const elLineLocal = document.getElementById('header-line-local');
 			const elLineEn = document.getElementById('header-line-en');
 
-			if (elLineLocal) elLineLocal.textContent = headerData.line_name.local;
-			if (elLineEn) elLineEn.textContent = headerData.line_name.en;
+			if (elLineLocal) elLineLocal.textContent = headerData.line_name?.local || '';
+			if (elLineEn) elLineEn.textContent = headerData.line_name?.en || '';
 
 			const elDestLocal = document.getElementById('header-dest-local');
 			const elDestEn = document.getElementById('header-dest-en');
 
-			if (elDestLocal) elDestLocal.textContent = headerData.for.local;
-			if (elDestEn) elDestEn.textContent = headerData.for.en;
+			if (elDestLocal) elDestLocal.textContent = headerData.for?.local || '';
+			if (elDestEn) elDestEn.textContent = headerData.for?.en || '';
 
 			// 3. Logo (SVG)
 			const elLogo = document.getElementById('header-logo');

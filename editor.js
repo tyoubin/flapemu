@@ -2,14 +2,16 @@
  * FlapEmu Timetable Editor
  * Core logic for creating and editing JSON timetable files
  */
-import { createEmptyTimetable, normalizeTimetable } from './js/data-normalize.js';
+import { createEmptyBoardConfig, normalizeBoardConfig, TRAIN_COLUMN_DEFAULTS } from './js/data-normalize.js';
+
+// ================= DATA MODEL =================
 
 // ================= DATA MODEL =================
 
 const STORAGE_KEY = 'flapemu_editor_draft';
 
 // Current timetable data
-let timetable = createEmptyTimetable();
+let timetable = createEmptyBoardConfig();
 
 // ================= DOM REFERENCES =================
 
@@ -148,7 +150,7 @@ function loadDraft() {
 	try {
 		const data = localStorage.getItem(STORAGE_KEY);
 		if (data) {
-			timetable = normalizeTimetable(JSON.parse(data));
+			timetable = normalizeBoardConfig(JSON.parse(data));
 			return true;
 		}
 	} catch (e) {
@@ -175,7 +177,7 @@ function checkForDraft() {
 			showToast('Draft restored', 'success');
 		} else {
 			clearDraft();
-			timetable = createEmptyTimetable();
+			timetable = createEmptyBoardConfig();
 			renderAll();
 		}
 	} else {
@@ -241,10 +243,10 @@ function renderPresets(type) {
 }
 
 function renderSchedule() {
-	const schedule = timetable.schedule;
-	elements.scheduleCount.textContent = `(${schedule.length} entries)`;
+	const rows = timetable.rows;
+	elements.scheduleCount.textContent = `(${rows.length} entries)`;
 
-	if (schedule.length === 0) {
+	if (rows.length === 0) {
 		elements.scheduleBody.innerHTML = `
             <tr>
                 <td colspan="9" class="empty-state"><p>No trains scheduled yet</p></td>
@@ -253,7 +255,7 @@ function renderSchedule() {
 		return;
 	}
 
-	elements.scheduleBody.innerHTML = schedule.map((train, idx) => `
+	elements.scheduleBody.innerHTML = rows.map((train, idx) => `
         <tr data-index="${idx}">
             <td class="row-actions">
                 <button class="btn-icon" onclick="moveScheduleRow(${idx}, -1)" title="Move up">⬆️</button>
@@ -312,7 +314,7 @@ function renderSchedule() {
 // ================= SCHEDULE CRUD =================
 
 function addScheduleRow() {
-	timetable.schedule.push({
+	timetable.rows.push({
 		track_no: '',
 		type: { local: '', en: '' },
 		type_color_hex: '#333333',
@@ -332,17 +334,17 @@ function addScheduleRow() {
 }
 
 window.updateScheduleField = function (idx, field, value) {
-	timetable.schedule[idx][field] = value;
+	timetable.rows[idx][field] = value;
 	saveDraft();
 };
 
 window.moveScheduleRow = function (idx, direction) {
 	const newIdx = idx + direction;
-	if (newIdx < 0 || newIdx >= timetable.schedule.length) return;
+	if (newIdx < 0 || newIdx >= timetable.rows.length) return;
 
-	const temp = timetable.schedule[idx];
-	timetable.schedule[idx] = timetable.schedule[newIdx];
-	timetable.schedule[newIdx] = temp;
+	const temp = timetable.rows[idx];
+	timetable.rows[idx] = timetable.rows[newIdx];
+	timetable.rows[newIdx] = temp;
 
 	renderSchedule();
 	saveDraft();
@@ -350,13 +352,13 @@ window.moveScheduleRow = function (idx, direction) {
 
 window.deleteScheduleRow = function (idx) {
 	if (!confirm('Delete this train entry?')) return;
-	timetable.schedule.splice(idx, 1);
+	timetable.rows.splice(idx, 1);
 	renderSchedule();
 	saveDraft();
 };
 
 window.editScheduleBilingual = function (idx, field) {
-	const train = timetable.schedule[idx];
+	const train = timetable.rows[idx];
 	const current = train[field] || { local: '', en: '' };
 
 	const titles = {
@@ -499,10 +501,12 @@ function closeModal() {
 // ================= IMPORT / EXPORT =================
 
 function handleNew() {
-	if (timetable.schedule.length > 0 || timetable.presets.types.length > 0) {
+	if (timetable.rows.length > 0 || timetable.presets.types.length > 0) {
 		if (!confirm('Clear current data and start fresh?')) return;
 	}
-	timetable = createEmptyTimetable();
+	timetable = createEmptyBoardConfig();
+	timetable.columns = TRAIN_COLUMN_DEFAULTS;
+	timetable.ui = { mode: 'concourse', rows: 15, showTopBar: true };
 	clearDraft();
 	renderAll();
 	showToast('Started new timetable', 'success');
@@ -516,7 +520,7 @@ function handleImport(e) {
 	reader.onload = (event) => {
 		try {
 			const data = JSON.parse(event.target.result);
-			timetable = normalizeTimetable(data);
+			timetable = normalizeBoardConfig(data);
 
 			renderAll();
 			saveDraft();
@@ -536,8 +540,8 @@ function validateTimetableForExport(data) {
 	const errors = [];
 	const warnings = [];
 
-	const schedule = Array.isArray(data.schedule) ? data.schedule : [];
-	if (schedule.length === 0) {
+	const rows = Array.isArray(data.rows) ? data.rows : [];
+	if (rows.length === 0) {
 		errors.push('Add at least one schedule row before export.');
 		return { errors, warnings };
 	}
@@ -546,7 +550,7 @@ function validateTimetableForExport(data) {
 	const seenTrainNo = new Map();
 	const seenTrainNoAndTime = new Map();
 
-	schedule.forEach((train, idx) => {
+	rows.forEach((train, idx) => {
 		const row = idx + 1;
 		const departTime = (train.depart_time || '').toString().trim();
 		const trainNo = (train.train_no || '').toString().trim();

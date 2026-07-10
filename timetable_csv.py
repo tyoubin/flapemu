@@ -157,9 +157,9 @@ def export_csv(json_path: str, csv_path: str) -> None:
     with open(json_path, "r", encoding="utf-8") as handle:
         data = json.load(handle)
 
-    schedule = data.get("schedule", [])
+    schedule = data.get("rows", [])
     if not isinstance(schedule, list):
-        raise ValueError("JSON 'schedule' must be an array")
+        raise ValueError("JSON 'rows' must be an array")
 
     with smart_open(csv_path, "w", encoding="utf-8", newline="") as handle:
         writer = csv.DictWriter(handle, fieldnames=EXPECTED_FIELDS)
@@ -174,7 +174,7 @@ def import_csv(json_path: str, csv_path: str) -> None:
     with open(json_path, "r", encoding="utf-8") as handle:
         data = json.load(handle)
 
-    data["schedule"] = schedule
+    data["rows"] = schedule
 
     with open(json_path, "w", encoding="utf-8") as handle:
         json.dump(data, handle, ensure_ascii=False, indent=2)

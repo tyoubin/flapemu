@@ -87,7 +87,7 @@ async function fetchData() {
 		});
 
 		// Tab title / icon
-		const headerData = meta.header;
+		const headerData = meta;
 		if (headerData) {
 			if (headerData.line_name && headerData.for) {
 				document.title = `${headerData.line_name.local} ${headerData.for.local}`;

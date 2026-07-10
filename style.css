@@ -182,7 +182,12 @@ body {
 .header-row .col-time,
 .header-row .col-dest,
 .header-row .col-remarks,
-.header-row .col-stop {
+.header-row .col-stop,
+.header-row .col-flight,
+.header-row .col-airport-dest,
+.header-row .col-airline,
+.header-row .col-gate,
+.header-row .col-status {
     align-items: flex-start;
 }
 
@@ -260,6 +265,26 @@ body {
 .col-stop {
     flex: 1 1 100%;
     width: 100%;
+}
+
+/* Airport/Flight columns */
+.col-flight {
+    flex: 0 0 auto;
+    width: calc((var(--char-width) + 2px) * 7 - 2px);
+}
+.col-airport-dest {
+    flex: 2 1 var(--col-dest-width, 220px);
+}
+.col-airline {
+    flex: 1 1 var(--col-airline-width, 150px);
+}
+.col-gate {
+    flex: 0 0 auto;
+    width: calc((var(--char-width) + 2px) * 4 - 2px);
+    justify-content: center;
+}
+.col-status {
+    flex: 1 1 var(--col-status-width, 150px);
 }
 
 /* --- Display Mode Specific Styles --- */

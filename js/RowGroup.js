@@ -1,11 +1,11 @@
 import { BLANK_DATA } from './config.js';
-import { DEFAULT_DISPLAY_MODE, getNumericCharset, getVisibleColumns } from './board-schema.js';
+import { getNumericCharset } from './board-schema.js';
 import { buildActualWordMap, getColumnTarget } from './record-transform.js';
 import { getCap } from './utils.js';
 import { CharFlap, WordFlap } from './FlapUnit.js';
 
 export class RowGroup {
-	constructor(container, presets, scheduleData, columns = getVisibleColumns(DEFAULT_DISPLAY_MODE)) {
+	constructor(container, presets, scheduleData, columns = []) {
 		this.groupEl = document.createElement('div');
 		this.groupEl.className = 'row-group train-group';
 		container.appendChild(this.groupEl);
