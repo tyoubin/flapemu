@@ -25,6 +25,42 @@ function renderHeaderRow(columns) {
 	});
 }
 
+function renderTopBar(meta) {
+	let topBar = document.querySelector('.top-bar');
+	if (!topBar) {
+		topBar = document.createElement('div');
+		topBar.className = 'top-bar';
+		const container = document.querySelector('.main-container') || document.body;
+		container.insertBefore(topBar, container.firstChild);
+	}
+	topBar.innerHTML = `
+		<div class="header-logo-section" id="header-logo"></div>
+		<div class="header-info-section">
+			<div class="header-line-name">
+				<span class="header-text-local" id="header-line-local"></span>
+				<span class="header-text-en" id="header-line-en"></span>
+			</div>
+			<div class="header-direction">
+				<span class="header-text-local" id="header-dest-local"></span>
+				<span class="header-text-en" id="header-dest-en"></span>
+			</div>
+		</div>
+	`;
+
+	const elLineLocal = document.getElementById('header-line-local');
+	const elLineEn = document.getElementById('header-line-en');
+	if (elLineLocal) elLineLocal.textContent = meta.line_name?.local || '';
+	if (elLineEn) elLineEn.textContent = meta.line_name?.en || '';
+
+	const elDestLocal = document.getElementById('header-dest-local');
+	const elDestEn = document.getElementById('header-dest-en');
+	if (elDestLocal) elDestLocal.textContent = meta.for?.local || '';
+	if (elDestEn) elDestEn.textContent = meta.for?.en || '';
+
+	const elLogo = document.getElementById('header-logo');
+	setHeaderLogo(elLogo, meta.logo_url);
+}
+
 function setHeaderLogo(elLogo, logoUrl) {
 	if (!elLogo) return;
 	if (!logoUrl) {
@@ -56,7 +92,7 @@ async function fetchData() {
 		const json = await response.json();
 
 		const config = prepareBoardData(json);
-		const { meta, presets, rows, columns, ui } = config;
+		const { presets, rows, columns, ui } = config;
 
 		const hiddenColumns = new Set(ui.hiddenColumns || []);
 		const visibleColumns = columns.filter(col => !hiddenColumns.has(col.key));
@@ -66,13 +102,13 @@ async function fetchData() {
 		if (!isInitialized) {
 			document.body.classList.add(`mode-${ui.mode || 'departures'}`);
 			renderHeaderRow(visibleColumns);
-			const topBar = document.querySelector('.top-bar');
-			if (topBar && !ui.showTopBar) {
-				topBar.style.display = 'none';
+
+			const meta = json.meta;
+			if (meta && meta.header) {
+				renderTopBar(meta.header);
 			}
 		}
 
-		// Auto-layout for dynamic width columns
 		const dynamicWidthColumns = columns.filter(col => col.kind === 'word' && col.widthVar);
 		dynamicWidthColumns.forEach((column) => {
 			const fullList = [...(presets[column.presetKey || column.preset] || [])];
@@ -86,25 +122,12 @@ async function fetchData() {
 			document.documentElement.style.setProperty(column.widthVar, `${pixelWidth}px`);
 		});
 
-		// Tab title / icon
-		const headerData = meta;
+		const headerData = json.meta ? json.meta.header : null;
 		if (headerData) {
 			if (headerData.line_name && headerData.for) {
 				document.title = `${headerData.line_name.local} ${headerData.for.local}`;
 			}
 			if (headerData.logo_url) setFavicon(headerData.logo_url);
-
-			const elLineLocal = document.getElementById('header-line-local');
-			const elLineEn = document.getElementById('header-line-en');
-			if (elLineLocal) elLineLocal.textContent = headerData.line_name?.local || '';
-			if (elLineEn) elLineEn.textContent = headerData.line_name?.en || '';
-
-			const elDestLocal = document.getElementById('header-dest-local');
-			const elDestEn = document.getElementById('header-dest-en');
-			if (elDestLocal) elDestLocal.textContent = headerData.for?.local || '';
-			if (elDestEn) elDestEn.textContent = headerData.for?.en || '';
-
-			setHeaderLogo(document.getElementById('header-logo'), headerData.logo_url);
 		}
 
 		if (!isInitialized) {
@@ -123,10 +146,11 @@ async function fetchData() {
 		if (!rows || rows.length === 0) return;
 
 		const displayRows = selectDisplayRows(rows, rowCount, timeField, new Date());
+		const cascadeMs = ui.cascadeMs || 800;
 		for (let i = 0; i < rowCount; i++) {
 			if (groups[i]) {
 				groups[i].update(displayRows[i]);
-				if (i < rowCount - 1) await new Promise(r => setTimeout(r, ui.cascadeMs || 800));
+				if (i < rowCount - 1) await new Promise(r => setTimeout(r, cascadeMs));
 			}
 		}
 	} catch (e) {

@@ -42,16 +42,6 @@ function normalizePresetList(list, itemNormalizer = normalizePresetItem) {
 	return list.map(itemNormalizer);
 }
 
-function normalizeHeader(meta) {
-	const safeMeta = meta && typeof meta === 'object' ? meta : {};
-	const safeHeader = safeMeta.header && typeof safeMeta.header === 'object' ? safeMeta.header : {};
-	return {
-		logo_url: toSafeString(safeHeader.logo_url, 'timetable/logo.svg'),
-		line_name: normalizeBilingual(safeHeader.line_name),
-		for: normalizeBilingual(safeHeader.for)
-	};
-}
-
 function addColumnAliases(col) {
 	return {
 		...col,
@@ -65,11 +55,10 @@ function addColumnAliases(col) {
 
 function normalizeUI(ui) {
 	if (!ui || typeof ui !== 'object') {
-		return { rows: 12, showTopBar: true, cascadeMs: 1000, refreshMs: 30000, mode: 'concourse', hiddenColumns: [], window: { strategy: 'nextByTime', timeField: 'depart_time' } };
+		return { rows: 12, cascadeMs: 1000, refreshMs: 30000, mode: 'concourse', hiddenColumns: [], window: { strategy: 'nextByTime', timeField: 'depart_time' } };
 	}
 	return {
 		rows: Number.isFinite(ui.rows) ? ui.rows : 12,
-		showTopBar: ui.showTopBar !== undefined ? ui.showTopBar : true,
 		cascadeMs: Number.isFinite(ui.cascadeMs) ? ui.cascadeMs : 1000,
 		refreshMs: Number.isFinite(ui.refreshMs) ? ui.refreshMs : 30000,
 		mode: ui.mode || 'concourse',
@@ -90,7 +79,6 @@ function normalizePresets(rawPresets) {
 export function createEmptyBoardConfig() {
 	return {
 		schema_version: BOARD_CONFIG_VERSION,
-		meta: { header: { logo_url: 'timetable/logo.svg', line_name: { local: '', en: '' }, for: { local: '', en: '' } } },
 		ui: normalizeUI(null),
 		columns: [],
 		presets: {},
@@ -138,7 +126,6 @@ function upgradeV2ToV3(raw) {
 	const rawSchedule = Array.isArray(raw.schedule) ? raw.schedule : [];
 	return {
 		schema_version: BOARD_CONFIG_VERSION,
-		meta: normalizeHeader(raw.meta),
 		ui: normalizeUI({ mode: 'concourse' }),
 		columns: TRAIN_COLUMN_DEFAULTS.map(addColumnAliases),
 		presets: normalizePresets(raw.presets),
@@ -152,7 +139,6 @@ export function normalizeBoardConfig(raw) {
 	if (Array.isArray(raw)) {
 		return {
 			schema_version: BOARD_CONFIG_VERSION,
-			meta: normalizeHeader(null),
 			ui: normalizeUI({ mode: 'concourse' }),
 			columns: TRAIN_COLUMN_DEFAULTS.map(addColumnAliases),
 			presets: {},
@@ -166,7 +152,6 @@ export function normalizeBoardConfig(raw) {
 			const rows = Array.isArray(raw.rows || raw.schedule) ? [...(raw.rows || raw.schedule)] : [];
 			return {
 				schema_version: 3,
-				meta: normalizeHeader(raw.meta),
 				ui: normalizeUI(raw.ui),
 				columns,
 				presets: normalizePresets(raw.presets),

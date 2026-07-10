@@ -26,13 +26,10 @@ export function prepareTrainBoardData(rawData, filterTracks) {
 	const config = prepareBoardData(rawData);
 	const rows = sortScheduleByDepartTime(applyTrackFilter(config.rows, filterTracks));
 	return {
-		meta: config.meta,
 		presets: config.presets,
 		rows,
 		columns: config.columns,
 		ui: config.ui,
-		presetsData: config.presets,
-		metaData: config.meta,
 		scheduleData: rows
 	};
 }

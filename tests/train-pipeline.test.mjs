@@ -81,8 +81,7 @@ function test_prepareTrainBoardData_appliesFilterAndSort() {
 	assert.equal(result.scheduleData.length, 2);
 	assert.equal(result.scheduleData[0].depart_time, '09:00');
 	assert.equal(result.scheduleData[1].depart_time, '10:00');
-	assert.ok(result.presetsData);
-	assert.ok(result.metaData);
+	assert.ok(result.presets);
 }
 
 test_applyTrackFilter_filtersByTrackNo();

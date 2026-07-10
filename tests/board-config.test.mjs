@@ -5,7 +5,7 @@ function test_v3_passthrough_preservesColumns() {
 	const input = {
 		schema_version: 3,
 		meta: { header: { line_name: { local: 'Test', en: 'Test' }, for: { local: 'A', en: 'A' } } },
-		ui: { rows: 6, showTopBar: true, mode: 'departures', hiddenColumns: ['remarks'], window: { strategy: 'nextByTime', timeField: 'depart_time' } },
+		ui: { rows: 6, mode: 'departures', hiddenColumns: ['remarks'], window: { strategy: 'nextByTime', timeField: 'depart_time' } },
 		columns: [{ key: 'flight', cssClass: 'col-flight', header: { local: '便', en: 'Flight' }, kind: 'chars', field: 'flight_no', unitCount: 5, charset: ' ABC', unitCapacity: 10 }],
 		presets: { airlines: [{ local: 'JAL', en: 'JAL' }] },
 		rows: [{ flight_no: 'JL001', depart_time: '10:00' }]

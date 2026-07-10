@@ -9,7 +9,6 @@
   },
   "ui": {
     "rows": 8,
-    "showTopBar": true,
     "cascadeMs": 800,
     "refreshMs": 30000,
     "mode": "departures",

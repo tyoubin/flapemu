@@ -1,14 +1,4 @@
-import {
-	CASCADE_DELAY_MS,
-	DATA_SOURCE,
-	DISPLAY_MODE as URL_DISPLAY_MODE,
-	FILTER_TRACKS,
-	INVALID_TIMETABLE_QUERY,
-	LAYOUT_WIDTH_MULTIPLIER,
-	LAYOUT_WIDTH_PADDING,
-	PREVIEW_MODE,
-	REFRESH_INTERVAL_MS
-} from './js/config.js';
+import { LAYOUT_WIDTH_MULTIPLIER, LAYOUT_WIDTH_PADDING } from './js/config.js';
 import { extractScheduleWords, selectDisplayTrains, prepareTrainBoardData } from './js/train-pipeline.js';
 import { sleep, calculateVisualLength, setFavicon } from './js/utils.js';
 import { RowGroup } from './js/RowGroup.js';
@@ -38,6 +28,42 @@ function renderHeaderRow(columns) {
 	});
 }
 
+function renderTopBar(meta) {
+	let topBar = document.querySelector('.top-bar');
+	if (!topBar) {
+		topBar = document.createElement('div');
+		topBar.className = 'top-bar';
+		const container = document.querySelector('.main-container') || document.body;
+		container.insertBefore(topBar, container.firstChild);
+	}
+	topBar.innerHTML = `
+		<div class="header-logo-section" id="header-logo"></div>
+		<div class="header-info-section">
+			<div class="header-line-name">
+				<span class="header-text-local" id="header-line-local"></span>
+				<span class="header-text-en" id="header-line-en"></span>
+			</div>
+			<div class="header-direction">
+				<span class="header-text-local" id="header-dest-local"></span>
+				<span class="header-text-en" id="header-dest-en"></span>
+			</div>
+		</div>
+	`;
+
+	const elLineLocal = document.getElementById('header-line-local');
+	const elLineEn = document.getElementById('header-line-en');
+	if (elLineLocal) elLineLocal.textContent = meta.line_name?.local || '';
+	if (elLineEn) elLineEn.textContent = meta.line_name?.en || '';
+
+	const elDestLocal = document.getElementById('header-dest-local');
+	const elDestEn = document.getElementById('header-dest-en');
+	if (elDestLocal) elDestLocal.textContent = meta.for?.local || '';
+	if (elDestEn) elDestEn.textContent = meta.for?.en || '';
+
+	const elLogo = document.getElementById('header-logo');
+	setHeaderLogo(elLogo, meta.logo_url);
+}
+
 function setHeaderLogo(elLogo, logoUrl) {
 	if (!elLogo) return;
 
@@ -63,25 +89,39 @@ function setHeaderLogo(elLogo, logoUrl) {
 	elLogo.style.display = 'flex';
 }
 
-function parseUrlRows() {
-	const raw = new URLSearchParams(window.location.search).get('rows');
-	if (raw === null || raw === '') return null;
-	const parsed = parseInt(raw, 10);
-	if (!Number.isFinite(parsed)) return null;
-	return Math.min(Math.max(parsed, 1), 30);
+function parseUrlParams() {
+	const params = new URLSearchParams(window.location.search);
+	const t = params.get('t');
+	const timetableName = !t ? 'demo' : /^[a-zA-Z0-9_-]+$/.test(t) ? t : '__invalid__';
+	return {
+		dataSource: `./timetable/${timetableName}.json`,
+		invalidQuery: timetableName === '__invalid__',
+		previewMode: params.has('preview'),
+		urlMode: params.get('mode'),
+		urlRows: (() => {
+			const raw = params.get('rows');
+			if (raw === null || raw === '') return null;
+			const parsed = parseInt(raw, 10);
+			if (!Number.isFinite(parsed)) return null;
+			return Math.min(Math.max(parsed, 1), 30);
+		})(),
+		filterTracks: params.has('track')
+			? params.get('track').split(',').map(t => t.trim()).filter(Boolean)
+			: null
+	};
 }
 
 async function fetchData() {
 	try {
-		// Clear Previous Error State
 		const board = document.getElementById('board');
 		const statusEl = document.getElementById('system-status');
 		if (board) board.classList.remove('board-error');
 		if (statusEl) statusEl.innerHTML = '';
 
+		const urlParams = parseUrlParams();
 		let json;
 
-		if (PREVIEW_MODE) {
+		if (urlParams.previewMode) {
 			const previewData = sessionStorage.getItem('flapemu_preview');
 			if (previewData) {
 				console.log('[System] Loading preview data from editor...');
@@ -91,35 +131,33 @@ async function fetchData() {
 				return;
 			}
 		} else {
-			if (INVALID_TIMETABLE_QUERY) {
+			if (urlParams.invalidQuery) {
 				throw new Error("Invalid timetable query parameter 't'.");
 			}
-			console.log(`[System] Fetching ${DATA_SOURCE}...`);
-			const response = await fetch(DATA_SOURCE, { cache: "no-store" });
+			console.log(`[System] Fetching ${urlParams.dataSource}...`);
+			const response = await fetch(urlParams.dataSource, { cache: "no-store" });
 			if (!response.ok) throw new Error("API Network response was not ok");
 			json = await response.json();
 		}
 
-		const config = prepareTrainBoardData(json, FILTER_TRACKS);
-		const { meta, presets, rows, columns, ui } = config;
+		const config = prepareTrainBoardData(json, urlParams.filterTracks);
+		const { presets, rows, columns, ui } = config;
 
-		// Determine display mode: URL param overrides config
-		const displayMode = URL_DISPLAY_MODE || ui.mode || 'concourse';
+		const displayMode = urlParams.urlMode || ui.mode || 'concourse';
 		const hiddenColumns = new Set(ui.hiddenColumns || []);
 		const visibleColumns = columns.filter(col => !hiddenColumns.has(col.key));
-		const rowCount = parseUrlRows() || ui.rows || 12;
+		const rowCount = urlParams.urlRows || ui.rows || 12;
 
-		// Render header and apply mode on first fetch
 		if (!isInitialized) {
 			document.body.classList.add(`mode-${displayMode}`);
 			renderHeaderRow(visibleColumns);
-			const topBar = document.querySelector('.top-bar');
-			if (topBar && !ui.showTopBar) {
-				topBar.style.display = 'none';
+
+			const meta = json.meta;
+			if (meta && meta.header) {
+				renderTopBar(meta.header);
 			}
 		}
 
-		// Auto-Layout
 		const adjustColumnWidth = (cssVar, presetList, scheduleList, minChars = 4) => {
 			const fullList = [...(presetList || []), ...(scheduleList || [])];
 			if (fullList.length === 0) return;
@@ -145,9 +183,7 @@ async function fetchData() {
 			);
 		});
 
-
-		// --- Browser Tab Title ---
-		const headerData = meta;
+		const headerData = json.meta ? json.meta.header : null;
 		if (headerData && headerData.line_name && headerData.for) {
 			document.title = `${headerData.line_name.local} ${headerData.for.local}`;
 		} else if (headerData && headerData.line_name) {
@@ -156,32 +192,9 @@ async function fetchData() {
 			document.title = "FlapEmu";
 		}
 
-		// --- Browser Tab Icon ---
 		if (headerData && headerData.logo_url) {
 			setFavicon(headerData.logo_url);
 		}
-
-		// --- Header Update Logic ---
-		if (headerData) {
-			const elLineLocal = document.getElementById('header-line-local');
-			const elLineEn = document.getElementById('header-line-en');
-
-			if (elLineLocal) elLineLocal.textContent = headerData.line_name?.local || '';
-			if (elLineEn) elLineEn.textContent = headerData.line_name?.en || '';
-
-			const elDestLocal = document.getElementById('header-dest-local');
-			const elDestEn = document.getElementById('header-dest-en');
-
-			if (elDestLocal) elDestLocal.textContent = headerData.for?.local || '';
-			if (elDestEn) elDestEn.textContent = headerData.for?.en || '';
-
-			// 3. Logo (SVG)
-			const elLogo = document.getElementById('header-logo');
-			setHeaderLogo(elLogo, headerData.logo_url);
-		} else {
-			console.warn("[System] 'header' metadata missing in JSON.");
-		}
-
 
 		if (!isInitialized) {
 			console.log("[System] Initializing Board...");
@@ -200,19 +213,19 @@ async function fetchData() {
 		if (!rows || rows.length === 0) return;
 
 		const displayTrains = selectDisplayTrains(rows, rowCount, new Date());
+		const cascadeMs = ui.cascadeMs || 1000;
 
 		for (let i = 0; i < rowCount; i++) {
 			if (groups[i]) {
 				groups[i].update(displayTrains[i]);
 				if (i < rowCount - 1) {
-					await sleep(CASCADE_DELAY_MS);
+					await sleep(cascadeMs);
 				}
 			}
 		}
 
 	} catch (e) {
 		console.error("Error fetching data:", e);
-		// Visual Error Handling
 		const board = document.getElementById('board');
 		const statusEl = document.getElementById('system-status');
 		if (board) board.classList.add('board-error');
@@ -259,7 +272,7 @@ function startAutoRefresh() {
 	refreshTimerId = setInterval(() => {
 		console.log('[Auto-Update] Fetching...');
 		requestFetch('interval');
-	}, REFRESH_INTERVAL_MS);
+	}, 30000);
 }
 
 function handleVisibilityChange() {

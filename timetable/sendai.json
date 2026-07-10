@@ -15,7 +15,6 @@
   },
   "ui": {
     "rows": 12,
-    "showTopBar": true,
     "cascadeMs": 1000,
     "refreshMs": 30000,
     "mode": "concourse",

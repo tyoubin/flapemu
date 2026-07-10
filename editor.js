@@ -4,14 +4,25 @@
  */
 import { createEmptyBoardConfig, normalizeBoardConfig, TRAIN_COLUMN_DEFAULTS } from './js/data-normalize.js';
 
-// ================= DATA MODEL =================
+const DEFAULT_META = { header: { logo_url: 'timetable/logo.svg', line_name: { local: '', en: '' }, for: { local: '', en: '' } } };
+
+function createEditorConfig() {
+	const cfg = createEmptyBoardConfig();
+	cfg.meta = structuredClone(DEFAULT_META);
+	return cfg;
+}
+
+function restoreMeta(cfg, raw) {
+	cfg.meta = (raw && raw.meta) ? raw.meta : structuredClone(DEFAULT_META);
+	return cfg;
+}
 
 // ================= DATA MODEL =================
 
 const STORAGE_KEY = 'flapemu_editor_draft';
 
 // Current timetable data
-let timetable = createEmptyBoardConfig();
+let timetable = createEditorConfig();
 
 // ================= DOM REFERENCES =================
 
@@ -150,7 +161,9 @@ function loadDraft() {
 	try {
 		const data = localStorage.getItem(STORAGE_KEY);
 		if (data) {
-			timetable = normalizeBoardConfig(JSON.parse(data));
+			const raw = JSON.parse(data);
+			timetable = normalizeBoardConfig(raw);
+			restoreMeta(timetable, raw);
 			return true;
 		}
 	} catch (e) {
@@ -177,7 +190,7 @@ function checkForDraft() {
 			showToast('Draft restored', 'success');
 		} else {
 			clearDraft();
-			timetable = createEmptyBoardConfig();
+			timetable = createEditorConfig();
 			renderAll();
 		}
 	} else {
@@ -504,9 +517,9 @@ function handleNew() {
 	if (timetable.rows.length > 0 || timetable.presets.types.length > 0) {
 		if (!confirm('Clear current data and start fresh?')) return;
 	}
-	timetable = createEmptyBoardConfig();
+	timetable = createEditorConfig();
 	timetable.columns = TRAIN_COLUMN_DEFAULTS;
-	timetable.ui = { mode: 'concourse', rows: 15, showTopBar: true };
+	timetable.ui = { mode: 'concourse', rows: 15 };
 	clearDraft();
 	renderAll();
 	showToast('Started new timetable', 'success');
@@ -521,6 +534,7 @@ function handleImport(e) {
 		try {
 			const data = JSON.parse(event.target.result);
 			timetable = normalizeBoardConfig(data);
+			restoreMeta(timetable, data);
 
 			renderAll();
 			saveDraft();

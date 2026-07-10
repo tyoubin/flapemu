@@ -50,7 +50,6 @@ export function selectDisplayRows(rows, rowCount, timeField, now = new Date()) {
 export function prepareBoardData(rawData) {
 	const config = normalizeBoardConfig(rawData);
 	return {
-		meta: config.meta,
 		presets: config.presets,
 		rows: config.rows,
 		scheduleData: config.rows,
