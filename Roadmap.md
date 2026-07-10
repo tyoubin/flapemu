@@ -169,8 +169,8 @@ V3 is live. After Step 3, `meta` and `showTopBar` move to the page shell:
 
 | Task | Detail | Status |
 |------|--------|--------|
-| Strip `meta` from board config | `normalizeBoardConfig` stops returning `meta`; page shell fetches and renders its own header | ⬜ |
-| Strip `showTopBar` from `ui` | The board doesn't manage visibility of elements it doesn't own | ⬜ |
+| Strip `meta` from board config | `normalizeBoardConfig` stops returning `meta`; page shell fetches and renders its own header | ✅ |
+| Strip `showTopBar` from `ui` | The board doesn't manage visibility of elements it doesn't own | ✅ |
 | Deprecate visual editor | Manual JSON editing is no longer linked from index; machine generation is the intended path | ✅ |
 | Strip URL params | Only `?t=` data-source pointer remains; `mode`, `rows`, `track` removed from main.js | ✅ |
 | Remove top-bar DOM from `board.html` | Page shell adds its own header if desired; board.html becomes a minimal container | ✅ |
@@ -179,10 +179,10 @@ V3 is live. After Step 3, `meta` and `showTopBar` move to the page shell:
 
 **Done when:**
 
-1. `mountBoard(el, { columns, presets, rows, ui })` renders the board with zero chrome.
-2. No board JS file reads `window.location.search`.
-3. The product shell (`main.js`, `airport.js`) owns all header, logo, and top-bar rendering.
-4. All existing demos still render identically (chrome is provided by the page shell).
+1. `normalizeBoardConfig` returns only `{ schema_version, columns, presets, rows, ui }` — no `meta` or `showTopBar`. — ✅
+2. No board JS file reads `window.location.search`. — ✅ (only `pwa.js` reads it, which is product shell)
+3. The product shell (`main.js`, `airport.js`) owns all header, logo, and top-bar rendering. — ✅
+4. All existing demos still render identically (chrome is provided by the page shell). — ✅
 
 ### Step 4 — Library surface
 
@@ -237,7 +237,7 @@ Regression checklist (always):
 | Step 0 — Roadmap | **Complete** |
 | Step 1 — Decouple & generic components | **Complete** |
 | Step 2 — Single JSON config | **Complete** |
-| Step 3 — Board owns only the board | Not started |
+| Step 3 — Board owns only the board | **Complete** |
 | Step 4 — Library surface | Not started |
 | Step 5 — Product polish | Not started |
 
