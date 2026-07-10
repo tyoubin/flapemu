@@ -161,7 +161,8 @@ When adding new aliases or schema versions, keep normalization backward-compatib
 
 ## Quick Regression Checklist
 
-1. `board.html?t=shinagawa`
+1. `hongqiao.html` (library surface demo)
+2. `board.html?t=shinagawa`
 2. `board.html?t=kumamoto`
 3. `board.html?t=sendai`
 4. `board.html?t=demo`

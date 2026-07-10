@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>上海虹桥站 — 出发列车</title>
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="system-status" id="system-status"></div>
+    <div class="main-container">
+
+        <div class="top-bar">
+            <div class="header-info-section">
+                <div class="header-line-name">
+                    <span class="header-text-local">上海虹桥站</span>
+                    <span class="header-text-en">Shanghai Hongqiao</span>
+                </div>
+                <div class="header-direction">
+                    <span class="header-text-local">出发列车</span>
+                    <span class="header-text-en">Departures</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="schedule-board" id="board"></div>
+
+        <div class="board-footer">
+            <div class="copyright">
+                Powered by <a href="https://github.com/tyoubin/flapemu" target="_blank">FlapEmu</a>
+            </div>
+        </div>
+    </div>
+
+    <script type="module">
+        import { mountBoard } from './js/flapemu.js';
+
+        async function main() {
+            try {
+                const res = await fetch('./timetable/hongqiao.json', { cache: 'no-store' });
+                if (!res.ok) throw new Error('HTTP ' + res.status);
+                const json = await res.json();
+                const board = document.getElementById('board');
+                mountBoard(board, json);
+            } catch (e) {
+                console.error('Error:', e);
+                const el = document.getElementById('system-status');
+                if (el) el.innerHTML = '<div class="status-text status-error"><div class="status-main">无法加载数据 / Failed to load data</div></div>';
+            }
+        }
+
+        main();
+    </script>
+</body>
+</html>

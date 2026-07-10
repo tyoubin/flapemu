@@ -1,0 +1,168 @@
+{
+  "schema_version": 3,
+  "meta": {
+    "header": {
+      "line_name": { "local": "上海虹桥站", "en": "Shanghai Hongqiao" },
+      "for": { "local": "出发列车", "en": "Departures" }
+    }
+  },
+  "ui": {
+    "mode": "concourse",
+    "rows": 5,
+    "cascadeMs": 1000,
+    "hiddenColumns": []
+  },
+  "columns": [
+    {
+      "key": "train_no",
+      "kind": "chars",
+      "cssClass": "col-train-no",
+      "header": { "local": "车次", "en": "Train" },
+      "unitCount": 6,
+      "charset": "GDCZ1234567890",
+      "unitCapacity": 40
+    },
+    {
+      "key": "destination",
+      "kind": "word",
+      "cssClass": "col-dest",
+      "header": { "local": "终到站", "en": "Destination" },
+      "presetKey": "dests",
+      "sourceField": "destination",
+      "widthVar": "--col-dest-width"
+    },
+    {
+      "key": "depart_time",
+      "kind": "time",
+      "cssClass": "col-time",
+      "header": { "local": "发车", "en": "Depart" }
+    },
+    {
+      "key": "track_no",
+      "kind": "chars",
+      "cssClass": "col-track",
+      "header": { "local": "检票口", "en": "Gate" },
+      "unitCount": 3,
+      "charset": "1234567890AB",
+      "unitCapacity": 20
+    },
+    {
+      "key": "remarks",
+      "kind": "word",
+      "cssClass": "col-remarks",
+      "header": { "local": "状态", "en": "Status" },
+      "presetKey": "remarks",
+      "sourceField": "remarks",
+      "widthVar": "--col-rem-width"
+    }
+  ],
+  "presets": {
+    "dests": [
+      { "local": "北京南", "en": "Beijing South" },
+      { "local": "南京南", "en": "Nanjing South" },
+      { "local": "杭州东", "en": "Hangzhou East" },
+      { "local": "合肥南", "en": "Hefei South" },
+      { "local": "南昌西", "en": "Nanchang West" },
+      { "local": "武汉", "en": "Wuhan" },
+      { "local": "广州南", "en": "Guangzhou South" },
+      { "local": "深圳北", "en": "Shenzhen North" },
+      { "local": "济南西", "en": "Jinan West" },
+      { "local": "郑州东", "en": "Zhengzhou East" },
+      { "local": "宁波", "en": "Ningbo" }
+    ],
+    "remarks": [
+      { "local": "正在检票", "en": "Boarding" },
+      { "local": "已停止检票", "en": "Gates Closed" },
+      { "local": "晚点约15分", "en": "Delay ~15min" },
+      { "local": "晚点约30分", "en": "Delay ~30min" },
+      { "local": "正点", "en": "On Time" },
+      { "local": "候车中", "en": "Waiting" }
+    ]
+  },
+  "rows": [
+    {
+      "train_no": "G1373",
+      "depart_time": "07:30",
+      "destination": { "local": "北京南", "en": "Beijing South" },
+      "track_no": "12",
+      "remarks": { "local": "正在检票", "en": "Boarding" }
+    },
+    {
+      "train_no": "D2281",
+      "depart_time": "07:45",
+      "destination": { "local": "深圳北", "en": "Shenzhen North" },
+      "track_no": "8A",
+      "remarks": { "local": "候车中", "en": "Waiting" }
+    },
+    {
+      "train_no": "G7355",
+      "depart_time": "08:00",
+      "destination": { "local": "杭州东", "en": "Hangzhou East" },
+      "track_no": "15",
+      "remarks": { "local": "正点", "en": "On Time" }
+    },
+    {
+      "train_no": "G7572",
+      "depart_time": "08:15",
+      "destination": { "local": "合肥南", "en": "Hefei South" },
+      "track_no": "10B",
+      "remarks": { "local": "晚点约15分", "en": "Delay ~15min" }
+    },
+    {
+      "train_no": "G1377",
+      "depart_time": "08:30",
+      "destination": { "local": "南京南", "en": "Nanjing South" },
+      "track_no": "22",
+      "remarks": { "local": "正在检票", "en": "Boarding" }
+    },
+    {
+      "train_no": "G1371",
+      "depart_time": "08:48",
+      "destination": { "local": "广州南", "en": "Guangzhou South" },
+      "track_no": "6",
+      "remarks": { "local": "候车中", "en": "Waiting" }
+    },
+    {
+      "train_no": "D3103",
+      "depart_time": "09:00",
+      "destination": { "local": "宁波", "en": "Ningbo" },
+      "track_no": "18A",
+      "remarks": { "local": "正点", "en": "On Time" }
+    },
+    {
+      "train_no": "G2811",
+      "depart_time": "09:15",
+      "destination": { "local": "石家庄", "en": "Shijiazhuang" },
+      "track_no": "4",
+      "remarks": { "local": "晚点约30分", "en": "Delay ~30min" }
+    },
+    {
+      "train_no": "G7317",
+      "depart_time": "09:30",
+      "destination": { "local": "南昌西", "en": "Nanchang West" },
+      "track_no": "11",
+      "remarks": { "local": "正点", "en": "On Time" }
+    },
+    {
+      "train_no": "G7519",
+      "depart_time": "09:45",
+      "destination": { "local": "宁波", "en": "Ningbo" },
+      "track_no": "14",
+      "remarks": { "local": "候车中", "en": "Waiting" }
+    },
+    {
+      "train_no": "G2261",
+      "depart_time": "10:00",
+      "destination": { "local": "郑州东", "en": "Zhengzhou East" },
+      "track_no": "7",
+      "remarks": { "local": "候车中", "en": "Waiting" }
+    },
+    {
+      "train_no": "G1379",
+      "depart_time": "10:20",
+      "destination": { "local": "济南西", "en": "Jinan West" },
+      "track_no": "3",
+      "remarks": { "local": "正点", "en": "On Time" }
+    }
+  ]
+}

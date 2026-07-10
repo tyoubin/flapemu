@@ -211,6 +211,7 @@ V3 is live. After Step 3, `meta` and `showTopBar` move to the page shell:
 
 Regression checklist (always):
 
+- `hongqiao.html` (library surface demo)
 - `board.html?t=shinagawa`
 - `board.html?t=kumamoto`
 - `board.html?t=sendai`
