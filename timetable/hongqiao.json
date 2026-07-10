@@ -16,7 +16,6 @@
     {
       "key": "train_no",
       "kind": "chars",
-      "cssClass": "col-train-no",
       "header": { "local": "车次", "en": "Train" },
       "unitCount": 6,
       "charset": "GDCZ1234567890",
@@ -34,13 +33,11 @@
     {
       "key": "depart_time",
       "kind": "time",
-      "cssClass": "col-time",
       "header": { "local": "发车", "en": "Depart" }
     },
     {
       "key": "track_no",
       "kind": "chars",
-      "cssClass": "col-track",
       "header": { "local": "检票口", "en": "Gate" },
       "unitCount": 3,
       "charset": "1234567890AB",
