@@ -10,6 +10,38 @@ FlapEmu is an emulator for split-flap displays, often seen in train stations and
 
 FlapEmuは、駅や空港に設置されている反転フラップ式案内表示機（ソラリーボード）を模したエミュレーターです。定義済みデータソースから時刻表情報を動的に取得し、特徴的なフラップの回転動作を視覚的にシミュレートして描画します。
 
+## Library Usage
+
+```bash
+npm install flapemu
+```
+
+```js
+import { mountBoard } from 'flapemu';
+
+const board = document.getElementById('board');
+const config = {
+  columns: [
+    { key: 'time', kind: 'time', cssClass: 'col-time', header: { local: '時刻', en: 'Time' } },
+    { key: 'destination', kind: 'word', cssClass: 'col-dest', presetKey: 'dests', sourceField: 'destination', header: { local: '行先', en: 'Destination' }, widthVar: '--col-dest-width' }
+  ],
+  presets: {
+    dests: [{ local: '東京', en: 'TOKYO' }, { local: '大阪', en: 'OSAKA' }]
+  },
+  rows: [
+    { depart_time: '09:00', destination: { local: '東京', en: 'TOKYO' } },
+    { depart_time: '09:30', destination: { local: '大阪', en: 'OSAKA' } }
+  ],
+  ui: { mode: 'concourse', rows: 12 }
+};
+
+const instance = mountBoard(board, config);
+// instance.updateBoard(presets, rows) — refresh display
+// instance.destroyBoard() — teardown
+```
+
+The board renders into the given element. All visual configuration comes from the JSON — no URL params or JS-side chrome.
+
 ## File Structure
 
 ```text
@@ -17,9 +49,11 @@ FlapEmuは、駅や空港に設置されている反転フラップ式案内表�
 ├── index.html          # Portal page (demo selector)
 ├── board.html          # The main simulator view (The Board)
 ├── airport.html        # Airport-style board demo
-├── main.js             # Entry point (Fetch loop, Layout)
-├── airport.js          # Airport board entry point
+├── main.js             # Product shell for board.html (fetch, chrome, auto-refresh)
+├── airport.js          # Product shell for airport.html
+├── package.json        # npm package entry
 ├── js/                 # ES Modules
+│   ├── flapemu.js      # Public entry point (mountBoard)
 │   ├── board-pipeline.js # Generic data pipeline (domain-neutral)
 │   ├── train-pipeline.js # Train-domain adapter wrapper
 │   ├── config.js       # Board constants
@@ -39,65 +73,22 @@ FlapEmuは、駅や空港に設置されている反転フラップ式案内表�
 └── README.md           # User facing documentation
 ```
 
-## Features
+## Demo Boards
 
-*   **Realistic Flap Animation:** Smooth and authentic visual transitions for character and word changes.
-*   **Configurable:** Easily customize the appearance and behavior by URL parameters.
-*   **Dynamic Data Loading:** Automatically fetches/updates schedule and preset data.
-*   **Timetable Editor:** Allows you to create and edit JSON timetable files with ease.
-*   **PWA Support:** Installable on home screen for full-screen "kiosk" mode. Supports dynamic shortcuts that preserve specific board configurations.
+The hosted demo is a product shell (`main.js`, `airport.js`) that demonstrates how to use the library in production. Visit `index.html` to select a board.
 
-## Configuration
+Only one URL parameter is used by the demo shell:
+- **`?t=`** — Selects the JSON file from `timetable/`. Example: `board.html?t=shinagawa` loads `timetable/shinagawa.json`. Only `a-z`, `A-Z`, `0-9`, `_`, `-` are accepted.
 
-FlapEmu loads its timetable data from JSON data located in the `timetable/` directory.
+All other display parameters (`rows`, `mode`, `track`, `cascade`, etc.) are specified inside the JSON file under `ui`.
 
-### URL Parameters
+## Data Structure
 
-The behavior and appearance of FlapEmu can be customized using URL query parameters in `board.html`.
-
-*   **`t` (Timetable Source):** Specifies the JSON file to load from the `timetable/` directory.
-    *   Example: `board.html?t=shinagawa` (loads `timetable/shinagawa.json`)
-    *   Safety: only `a-z`, `A-Z`, `0-9`, `_`, `-` are accepted. Invalid values trigger the board error overlay.
-*   **`rows` (Row Count):** Sets the number of split-flap rows to display.
-    *   Example: `board.html?rows=6`
-    *   Range: `1..30` (clamped)
-*   **`track` (Track Filter):** Filters trains to show only specific track numbers. Accepts comma-separated values.
-    *   Example: `board.html?track=23` (show only track 23)
-    *   Example: `board.html?track=23,24` (show tracks 23 and 24)
-*   **`mode` (Display Mode):** Adjusts the display for different contexts.
-    *   `concourse` (Default, `rows=12`): Hides the "Train Stops" column.
-    *   `gate` (`rows=4`): Hides top bar and "Train Stops" column.
-    *   `platform` (`rows=3`): Hides the "Track No" column.
-*   **`profile` (Runtime Profile):** Applies a pre-tuned runtime profile before URL overrides.
-    *   `default` (fallback)
-    *   `kiosk` (faster refresh, moderate cascade)
-    *   `mobile` (more conservative for device load)
-    *   `debug` (fast loop for iteration)
-
-### Advanced Runtime Tuning Parameters
-These are optional and intended for performance tuning and experimentation.
-
-*   **`refresh`**: Auto-fetch interval in ms. Default `30000`, range `5000..300000`.
-*   **`cascade`**: Delay between row updates in ms. Default `1000`, range `0..5000`.
-*   **`fallback`**: Flap animation fallback timeout in ms. Default `1000`, range `200..5000`.
-*   **`layoutMul`**: Auto-layout character width multiplier. Default `32`, range `16..64`.
-*   **`layoutPad`**: Auto-layout width padding. Default `20`, range `0..120`.
-*   **`capPad`**: Number of blank cards added to word spool capacity. Default `15`, range `0..80`.
-*   **`capMin`**: Minimum word spool capacity. Default `40`, range `10..240`.
-*   **`capMax`**: Maximum word spool capacity. Default `80`, range `10..240`.
-
-Examples combining parameters:
-*   `board.html?t=shinagawa&rows=10`
-*   `board.html?t=shinagawa&rows=5&track=14,15&mode=gate`
-*   `board.html?t=shinagawa&mode=concourse&refresh=10000&cascade=200`
-
-### Data Structure
-
-The JSON timetable files follow a specific structure containing station metadata, presets, and a schedule. While you can edit these files manually, it is recommended to use the **Timetable Editor** for a more convenient experience.
+Timetable files use a v3 schema that fully defines the board:
 
 ```json
 {
-  "schema_version": 2,
+  "schema_version": 3,
   "meta": {
     "header": {
       "logo_url": "timetable/jt_orange.svg",
@@ -105,13 +96,22 @@ The JSON timetable files follow a specific structure containing station metadata
       "for": { "local": "新大阪・博多方面", "en": "for Shin-Osaka & Hakata" }
     }
   },
+  "ui": {
+    "mode": "concourse",
+    "rows": 12,
+    "cascadeMs": 1000,
+    "hiddenColumns": []
+  },
+  "columns": [
+    { "key": "time", "kind": "time", "cssClass": "col-time", "header": { "local": "時刻", "en": "Time" } },
+    { "key": "destination", "kind": "word", "cssClass": "col-dest", "presetKey": "dests", "sourceField": "destination", "header": { "local": "行先", "en": "Destination" }, "widthVar": "--col-dest-width" }
+  ],
   "presets": {
     "types": [{ "local": "のぞみ", "en": "NOZOMI", "color": "#f39c12" }],
-    "dests": [{ "local": "東京", "en": "TOKYO" },...],
-    "remarks": [{ "local": "全車指定席", "en": "All Reserved" },...],
-    "stops": [{ "local": "各駅停車", "en": "Stops at All Stations" },...]
+    "dests": [{ "local": "東京", "en": "TOKYO" }, { "local": "大阪", "en": "OSAKA" }],
+    "remarks": [{ "local": "全車指定席", "en": "All Reserved" }]
   },
-  "schedule": [
+  "rows": [
     {
       "track_no": "14",
       "type": { "local": "のぞみ", "en": "NOZOMI" },
@@ -122,48 +122,61 @@ The JSON timetable files follow a specific structure containing station metadata
       "destination": { "local": "広島", "en": "Hiroshima" },
       "remarks": { "local": "自由席 1-3号車", "en": "Non-ReservedCarNo.1-3" },
       "stops_at": { "local": "新横浜・名古屋・京都・新大阪・岡山", "en": "Shin-Yokohama, Nagoya, Kyoto, Shin-Osaka, Okayama" }
-    },
+    }
   ]
 }
 ```
-*   **Key Note:** `color` applies to the card background. `textColor` applies to the font (default white).
-*   **Schema note:** `schema_version` is written by the editor and used for compatibility tracking.
+
+- `meta` is read by the product shell (demo pages) for the top bar — the board library ignores it.
+- `ui` controls display parameters: mode, row count, cascade delay, hidden columns.
+- `columns` defines each column's kind (`word`, `time`, `chars`), presets, and layout.
+- `presets` provides the word pool for `word`-kind columns.
+- `rows` is the schedule data — the board selects a time-appropriate window.
 
 ### Data Compatibility / Normalization
-The board accepts legacy/variant timetable formats and normalizes them to the canonical shape.
 
-*   Array root (`[...]`) is accepted as legacy schedule-only data.
-*   Alias field mapping in `schedule`:
-    *   `track` -> `track_no`
-    *   `no` -> `train_no`
-    *   `time` -> `depart_time`
-    *   `dest` / `to` -> `destination`
-    *   `remark` / `note` -> `remarks`
-    *   `stop` / `stops` -> `stops_at`
-    *   `train_type` / `kind` -> `type`
-    *   `type_color` -> `type_color_hex`
-    *   `type_text_color_hex` -> `type_text_color`
-*   String bilingual fields are accepted and converted to `{ local, en }`.
+The board accepts legacy v1/v2 timetable formats and normalizes them to v3.
+
+- Array root (`[...]`) is accepted as legacy schedule-only data (upgraded to v3).
+- `schedule` is accepted as an alias for `rows`.
+- Alias field mapping in rows:
+  - `track` → `track_no`
+  - `no` → `train_no`
+  - `time` → `depart_time`
+  - `dest` / `to` → `destination`
+  - `remark` / `note` → `remarks`
+  - `stop` / `stops` → `stops_at`
+  - `train_type` / `kind` → `type`
+  - `type_color` → `type_color_hex`
+  - `type_text_color_hex` → `type_text_color`
+- String bilingual fields are converted to `{ local, en }`.
+
+## Features
+
+* **Realistic Flap Animation:** Smooth and authentic visual transitions for character and word changes.
+* **JSON-Driven:** A single JSON file fully defines the board — columns, presets, rows, and UI settings.
+* **Dynamic Data Loading:** Automatically fetches/updates schedule data with configurable refresh interval.
+* **PWA Support:** Installable on home screen for full-screen "kiosk" mode.
 
 ## PWA & Home Screen Installation
 
 FlapEmu supports **Progressive Web App (PWA)** features, allowing you to use it as a standalone application without the browser address bar.
 
-*   **iOS/Safari**: Tap the **Share** button → **"Add to Home Screen"**.
-*   **Android/Chrome**: Tap the **Menu (⋮)** → **"Install App"**.
+* **iOS/Safari**: Tap the **Share** button → **"Add to Home Screen"**.
+* **Android/Chrome**: Tap the **Menu (⋮)** → **"Install App"**.
 
 ### Dynamic Board Shortcuts
-Unlike basic PWAs, FlapEmu uses a **Dynamic Manifest Strategy**. This means if you are viewing a specific board (e.g., `board.html?t=kumamoto&rows=3`), choosing "Add to Home Screen" will create a shortcut for **that specific station and configuration**. You can have multiple boards pinned to your home screen simultaneously.
+
+FlapEmu uses a **Dynamic Manifest Strategy**. If you are viewing a specific board (e.g., `board.html?t=kumamoto`), choosing "Add to Home Screen" will create a shortcut for **that specific station and configuration**.
 
 ## Development
 
 Using `file:///` to open the files will not work because CORS policy. Use the provided Python development server which strictly disables browser caching via HTTP headers.
 
-*   **Run Server**: `python3 serve.py`
-*   **Port**: `8086`
-*   **URL**: `http://localhost:8086/board.html?t=shinagawa`
-*   **Mechanism**: Sends `Cache-Control: no-cache, no-store, must-revalidate` headers for all files.
-*   `?preview=1`: **Preview Mode** - Loads timetable data from `sessionStorage` instead of fetching JSON. Used by the Timetable Editor's "Preview Board" feature.
+* **Run Server**: `python3 serve.py`
+* **Port**: `8086`
+* **URL**: `http://localhost:8086/board.html?t=shinagawa`
+* **Mechanism**: Sends `Cache-Control: no-cache, no-store, must-revalidate` headers for all files.
 
 ## Deployment & Production
 

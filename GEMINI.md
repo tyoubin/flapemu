@@ -11,107 +11,111 @@ Preserve skeuomorphic quality and mechanical behavior when making changes.
 ## Core Principles
 
 1. Keep the mechanical illusion intact (spool traversal, card thickness pulse, bezel shadow, lighting).
-2. Keep architecture data-driven and centralized (schema/config/pipeline/normalize modules).
+2. Keep architecture data-driven and centralized (normalize/pipeline/library modules).
 3. Do not introduce frameworks or toolchains unless explicitly requested.
 4. Prefer small, local changes; preserve existing visual behavior unless requested.
 
 ---
 
-## Architecture Map (Single Sources of Truth)
+## Architecture Map (Layered)
 
-### 1. Board Schema (`js/board-schema.js`)
-Defines:
-* Display mode profiles (`concourse`, `gate`, `platform`):
-  * `defaultRows`
-  * `showTopBar`
-  * `hiddenColumns`
-* `COLUMN_SCHEMA` for all board columns:
-  * labels
-  * source fields
-  * column type (`chars`, `time`, `word`)
-  * `colorFields` on word columns — generic `{ background, text }` field references replace `keepTypeColors`
+### Module Dependency Order
+```
+config.js (constants) → data-normalize.js → board-pipeline.js → train-pipeline.js → flapemu.js (public entry)
+                                                                       RowGroup.js → FlapUnit.js
+                                                                    record-transform.js
+                                                                         data-logic.js
+                                                                    utils.js
+```
 
-If a column or mode behavior changes, update this file first.
+### 1. Public Entry (`js/flapemu.js`)
+Single export: `mountBoard(el, config)`. The board library entry point.
+- Accepts a normalized v3 config object `{ columns, presets, rows, ui }`
+- Creates DOM (header row, rows container) inside `el`
+- Calculates dynamic column widths
+- Instantiates `RowGroup` instances
+- Runs cascade animation on initial display
+- Returns `{ updateBoard(presets, rows), destroyBoard() }`
 
-### 2. Runtime Config (`js/config.js`)
-Defines:
-* URL parsing/sanitization (`t`, `mode`, `rows`, `track`, `profile`)
-* Runtime profile presets (`default`, `kiosk`, `mobile`, `debug`)
-* Clamped runtime tuning parameters:
-  * `refresh`, `cascade`, `fallback`
-  * `layoutMul`, `layoutPad`
-  * `capPad`, `capMin`, `capMax`
+The library owns zero chrome — no top bar, no meta, no URL parsing.
 
-Do not hardcode timing/capacity/layout constants in feature code.
+### 2. Product Shells (`main.js`, `airport.js`)
+Thin consumers of the library:
+- Fetch JSON from a URL or hardcoded path
+- Normalize via pipeline (`prepareTrainBoardData` or `prepareBoardData`)
+- Call `mountBoard()` on first load, `instance.updateBoard()` on refresh
+- Render top-bar from `json.meta.header` (product shell concern)
+- Handle auto-refresh, visibility, error overlays
 
-### 3. Board Data Pipeline (`js/board-pipeline.js`)
-Defines generic (domain-neutral) data flow helpers:
-* normalize + prepare (`prepareBoardData(raw)`)
-* display window selection (`selectDisplayRows(data, n, timeField, now)`)
-* field sort (`sortByField(data, field)`)
-* field word extraction (`extractFieldWords(data, field)`)
+Only `?t=` is parsed by the demo shell for JSON selection. All other display parameters come from JSON `ui`.
 
-No train-specific field names are hardcoded here. Domain adapters (`js/train-pipeline.js`) supply field names and compose operations.
+### 3. Domain Pipeline (`js/board-pipeline.js`)
+Generic (domain-neutral) data flow helpers:
+- `prepareBoardData(raw)` — normalize + return `{ presets, rows, columns, ui }`
+- `selectDisplayRows(data, n, timeField, now)` — time-window selection
+- `sortByField(data, field)` — field sort
+- `extractFieldWords(data, field)` — word extraction
 
-### 3b. Train Pipeline Adapter (`js/train-pipeline.js`)
-Train-domain wrapper over the generic pipeline:
-* `applyTrackFilter(data, tracks)` — filters by `track_no`
-* `sortScheduleByDepartTime(data)` — sorts by `depart_time`
-* `selectDisplayTrains(data, n, now)` — wraps `selectDisplayRows` with `timeField='depart_time'`
-* `prepareTrainBoardData(raw, filterTracks)` — normalize + filter + sort in one call
+No train/airport-specific field names hardcoded here.
 
-Add new adapters (e.g. airport, bus) without touching core flap code.
-
-### 4. Record Transforms (`js/record-transform.js`)
-Defines schema-driven record transforms used by `RowGroup`:
-* word actuals extraction (`buildActualWordMap`)
-* per-column target payload mapping (`getColumnTarget`)
-
-Keep `RowGroup` focused on rendering/updating controls, not field mapping logic.
+### 4. Train Pipeline Adapter (`js/train-pipeline.js`)
+Train-domain wrapper:
+- `applyTrackFilter(data, tracks)` — filter by `track_no`
+- `sortScheduleByDepartTime(data)` — sort by `depart_time`
+- `selectDisplayTrains(data, n, now)` — wraps `selectDisplayRows` with `timeField='depart_time'`
+- `prepareTrainBoardData(raw, filterTracks)` — normalize + filter + sort in one call
 
 ### 5. Data Normalization (`js/data-normalize.js`)
-Defines canonical schema and compatibility behavior:
-* `CURRENT_SCHEMA_VERSION = 2`
-* `createEmptyTimetable()`
-* `normalizeTimetable(raw)`
+Canonical schema and backward compatibility:
+- `BOARD_CONFIG_VERSION = 3`
+- `normalizeBoardConfig(raw)` — accepts v1/v2/v3, outputs v3
+- `createEmptyBoardConfig()` — returns minimal v3 config
+- `TRAIN_COLUMN_DEFAULTS` — default columns for v2 upgrade path
 
-Board (`main.js`) relies on normalization.
-If new schema fields are added, update this module first.
+### 6. Record Transforms (`js/record-transform.js`)
+Schema-driven transforms used by `RowGroup`:
+- `buildActualWordMap(columns, rows)` — word actuals extraction
+- `getColumnTarget(column, record)` — per-column target payload mapping
 
-### 6. Physical Spool Logic (`js/data-logic.js`, `js/FlapUnit.js`)
-* Word flaps must traverse physical list index-by-index (`pointer -> targetPointer`), not jump.
-* `animationend` drives step chaining.
-* Fallback timeout is configurable via `FLAP_ANIMATION_FALLBACK_MS`.
-* Word flap target lookup uses cached local->index mapping; update map whenever list mutates.
+### 7. Physical Spool Logic (`js/data-logic.js`, `js/FlapUnit.js`)
+- Word flaps traverse physical list index-by-index (`pointer → targetPointer`), not jump.
+- `animationend` drives step chaining.
+- Fallback timeout is configurable via `FLAP_ANIMATION_FALLBACK_MS`.
+- Word flap target lookup uses cached local→index mapping; update map whenever list mutates.
+
+### 8. Runtime Config (`js/config.js`)
+Hardcoded constants only — no URL parsing, no runtime profiles:
+- `BLANK_DATA`, `FLAP_ANIMATION_FALLBACK_MS`, `LAYOUT_WIDTH_MULTIPLIER`, `LAYOUT_WIDTH_PADDING`, `WORD_CAPACITY_CONFIG`
 
 ---
 
 ## Runtime Flow
 
-1. `main.js` reads config from `js/config.js`.
-2. Header row is generated from visible columns in schema (`renderHeaderRow()`).
-3. Timetable JSON is fetched (or preview data loaded), then prepared via pipeline.
-4. `RowGroup` instances are created from visible schema columns.
-5. Updates run sequentially with configurable cascade delay (`CASCADE_DELAY_MS`).
-6. Auto-refresh runs with overlap protection and pauses when tab is hidden.
+1. Product shell (`main.js`) reads `?t=` to select JSON source, fetches it.
+2. Pipeline normalizes JSON → `{ presets, rows, columns, ui }`.
+3. First call: `mountBoard(el, config)` → creates DOM, RowGroups, cascades display.
+4. Subsequent calls (auto-refresh): `instance.updateBoard(presets, rows)` → updates physical lists, re-selects display window, cascades.
+5. Auto-refresh runs with overlap protection and pauses when tab is hidden.
 
 ---
 
 ## Data Compatibility Contract
 
-Canonical export format is object-based with `schema_version`.
+Canonical format is v3 object with `schema_version: 3`.
 Normalization also accepts:
-* root array schedule format (legacy)
-* alias fields in schedule entries:
-  * `track` -> `track_no`
-  * `no` -> `train_no`
-  * `time` -> `depart_time`
-  * `dest` / `to` -> `destination`
-  * `remark` / `note` -> `remarks`
-  * `stop` / `stops` -> `stops_at`
-  * `train_type` / `kind` -> `type`
-  * `type_color` -> `type_color_hex`
-  * `type_text_color_hex` -> `type_text_color`
+- Array root (legacy schedule-only format)
+- `schedule` as alias for `rows`
+- Alias fields in rows:
+  - `track` → `track_no`
+  - `no` → `train_no`
+  - `time` → `depart_time`
+  - `dest` / `to` → `destination`
+  - `remark` / `note` → `remarks`
+  - `stop` / `stops` → `stops_at`
+  - `train_type` / `kind` → `type`
+  - `type_color` → `type_color_hex`
+  - `type_text_color_hex` → `type_text_color`
+- String bilingual fields converted to `{ local, en }`
 
 When adding new aliases or schema versions, keep normalization backward-compatible.
 
@@ -132,8 +136,7 @@ When adding new aliases or schema versions, keep normalization backward-compatib
 ## PWA / Cache Constraints
 
 * `js/pwa.js`: dynamic manifest uses current URL for installable deep-link behavior.
-* `sw.js`: timetable JSON must remain network-only (to preserve stale-data error realism).
-* `sw.js` uses scope-aware precache URLs and cache cleanup on `activate`.
+* `sw.js`: timetable JSON must remain network-only.
 * If app shell files change, bump service worker cache name and include new shell assets.
 
 ---
@@ -141,30 +144,18 @@ When adding new aliases or schema versions, keep normalization backward-compatib
 ## Editing Rules for Future AI Agents
 
 1. For column or mode changes:
-   1. Update `js/board-schema.js`.
+   1. Update `js/data-normalize.js` (defaults) and `js/train-pipeline.js` (if train-specific).
    2. Ensure `style.css` has compatible `col-*` layout rules.
    3. Ensure `RowGroup` and header rendering still align.
 2. For timing/layout/capacity changes:
    1. Update `js/config.js`.
-   2. Respect runtime profile defaults before URL overrides.
-   3. Consume values from config, do not duplicate magic numbers.
+   2. Consume values from config, do not duplicate magic numbers.
 3. For timetable format changes:
    1. Update `js/data-normalize.js`.
    2. Validate board-config tests still pass.
 4. For schedule selection/filtering behavior, update `js/board-pipeline.js` first, or `js/train-pipeline.js` if train-specific.
 5. Do not rebuild board rows each update cycle; only update flap targets and physical lists.
-
----
-
-## Current Performance Notes
-
-* `rows` is clamped to `1..30`.
-* Mode defaults:
-  * `concourse`: 12
-  * `gate`: 4
-  * `platform`: 3
-* Very high `rows`, very large spool capacities, or very small refresh intervals can degrade mobile performance.
-* `profile=mobile` is the safer baseline for lower-end devices.
+6. The library (`js/flapemu.js`) must stay product-shell agnostic — no chrome, no URL parsing, no meta rendering.
 
 ---
 
@@ -174,8 +165,8 @@ When adding new aliases or schema versions, keep normalization backward-compatib
 2. `board.html?t=kumamoto`
 3. `board.html?t=sendai`
 4. `board.html?t=demo`
-5. `airport.html?t=narita`
-6. `board.html?t=foobar` (error overlay behavior)
+5. `airport.html`
+6. `board.html?t=__nonexistent__` (error overlay behavior)
 7. `node tests/board-config.test.mjs && node tests/train-pipeline.test.mjs && node tests/step1-rename.test.mjs`
 
 ---

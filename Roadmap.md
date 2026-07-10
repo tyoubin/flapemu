@@ -193,7 +193,7 @@ V3 is live. After Step 3, `meta` and `showTopBar` move to the page shell:
 | Public API | `mountBoard(el, options)`, `updateBoard(presets, rows)`, `destroyBoard()` | ✅ |
 | Package layout | `package.json`, flat `js/` layout, zero-build | ✅ |
 | Export surface | `js/flapemu.js` exports `mountBoard` only; product shell code stays in `main.js`/`airport.js` | ✅ |
-| Docs | README section: install, minimal JSON, presets, custom columns | ⬜ |
+| Docs | README section: install, minimal JSON, presets, custom columns | ✅ |
 
 **Done when:**
 
@@ -238,7 +238,7 @@ Regression checklist (always):
 | Step 1 — Decouple & generic components | **Complete** |
 | Step 2 — Single JSON config | **Complete** |
 | Step 3 — Board owns only the board | **Complete** |
-| Step 4 — Library surface | In progress |
+| Step 4 — Library surface | **Complete** |
 | Step 5 — Product polish | Not started |
 
 ---
