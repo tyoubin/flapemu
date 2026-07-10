@@ -66,11 +66,9 @@ Train-domain wrapper:
 - `prepareTrainBoardData(raw, filterTracks)` — normalize + filter + sort in one call
 
 ### 5. Data Normalization (`js/data-normalize.js`)
-Canonical schema and backward compatibility:
+Canonical schema:
 - `BOARD_CONFIG_VERSION = 3`
-- `normalizeBoardConfig(raw)` — accepts v1/v2/v3, outputs v3
-- `createEmptyBoardConfig()` — returns minimal v3 config
-- `TRAIN_COLUMN_DEFAULTS` — default columns for v2 upgrade path
+- `normalizeBoardConfig(raw)` — v3-only passthrough; returns `{ schema_version, columns, presets, rows, ui }`
 
 ### 6. Record Transforms (`js/record-transform.js`)
 Schema-driven transforms used by `RowGroup`:

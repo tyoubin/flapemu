@@ -35,11 +35,11 @@
         "en": "Track"
       },
       "kind": "chars",
-      "field": "track_no",
       "padEnd": 3,
       "unitCount": 3,
       "charset": " 0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ",
-      "unitCapacity": 15
+      "unitCapacity": 15,
+      "sourceField": "track_no"
     },
     {
       "key": "type",
@@ -49,14 +49,14 @@
         "en": "Type"
       },
       "kind": "word",
-      "field": "type",
-      "preset": "types",
       "colorFields": {
         "background": "type_color_hex",
         "text": "type_text_color"
       },
       "widthVar": "--col-type-width",
-      "minChars": 4
+      "minChars": 4,
+      "sourceField": "type",
+      "presetKey": "types"
     },
     {
       "key": "no",
@@ -66,11 +66,11 @@
         "en": "Train No."
       },
       "kind": "chars",
-      "field": "train_no",
       "padEnd": 5,
       "unitCount": 5,
       "charset": " 0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ",
-      "unitCapacity": 50
+      "unitCapacity": 50,
+      "sourceField": "train_no"
     },
     {
       "key": "time",
@@ -80,8 +80,8 @@
         "en": "Time"
       },
       "kind": "time",
-      "field": "depart_time",
-      "unitCapacity": 20
+      "unitCapacity": 20,
+      "sourceField": "depart_time"
     },
     {
       "key": "dest",
@@ -91,10 +91,10 @@
         "en": "Dest."
       },
       "kind": "word",
-      "field": "destination",
-      "preset": "dests",
       "widthVar": "--col-dest-width",
-      "minChars": 5
+      "minChars": 5,
+      "sourceField": "destination",
+      "presetKey": "dests"
     },
     {
       "key": "remarks",
@@ -104,10 +104,10 @@
         "en": "Remarks"
       },
       "kind": "word",
-      "field": "remarks",
-      "preset": "remarks",
       "widthVar": "--col-rem-width",
-      "minChars": 6
+      "minChars": 6,
+      "sourceField": "remarks",
+      "presetKey": "remarks"
     },
     {
       "key": "stop",
@@ -117,10 +117,10 @@
         "en": "Train Stops"
       },
       "kind": "word",
-      "field": "stops_at",
-      "preset": "stops",
       "widthVar": "--col-stop-width",
-      "minChars": 4
+      "minChars": 4,
+      "sourceField": "stops_at",
+      "presetKey": "stops"
     }
   ],
   "presets": {

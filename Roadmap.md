@@ -148,7 +148,7 @@ V3 is live. After Step 3, `meta` and `showTopBar` move to the page shell:
 | Task | Detail | Status |
 |------|--------|--------|
 | Define `schema_version: 3` (or next) | Formal board config schema + `normalizeBoardConfig` loader | ✅ |
-| Loader | `normalizeBoardConfig(raw)` accepts v3 and maps legacy timetable v2/v1 → v3 | ✅ |
+| Loader | `normalizeBoardConfig(raw)` accepts v3 config and returns it cleanly | ✅ |
 | Move columns into JSON | `TRAIN_COLUMN_DEFAULTS` in `data-normalize.js`; train demos ship as full board JSON | ✅ |
 | UI from config | `rows`, `showTopBar`, `mode` from JSON; URL params remain overrides | ✅ |
 | Window strategies | Config-driven: `nextByTime`, time field, filter fields | ✅ |
@@ -205,7 +205,6 @@ V3 is live. After Step 3, `meta` and `showTopBar` move to the page shell:
 - Board templates gallery (station, airport, bus, scoreboard)
 - Theme tokens (bezel, flap speed, fonts) in JSON
 - Stronger tests around transforms, window strategies
-- Remove legacy `normalizeTimetable` v1/v2 upgrade paths (keep only `normalizeBoardConfig` v3)
 
 ---
 

@@ -68,10 +68,11 @@ function test_extractScheduleWords_extractsByField() {
 
 function test_prepareTrainBoardData_appliesFilterAndSort() {
 	const raw = {
-		schema_version: 2,
+		schema_version: 3,
 		meta: { header: { logo_url: 'logo.svg', line_name: { local: 'Test', en: 'Test' }, for: { local: 'A', en: 'A' } } },
+		columns: [],
 		presets: { types: [] },
-		schedule: [
+		rows: [
 			{ track_no: '2', depart_time: '11:00', type: { local: '快速', en: 'Rapid' } },
 			{ track_no: '1', depart_time: '09:00', type: { local: '各停', en: 'Local' } },
 			{ track_no: '1', depart_time: '10:00', type: { local: '急行', en: 'Express' } },
