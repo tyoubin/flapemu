@@ -14,15 +14,15 @@ FlapEmuは、駅や空港に設置されている反転フラップ式案内表�
 
 ```text
 /
-├── index.html          # Portal page (Station selector)
+├── index.html          # Portal page (demo selector)
 ├── board.html          # The main simulator view (The Board)
-├── editor.html         # Timetable Editor interface
+├── airport.html        # Airport-style board demo
 ├── main.js             # Entry point (Fetch loop, Layout)
+├── airport.js          # Airport board entry point
 ├── js/                 # ES Modules
-│   ├── board-schema.js # Column schema + display mode profiles
 │   ├── board-pipeline.js # Generic data pipeline (domain-neutral)
 │   ├── train-pipeline.js # Train-domain adapter wrapper
-│   ├── config.js       # URL parsing + runtime tuning constants
+│   ├── config.js       # Board constants
 │   ├── data-logic.js   # Physical list logic
 │   ├── data-normalize.js # Schema compatibility + normalization
 │   ├── FlapUnit.js     # Flap animation classes
@@ -31,8 +31,6 @@ FlapEmuは、駅や空港に設置されている反転フラップ式案内表�
 │   ├── utils.js        # Helper functions
 │   └── pwa.js          # PWA & Dynamic Manifest logic
 ├── style.css           # Global styles
-├── editor.css          # Editor-specific styles
-├── editor.js           # Editor logic (CRUD, Import/Export)
 ├── tests/              # Node-based compatibility tests
 ├── timetable/          # JSON Data directory
 ├── sw.js               # Service Worker
@@ -146,16 +144,6 @@ The board accepts legacy/variant timetable formats and normalizes them to the ca
     *   `type_color` -> `type_color_hex`
     *   `type_text_color_hex` -> `type_text_color`
 *   String bilingual fields are accepted and converted to `{ local, en }`.
-
-## Timetable Editor
-
-The editor (`editor.html`) provides a visual interface for creating/editing JSON timetables:
-
-*   **Features**: Meta editing, preset management (types/dests/remarks/stops), schedule table with inline editing, color pickers, JSON import/export.
-*   **Autosave**: Drafts saved to `localStorage` automatically.
-*   **Preview**: Opens `board.html?preview=1` which reads data from `sessionStorage`.
-*   **Export**: Downloads a `.json` file ready to place in `timetable/` directory.
-*   **Schema-aware import/export**: Imported files are normalized, and exports include `schema_version`.
 
 ## PWA & Home Screen Installation
 

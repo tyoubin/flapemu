@@ -75,7 +75,7 @@ Defines canonical schema and compatibility behavior:
 * `createEmptyTimetable()`
 * `normalizeTimetable(raw)`
 
-Board (`main.js`) and editor (`editor.js`) both rely on normalization.
+Board (`main.js`) relies on normalization.
 If new schema fields are added, update this module first.
 
 ### 6. Physical Spool Logic (`js/data-logic.js`, `js/FlapUnit.js`)
@@ -150,7 +150,7 @@ When adding new aliases or schema versions, keep normalization backward-compatib
    3. Consume values from config, do not duplicate magic numbers.
 3. For timetable format changes:
    1. Update `js/data-normalize.js`.
-   2. Validate editor import/export still works.
+   2. Validate board-config tests still pass.
 4. For schedule selection/filtering behavior, update `js/board-pipeline.js` first, or `js/train-pipeline.js` if train-specific.
 5. Do not rebuild board rows each update cycle; only update flap targets and physical lists.
 
@@ -170,14 +170,13 @@ When adding new aliases or schema versions, keep normalization backward-compatib
 
 ## Quick Regression Checklist
 
-1. `board.html?t=shinagawa&mode=concourse`
-2. `board.html?t=kumamoto&mode=gate`
-3. `board.html?t=sendai&mode=platform`
-4. `board.html?t=shinagawa&refresh=10000&cascade=200`
-5. `board.html?t=shinagawa&profile=mobile`
+1. `board.html?t=shinagawa`
+2. `board.html?t=kumamoto`
+3. `board.html?t=sendai`
+4. `board.html?t=demo`
+5. `airport.html?t=narita`
 6. `board.html?t=foobar` (error overlay behavior)
-7. `editor.html`: import legacy JSON, preview, export (check `schema_version`)
-8. `node tests/data-normalize.test.mjs`
+7. `node tests/board-config.test.mjs && node tests/train-pipeline.test.mjs && node tests/step1-rename.test.mjs`
 
 ---
 
