@@ -68,7 +68,8 @@
       },
       "kind": "time",
       "unitCapacity": 20,
-      "sourceField": "depart_time"
+      "sourceField": "depart_time",
+      "timeSeparator": "."
     },
     {
       "key": "dest",

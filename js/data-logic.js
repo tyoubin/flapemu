@@ -1,13 +1,14 @@
-import { BLANK_DATA } from './config.js';
+import { makeBlankData, DEFAULT_BLANK_COLOR, DEFAULT_BLANK_TEXT_COLOR } from './config.js';
 
 /**
  * Create Physical List
  * Merges Presets + Actual Schedule Items + Blanks
  * Ensures uniqueness and maintains order (Presets first, then new schedule items)
  */
-export function createPhysicalList(presetList, actualList, capacity) {
-	const seenLocals = new Set([BLANK_DATA.local]); // Index 0 is always blank
-	let list = [{ ...BLANK_DATA }];
+export function createPhysicalList(presetList, actualList, capacity, blankData) {
+	const BLANK = blankData || makeBlankData(DEFAULT_BLANK_COLOR, DEFAULT_BLANK_TEXT_COLOR);
+	const seenLocals = new Set([BLANK.local]); // Index 0 is always blank
+	let list = [{ ...BLANK }];
 
 	// Helper to process and append items
 	const processItems = (sourceArray) => {
@@ -32,9 +33,9 @@ export function createPhysicalList(presetList, actualList, capacity) {
 	// 2. Load Actuals
 	processItems(actualList);
 
-	// 3. Fill remaining capacity with BLANK cards
+	// 3. Fill remaining capacity with blank cards
 	while (list.length < capacity) {
-		list.push({ ...BLANK_DATA });
+		list.push({ ...BLANK });
 	}
 
 	return list.slice(0, capacity);
@@ -44,12 +45,13 @@ export function createPhysicalList(presetList, actualList, capacity) {
  * Merge Into Physical List
  * Updates an existing list with new items, using available blank slots
  */
-export function mergeIntoPhysicalList(currentList, presetList, actualList, capacity) {
+export function mergeIntoPhysicalList(currentList, presetList, actualList, capacity, blankData) {
+	const BLANK = blankData || makeBlankData(DEFAULT_BLANK_COLOR, DEFAULT_BLANK_TEXT_COLOR);
 	const existingLocals = new Set(currentList.map(i => i.local));
 
 	const tryAddItem = (item) => {
 		if (item && item.local && item.local.trim() !== "" && !existingLocals.has(item.local)) {
-			let slotIndex = currentList.findIndex(i => i.local === BLANK_DATA.local);
+			let slotIndex = currentList.findIndex(i => i.local === BLANK.local);
 
 			if (slotIndex !== -1 && slotIndex !== 0) {
 				currentList[slotIndex] = {
@@ -75,6 +77,6 @@ export function mergeIntoPhysicalList(currentList, presetList, actualList, capac
 	if (actualList) actualList.forEach(tryAddItem);
 
 	while (currentList.length < capacity) {
-		currentList.push({ ...BLANK_DATA });
+		currentList.push({ ...BLANK });
 	}
 }

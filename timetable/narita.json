@@ -6,6 +6,8 @@
     "refreshMs": 30000,
     "mode": "departures",
     "hiddenColumns": [],
+    "colGap": "14px",
+    "flapAnimationMs": 180,
     "window": {
       "strategy": "nextByTime",
       "timeField": "depart_time"
@@ -24,7 +26,8 @@
       "unitCount": 6,
       "charset": " 0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ",
       "unitCapacity": 50,
-      "sourceField": "flight_no"
+      "sourceField": "flight_no",
+      "inlineStyle": "flex: 0 0 auto; width: calc((var(--char-width) + 2px) * 8 - 2px);"
     },
     {
       "key": "dest",

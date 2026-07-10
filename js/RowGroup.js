@@ -1,11 +1,10 @@
-import { BLANK_DATA } from './config.js';
 import { getNumericCharset } from './board-schema.js';
 import { buildActualWordMap, getColumnTarget } from './record-transform.js';
 import { getCap } from './utils.js';
 import { CharFlap, WordFlap } from './FlapUnit.js';
 
 export class RowGroup {
-	constructor(container, presets, scheduleData, columns = []) {
+	constructor(container, presets, scheduleData, columns = [], blankData) {
 		this.groupEl = document.createElement('div');
 		this.groupEl.className = 'row-group train-group';
 		container.appendChild(this.groupEl);
@@ -16,6 +15,7 @@ export class RowGroup {
 
 		this.columns = columns;
 		this.controllers = {};
+		this.blankData = blankData;
 
 		const safePresets = presets || {};
 		const actualByField = buildActualWordMap(this.columns, scheduleData);
@@ -38,10 +38,11 @@ export class RowGroup {
 		if (column.kind === 'time') {
 			const units = [];
 			const nums = getNumericCharset();
+			const sep = column.timeSeparator || ":";
 			units.push(new CharFlap(parent, nums, column.unitCapacity));
 			units.push(new CharFlap(parent, nums, column.unitCapacity));
-			const separator = new CharFlap(parent, ":", 1);
-			separator.setTarget(":");
+			const separator = new CharFlap(parent, sep, 1);
+			separator.setTarget(sep);
 			units.push(separator);
 			units.push(new CharFlap(parent, nums, column.unitCapacity));
 			units.push(new CharFlap(parent, nums, column.unitCapacity));
@@ -53,7 +54,7 @@ export class RowGroup {
 			const actualList = actualByField[column.sourceField] || [];
 			return {
 				kind: 'word',
-				unit: new WordFlap(parent, presetList, actualList, getCap(presetList, actualList))
+				unit: new WordFlap(parent, presetList, actualList, getCap(presetList, actualList), this.blankData)
 			};
 		}
 
@@ -94,7 +95,7 @@ export class RowGroup {
 
 	updateWord(controller, dataObj) {
 		if (!controller) return;
-		const target = dataObj || BLANK_DATA;
+		const target = dataObj || this.blankData;
 		controller.unit.setTarget(target);
 	}
 

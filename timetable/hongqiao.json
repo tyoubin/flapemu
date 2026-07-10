@@ -4,7 +4,9 @@
     "mode": "concourse",
     "rows": 5,
     "cascadeMs": 1000,
-    "hiddenColumns": []
+    "hiddenColumns": [],
+    "colGap": "6px",
+    "flapAnimationMs": 120
   },
   "columns": [
     {

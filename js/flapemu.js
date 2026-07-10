@@ -1,10 +1,11 @@
 import { selectDisplayRows } from './board-pipeline.js';
 import { extractScheduleWords } from './train-pipeline.js';
 import { sleep, calculateVisualLength } from './utils.js';
-import { LAYOUT_WIDTH_MULTIPLIER, LAYOUT_WIDTH_PADDING } from './config.js';
+import { LAYOUT_WIDTH_MULTIPLIER, LAYOUT_WIDTH_PADDING, makeBlankData } from './config.js';
 import { RowGroup } from './RowGroup.js';
 
 function columnLayoutStyle(col) {
+	if (col.inlineStyle) return col.inlineStyle;
 	if (col.kind === 'time') {
 		return 'flex: 0 0 auto; width: calc((var(--char-width) + 2px) * 5 - 2px); justify-content: center;';
 	}
@@ -23,30 +24,46 @@ export function mountBoard(el, config) {
 	const visibleColumns = columns.filter(col => !hiddenColumns.has(col.key));
 	const rowCount = ui.rows || 12;
 
+	const blankData = makeBlankData(ui.blankColor, ui.blankTextColor);
+
 	visibleColumns.forEach(col => {
 		col.cssClass = col.cssClass || `col-${col.key}`;
-		col.inlineStyle = columnLayoutStyle(col);
+		if (!col.inlineStyle) {
+			col.inlineStyle = columnLayoutStyle(col);
+		}
 	});
 
 	el.classList.add(`mode-${displayMode}`);
 	el.innerHTML = '';
 
-	const headerRow = document.createElement('div');
-	headerRow.className = 'header-row';
-	el.appendChild(headerRow);
+	if (ui.flapAnimationMs) {
+		el.style.setProperty('--flap-speed', `${ui.flapAnimationMs / 1000}s`);
+	}
+	if (ui.colGap) {
+		el.style.setProperty('--col-gap', ui.colGap);
+	}
+	if (ui.rowGap) {
+		el.style.setProperty('--row-gap', ui.rowGap);
+	}
 
-	visibleColumns.forEach((column) => {
-		const item = document.createElement('div');
-		item.className = `${column.cssClass} header-item`;
-		item.style.cssText = column.inlineStyle;
-		const local = document.createElement('span');
-		local.textContent = column.header.local;
-		const en = document.createElement('span');
-		en.textContent = column.header.en;
-		item.appendChild(local);
-		item.appendChild(en);
-		headerRow.appendChild(item);
-	});
+	if (ui.showHeader !== false) {
+		const headerRow = document.createElement('div');
+		headerRow.className = 'header-row';
+		el.appendChild(headerRow);
+
+		visibleColumns.forEach((column) => {
+			const item = document.createElement('div');
+			item.className = `${column.cssClass} header-item`;
+			item.style.cssText = column.inlineStyle;
+			const local = document.createElement('span');
+			local.textContent = column.header.local;
+			const en = document.createElement('span');
+			en.textContent = column.header.en;
+			item.appendChild(local);
+			item.appendChild(en);
+			headerRow.appendChild(item);
+		});
+	}
 
 	const rowsContainer = document.createElement('div');
 	rowsContainer.id = 'board-rows';
@@ -69,7 +86,7 @@ export function mountBoard(el, config) {
 
 	const groups = [];
 	for (let i = 0; i < rowCount; i++) {
-		groups.push(new RowGroup(rowsContainer, presets, rows, visibleColumns));
+		groups.push(new RowGroup(rowsContainer, presets, rows, visibleColumns, blankData));
 	}
 
 	async function cascadeUpdate(displayRows) {

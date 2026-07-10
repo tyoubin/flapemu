@@ -1,5 +1,7 @@
-import { BLANK_DATA, FLAP_ANIMATION_FALLBACK_MS } from './config.js';
+import { FLAP_ANIMATION_FALLBACK_MS } from './config.js';
 import { createPhysicalList, mergeIntoPhysicalList } from './data-logic.js';
+
+const BLANK_LOCAL = " ";
 
 export class FlapUnit {
 	constructor(parentElement, cssClass, type) {
@@ -71,7 +73,7 @@ export class FlapUnit {
 
 		this.wordIndexMap = new Map();
 		this.physicalList.forEach((item, idx) => {
-			const local = (item && item.local) ? item.local : BLANK_DATA.local;
+			const local = (item && item.local) ? item.local : BLANK_LOCAL;
 			if (!this.wordIndexMap.has(local)) {
 				this.wordIndexMap.set(local, idx);
 			}
@@ -86,9 +88,9 @@ export class FlapUnit {
 			nextIndex = this.physicalList.indexOf(val);
 			if (nextIndex === -1) nextIndex = 0;
 		} else {
-			const targetLocal = (val && val.local) ? val.local : BLANK_DATA.local;
+			const targetLocal = (val && val.local) ? val.local : BLANK_LOCAL;
 
-			if (targetLocal === BLANK_DATA.local || targetLocal === "") {
+			if (targetLocal === BLANK_LOCAL || targetLocal === "") {
 				nextIndex = 0;
 			} else {
 				if (this.wordIndexMap && this.wordIndexMap.has(targetLocal)) {
@@ -176,16 +178,17 @@ export class CharFlap extends FlapUnit {
 }
 
 export class WordFlap extends FlapUnit {
-	constructor(parent, presetList, actualList, capacity) {
+	constructor(parent, presetList, actualList, capacity, blankData) {
 		super(parent, 'flap-word', 'word');
-		this.physicalList = createPhysicalList(presetList, actualList, capacity);
+		this.blankData = blankData;
+		this.physicalList = createPhysicalList(presetList, actualList, capacity, blankData);
 		this.rebuildWordIndexMap();
 		this.renderTo(this.topContent, this.physicalList[0]);
 		this.renderTo(this.bottomContent, this.physicalList[0]);
 	}
 
 	updateList(presetList, actualList, capacity) {
-		mergeIntoPhysicalList(this.physicalList, presetList, actualList, capacity);
+		mergeIntoPhysicalList(this.physicalList, presetList, actualList, capacity, this.blankData);
 		this.rebuildWordIndexMap();
 	}
 }

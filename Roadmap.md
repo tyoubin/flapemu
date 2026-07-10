@@ -200,11 +200,9 @@ V3 is live. After Step 3, `meta` and `showTopBar` move to the page shell:
 1. External consumer can `npm install flapemu` and render a board from `{ columns, presets, rows, ui }`. — ✅
 2. Current hosted demo still works (product shell uses the same library). — ✅
 
-### Step 5 — Product polish (optional / later)
+### Step 5 — Other
 
-- Board templates gallery (station, airport, bus, scoreboard)
-- Theme tokens (bezel, flap speed, fonts) in JSON
-- Stronger tests around transforms, window strategies
+- Settings (flap speed, fonts) in JSON
 
 ---
 
