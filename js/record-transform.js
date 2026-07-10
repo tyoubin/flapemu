@@ -14,18 +14,19 @@ export function buildActualWordMap(columns, scheduleData) {
 
 export function getColumnTarget(column, record) {
 	const safeRecord = record || {};
+	const sourceField = column.sourceField || column.key;
 
 	if (column.kind === 'chars') {
-		const raw = (safeRecord[column.sourceField] || '').toString();
+		const raw = (safeRecord[sourceField] || '').toString();
 		return raw.padEnd(column.padEnd || raw.length, ' ');
 	}
 
 	if (column.kind === 'time') {
-		return (safeRecord[column.sourceField] || '').toString();
+		return (safeRecord[sourceField] || '').toString();
 	}
 
 	if (column.kind === 'word') {
-		const target = safeRecord[column.sourceField] || null;
+		const target = safeRecord[sourceField] || null;
 		if (target && column.colorFields) {
 			return {
 				...target,
