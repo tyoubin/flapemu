@@ -678,21 +678,12 @@ footer a:hover {
 .status-text {
     width: 100%;
     text-align: center;
-}
-
-.status-text.status-info {
-    padding: 8px 0 16px;
-}
-
-.status-text.status-info .status-main {
-    font-size: 18px;
-    color: rgba(255, 255, 255, 0.7);
-    letter-spacing: 1px;
-}
-
-.status-text.status-info .status-description {
-    font-size: 12px;
-    color: rgba(255, 255, 255, 0.4);
+    padding: 20px 0;
+    background: rgba(0, 0, 0, 0.85);
+    border: 2px solid #FFBF00;
+    box-shadow: 0 0 30px rgba(0, 0, 0, 0.9);
+    border-radius: 8px;
+    backdrop-filter: blur(4px);
 }
 
 /* Error State */
@@ -704,11 +695,6 @@ footer a:hover {
     flex-direction: column;
     gap: 8px;
     padding: 25px 20px;
-    background: rgba(0, 0, 0, 0.85);
-    border: 2px solid #FFBF00;
-    box-shadow: 0 0 30px rgba(0, 0, 0, 0.9);
-    border-radius: 8px;
-    backdrop-filter: blur(4px);
 }
 
 .status-main {

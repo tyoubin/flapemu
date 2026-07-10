@@ -28,6 +28,21 @@ async function fetchData() {
 		const json = await response.json();
 
 		const config = prepareTrainBoardData(json, null);
+		const hasRows = config.rows && config.rows.length > 0;
+
+		if (!hasRows) {
+			const st = config.ui && config.ui.status;
+			if (board) board.classList.add('board-error');
+			if (statusEl) {
+				statusEl.innerHTML = `
+					<div class="status-text status-error">
+						<div class="status-main">${st && st.main ? st.main : '只今サービスを停止しています / Service Suspended'}</div>
+						${(st && st.description) ? `<div class="status-description">${st.description}</div>` : ''}
+					</div>
+				`;
+			}
+			return;
+		}
 
 		if (!boardInstance) {
 			console.log("[System] Initializing Board...");
@@ -36,16 +51,6 @@ async function fetchData() {
 			if (config.rows && config.rows.length > 0) {
 				boardInstance.updateBoard(config.presets, config.rows);
 			}
-		}
-
-		const st = config.ui && config.ui.status;
-		if (statusEl && st && st.main) {
-			statusEl.innerHTML = `
-				<div class="status-text status-info">
-					<div class="status-main">${st.main}</div>
-					${st.description ? `<div class="status-description">${st.description}</div>` : ''}
-				</div>
-			`;
 		}
 	} catch (e) {
 		console.error("Error fetching data:", e);
