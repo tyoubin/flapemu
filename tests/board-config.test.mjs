@@ -90,6 +90,72 @@ function test_arrayInput_upgradedToV3() {
 	console.log('  array input upgraded to v3 via v2 path');
 }
 
+function test_nonObjectInput_returnsEmptyConfig() {
+	assert.deepEqual(normalizeBoardConfig('bad').rows, []);
+	assert.deepEqual(normalizeBoardConfig(42).rows, []);
+	assert.deepEqual(normalizeBoardConfig(undefined).rows, []);
+	console.log('  non-object input returns empty config');
+}
+
+function test_uiDefaultsWithPartialUi() {
+	const r = normalizeBoardConfig({ schema_version: 3, ui: { mode: 'gate' }, columns: [], presets: {}, rows: [] });
+	assert.equal(r.ui.mode, 'gate');
+	assert.equal(r.ui.rows, 12);
+	assert.equal(r.ui.cascadeMs, 1000);
+	assert.equal(r.ui.refreshMs, 30000);
+	assert.deepEqual(r.ui.hiddenColumns, []);
+	console.log('  partial ui fills defaults');
+}
+
+function test_uiDefaultsWithMissingUi() {
+	const r = normalizeBoardConfig({ schema_version: 3, columns: [], presets: {}, rows: [] });
+	assert.equal(r.ui.mode, 'concourse');
+	assert.equal(r.ui.rows, 12);
+	console.log('  missing ui uses defaults');
+}
+
+function test_nullPresets_returnsEmpty() {
+	const r = normalizeBoardConfig({ schema_version: 3, columns: [], presets: null, rows: [] });
+	assert.deepEqual(r.presets, {});
+	console.log('  null presets returns empty object');
+}
+
+function test_malformedPresets_usesEmptyArray() {
+	const r = normalizeBoardConfig({ schema_version: 3, columns: [], presets: { types: 'not-array' }, rows: [] });
+	assert.deepEqual(r.presets.types, []);
+	console.log('  malformed presets list returns empty array');
+}
+
+function test_v2WithAliasFields_upgradesCorrectly() {
+	const r = normalizeBoardConfig({
+		schema_version: 2,
+		presets: {},
+		schedule: [{
+			track: '7', train_type: { local: '特急', en: 'Limited Express' },
+			type_color: '#111', type_text_color_hex: '#eee',
+			no: '77', time: '12:45', dest: { local: '博多' }, remark: '指定席', stops: '主要駅'
+		}]
+	});
+	const row = r.rows[0];
+	assert.equal(row.track_no, '7');
+	assert.equal(row.train_no, '77');
+	assert.equal(row.depart_time, '12:45');
+	assert.equal(row.type.local, '特急');
+	assert.equal(row.type_color_hex, '#111');
+	assert.equal(row.type_text_color, '#eee');
+	assert.equal(row.destination.local, '博多');
+	assert.equal(row.remarks, '指定席');
+	assert.equal(row.stops_at, '主要駅');
+	console.log('  v2 alias fields upgrade correctly');
+}
+
+function test_v2EmptySchedule_returnsEmptyRows() {
+	const r = normalizeBoardConfig({ schema_version: 2, presets: {}, schedule: null });
+	assert.deepEqual(r.rows, []);
+	assert.equal(r.columns.length, 7);
+	console.log('  v2 empty/null schedule returns empty rows');
+}
+
 console.log('normalizeBoardConfig:');
 test_v3_passthrough_preservesColumns();
 test_v2_upgrade_addsTrainColumns();
@@ -97,4 +163,11 @@ test_v3_acceptsScheduleAlias();
 test_v3_addsColumnAliases();
 test_emptyInput_returnsEmptyConfig();
 test_arrayInput_upgradedToV3();
+test_nonObjectInput_returnsEmptyConfig();
+test_uiDefaultsWithPartialUi();
+test_uiDefaultsWithMissingUi();
+test_nullPresets_returnsEmpty();
+test_malformedPresets_usesEmptyArray();
+test_v2WithAliasFields_upgradesCorrectly();
+test_v2EmptySchedule_returnsEmptyRows();
 console.log('normalizeBoardConfig tests passed');

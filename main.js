@@ -96,18 +96,7 @@ function parseUrlParams() {
 	return {
 		dataSource: `./timetable/${timetableName}.json`,
 		invalidQuery: timetableName === '__invalid__',
-		previewMode: params.has('preview'),
-		urlMode: params.get('mode'),
-		urlRows: (() => {
-			const raw = params.get('rows');
-			if (raw === null || raw === '') return null;
-			const parsed = parseInt(raw, 10);
-			if (!Number.isFinite(parsed)) return null;
-			return Math.min(Math.max(parsed, 1), 30);
-		})(),
-		filterTracks: params.has('track')
-			? params.get('track').split(',').map(t => t.trim()).filter(Boolean)
-			: null
+		previewMode: params.has('preview')
 	};
 }
 
@@ -140,13 +129,13 @@ async function fetchData() {
 			json = await response.json();
 		}
 
-		const config = prepareTrainBoardData(json, urlParams.filterTracks);
+		const config = prepareTrainBoardData(json, null);
 		const { presets, rows, columns, ui } = config;
 
-		const displayMode = urlParams.urlMode || ui.mode || 'concourse';
+		const displayMode = ui.mode || 'concourse';
 		const hiddenColumns = new Set(ui.hiddenColumns || []);
 		const visibleColumns = columns.filter(col => !hiddenColumns.has(col.key));
-		const rowCount = urlParams.urlRows || ui.rows || 12;
+		const rowCount = ui.rows || 12;
 
 		if (!isInitialized) {
 			document.body.classList.add(`mode-${displayMode}`);
