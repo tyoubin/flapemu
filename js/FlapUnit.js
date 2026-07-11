@@ -26,10 +26,15 @@ export class FlapUnit {
 		parentElement.appendChild(this.element);
 	}
 
+	blankCardColor() {
+		return (this.blankData && this.blankData.color) || "#202020";
+	}
+
 	renderTo(container, data) {
 		container.innerHTML = '';
 
-		if (data.color && data.color !== "#202020") {
+		const blankColor = this.blankCardColor();
+		if (data.color && data.color !== blankColor) {
 			container.style.backgroundColor = data.color;
 		} else {
 			container.style.backgroundColor = "";

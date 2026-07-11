@@ -79,9 +79,9 @@ function test_prepareTrainBoardData_appliesFilterAndSort() {
 		]
 	};
 	const result = prepareTrainBoardData(raw, ['1']);
-	assert.equal(result.scheduleData.length, 2);
-	assert.equal(result.scheduleData[0].depart_time, '09:00');
-	assert.equal(result.scheduleData[1].depart_time, '10:00');
+	assert.equal(result.rows.length, 2);
+	assert.equal(result.rows[0].depart_time, '09:00');
+	assert.equal(result.rows[1].depart_time, '10:00');
 	assert.ok(result.presets);
 }
 

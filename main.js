@@ -1,10 +1,21 @@
 import { prepareTrainBoardData } from './js/train-pipeline.js';
 import { mountBoard } from './js/flapemu.js';
 
+const DEFAULT_REFRESH_MS = 30000;
+const MIN_REFRESH_MS = 5000;
+const MAX_REFRESH_MS = 300000;
+
 let boardInstance = null;
 let isFetchRunning = false;
 let refreshTimerId = null;
 let storedStatus = null;
+let refreshIntervalMs = DEFAULT_REFRESH_MS;
+
+function clampRefreshMs(value) {
+	const n = Number(value);
+	if (!Number.isFinite(n)) return DEFAULT_REFRESH_MS;
+	return Math.min(Math.max(n, MIN_REFRESH_MS), MAX_REFRESH_MS);
+}
 
 function getDataSource() {
 	const t = new URLSearchParams(window.location.search).get('t');
@@ -30,6 +41,7 @@ async function fetchData() {
 
 		const config = prepareTrainBoardData(json, null);
 		storedStatus = (config.ui && config.ui.errorMessage) || null;
+		refreshIntervalMs = clampRefreshMs(config.ui && config.ui.refreshMs);
 
 		if (!boardInstance) {
 			console.log("[System] Initializing Board...");
@@ -85,10 +97,11 @@ function startAutoRefresh() {
 		return;
 	}
 
+	console.log(`[Auto-Update] Interval ${refreshIntervalMs}ms`);
 	refreshTimerId = setInterval(() => {
 		console.log('[Auto-Update] Fetching...');
 		requestFetch('interval');
-	}, 30000);
+	}, refreshIntervalMs);
 }
 
 function handleVisibilityChange() {

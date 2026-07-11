@@ -1,5 +1,4 @@
-import { selectDisplayRows } from './board-pipeline.js';
-import { extractScheduleWords } from './train-pipeline.js';
+import { selectDisplayRows, extractFieldWords } from './board-pipeline.js';
 import { sleep, calculateVisualLength } from './utils.js';
 import { LAYOUT_WIDTH_MULTIPLIER, LAYOUT_WIDTH_PADDING, makeBlankData } from './config.js';
 import { RowGroup } from './RowGroup.js';
@@ -23,22 +22,31 @@ function columnLayoutStyle(col) {
 	return '';
 }
 
+function resolveWindowOpts(ui) {
+	const window = (ui && ui.window) || {};
+	return {
+		strategy: window.strategy || 'nextByTime',
+		timeField: window.timeField || 'depart_time'
+	};
+}
+
 export function mountBoard(el, config) {
-	const { presets, rows, columns, ui } = config;
+	const { presets, rows, columns: rawColumns, ui } = config;
 
 	const displayMode = ui.mode || 'concourse';
 	const hiddenColumns = new Set(ui.hiddenColumns || []);
-	const visibleColumns = columns.filter(col => !hiddenColumns.has(col.key));
 	const rowCount = ui.rows || 12;
-
 	const blankData = makeBlankData(ui.blankColor, ui.blankTextColor);
+	const windowOpts = resolveWindowOpts(ui);
 
-	visibleColumns.forEach(col => {
-		col.cssClass = col.cssClass || `col-${col.kind}`;
-		if (!col.inlineStyle) {
-			col.inlineStyle = columnLayoutStyle(col);
-		}
-	});
+	// Clone layout fields so we never mutate the caller's column objects.
+	const visibleColumns = rawColumns
+		.filter(col => !hiddenColumns.has(col.key))
+		.map(col => ({
+			...col,
+			cssClass: col.cssClass || `col-${col.kind}`,
+			inlineStyle: col.inlineStyle || columnLayoutStyle(col)
+		}));
 
 	el.classList.add(`mode-${displayMode}`);
 	el.innerHTML = '';
@@ -63,9 +71,9 @@ export function mountBoard(el, config) {
 			item.className = `${column.cssClass} header-item`;
 			item.style.cssText = column.inlineStyle;
 			const local = document.createElement('span');
-			local.textContent = column.header.local;
+			local.textContent = column.header?.local ?? '';
 			const en = document.createElement('span');
-			en.textContent = column.header.en;
+			en.textContent = column.header?.en ?? '';
 			item.appendChild(local);
 			item.appendChild(en);
 			headerRow.appendChild(item);
@@ -76,9 +84,9 @@ export function mountBoard(el, config) {
 	rowsContainer.id = 'board-rows';
 	el.appendChild(rowsContainer);
 
-	const dynamicWidthColumns = columns.filter(col => col.kind === 'word' && col.widthVar);
+	const dynamicWidthColumns = visibleColumns.filter(col => col.kind === 'word' && col.widthVar);
 	dynamicWidthColumns.forEach((column) => {
-		const fullList = [...(presets[column.presetKey] || []), ...extractScheduleWords(rows, column.sourceField)];
+		const fullList = [...(presets[column.presetKey] || []), ...extractFieldWords(rows, column.sourceField)];
 		if (fullList.length === 0) return;
 		let maxLen = 0;
 		fullList.forEach(item => {
@@ -108,14 +116,13 @@ export function mountBoard(el, config) {
 		}
 	}
 
-	const timeField = (ui.window && ui.window.timeField) || 'depart_time';
-	const initialRows = selectDisplayRows(rows, rowCount, timeField, new Date());
+	const initialRows = selectDisplayRows(rows, rowCount, windowOpts, new Date());
 	setTimeout(() => cascadeUpdate(initialRows), 0);
 
 	return {
 		updateBoard(newPresets, newRows) {
 			groups.forEach(g => g.updatePhysicalLists(newPresets, newRows));
-			const selected = selectDisplayRows(newRows, rowCount, timeField, new Date());
+			const selected = selectDisplayRows(newRows, rowCount, windowOpts, new Date());
 			return cascadeUpdate(selected);
 		},
 		destroyBoard() {

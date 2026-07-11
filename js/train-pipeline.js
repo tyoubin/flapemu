@@ -19,7 +19,7 @@ export function extractScheduleWords(rows, field) {
 }
 
 export function selectDisplayTrains(rows, rowCount, now = new Date()) {
-	return selectDisplayRows(rows, rowCount, TIME_FIELD, now);
+	return selectDisplayRows(rows, rowCount, { strategy: 'nextByTime', timeField: TIME_FIELD }, now);
 }
 
 export function prepareTrainBoardData(rawData, filterTracks) {
@@ -29,7 +29,6 @@ export function prepareTrainBoardData(rawData, filterTracks) {
 		presets: config.presets,
 		rows,
 		columns: config.columns,
-		ui: config.ui,
-		scheduleData: rows
+		ui: config.ui
 	};
 }

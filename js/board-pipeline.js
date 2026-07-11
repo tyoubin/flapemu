@@ -28,9 +28,28 @@ export function extractFieldWords(rows, field) {
 	});
 }
 
-export function selectDisplayRows(rows, rowCount, timeField, now = new Date()) {
+/**
+ * Select which rows fill the board.
+ * @param {object} [windowOpts]
+ * @param {'nextByTime'|'static'} [windowOpts.strategy='nextByTime']
+ * @param {string} [windowOpts.timeField='depart_time']
+ */
+export function selectDisplayRows(rows, rowCount, windowOpts = {}, now = new Date()) {
 	if (!Array.isArray(rows) || rows.length === 0 || rowCount <= 0) return [];
 
+	// Backward-compatible: third arg may be a timeField string (older call sites/tests).
+	const opts = typeof windowOpts === 'string'
+		? { strategy: 'nextByTime', timeField: windowOpts }
+		: (windowOpts || {});
+
+	const strategy = opts.strategy || 'nextByTime';
+	const timeField = opts.timeField || 'depart_time';
+
+	if (strategy === 'static') {
+		return rows.slice(0, rowCount);
+	}
+
+	// nextByTime (default): start at first row at/after now, wrap to fill rowCount.
 	const currentMinutes = (now.getHours() * 60) + now.getMinutes();
 	let startIndex = rows.findIndex((row) => {
 		const departMinutes = parseDepartMinutes(row[timeField]);
@@ -52,7 +71,6 @@ export function prepareBoardData(rawData) {
 	return {
 		presets: config.presets,
 		rows: config.rows,
-		scheduleData: config.rows,
 		columns: config.columns,
 		ui: config.ui
 	};

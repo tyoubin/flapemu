@@ -20,8 +20,8 @@ export function createPhysicalList(presetList, actualList, capacity, blankData) 
 				list.push({
 					local: item.local,
 					en: item.en,
-					color: item.color || "#202020",
-					textColor: item.textColor || "#f5f5f5"
+					color: item.color || BLANK.color,
+					textColor: item.textColor || BLANK.textColor
 				});
 			}
 		});
@@ -57,16 +57,16 @@ export function mergeIntoPhysicalList(currentList, presetList, actualList, capac
 				currentList[slotIndex] = {
 					local: item.local,
 					en: item.en,
-					color: item.color || "#202020",
-					textColor: item.textColor || "#f5f5f5"
+					color: item.color || BLANK.color,
+					textColor: item.textColor || BLANK.textColor
 				};
 				existingLocals.add(item.local);
 			} else if (currentList.length < capacity) {
 				currentList.push({
 					local: item.local,
 					en: item.en,
-					color: item.color || "#202020",
-					textColor: item.textColor || "#f5f5f5"
+					color: item.color || BLANK.color,
+					textColor: item.textColor || BLANK.textColor
 				});
 				existingLocals.add(item.local);
 			}
