@@ -1,8 +1,8 @@
 import { normalizeBoardConfig } from './data-normalize.js';
 
-function parseDepartMinutes(departTime) {
-	if (typeof departTime !== 'string') return null;
-	const match = departTime.match(/^(\d{1,2}):(\d{2})$/);
+function parseTimeMinutes(value) {
+	if (typeof value !== 'string') return null;
+	const match = value.match(/^(\d{1,2}):(\d{2})$/);
 	if (!match) return null;
 
 	const hours = Number(match[1]);
@@ -24,7 +24,7 @@ export function extractFieldWords(rows, field) {
 	if (!Array.isArray(rows)) return [];
 	return rows.map((item) => {
 		if (item[field] && item[field].main) return item[field];
-		return { local: '' };
+		return { main: '' };
 	});
 }
 
@@ -52,7 +52,7 @@ export function selectDisplayRows(rows, rowCount, windowOpts = {}, now = new Dat
 	// nextByTime (default): start at first row at/after now, wrap to fill rowCount.
 	const currentMinutes = (now.getHours() * 60) + now.getMinutes();
 	let startIndex = rows.findIndex((row) => {
-		const departMinutes = parseDepartMinutes(row[timeField]);
+		const departMinutes = parseTimeMinutes(row[timeField]);
 		return departMinutes !== null && departMinutes >= currentMinutes;
 	});
 
@@ -76,4 +76,4 @@ export function prepareBoardData(rawData) {
 	};
 }
 
-export { parseDepartMinutes };
+export { parseTimeMinutes };

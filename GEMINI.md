@@ -77,7 +77,7 @@ Hardcoded constants only — no URL parsing, no runtime profiles:
 - `makeBlankData()`, `FLAP_ANIMATION_FALLBACK_MS`, `LAYOUT_WIDTH_MULTIPLIER`, `LAYOUT_WIDTH_PADDING`, `WORD_CAPACITY_CONFIG`
 
 ### 9. Misc (`js/board-schema.js`, `js/board-pipeline.js` exports)
-Tiny helpers extracted for reuse: `getNumericCharset`, `parseDepartMinutes`.
+Tiny helpers extracted for reuse: `getNumericCharset`, `parseTimeMinutes`.
 
 ---
 
