@@ -8,6 +8,10 @@
     "hiddenColumns": [
       "stop"
     ],
+    "errorMessage": {
+      "main": "ただいま、時刻表を取得できません。駅員にお問い合わせください。",
+      "description": "Timetable data is not available. Please contact station staff."
+    },
     "window": {
       "strategy": "nextByTime",
       "timeField": "depart_time"
