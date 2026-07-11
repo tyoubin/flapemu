@@ -6,9 +6,9 @@ Usage:
   python timetable_csv.py import timetable/shinagawa.json timetable/shinagawa.csv
 
 The CSV header must match the expected 13 columns:
-  track_no, type.local, type.en, type_color_hex, type_text_color, train_no,
-  depart_time, destination.local, destination.en, remarks.local, remarks.en,
-  stops_at.local, stops_at.en
+  track_no, type.main, type.alt, type_color_hex, type_text_color, train_no,
+  depart_time, destination.main, destination.alt, remarks.main, remarks.alt,
+  stops_at.main, stops_at.alt
 """
 
 from __future__ import annotations
@@ -23,18 +23,18 @@ from typing import Dict, Iterable, List
 
 EXPECTED_FIELDS = [
     "track_no",
-    "type.local",
-    "type.en",
+    "type.main",
+    "type.alt",
     "type_color_hex",
     "type_text_color",
     "train_no",
     "depart_time",
-    "destination.local",
-    "destination.en",
-    "remarks.local",
-    "remarks.en",
-    "stops_at.local",
-    "stops_at.en",
+    "destination.main",
+    "destination.alt",
+    "remarks.main",
+    "remarks.alt",
+    "stops_at.main",
+    "stops_at.alt",
 ]
 
 
@@ -73,18 +73,18 @@ def schedule_to_rows(schedule: Iterable[Dict]) -> Iterable[Dict[str, str]]:
             raise ValueError("schedule entries must be objects")
         yield {
             "track_no": _get_nested(entry, "track_no"),
-            "type.local": _get_nested(entry, "type", "local"),
-            "type.en": _get_nested(entry, "type", "en"),
+            "type.main": _get_nested(entry, "type", "main"),
+            "type.alt": _get_nested(entry, "type", "alt"),
             "type_color_hex": _get_nested(entry, "type_color_hex"),
             "type_text_color": _get_nested(entry, "type_text_color"),
             "train_no": _get_nested(entry, "train_no"),
             "depart_time": _get_nested(entry, "depart_time"),
-            "destination.local": _get_nested(entry, "destination", "local"),
-            "destination.en": _get_nested(entry, "destination", "en"),
-            "remarks.local": _get_nested(entry, "remarks", "local"),
-            "remarks.en": _get_nested(entry, "remarks", "en"),
-            "stops_at.local": _get_nested(entry, "stops_at", "local"),
-            "stops_at.en": _get_nested(entry, "stops_at", "en"),
+            "destination.main": _get_nested(entry, "destination", "main"),
+            "destination.alt": _get_nested(entry, "destination", "alt"),
+            "remarks.main": _get_nested(entry, "remarks", "main"),
+            "remarks.alt": _get_nested(entry, "remarks", "alt"),
+            "stops_at.main": _get_nested(entry, "stops_at", "main"),
+            "stops_at.alt": _get_nested(entry, "stops_at", "alt"),
         }
 
 
@@ -96,24 +96,24 @@ def row_to_schedule_entry(row: Dict[str, str]) -> Dict:
     return {
         "track_no": val("track_no"),
         "type": {
-            "local": val("type.local"),
-            "en": val("type.en"),
+            "main": val("type.main"),
+            "alt": val("type.alt"),
         },
         "type_color_hex": val("type_color_hex"),
         "type_text_color": val("type_text_color"),
         "train_no": val("train_no"),
         "depart_time": val("depart_time"),
         "destination": {
-            "local": val("destination.local"),
-            "en": val("destination.en"),
+            "main": val("destination.main"),
+            "alt": val("destination.alt"),
         },
         "remarks": {
-            "local": val("remarks.local"),
-            "en": val("remarks.en"),
+            "main": val("remarks.main"),
+            "alt": val("remarks.alt"),
         },
         "stops_at": {
-            "local": val("stops_at.local"),
-            "en": val("stops_at.en"),
+            "main": val("stops_at.main"),
+            "alt": val("stops_at.alt"),
         },
     }
 

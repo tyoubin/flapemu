@@ -336,7 +336,7 @@ body.mode-gate .top-bar {
         sans-serif;
 }
 
-.local-text {
+.main-text {
     height: 72%;
     width: 100%;
     display: flex;
@@ -350,7 +350,7 @@ body.mode-gate .top-bar {
     overflow: hidden;
 }
 
-.en-text {
+.alt-text {
     height: 28%;
     width: 100%;
     display: flex;

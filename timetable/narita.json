@@ -21,8 +21,8 @@
     {
       "key": "flight",
       "header": {
-        "local": "便名",
-        "en": "Flight"
+        "main": "便名",
+        "alt": "Flight"
       },
       "kind": "chars",
       "padEnd": 6,
@@ -35,8 +35,8 @@
     {
       "key": "dest",
       "header": {
-        "local": "目的地",
-        "en": "Destination"
+        "main": "目的地",
+        "alt": "Destination"
       },
       "kind": "word",
       "widthVar": "--col-dest-width",
@@ -47,8 +47,8 @@
     {
       "key": "airline",
       "header": {
-        "local": "航空会社",
-        "en": "Airline"
+        "main": "航空会社",
+        "alt": "Airline"
       },
       "kind": "word",
       "colorFields": {
@@ -63,8 +63,8 @@
     {
       "key": "gate",
       "header": {
-        "local": "搭乗口",
-        "en": "Gate"
+        "main": "搭乗口",
+        "alt": "Gate"
       },
       "kind": "chars",
       "padEnd": 3,
@@ -76,8 +76,8 @@
     {
       "key": "status",
       "header": {
-        "local": "状況",
-        "en": "Status"
+        "main": "状況",
+        "alt": "Status"
       },
       "kind": "word",
       "colorFields": {
@@ -92,8 +92,8 @@
     {
       "key": "remarks",
       "header": {
-        "local": "備考",
-        "en": "Remarks"
+        "main": "備考",
+        "alt": "Remarks"
       },
       "kind": "word",
       "widthVar": "--col-rem-width",
@@ -105,118 +105,118 @@
   "presets": {
     "dests": [
       {
-        "local": "バンコク",
-        "en": "Bangkok"
+        "main": "バンコク",
+        "alt": "Bangkok"
       },
       {
-        "local": "シンガポール",
-        "en": "Singapore"
+        "main": "シンガポール",
+        "alt": "Singapore"
       },
       {
-        "local": "ホノルル",
-        "en": "Honolulu"
+        "main": "ホノルル",
+        "alt": "Honolulu"
       },
       {
-        "local": "ロサンゼルス",
-        "en": "Los Angeles"
+        "main": "ロサンゼルス",
+        "alt": "Los Angeles"
       },
       {
-        "local": "ニューヨーク",
-        "en": "New York"
+        "main": "ニューヨーク",
+        "alt": "New York"
       },
       {
-        "local": "パリ",
-        "en": "Paris"
+        "main": "パリ",
+        "alt": "Paris"
       },
       {
-        "local": "ロンドン",
-        "en": "London"
+        "main": "ロンドン",
+        "alt": "London"
       },
       {
-        "local": "上海",
-        "en": "Shanghai"
+        "main": "上海",
+        "alt": "Shanghai"
       },
       {
-        "local": "ソウル",
-        "en": "Seoul"
+        "main": "ソウル",
+        "alt": "Seoul"
       },
       {
-        "local": "台北",
-        "en": "Taipei"
+        "main": "台北",
+        "alt": "Taipei"
       }
     ],
     "airlines": [
       {
-        "local": "JAL",
-        "en": "JAL",
+        "main": "JAL",
+        "alt": "JAL",
         "color": "#e60012",
         "textColor": "#ffffff"
       },
       {
-        "local": "ANA",
-        "en": "ANA",
+        "main": "ANA",
+        "alt": "ANA",
         "color": "#13276a",
         "textColor": "#ffffff"
       },
       {
-        "local": "デルタ",
-        "en": "Delta",
+        "main": "デルタ",
+        "alt": "Delta",
         "color": "#003366",
         "textColor": "#ffffff"
       },
       {
-        "local": "ユナイテッド",
-        "en": "United",
+        "main": "ユナイテッド",
+        "alt": "United",
         "color": "#002244",
         "textColor": "#ffffff"
       },
       {
-        "local": "キャセイ",
-        "en": "Cathay",
+        "main": "キャセイ",
+        "alt": "Cathay",
         "color": "#006747",
         "textColor": "#ffffff"
       },
       {
-        "local": "大韓航空",
-        "en": "Korean Air",
+        "main": "大韓航空",
+        "alt": "Korean Air",
         "color": "#004a9b",
         "textColor": "#ffffff"
       },
       {
-        "local": "中国東方",
-        "en": "China Eastern",
+        "main": "中国東方",
+        "alt": "China Eastern",
         "color": "#e3002b",
         "textColor": "#ffffff"
       }
     ],
     "statuses": [
       {
-        "local": "出発済",
-        "en": "Departed",
+        "main": "出発済",
+        "alt": "Departed",
         "color": "#1a6b3c",
         "textColor": "#ffffff"
       },
       {
-        "local": "搭乗中",
-        "en": "Boarding",
+        "main": "搭乗中",
+        "alt": "Boarding",
         "color": "#c89400",
         "textColor": "#000000"
       },
       {
-        "local": "遅延",
-        "en": "Delayed",
+        "main": "遅延",
+        "alt": "Delayed",
         "color": "#8b2e2e",
         "textColor": "#ffffff"
       },
       {
-        "local": "ラウンジ",
-        "en": "Lounge",
+        "main": "ラウンジ",
+        "alt": "Lounge",
         "color": "#2e4a8b",
         "textColor": "#ffffff"
       },
       {
-        "local": "チェックイン",
-        "en": "Check-in",
+        "main": "チェックイン",
+        "alt": "Check-in",
         "color": "#5a5a5a",
         "textColor": "#ffffff"
       }
@@ -227,20 +227,20 @@
     {
       "flight_no": "JL001",
       "destination": {
-        "local": "ロンドン",
-        "en": "London"
+        "main": "ロンドン",
+        "alt": "London"
       },
       "airline": {
-        "local": "JAL",
-        "en": "JAL"
+        "main": "JAL",
+        "alt": "JAL"
       },
       "airline_color": "#e60012",
       "airline_text_color": "#ffffff",
       "gate": "32",
       "depart_time": "08:00",
       "status": {
-        "local": "出発済",
-        "en": "Departed"
+        "main": "出発済",
+        "alt": "Departed"
       },
       "status_color": "#1a6b3c",
       "status_text_color": "#ffffff"
@@ -248,20 +248,20 @@
     {
       "flight_no": "NH101",
       "destination": {
-        "local": "シンガポール",
-        "en": "Singapore"
+        "main": "シンガポール",
+        "alt": "Singapore"
       },
       "airline": {
-        "local": "ANA",
-        "en": "ANA"
+        "main": "ANA",
+        "alt": "ANA"
       },
       "airline_color": "#13276a",
       "airline_text_color": "#ffffff",
       "gate": "41",
       "depart_time": "09:00",
       "status": {
-        "local": "搭乗中",
-        "en": "Boarding"
+        "main": "搭乗中",
+        "alt": "Boarding"
       },
       "status_color": "#c89400",
       "status_text_color": "#000000"
@@ -269,20 +269,20 @@
     {
       "flight_no": "DL056",
       "destination": {
-        "local": "ロサンゼルス",
-        "en": "Los Angeles"
+        "main": "ロサンゼルス",
+        "alt": "Los Angeles"
       },
       "airline": {
-        "local": "デルタ",
-        "en": "Delta"
+        "main": "デルタ",
+        "alt": "Delta"
       },
       "airline_color": "#003366",
       "airline_text_color": "#ffffff",
       "gate": "35",
       "depart_time": "09:30",
       "status": {
-        "local": "出発済",
-        "en": "Departed"
+        "main": "出発済",
+        "alt": "Departed"
       },
       "status_color": "#1a6b3c",
       "status_text_color": "#ffffff"
@@ -290,20 +290,20 @@
     {
       "flight_no": "CX502",
       "destination": {
-        "local": "台北",
-        "en": "Taipei"
+        "main": "台北",
+        "alt": "Taipei"
       },
       "airline": {
-        "local": "キャセイ",
-        "en": "Cathay"
+        "main": "キャセイ",
+        "alt": "Cathay"
       },
       "airline_color": "#006747",
       "airline_text_color": "#ffffff",
       "gate": "44",
       "depart_time": "10:00",
       "status": {
-        "local": "ラウンジ",
-        "en": "Lounge"
+        "main": "ラウンジ",
+        "alt": "Lounge"
       },
       "status_color": "#2e4a8b",
       "status_text_color": "#ffffff"
@@ -311,20 +311,20 @@
     {
       "flight_no": "KE712",
       "destination": {
-        "local": "ソウル",
-        "en": "Seoul"
+        "main": "ソウル",
+        "alt": "Seoul"
       },
       "airline": {
-        "local": "大韓航空",
-        "en": "Korean Air"
+        "main": "大韓航空",
+        "alt": "Korean Air"
       },
       "airline_color": "#004d9b",
       "airline_text_color": "#ffffff",
       "gate": "28",
       "depart_time": "10:30",
       "status": {
-        "local": "チェックイン",
-        "en": "Check-in"
+        "main": "チェックイン",
+        "alt": "Check-in"
       },
       "status_color": "#5a5a5a",
       "status_text_color": "#ffffff"
@@ -332,20 +332,20 @@
     {
       "flight_no": "MU524",
       "destination": {
-        "local": "上海",
-        "en": "Shanghai"
+        "main": "上海",
+        "alt": "Shanghai"
       },
       "airline": {
-        "local": "中国東方",
-        "en": "China Eastern"
+        "main": "中国東方",
+        "alt": "China Eastern"
       },
       "airline_color": "#e3002b",
       "airline_text_color": "#ffffff",
       "gate": "37",
       "depart_time": "11:00",
       "status": {
-        "local": "遅延",
-        "en": "Delayed"
+        "main": "遅延",
+        "alt": "Delayed"
       },
       "status_color": "#8b2e2e",
       "status_text_color": "#ffffff"
@@ -353,20 +353,20 @@
     {
       "flight_no": "UA888",
       "destination": {
-        "local": "ニューヨーク",
-        "en": "New York"
+        "main": "ニューヨーク",
+        "alt": "New York"
       },
       "airline": {
-        "local": "ユナイテッド",
-        "en": "United"
+        "main": "ユナイテッド",
+        "alt": "United"
       },
       "airline_color": "#002244",
       "airline_text_color": "#ffffff",
       "gate": "29",
       "depart_time": "11:30",
       "status": {
-        "local": "チェックイン",
-        "en": "Check-in"
+        "main": "チェックイン",
+        "alt": "Check-in"
       },
       "status_color": "#5a5a5a",
       "status_text_color": "#ffffff"
@@ -374,20 +374,20 @@
     {
       "flight_no": "NH210",
       "destination": {
-        "local": "パリ",
-        "en": "Paris"
+        "main": "パリ",
+        "alt": "Paris"
       },
       "airline": {
-        "local": "ANA",
-        "en": "ANA"
+        "main": "ANA",
+        "alt": "ANA"
       },
       "airline_color": "#13276a",
       "airline_text_color": "#ffffff",
       "gate": "46",
       "depart_time": "12:00",
       "status": {
-        "local": "ラウンジ",
-        "en": "Lounge"
+        "main": "ラウンジ",
+        "alt": "Lounge"
       },
       "status_color": "#2e4a8b",
       "status_text_color": "#ffffff"
@@ -395,20 +395,20 @@
     {
       "flight_no": "JL088",
       "destination": {
-        "local": "バンコク",
-        "en": "Bangkok"
+        "main": "バンコク",
+        "alt": "Bangkok"
       },
       "airline": {
-        "local": "JAL",
-        "en": "JAL"
+        "main": "JAL",
+        "alt": "JAL"
       },
       "airline_color": "#e60012",
       "airline_text_color": "#ffffff",
       "gate": "39",
       "depart_time": "12:30",
       "status": {
-        "local": "遅延",
-        "en": "Delayed"
+        "main": "遅延",
+        "alt": "Delayed"
       },
       "status_color": "#8b2e2e",
       "status_text_color": "#ffffff"
@@ -416,20 +416,20 @@
     {
       "flight_no": "DL168",
       "destination": {
-        "local": "ホノルル",
-        "en": "Honolulu"
+        "main": "ホノルル",
+        "alt": "Honolulu"
       },
       "airline": {
-        "local": "デルタ",
-        "en": "Delta"
+        "main": "デルタ",
+        "alt": "Delta"
       },
       "airline_color": "#003366",
       "airline_text_color": "#ffffff",
       "gate": "43",
       "depart_time": "13:00",
       "status": {
-        "local": "チェックイン",
-        "en": "Check-in"
+        "main": "チェックイン",
+        "alt": "Check-in"
       },
       "status_color": "#5a5a5a",
       "status_text_color": "#ffffff"

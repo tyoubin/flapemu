@@ -7,7 +7,7 @@ import { makeBlankData, DEFAULT_BLANK_COLOR, DEFAULT_BLANK_TEXT_COLOR } from './
  */
 export function createPhysicalList(presetList, actualList, capacity, blankData) {
 	const BLANK = blankData || makeBlankData(DEFAULT_BLANK_COLOR, DEFAULT_BLANK_TEXT_COLOR);
-	const seenLocals = new Set([BLANK.local]); // Index 0 is always blank
+	const seenMains = new Set([BLANK.main]); // Index 0 is always blank
 	let list = [{ ...BLANK }];
 
 	// Helper to process and append items
@@ -15,11 +15,11 @@ export function createPhysicalList(presetList, actualList, capacity, blankData) 
 		if (!Array.isArray(sourceArray)) return;
 		sourceArray.forEach(item => {
 			// Only add valid items that haven't been added yet
-			if (item && item.local && item.local.trim() !== "" && !seenLocals.has(item.local)) {
-				seenLocals.add(item.local);
+			if (item && item.main && item.main.trim() !== "" && !seenMains.has(item.main)) {
+				seenMains.add(item.main);
 				list.push({
-					local: item.local,
-					en: item.en,
+					main: item.main,
+					alt: item.alt,
 					color: item.color || BLANK.color,
 					textColor: item.textColor || BLANK.textColor
 				});
@@ -47,28 +47,28 @@ export function createPhysicalList(presetList, actualList, capacity, blankData) 
  */
 export function mergeIntoPhysicalList(currentList, presetList, actualList, capacity, blankData) {
 	const BLANK = blankData || makeBlankData(DEFAULT_BLANK_COLOR, DEFAULT_BLANK_TEXT_COLOR);
-	const existingLocals = new Set(currentList.map(i => i.local));
+	const existingMains = new Set(currentList.map(i => i.main));
 
 	const tryAddItem = (item) => {
-		if (item && item.local && item.local.trim() !== "" && !existingLocals.has(item.local)) {
-			let slotIndex = currentList.findIndex(i => i.local === BLANK.local);
+		if (item && item.main && item.main.trim() !== "" && !existingMains.has(item.main)) {
+			let slotIndex = currentList.findIndex(i => i.main === BLANK.main);
 
 			if (slotIndex !== -1 && slotIndex !== 0) {
 				currentList[slotIndex] = {
-					local: item.local,
-					en: item.en,
+					main: item.main,
+					alt: item.alt,
 					color: item.color || BLANK.color,
 					textColor: item.textColor || BLANK.textColor
 				};
-				existingLocals.add(item.local);
+				existingMains.add(item.main);
 			} else if (currentList.length < capacity) {
 				currentList.push({
-					local: item.local,
-					en: item.en,
+					main: item.main,
+					alt: item.alt,
 					color: item.color || BLANK.color,
 					textColor: item.textColor || BLANK.textColor
 				});
-				existingLocals.add(item.local);
+				existingMains.add(item.main);
 			}
 		}
 	};

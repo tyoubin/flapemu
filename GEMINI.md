@@ -77,7 +77,7 @@ Schema-driven transforms used by `RowGroup`:
 - Word flaps traverse physical list index-by-index (`pointer → targetPointer`), not jump.
 - `animationend` drives step chaining.
 - Fallback timeout is configurable via `FLAP_ANIMATION_FALLBACK_MS`.
-- Word flap target lookup uses cached local→index mapping; update map whenever list mutates.
+- Word flap target lookup uses cached main→index mapping; update map whenever list mutates.
 
 ### 8. Runtime Config (`js/config.js`)
 Hardcoded constants only — no URL parsing, no runtime profiles:
@@ -100,7 +100,7 @@ Tiny helpers extracted for reuse: `getNumericCharset`, `parseDepartMinutes`.
 
 ## CSS / Visual Constraints
 
-1. Keep `.local-text` / `.en-text` split at 72% / 28% (optical centering for CJK).
+1. Keep `.main-text` / `.alt-text` split at 72% / 28% (optical centering for CJK).
 2. Preserve:
    * `.flap-unit::before` inset bezel shadow
    * thickness pulse (`.flap-unit.flipping::after`)

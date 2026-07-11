@@ -11,8 +11,8 @@ export const sleep = (ms) => new Promise(resolve => setTimeout(resolve, ms));
 export const getCap = (presets, actuals, capacityConfig = WORD_CAPACITY_CONFIG) => {
 	// Deduplication
 	const uniqueItems = new Set();
-	if (presets) presets.forEach(p => uniqueItems.add(p.local));
-	if (actuals) actuals.forEach(a => uniqueItems.add(a.local));
+	if (presets) presets.forEach(p => uniqueItems.add(p.main));
+	if (actuals) actuals.forEach(a => uniqueItems.add(a.main));
 	const uniqueCount = uniqueItems.size;
 
 	// Add buffer cards so the spool keeps the mechanical travel feel.

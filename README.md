@@ -22,15 +22,15 @@ import { mountBoard } from 'flapemu';
 const board = document.getElementById('board');
 const config = {
   columns: [
-    { key: 'time', kind: 'time', cssClass: 'col-time', header: { local: '時刻', en: 'Time' } },
-    { key: 'destination', kind: 'word', cssClass: 'col-dest', presetKey: 'dests', sourceField: 'destination', header: { local: '行先', en: 'Destination' }, widthVar: '--col-dest-width' }
+    { key: 'time', kind: 'time', cssClass: 'col-time', header: { main: '時刻', alt: 'Time' } },
+    { key: 'destination', kind: 'word', cssClass: 'col-dest', presetKey: 'dests', sourceField: 'destination', header: { main: '行先', alt: 'Destination' }, widthVar: '--col-dest-width' }
   ],
   presets: {
-    dests: [{ local: '東京', en: 'TOKYO' }, { local: '大阪', en: 'OSAKA' }]
+    dests: [{ main: '東京', alt: 'TOKYO' }, { main: '大阪', alt: 'OSAKA' }]
   },
   rows: [
-    { depart_time: '09:00', destination: { local: '東京', en: 'TOKYO' } },
-    { depart_time: '09:30', destination: { local: '大阪', en: 'OSAKA' } }
+    { depart_time: '09:00', destination: { main: '東京', alt: 'TOKYO' } },
+    { depart_time: '09:30', destination: { main: '大阪', alt: 'OSAKA' } }
   ],
   ui: { mode: 'concourse', rows: 12 }
 };
@@ -86,8 +86,8 @@ Timetable files use a v3 schema that fully defines the board:
   "meta": {
     "header": {
       "logo_url": "timetable/jt_orange.svg",
-      "line_name": { "local": "東海道新幹線", "en": "Tokaido Shinkansen" },
-      "for": { "local": "新大阪・博多方面", "en": "for Shin-Osaka & Hakata" }
+      "line_name": { "main": "東海道新幹線", "alt": "Tokaido Shinkansen" },
+      "for": { "main": "新大阪・博多方面", "alt": "for Shin-Osaka & Hakata" }
     }
   },
   "ui": {
@@ -97,25 +97,25 @@ Timetable files use a v3 schema that fully defines the board:
     "hiddenColumns": []
   },
   "columns": [
-    { "key": "time", "kind": "time", "cssClass": "col-time", "header": { "local": "時刻", "en": "Time" } },
-    { "key": "destination", "kind": "word", "cssClass": "col-dest", "presetKey": "dests", "sourceField": "destination", "header": { "local": "行先", "en": "Destination" }, "widthVar": "--col-dest-width" }
+    { "key": "time", "kind": "time", "cssClass": "col-time", "header": { "main": "時刻", "alt": "Time" } },
+    { "key": "destination", "kind": "word", "cssClass": "col-dest", "presetKey": "dests", "sourceField": "destination", "header": { "main": "行先", "alt": "Destination" }, "widthVar": "--col-dest-width" }
   ],
   "presets": {
-    "types": [{ "local": "のぞみ", "en": "NOZOMI", "color": "#f39c12" }],
-    "dests": [{ "local": "東京", "en": "TOKYO" }, { "local": "大阪", "en": "OSAKA" }],
-    "remarks": [{ "local": "全車指定席", "en": "All Reserved" }]
+    "types": [{ "main": "のぞみ", "alt": "NOZOMI", "color": "#f39c12" }],
+    "dests": [{ "main": "東京", "alt": "TOKYO" }, { "main": "大阪", "alt": "OSAKA" }],
+    "remarks": [{ "main": "全車指定席", "alt": "All Reserved" }]
   },
   "rows": [
     {
       "track_no": "14",
-      "type": { "local": "のぞみ", "en": "NOZOMI" },
+      "type": { "main": "のぞみ", "alt": "NOZOMI" },
       "type_color_hex": "#f0df23",
       "type_text_color": "#000000",
       "train_no": "85",
       "depart_time": "09:47",
-      "destination": { "local": "広島", "en": "Hiroshima" },
-      "remarks": { "local": "自由席 1-3号車", "en": "Non-ReservedCarNo.1-3" },
-      "stops_at": { "local": "新横浜・名古屋・京都・新大阪・岡山", "en": "Shin-Yokohama, Nagoya, Kyoto, Shin-Osaka, Okayama" }
+      "destination": { "main": "広島", "alt": "Hiroshima" },
+      "remarks": { "main": "自由席 1-3号車", "alt": "Non-ReservedCarNo.1-3" },
+      "stops_at": { "main": "新横浜・名古屋・京都・新大阪・岡山", "alt": "Shin-Yokohama, Nagoya, Kyoto, Shin-Osaka, Okayama" }
     }
   ]
 }

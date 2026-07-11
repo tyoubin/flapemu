@@ -3,8 +3,8 @@ export const DEFAULT_BLANK_TEXT_COLOR = "#f5f5f5";
 
 export function makeBlankData(blankColor, blankTextColor) {
 	return {
-		local: " ",
-		en: " ",
+		main: " ",
+		alt: " ",
 		color: blankColor || DEFAULT_BLANK_COLOR,
 		textColor: blankTextColor || DEFAULT_BLANK_TEXT_COLOR
 	};

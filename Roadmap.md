@@ -21,28 +21,15 @@
 
 ## Remaining work (execute in order)
 
-### Workstream A — Correctness (P0)
+### ✅ Workstream A — Correctness (P0)
 
-| # | Task | Files | Done when |
-|---|------|-------|-----------|
-| A1 | Honor `ui.refreshMs` in demo shell (clamp e.g. 5s–300s, default 30s) | `main.js` | Interval follows JSON |
-| A2 | Honor `ui.window.strategy`: `nextByTime` \| `static` | `board-pipeline.js`, `flapemu.js`, tests | Static boards show rows[0..n) without time seek |
-| A3 | Blank-color checks use configured blank, not hard-coded `#202020` | `FlapUnit.js`, `data-logic.js` | Custom `ui.blankColor` works |
-| A4 | Docs match code (v3-only; no false legacy; no `airport.js` / editor) | `README.md`, `GEMINI.md` | Docs review clean |
+All done: `ui.refreshMs` clamping, `window.strategy`, blank-color configurability, docs match code.
 
-### Workstream B — Bilingual keys `main` / `alt` (P1)
+### ✅ Workstream B — Bilingual keys `main` / `alt` (P1)
 
-Canonical bilingual object becomes `{ main, alt }` (replacing `{ local, en }`).
+All done: `local`/`en` → `main`/`alt` across JS, CSS, JSON, tests, CSV, and docs.
 
-| # | Task | Files | Done when |
-|---|------|-------|-----------|
-| B1 | Core + transforms use `main` / `alt` | `config.js`, `FlapUnit.js`, `data-logic.js`, `record-transform.js`, `utils.js`, `board-pipeline.js`, `flapemu.js` | No `.local` / `.en` in JS for text cards |
-| B2 | CSS classes `.main-text` / `.alt-text` (drop or dual-support old) | `style.css` | Layout still 72/28 |
-| B3 | Convert all sample JSON | `timetable/*.json` | Grep clean of bilingual `local`/`en` |
-| B4 | Tests + CSV helper | `tests/*`, `timetable_csv.py` | Tests green |
-| B5 | Docs examples use `main` / `alt` | `README.md`, `GEMINI.md`, this file | Consistent |
-
-**Note:** `ui.errorMessage` already uses `{ main, description }` — keep as overlay shape (not flap bilingual).
+**Note:** `ui.errorMessage` uses `{ main, description }` — overlay shape, not flap bilingual.
 
 ### Workstream C — Library cleanup (P2)
 
@@ -105,6 +92,8 @@ Board library (flapemu.js → RowGroup → FlapUnit)
 |------|--------|
 | 2026-07-09 | Architecture Steps 1–4 landed on branch (prior agent work) |
 | 2026-07-09 | Review: documented gaps A–C; this ordered plan |
+| 2026-07-11 | Workstream A done (refreshMs, window strategy, blank-color, docs) |
+| 2026-07-11 | Workstream B done (local/en → main/alt across entire codebase) |
 
 *(Append a line when each workstream item lands.)*
 

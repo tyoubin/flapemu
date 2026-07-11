@@ -17,8 +17,8 @@
       "key": "train_no",
       "kind": "chars",
       "header": {
-        "local": "车次",
-        "en": "Train"
+        "main": "车次",
+        "alt": "Train"
       },
       "unitCount": 6,
       "charset": "GDCZ1234567890",
@@ -28,8 +28,8 @@
       "key": "destination",
       "kind": "word",
       "header": {
-        "local": "终到站",
-        "en": "Destination"
+        "main": "终到站",
+        "alt": "Destination"
       },
       "presetKey": "dests",
       "sourceField": "destination",
@@ -40,16 +40,16 @@
       "key": "depart_time",
       "kind": "time",
       "header": {
-        "local": "发车",
-        "en": "Depart"
+        "main": "发车",
+        "alt": "Depart"
       }
     },
     {
       "key": "track_no",
       "kind": "chars",
       "header": {
-        "local": "检票口",
-        "en": "Gate"
+        "main": "检票口",
+        "alt": "Gate"
       },
       "unitCount": 3,
       "charset": "1234567890AB",
@@ -59,8 +59,8 @@
       "key": "remarks",
       "kind": "word",
       "header": {
-        "local": "状态",
-        "en": "Status"
+        "main": "状态",
+        "alt": "Status"
       },
       "presetKey": "remarks",
       "sourceField": "remarks",
@@ -71,74 +71,74 @@
   "presets": {
     "dests": [
       {
-        "local": "北京南",
-        "en": "Beijing South"
+        "main": "北京南",
+        "alt": "Beijing South"
       },
       {
-        "local": "南京南",
-        "en": "Nanjing South"
+        "main": "南京南",
+        "alt": "Nanjing South"
       },
       {
-        "local": "杭州东",
-        "en": "Hangzhou East"
+        "main": "杭州东",
+        "alt": "Hangzhou East"
       },
       {
-        "local": "合肥南",
-        "en": "Hefei South"
+        "main": "合肥南",
+        "alt": "Hefei South"
       },
       {
-        "local": "南昌西",
-        "en": "Nanchang West"
+        "main": "南昌西",
+        "alt": "Nanchang West"
       },
       {
-        "local": "武汉",
-        "en": "Wuhan"
+        "main": "武汉",
+        "alt": "Wuhan"
       },
       {
-        "local": "广州南",
-        "en": "Guangzhou South"
+        "main": "广州南",
+        "alt": "Guangzhou South"
       },
       {
-        "local": "深圳北",
-        "en": "Shenzhen North"
+        "main": "深圳北",
+        "alt": "Shenzhen North"
       },
       {
-        "local": "济南西",
-        "en": "Jinan West"
+        "main": "济南西",
+        "alt": "Jinan West"
       },
       {
-        "local": "郑州东",
-        "en": "Zhengzhou East"
+        "main": "郑州东",
+        "alt": "Zhengzhou East"
       },
       {
-        "local": "宁波",
-        "en": "Ningbo"
+        "main": "宁波",
+        "alt": "Ningbo"
       }
     ],
     "remarks": [
       {
-        "local": "正在检票",
-        "en": "Boarding"
+        "main": "正在检票",
+        "alt": "Boarding"
       },
       {
-        "local": "已停止检票",
-        "en": "Gates Closed"
+        "main": "已停止检票",
+        "alt": "Gates Closed"
       },
       {
-        "local": "晚点约15分",
-        "en": "Delay ~15min"
+        "main": "晚点约15分",
+        "alt": "Delay ~15min"
       },
       {
-        "local": "晚点约30分",
-        "en": "Delay ~30min"
+        "main": "晚点约30分",
+        "alt": "Delay ~30min"
       },
       {
-        "local": "正点",
-        "en": "On Time"
+        "main": "正点",
+        "alt": "On Time"
       },
       {
-        "local": "候车中",
-        "en": "Waiting"
+        "main": "候车中",
+        "alt": "Waiting"
       }
     ]
   },
@@ -147,156 +147,156 @@
       "train_no": "G1373",
       "depart_time": "07:30",
       "destination": {
-        "local": "北京南",
-        "en": "Beijing South"
+        "main": "北京南",
+        "alt": "Beijing South"
       },
       "track_no": "12",
       "remarks": {
-        "local": "正在检票",
-        "en": "Boarding"
+        "main": "正在检票",
+        "alt": "Boarding"
       }
     },
     {
       "train_no": "D2281",
       "depart_time": "07:45",
       "destination": {
-        "local": "深圳北",
-        "en": "Shenzhen North"
+        "main": "深圳北",
+        "alt": "Shenzhen North"
       },
       "track_no": "8A",
       "remarks": {
-        "local": "候车中",
-        "en": "Waiting"
+        "main": "候车中",
+        "alt": "Waiting"
       }
     },
     {
       "train_no": "G7355",
       "depart_time": "08:00",
       "destination": {
-        "local": "杭州东",
-        "en": "Hangzhou East"
+        "main": "杭州东",
+        "alt": "Hangzhou East"
       },
       "track_no": "15",
       "remarks": {
-        "local": "正点",
-        "en": "On Time"
+        "main": "正点",
+        "alt": "On Time"
       }
     },
     {
       "train_no": "G7572",
       "depart_time": "08:15",
       "destination": {
-        "local": "合肥南",
-        "en": "Hefei South"
+        "main": "合肥南",
+        "alt": "Hefei South"
       },
       "track_no": "10B",
       "remarks": {
-        "local": "晚点约15分",
-        "en": "Delay ~15min"
+        "main": "晚点约15分",
+        "alt": "Delay ~15min"
       }
     },
     {
       "train_no": "G1377",
       "depart_time": "08:30",
       "destination": {
-        "local": "南京南",
-        "en": "Nanjing South"
+        "main": "南京南",
+        "alt": "Nanjing South"
       },
       "track_no": "22",
       "remarks": {
-        "local": "正在检票",
-        "en": "Boarding"
+        "main": "正在检票",
+        "alt": "Boarding"
       }
     },
     {
       "train_no": "G1371",
       "depart_time": "08:48",
       "destination": {
-        "local": "广州南",
-        "en": "Guangzhou South"
+        "main": "广州南",
+        "alt": "Guangzhou South"
       },
       "track_no": "6",
       "remarks": {
-        "local": "候车中",
-        "en": "Waiting"
+        "main": "候车中",
+        "alt": "Waiting"
       }
     },
     {
       "train_no": "D3103",
       "depart_time": "09:00",
       "destination": {
-        "local": "宁波",
-        "en": "Ningbo"
+        "main": "宁波",
+        "alt": "Ningbo"
       },
       "track_no": "18A",
       "remarks": {
-        "local": "正点",
-        "en": "On Time"
+        "main": "正点",
+        "alt": "On Time"
       }
     },
     {
       "train_no": "G2811",
       "depart_time": "09:15",
       "destination": {
-        "local": "石家庄",
-        "en": "Shijiazhuang"
+        "main": "石家庄",
+        "alt": "Shijiazhuang"
       },
       "track_no": "4",
       "remarks": {
-        "local": "晚点约30分",
-        "en": "Delay ~30min"
+        "main": "晚点约30分",
+        "alt": "Delay ~30min"
       }
     },
     {
       "train_no": "G7317",
       "depart_time": "09:30",
       "destination": {
-        "local": "南昌西",
-        "en": "Nanchang West"
+        "main": "南昌西",
+        "alt": "Nanchang West"
       },
       "track_no": "11",
       "remarks": {
-        "local": "正点",
-        "en": "On Time"
+        "main": "正点",
+        "alt": "On Time"
       }
     },
     {
       "train_no": "G7519",
       "depart_time": "09:45",
       "destination": {
-        "local": "宁波",
-        "en": "Ningbo"
+        "main": "宁波",
+        "alt": "Ningbo"
       },
       "track_no": "14",
       "remarks": {
-        "local": "候车中",
-        "en": "Waiting"
+        "main": "候车中",
+        "alt": "Waiting"
       }
     },
     {
       "train_no": "G2261",
       "depart_time": "10:00",
       "destination": {
-        "local": "郑州东",
-        "en": "Zhengzhou East"
+        "main": "郑州东",
+        "alt": "Zhengzhou East"
       },
       "track_no": "7",
       "remarks": {
-        "local": "候车中",
-        "en": "Waiting"
+        "main": "候车中",
+        "alt": "Waiting"
       }
     },
     {
       "train_no": "G1379",
       "depart_time": "10:20",
       "destination": {
-        "local": "济南西",
-        "en": "Jinan West"
+        "main": "济南西",
+        "alt": "Jinan West"
       },
       "track_no": "3",
       "remarks": {
-        "local": "正点",
-        "en": "On Time"
+        "main": "正点",
+        "alt": "On Time"
       }
     }
   ]

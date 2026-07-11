@@ -23,7 +23,7 @@ export function sortByField(rows, field) {
 export function extractFieldWords(rows, field) {
 	if (!Array.isArray(rows)) return [];
 	return rows.map((item) => {
-		if (item[field] && item[field].local) return item[field];
+		if (item[field] && item[field].main) return item[field];
 		return { local: '' };
 	});
 }

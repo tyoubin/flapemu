@@ -70,12 +70,12 @@ export function mountBoard(el, config) {
 			const item = document.createElement('div');
 			item.className = `${column.cssClass} header-item`;
 			item.style.cssText = column.inlineStyle;
-			const local = document.createElement('span');
-			local.textContent = column.header?.local ?? '';
-			const en = document.createElement('span');
-			en.textContent = column.header?.en ?? '';
-			item.appendChild(local);
-			item.appendChild(en);
+			const main = document.createElement('span');
+			main.textContent = column.header?.main ?? '';
+			const alt = document.createElement('span');
+			alt.textContent = column.header?.alt ?? '';
+			item.appendChild(main);
+			item.appendChild(alt);
 			headerRow.appendChild(item);
 		});
 	}
@@ -90,7 +90,7 @@ export function mountBoard(el, config) {
 		if (fullList.length === 0) return;
 		let maxLen = 0;
 		fullList.forEach(item => {
-			const len = calculateVisualLength(item.local);
+			const len = calculateVisualLength(item.main);
 			if (len > maxLen) maxLen = len;
 		});
 		const minChars = column.minChars || 4;

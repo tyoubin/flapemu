@@ -1,7 +1,7 @@
 import { FLAP_ANIMATION_FALLBACK_MS } from './config.js';
 import { createPhysicalList, mergeIntoPhysicalList } from './data-logic.js';
 
-const BLANK_LOCAL = " ";
+const BLANK_MAIN = " ";
 
 export class FlapUnit {
 	constructor(parentElement, cssClass, type) {
@@ -55,21 +55,21 @@ export class FlapUnit {
 		if (this.type === 'char') {
 			container.textContent = data;
 		} else {
-			const localDiv = document.createElement('div');
-			localDiv.className = 'local-text';
-			localDiv.textContent = data.local;
+			const mainDiv = document.createElement('div');
+			mainDiv.className = 'main-text';
+			mainDiv.textContent = data.main;
 
-			const enDiv = document.createElement('div');
-			enDiv.className = 'en-text';
-			enDiv.textContent = data.en;
+			const altDiv = document.createElement('div');
+			altDiv.className = 'alt-text';
+			altDiv.textContent = data.alt;
 
 			if (data.textColor) {
-				enDiv.style.color = data.textColor;
-				if (data.textColor === "#000000") enDiv.style.opacity = "0.7";
+				altDiv.style.color = data.textColor;
+				if (data.textColor === "#000000") altDiv.style.opacity = "0.7";
 			}
 
-			container.appendChild(localDiv);
-			container.appendChild(enDiv);
+			container.appendChild(mainDiv);
+			container.appendChild(altDiv);
 		}
 	}
 
@@ -78,9 +78,9 @@ export class FlapUnit {
 
 		this.wordIndexMap = new Map();
 		this.physicalList.forEach((item, idx) => {
-			const local = (item && item.local) ? item.local : BLANK_LOCAL;
-			if (!this.wordIndexMap.has(local)) {
-				this.wordIndexMap.set(local, idx);
+			const main = (item && item.main) ? item.main : BLANK_MAIN;
+			if (!this.wordIndexMap.has(main)) {
+				this.wordIndexMap.set(main, idx);
 			}
 		});
 	}
@@ -93,18 +93,18 @@ export class FlapUnit {
 			nextIndex = this.physicalList.indexOf(val);
 			if (nextIndex === -1) nextIndex = 0;
 		} else {
-			const targetLocal = (val && val.local) ? val.local : BLANK_LOCAL;
+			const targetMain = (val && val.main) ? val.main : BLANK_MAIN;
 
-			if (targetLocal === BLANK_LOCAL || targetLocal === "") {
+			if (targetMain === BLANK_MAIN || targetMain === "") {
 				nextIndex = 0;
 			} else {
-				if (this.wordIndexMap && this.wordIndexMap.has(targetLocal)) {
-					nextIndex = this.wordIndexMap.get(targetLocal);
+				if (this.wordIndexMap && this.wordIndexMap.has(targetMain)) {
+					nextIndex = this.wordIndexMap.get(targetMain);
 				} else {
-					nextIndex = this.physicalList.findIndex(item => item.local === targetLocal);
+					nextIndex = this.physicalList.findIndex(item => item.main === targetMain);
 				}
 				if (nextIndex === -1) {
-					console.warn(`[FlapUnit] Target '${targetLocal}' not found in physical list. Defaulting to blank.`);
+					console.warn(`[FlapUnit] Target '${targetMain}' not found in physical list. Defaulting to blank.`);
 					nextIndex = 0;
 				}
 			}
@@ -201,7 +201,7 @@ export class WordFlap extends FlapUnit {
 	renderTo(container, data) {
 		super.renderTo(container, data);
 		if (this.type === 'word' && this.textAlign === 'left') {
-			const items = container.querySelectorAll('.local-text, .en-text');
+			const items = container.querySelectorAll('.main-text, .alt-text');
 			items.forEach(el => {
 				el.style.justifyContent = 'flex-start';
 				el.style.paddingLeft = '15px';

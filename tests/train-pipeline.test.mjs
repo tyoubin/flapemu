@@ -57,19 +57,19 @@ function test_selectDisplayTrains_selectsByDepartTime() {
 
 function test_extractScheduleWords_extractsByField() {
 	const data = [
-		{ destination: { local: '東京', en: 'Tokyo' } },
-		{ destination: { local: '大阪', en: 'Osaka' } },
+		{ destination: { main: '東京', alt: 'Tokyo' } },
+		{ destination: { main: '大阪', alt: 'Osaka' } },
 	];
 	const result = extractScheduleWords(data, 'destination');
 	assert.equal(result.length, 2);
-	assert.equal(result[0].local, '東京');
-	assert.equal(result[1].local, '大阪');
+	assert.equal(result[0].main, '東京');
+	assert.equal(result[1].main, '大阪');
 }
 
 function test_prepareTrainBoardData_appliesFilterAndSort() {
 	const raw = {
 		schema_version: 3,
-		meta: { header: { logo_url: 'logo.svg', line_name: { local: 'Test', en: 'Test' }, for: { local: 'A', en: 'A' } } },
+		meta: { header: { logo_url: 'logo.svg', line_name: { main: 'Test', alt: 'Test' }, for: { main: 'A', alt: 'A' } } },
 		columns: [],
 		presets: { types: [] },
 		rows: [
