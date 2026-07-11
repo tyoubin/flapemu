@@ -1,4 +1,4 @@
-import { prepareTrainBoardData } from './js/train-pipeline.js';
+import { prepareBoardData } from './js/board-pipeline.js';
 import { mountBoard } from './js/flapemu.js';
 
 const DEFAULT_REFRESH_MS = 30000;
@@ -39,7 +39,7 @@ async function fetchData() {
 		if (!response.ok) throw new Error("API Network response was not ok");
 		const json = await response.json();
 
-		const config = prepareTrainBoardData(json, null);
+		const config = prepareBoardData(json);
 		storedStatus = (config.ui && config.ui.errorMessage) || null;
 		refreshIntervalMs = clampRefreshMs(config.ui && config.ui.refreshMs);
 

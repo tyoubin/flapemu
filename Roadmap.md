@@ -16,6 +16,7 @@
 | Multi-domain demos: `demo`, `hongqiao`, `narita`, `coco` | Done |
 | Editor / PWA removed | Done (intentional) |
 | `package.json` + `js/flapemu.js` entry | Done |
+| `train-pipeline.js` deleted (consumer owns domain logic) | Done |
 
 ---
 
@@ -89,6 +90,7 @@ Board library (flapemu.js → RowGroup → FlapUnit)
 | 2026-07-11 | Workstream A done (refreshMs, window strategy, blank-color, docs) |
 | 2026-07-11 | Workstream B done (local/en → main/alt across entire codebase) |
 | 2026-07-11 | Workstream C done (library cleanup, C1–C4) |
+| 2026-07-11 | Deleted `train-pipeline.js` — consumer owns domain logic before JSON creation |
 
 *(Append a line when each workstream item lands.)*
 

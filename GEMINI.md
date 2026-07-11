@@ -21,7 +21,7 @@ Preserve skeuomorphic quality and mechanical behavior when making changes.
 
 ### Module Dependency Order
 ```
-config.js → data-normalize.js → board-pipeline.js → train-pipeline.js (adapter)
+config.js → data-normalize.js → board-pipeline.js
 config.js → data-logic.js → FlapUnit.js → RowGroup.js → flapemu.js (public entry)
 config.js → utils.js → record-transform.js → RowGroup.js
 ```
@@ -56,30 +56,23 @@ Generic (domain-neutral) data flow helpers:
 
 No train/airport-specific field names hardcoded here.
 
-### 4. Train Pipeline Adapter (`js/train-pipeline.js`)
-Train-domain wrapper:
-- `applyTrackFilter(data, tracks)` — filter by `track_no`
-- `sortScheduleByDepartTime(data)` — sort by `depart_time`
-- `selectDisplayTrains(data, n, now)` — wraps `selectDisplayRows` with `{ strategy: 'nextByTime', timeField: 'depart_time' }`
-- `prepareTrainBoardData(raw, filterTracks)` — normalize + filter + sort in one call
-
-### 5. Data Normalization (`js/data-normalize.js`)
+### 4. Data Normalization (`js/data-normalize.js`)
 Canonical schema:
 - `BOARD_CONFIG_VERSION = 3`
 - `normalizeBoardConfig(raw)` — v3-only passthrough; returns `{ schema_version, columns, presets, rows, ui }`
 
-### 6. Record Transforms (`js/record-transform.js`)
+### 5. Record Transforms (`js/record-transform.js`)
 Schema-driven transforms used by `RowGroup`:
 - `buildActualWordMap(columns, rows)` — word actuals extraction
 - `getColumnTarget(column, record)` — per-column target payload mapping
 
-### 7. Physical Spool Logic (`js/data-logic.js`, `js/FlapUnit.js`)
+### 6. Physical Spool Logic (`js/data-logic.js`, `js/FlapUnit.js`)
 - Word flaps traverse physical list index-by-index (`pointer → targetPointer`), not jump.
 - `animationend` drives step chaining.
 - Fallback timeout is configurable via `FLAP_ANIMATION_FALLBACK_MS`.
 - Word flap target lookup uses cached main→index mapping; update map whenever list mutates.
 
-### 8. Runtime Config (`js/config.js`)
+### 7. Runtime Config (`js/config.js`)
 Hardcoded constants only — no URL parsing, no runtime profiles:
 - `makeBlankData()`, `FLAP_ANIMATION_FALLBACK_MS`, `LAYOUT_WIDTH_MULTIPLIER`, `LAYOUT_WIDTH_PADDING`, `WORD_CAPACITY_CONFIG`
 
@@ -120,18 +113,19 @@ Tiny helpers extracted for reuse: `getNumericCharset`, `parseDepartMinutes`.
 ## Editing Rules for Future AI Agents
 
 1. For column or mode changes:
-   1. Update `js/data-normalize.js` (defaults) and `js/train-pipeline.js` (if train-specific).
-   2. Ensure `style.css` has compatible `col-*` layout rules.
-   3. Ensure `RowGroup` and header rendering still align.
+    1. Update `js/data-normalize.js` (defaults).
+    2. Ensure `style.css` has compatible `col-*` layout rules.
+    3. Ensure `RowGroup` and header rendering still align.
 2. For timing/layout/capacity changes:
-   1. Update `js/config.js`.
-   2. Consume values from config, do not duplicate magic numbers.
+    1. Update `js/config.js`.
+    2. Consume values from config, do not duplicate magic numbers.
 3. For timetable format changes:
-   1. Update `js/data-normalize.js`.
-   2. Validate board-config tests still pass.
-4. For schedule selection/filtering behavior, update `js/board-pipeline.js` first, or `js/train-pipeline.js` if train-specific.
+    1. Update `js/data-normalize.js`.
+    2. Validate board-config tests still pass.
+4. For schedule selection/filtering behavior, update `js/board-pipeline.js`.
 5. Do not rebuild board rows each update cycle; only update flap targets and physical lists.
 6. The library (`js/flapemu.js`) must stay product-shell agnostic — no chrome, no URL parsing, no meta rendering.
+7. `train-pipeline.js` was deleted. Consumers own domain logic (sort, filter) before JSON creation. All generic helpers are in `board-pipeline.js`.
 
 ---
 
@@ -141,7 +135,7 @@ Tiny helpers extracted for reuse: `getNumericCharset`, `parseDepartMinutes`.
 2. `board.html?t=hongqiao`
 3. `board.html?t=narita`
 4. `board.html?t=__nonexistent__` (error overlay behavior)
-5. `node tests/board-config.test.mjs && node tests/train-pipeline.test.mjs && node tests/step1-rename.test.mjs`
+5. `node tests/board-config.test.mjs && node tests/step1-rename.test.mjs`
 
 ---
 

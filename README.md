@@ -51,9 +51,16 @@ The board renders into the given element. All visual configuration comes from th
 ├── main.js             # Product shell for board.html (fetch, data, auto-refresh)
 ├── package.json        # npm package entry
 ├── js/                 # ES Modules
-│   ├── flapemu.js      # Public entry point (mountBoard)
 │   ├── board-pipeline.js # Generic data pipeline (domain-neutral)
-│   ├── train-pipeline.js # Train-domain adapter wrapper
+│   ├── board-schema.js   # Charset helpers
+│   ├── config.js       # Board constants
+│   ├── data-logic.js   # Physical list logic
+│   ├── data-normalize.js # Schema compatibility + normalization
+│   ├── flapemu.js      # Public entry point (mountBoard)
+│   ├── FlapUnit.js     # Flap animation classes
+│   ├── record-transform.js # Column target/data transforms
+│   ├── RowGroup.js     # Row management class
+│   ├── utils.js        # Helper functions
 │   ├── config.js       # Board constants
 │   ├── data-logic.js   # Physical list logic
 │   ├── data-normalize.js # Schema compatibility + normalization
