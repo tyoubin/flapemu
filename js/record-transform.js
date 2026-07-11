@@ -32,11 +32,12 @@ export function getColumnTarget(column, record) {
 	if (column.kind === 'word') {
 		const target = safeRecord[sourceField] || null;
 		if (target && column.colorFields) {
-			return {
-				...target,
-				color: safeRecord[column.colorFields.background],
-				textColor: safeRecord[column.colorFields.text]
-			};
+			const out = { ...target };
+			const bg = safeRecord[column.colorFields.background];
+			const tc = safeRecord[column.colorFields.text];
+			if (bg != null) out.color = bg;
+			if (tc != null) out.textColor = tc;
+			return out;
 		}
 		return target;
 	}

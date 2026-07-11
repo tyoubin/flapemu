@@ -60,6 +60,21 @@ export function mountBoard(el, config) {
 	if (ui.rowGap) {
 		el.style.setProperty('--row-gap', ui.rowGap);
 	}
+	if (ui.charFontSize) {
+		el.style.setProperty('--char-font', ui.charFontSize);
+	}
+	if (ui.mainFontSize) {
+		el.style.setProperty('--local-font', ui.mainFontSize);
+	}
+	if (ui.altFontSize) {
+		el.style.setProperty('--en-font', ui.altFontSize);
+	}
+	if (ui.charWidth) {
+		el.style.setProperty('--char-width', ui.charWidth);
+	}
+	if (ui.charHeight) {
+		el.style.setProperty('--char-height', ui.charHeight);
+	}
 
 	if (ui.showHeader !== false) {
 		const headerRow = document.createElement('div');

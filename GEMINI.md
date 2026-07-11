@@ -135,7 +135,7 @@ Tiny helpers extracted for reuse: `getNumericCharset`, `parseTimeMinutes`.
 2. `board.html?t=hongqiao`
 3. `board.html?t=narita`
 4. `board.html?t=__nonexistent__` (error overlay behavior)
-5. `node tests/board-config.test.mjs && node tests/step1-rename.test.mjs`
+5. `node tests/board-config.test.mjs && node tests/unit.test.mjs && node tests/step1-rename.test.mjs`
 
 ---
 

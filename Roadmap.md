@@ -36,10 +36,9 @@ All done: `local`/`en` → `main`/`alt` across JS, CSS, JSON, tests, CSV, and do
 
 All done: generic pipeline import in `flapemu.js`, column cloning, no `scheduleData` alias, test data consistency.
 
-### Workstream D — Polish (P3, later)
+### ✅ Workstream D — Polish (P3)
 
-- Appearance settings in JSON (fonts, space between columns, etc)
-- Stronger tests (`getColumnTarget`, colorFields, strategies)
+All done: font/char JSON config (`charFontSize`, `mainFontSize`, `altFontSize`, `charWidth`, `charHeight`); 15 new unit tests for `getColumnTarget`, `colorFields`, `buildActualWordMap`, and window strategy edge cases.
 
 ---
 
@@ -91,6 +90,7 @@ Board library (flapemu.js → RowGroup → FlapUnit)
 | 2026-07-11 | Workstream B done (local/en → main/alt across entire codebase) |
 | 2026-07-11 | Workstream C done (library cleanup, C1–C4) |
 | 2026-07-11 | Deleted `train-pipeline.js` — consumer owns domain logic before JSON creation |
+| 2026-07-11 | Workstream D: font/char JSON config; unit tests for getColumnTarget, colorFields, strategies |
 
 *(Append a line when each workstream item lands.)*
 
@@ -99,7 +99,7 @@ Board library (flapemu.js → RowGroup → FlapUnit)
 ## Regression checklist
 
 ```bash
-node --test tests/*.mjs
+node tests/board-config.test.mjs && node tests/unit.test.mjs && node tests/step1-rename.test.mjs
 # manual: python3 serve.py → :8086
 # board.html?t=demo | hongqiao | narita | coco | __nonexistent__
 ```
