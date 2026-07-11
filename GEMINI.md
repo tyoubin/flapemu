@@ -21,11 +21,9 @@ Preserve skeuomorphic quality and mechanical behavior when making changes.
 
 ### Module Dependency Order
 ```
-config.js (constants) → data-normalize.js → board-pipeline.js → train-pipeline.js → flapemu.js (public entry)
-                                                                       RowGroup.js → FlapUnit.js
-                                                                    record-transform.js
-                                                                         data-logic.js
-                                                                    utils.js
+config.js → data-normalize.js → board-pipeline.js → train-pipeline.js (adapter)
+config.js → data-logic.js → FlapUnit.js → RowGroup.js → flapemu.js (public entry)
+config.js → utils.js → record-transform.js → RowGroup.js
 ```
 
 ### 1. Public Entry (`js/flapemu.js`)
@@ -39,7 +37,7 @@ Single export: `mountBoard(el, config)`. The board library entry point.
 
 The library owns zero chrome — no top bar, no meta, no URL parsing.
 
-### 2. Product Shells (`main.js`, `airport.js`)
+### 2. Product Shells (`main.js`)
 Thin consumers of the library:
 - Fetch JSON from a URL or hardcoded path
 - Normalize via pipeline (`prepareTrainBoardData` or `prepareBoardData`)
@@ -52,7 +50,7 @@ Only `?t=` is parsed by the demo shell for JSON selection. All other display par
 ### 3. Domain Pipeline (`js/board-pipeline.js`)
 Generic (domain-neutral) data flow helpers:
 - `prepareBoardData(raw)` — normalize + return `{ presets, rows, columns, ui }`
-- `selectDisplayRows(data, n, timeField, now)` — time-window selection
+- `selectDisplayRows(data, n, windowOpts, now)` — time-window selection; `windowOpts = { strategy: 'nextByTime'|'static', timeField }`
 - `sortByField(data, field)` — field sort
 - `extractFieldWords(data, field)` — word extraction
 
@@ -62,7 +60,7 @@ No train/airport-specific field names hardcoded here.
 Train-domain wrapper:
 - `applyTrackFilter(data, tracks)` — filter by `track_no`
 - `sortScheduleByDepartTime(data)` — sort by `depart_time`
-- `selectDisplayTrains(data, n, now)` — wraps `selectDisplayRows` with `timeField='depart_time'`
+- `selectDisplayTrains(data, n, now)` — wraps `selectDisplayRows` with `{ strategy: 'nextByTime', timeField: 'depart_time' }`
 - `prepareTrainBoardData(raw, filterTracks)` — normalize + filter + sort in one call
 
 ### 5. Data Normalization (`js/data-normalize.js`)
@@ -83,7 +81,10 @@ Schema-driven transforms used by `RowGroup`:
 
 ### 8. Runtime Config (`js/config.js`)
 Hardcoded constants only — no URL parsing, no runtime profiles:
-- `BLANK_DATA`, `FLAP_ANIMATION_FALLBACK_MS`, `LAYOUT_WIDTH_MULTIPLIER`, `LAYOUT_WIDTH_PADDING`, `WORD_CAPACITY_CONFIG`
+- `makeBlankData()`, `FLAP_ANIMATION_FALLBACK_MS`, `LAYOUT_WIDTH_MULTIPLIER`, `LAYOUT_WIDTH_PADDING`, `WORD_CAPACITY_CONFIG`
+
+### 9. Misc (`js/board-schema.js`, `js/board-pipeline.js` exports)
+Tiny helpers extracted for reuse: `getNumericCharset`, `parseDepartMinutes`.
 
 ---
 
@@ -94,28 +95,6 @@ Hardcoded constants only — no URL parsing, no runtime profiles:
 3. First call: `mountBoard(el, config)` → creates DOM, RowGroups, cascades display.
 4. Subsequent calls (auto-refresh): `instance.updateBoard(presets, rows)` → updates physical lists, re-selects display window, cascades.
 5. Auto-refresh runs with overlap protection and pauses when tab is hidden.
-
----
-
-## Data Compatibility Contract
-
-Canonical format is v3 object with `schema_version: 3`.
-Normalization also accepts:
-- Array root (legacy schedule-only format)
-- `schedule` as alias for `rows`
-- Alias fields in rows:
-  - `track` → `track_no`
-  - `no` → `train_no`
-  - `time` → `depart_time`
-  - `dest` / `to` → `destination`
-  - `remark` / `note` → `remarks`
-  - `stop` / `stops` → `stops_at`
-  - `train_type` / `kind` → `type`
-  - `type_color` → `type_color_hex`
-  - `type_text_color_hex` → `type_text_color`
-- String bilingual fields converted to `{ local, en }`
-
-When adding new aliases or schema versions, keep normalization backward-compatible.
 
 ---
 

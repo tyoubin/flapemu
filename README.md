@@ -127,24 +127,6 @@ Timetable files use a v3 schema that fully defines the board:
 - `presets` provides the word pool for `word`-kind columns.
 - `rows` is the schedule data — the board selects a time-appropriate window.
 
-### Data Compatibility / Normalization
-
-The board accepts legacy v1/v2 timetable formats and normalizes them to v3.
-
-- Array root (`[...]`) is accepted as legacy schedule-only data (upgraded to v3).
-- `schedule` is accepted as an alias for `rows`.
-- Alias field mapping in rows:
-  - `track` → `track_no`
-  - `no` → `train_no`
-  - `time` → `depart_time`
-  - `dest` / `to` → `destination`
-  - `remark` / `note` → `remarks`
-  - `stop` / `stops` → `stops_at`
-  - `train_type` / `kind` → `type`
-  - `type_color` → `type_color_hex`
-  - `type_text_color_hex` → `type_text_color`
-- String bilingual fields are converted to `{ local, en }`.
-
 ## Features
 
 * **Realistic Flap Animation:** Smooth and authentic visual transitions for character and word changes.
