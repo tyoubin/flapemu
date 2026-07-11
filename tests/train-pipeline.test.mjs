@@ -73,9 +73,9 @@ function test_prepareTrainBoardData_appliesFilterAndSort() {
 		columns: [],
 		presets: { types: [] },
 		rows: [
-			{ track_no: '2', depart_time: '11:00', type: { local: '快速', en: 'Rapid' } },
-			{ track_no: '1', depart_time: '09:00', type: { local: '各停', en: 'Local' } },
-			{ track_no: '1', depart_time: '10:00', type: { local: '急行', en: 'Express' } },
+			{ track_no: '2', depart_time: '11:00', type: { main: '快速', alt: 'Rapid' } },
+			{ track_no: '1', depart_time: '09:00', type: { main: '各停', alt: 'Local' } },
+			{ track_no: '1', depart_time: '10:00', type: { main: '急行', alt: 'Express' } },
 		]
 	};
 	const result = prepareTrainBoardData(raw, ['1']);

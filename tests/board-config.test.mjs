@@ -4,8 +4,8 @@ import { normalizeBoardConfig, BOARD_CONFIG_VERSION } from '../js/data-normalize
 function test_v3_passthrough_preservesInput() {
 	const input = {
 		schema_version: 3,
-		columns: [{ key: 'time', header: { local: '時刻', en: 'Time' }, kind: 'time', sourceField: 'depart_time' }],
-		presets: { types: [{ local: '快速', en: 'Rapid' }] },
+		columns: [{ key: 'time', header: { main: '時刻', alt: 'Time' }, kind: 'time', sourceField: 'depart_time' }],
+		presets: { types: [{ main: '快速', alt: 'Rapid' }] },
 		rows: [{ depart_time: '10:00' }],
 		ui: { rows: 6, mode: 'departures' }
 	};

@@ -42,9 +42,8 @@ All done: `local`/`en` → `main`/`alt` across JS, CSS, JSON, tests, CSV, and do
 
 ### Workstream D — Polish (P3, later)
 
-- Theme tokens in JSON (fonts, more colors)
+- Appearance settings in JSON (fonts, space between columns, etc)
 - Stronger tests (`getColumnTarget`, colorFields, strategies)
-- npm publish checklist (`exports`, CSS story)
 
 ---
 
@@ -106,12 +105,3 @@ node --test tests/*.mjs
 # manual: python3 serve.py → :8086
 # board.html?t=demo | hongqiao | narita | coco | __nonexistent__
 ```
-
----
-
-## Non-goals
-
-- Framework rewrite
-- Changing flap mechanical feel unless requested
-- Full visual editor before API keys (`main`/`alt`) and window/refresh are stable
-- Silent reintroduction of v1/v2 without an explicit compat policy
