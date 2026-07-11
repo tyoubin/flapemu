@@ -40,7 +40,7 @@ The library owns zero chrome — no top bar, no meta, no URL parsing.
 ### 2. Product Shells (`main.js`)
 Thin consumers of the library:
 - Fetch JSON from a URL or hardcoded path
-- Normalize via pipeline (`prepareTrainBoardData` or `prepareBoardData`)
+- Normalize via pipeline (`prepareBoardData`)
 - Call `mountBoard()` on first load, `instance.updateBoard()` on refresh
 - Render top-bar from `json.meta.header` (product shell concern)
 - Handle auto-refresh, visibility, error overlays
