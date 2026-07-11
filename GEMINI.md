@@ -103,11 +103,9 @@ Tiny helpers extracted for reuse: `getNumericCharset`, `parseTimeMinutes`.
 
 ---
 
----
-
 ## Cache Constraints
 
-* Timetable JSON (`timetable/*.json`) must remain network-only — never cache it.
+* JSON (`timetable/*.json`) must remain network-only — never cache it.
 * If using a service worker, bump the cache name when shell assets change.
 
 ## Editing Rules for Future AI Agents
@@ -125,17 +123,7 @@ Tiny helpers extracted for reuse: `getNumericCharset`, `parseTimeMinutes`.
 4. For schedule selection/filtering behavior, update `js/board-pipeline.js`.
 5. Do not rebuild board rows each update cycle; only update flap targets and physical lists.
 6. The library (`js/flapemu.js`) must stay product-shell agnostic — no chrome, no URL parsing, no meta rendering.
-7. `train-pipeline.js` was deleted. Consumers own domain logic (sort, filter) before JSON creation. All generic helpers are in `board-pipeline.js`.
-
----
-
-## Quick Regression Checklist
-
-1. `board.html?t=demo`
-2. `board.html?t=hongqiao`
-3. `board.html?t=narita`
-4. `board.html?t=__nonexistent__` (error overlay behavior)
-5. `node tests/board-config.test.mjs && node tests/unit.test.mjs && node tests/step1-rename.test.mjs`
+7. Consumers own domain logic (sort, filter) before JSON creation. All generic helpers are in `board-pipeline.js`.
 
 ---
 
