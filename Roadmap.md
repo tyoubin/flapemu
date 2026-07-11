@@ -31,14 +31,9 @@ All done: `local`/`en` → `main`/`alt` across JS, CSS, JSON, tests, CSV, and do
 
 **Note:** `ui.errorMessage` uses `{ main, description }` — overlay shape, not flap bilingual.
 
-### Workstream C — Library cleanup (P2)
+### ✅ Workstream C — Library cleanup (P2)
 
-| # | Task | Files | Done when |
-|---|------|-------|-----------|
-| C1 | `flapemu.js` imports only generic pipeline (`extractFieldWords`) | `flapemu.js` | No train-pipeline import in library entry |
-| C2 | Do not mutate caller `columns` (clone layout fields) | `flapemu.js` | Input config unchanged after mount |
-| C3 | Drop `scheduleData` alias from generic returns | `board-pipeline.js`, `train-pipeline.js`, tests | Single name: `rows` |
-| C4 | Optional: rename train helper names in tests only as needed | tests | Clear domain boundary |
+All done: generic pipeline import in `flapemu.js`, column cloning, no `scheduleData` alias, test data consistency.
 
 ### Workstream D — Polish (P3, later)
 
@@ -93,6 +88,7 @@ Board library (flapemu.js → RowGroup → FlapUnit)
 | 2026-07-09 | Review: documented gaps A–C; this ordered plan |
 | 2026-07-11 | Workstream A done (refreshMs, window strategy, blank-color, docs) |
 | 2026-07-11 | Workstream B done (local/en → main/alt across entire codebase) |
+| 2026-07-11 | Workstream C done (library cleanup, C1–C4) |
 
 *(Append a line when each workstream item lands.)*
 
