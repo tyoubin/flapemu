@@ -9,6 +9,7 @@
   },
   "files": [
     "js/",
+    "examples/",
     "style.css",
     "README.md",
     "LICENSE"

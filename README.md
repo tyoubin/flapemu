@@ -37,6 +37,13 @@ const instance = mountBoard(board, config);
 
 The board renders into the given element. All visual configuration comes from the JSON — no URL params or JS-side chrome.
 
+### Host integration example
+
+[`examples/host-integration.html`](examples/host-integration.html) is a
+standalone consumer example. It owns the page markup, data loading, and error
+status, and imports only the public library entry point plus the stylesheet.
+It does not use `main.js` or any demo-shell helpers.
+
 ### Package usage
 
 The package entry point exports `mountBoard`, `normalizeBoardConfig`, and
@@ -52,6 +59,8 @@ styles.
 ├── index.html          # Portal page (demo selector)
 ├── board.html          # The main simulator view (The Board)
 ├── main.js             # Product shell consumer (fetch, URL, auto-refresh)
+├── examples/
+│   └── host-integration.html # Standalone consumer-owned host page
 ├── js/                 # ES Modules
 │   ├── board-pipeline.js # Generic data pipeline (domain-neutral)
 │   ├── board-schema.js   # Charset helpers

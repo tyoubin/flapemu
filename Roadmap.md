@@ -28,7 +28,7 @@ The branch has made meaningful progress toward a JSON-driven, component-style bo
 
 2. Shell/runtime separation is only partially complete.
    - `main.js` now consumes the public package entrypoint; fetch, URL routing, status display, and auto-refresh remain shell-owned.
-   - The demo HTML still contains product chrome and needs a more explicit host/runtime integration boundary.
+   - `examples/host-integration.html` demonstrates a host-owned page that does not depend on `main.js`.
 
 3. The config contract needs stronger definition.
    - `normalizeBoardConfig` is currently a compatibility layer rather than a full schema contract.
@@ -39,7 +39,7 @@ The branch has made meaningful progress toward a JSON-driven, component-style bo
 
 ## Recommended next steps
 
-- Extract a documented host integration example so consumers can provide their own HTML, routing, and data loading without copying demo-shell code.
+- Add a browser-level integration test for the host example and document the supported config schema.
 - Formalize the board config schema and validation rules.
 - Expand the public API tests to cover real consumer usage and error cases.
 
