@@ -31,8 +31,9 @@ The branch has made meaningful progress toward a JSON-driven, component-style bo
    - `examples/host-integration.html` demonstrates a host-owned page that does not depend on `main.js`.
 
 3. The config contract needs stronger definition.
-   - `normalizeBoardConfig` is currently a compatibility layer rather than a full schema contract.
-   - Column kinds, preset structure, UI settings, and validation rules should be documented more explicitly.
+   - [x] `validateBoardConfig` checks schema version, column identity/kinds, top-level collections, and supported UI window settings.
+   - [x] Column kinds, core UI settings, and validation behavior are documented in `README.md`.
+   - Preset item shape and richer visual styling options remain intentionally permissive for compatibility.
 
 4. Runtime hardening is still needed.
    - Consumer-facing examples and clearer error handling will be needed before the library story is considered complete.
@@ -40,7 +41,7 @@ The branch has made meaningful progress toward a JSON-driven, component-style bo
 ## Recommended next steps
 
 - Add a browser-level integration test for the host example and document the supported config schema.
-- Formalize the board config schema and validation rules.
+- Formalize preset item shape and add validation for cross-field references.
 - Expand the public API tests to cover real consumer usage and error cases.
 
 ## Definition of done

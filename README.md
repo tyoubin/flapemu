@@ -37,6 +37,17 @@ const instance = mountBoard(board, config);
 
 The board renders into the given element. All visual configuration comes from the JSON — no URL params or JS-side chrome.
 
+### Configuration contract
+
+The public schema is version `3`. A config contains `columns` (an array whose
+columns use `kind: "chars"`, `"time"`, or `"word"`, plus a unique `key` and
+`sourceField`), optional `presets` and `rows`, and optional `ui` settings.
+`ui.rows` must be a positive integer; `ui.window.strategy` is either
+`nextByTime` or `static`. Hosts can call `validateBoardConfig(config)` before
+mounting. It returns `{ valid, errors }` and does not throw for malformed
+input. `normalizeBoardConfig` remains available for compatibility and fills
+missing top-level fields.
+
 ### Host integration example
 
 [`examples/host-integration.html`](examples/host-integration.html) is a
@@ -46,7 +57,7 @@ It does not use `main.js` or any demo-shell helpers.
 
 ### Package usage
 
-The package entry point exports `mountBoard`, `normalizeBoardConfig`, and
+The package entry point exports `mountBoard`, `normalizeBoardConfig`, `validateBoardConfig`, and
 `BOARD_CONFIG_VERSION`. The runtime normalizes missing top-level fields
 (`columns`, `presets`, `rows`, and `ui`) before mounting. Import
 `flapemu/style.css` in the host application to include the default board
