@@ -12,6 +12,7 @@ FlapEmu is an emulator for split-flap displays, often seen in train stations and
 
 ```js
 import { mountBoard } from 'flapemu';
+import 'flapemu/style.css';
 
 const board = document.getElementById('board');
 const config = {
@@ -35,6 +36,14 @@ const instance = mountBoard(board, config);
 ```
 
 The board renders into the given element. All visual configuration comes from the JSON — no URL params or JS-side chrome.
+
+### Package usage
+
+The package entry point exports `mountBoard`, `normalizeBoardConfig`, and
+`BOARD_CONFIG_VERSION`. The runtime normalizes missing top-level fields
+(`columns`, `presets`, `rows`, and `ui`) before mounting. Import
+`flapemu/style.css` in the host application to include the default board
+styles.
 
 ## File Structure
 

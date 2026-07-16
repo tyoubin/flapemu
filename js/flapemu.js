@@ -2,6 +2,7 @@ import { selectDisplayRows, extractFieldWords } from './board-pipeline.js';
 import { sleep, calculateVisualLength } from './utils.js';
 import { LAYOUT_WIDTH_MULTIPLIER, LAYOUT_WIDTH_PADDING, makeBlankData } from './config.js';
 import { RowGroup } from './RowGroup.js';
+import { normalizeBoardConfig } from './data-normalize.js';
 
 function columnLayoutStyle(col) {
 	if (col.inlineStyle) return col.inlineStyle;
@@ -31,7 +32,7 @@ function resolveWindowOpts(ui) {
 }
 
 export function mountBoard(el, config) {
-	const { presets, rows, columns: rawColumns, ui } = config;
+	const { presets, rows, columns: rawColumns, ui } = normalizeBoardConfig(config);
 
 	const displayMode = ui.mode || 'concourse';
 	const hiddenColumns = new Set(ui.hiddenColumns || []);

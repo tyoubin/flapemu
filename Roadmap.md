@@ -21,9 +21,10 @@ The branch has made meaningful progress toward a JSON-driven, component-style bo
 
 ## Remaining gaps and issues
 
-1. Library packaging is not complete yet.
-   - There is no package entrypoint or package metadata that makes `import { mountBoard } from 'flapemu'` work in practice.
-   - The current workspace can still run the demo app, but it is not yet a consumable library package.
+1. Library packaging is now available as a first slice.
+   - `package.json` defines the package entrypoint and `flapemu/style.css` export.
+   - `js/index.js` exposes `mountBoard`, `normalizeBoardConfig`, and the schema version.
+   - The runtime normalizes incomplete top-level config before mounting.
 
 2. Shell/runtime separation is only partially complete.
    - The demo shell still carries page-specific assumptions and app chrome.
@@ -38,7 +39,6 @@ The branch has made meaningful progress toward a JSON-driven, component-style bo
 
 ## Recommended next steps
 
-- Add package metadata and exports so the board runtime can be imported as a library.
 - Separate the board runtime from the product shell more cleanly so consumers can provide their own HTML, routing, and data loading.
 - Formalize the board config schema and validation rules.
 - Expand the public API tests to cover real consumer usage and error cases.
