@@ -51,14 +51,15 @@ styles.
 /
 ├── index.html          # Portal page (demo selector)
 ├── board.html          # The main simulator view (The Board)
-├── main.js             # Product shell for board.html (fetch, data, auto-refresh)
+├── main.js             # Product shell consumer (fetch, URL, auto-refresh)
 ├── js/                 # ES Modules
 │   ├── board-pipeline.js # Generic data pipeline (domain-neutral)
 │   ├── board-schema.js   # Charset helpers
 │   ├── config.js       # Board constants
 │   ├── data-logic.js   # Physical list logic
 │   ├── data-normalize.js # Schema compatibility + normalization
-│   ├── flapemu.js      # Public entry point (mountBoard)
+│   ├── index.js        # Public package entry point
+│   ├── flapemu.js      # Board runtime (mountBoard)
 │   ├── FlapUnit.js     # Flap animation classes
 │   ├── record-transform.js # Column target/data transforms
 │   ├── RowGroup.js     # Row management class
@@ -78,7 +79,7 @@ styles.
 
 ## Demo Boards
 
-The hosted demo is a product shell (`main.js`) that demonstrates how to use the library in production. Visit `index.html` to select a board.
+The hosted demo is a product shell (`main.js`) that demonstrates how to use the library in production. It imports the public package entry point and owns fetching, URL routing, status display, and auto-refresh. Visit `index.html` to select a board.
 
 Only one URL parameter is used by the demo shell:
 - **`?t=`** — Selects the JSON file from `timetable/`. Example: `board.html?t=demo` loads `timetable/demo.json`. Only `a-z`, `A-Z`, `0-9`, `_`, `-` are accepted.

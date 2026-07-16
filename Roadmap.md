@@ -27,8 +27,8 @@ The branch has made meaningful progress toward a JSON-driven, component-style bo
    - The runtime normalizes incomplete top-level config before mounting.
 
 2. Shell/runtime separation is only partially complete.
-   - The demo shell still carries page-specific assumptions and app chrome.
-   - The board runtime is closer to reusable, but it still depends on the existing demo structure for full end-to-end behavior.
+   - `main.js` now consumes the public package entrypoint; fetch, URL routing, status display, and auto-refresh remain shell-owned.
+   - The demo HTML still contains product chrome and needs a more explicit host/runtime integration boundary.
 
 3. The config contract needs stronger definition.
    - `normalizeBoardConfig` is currently a compatibility layer rather than a full schema contract.
@@ -39,7 +39,7 @@ The branch has made meaningful progress toward a JSON-driven, component-style bo
 
 ## Recommended next steps
 
-- Separate the board runtime from the product shell more cleanly so consumers can provide their own HTML, routing, and data loading.
+- Extract a documented host integration example so consumers can provide their own HTML, routing, and data loading without copying demo-shell code.
 - Formalize the board config schema and validation rules.
 - Expand the public API tests to cover real consumer usage and error cases.
 

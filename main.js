@@ -1,5 +1,4 @@
-import { prepareBoardData } from './js/board-pipeline.js';
-import { mountBoard } from './js/flapemu.js';
+import { mountBoard, normalizeBoardConfig } from './js/index.js';
 
 const DEFAULT_REFRESH_MS = 30000;
 const MIN_REFRESH_MS = 5000;
@@ -39,7 +38,7 @@ async function fetchData() {
 		if (!response.ok) throw new Error("API Network response was not ok");
 		const json = await response.json();
 
-		const config = prepareBoardData(json);
+		const config = normalizeBoardConfig(json);
 		storedStatus = (config.ui && config.ui.errorMessage) || null;
 		refreshIntervalMs = clampRefreshMs(config.ui && config.ui.refreshMs);
 
