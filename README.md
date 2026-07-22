@@ -48,12 +48,23 @@ mounting. It returns `{ valid, errors }` and does not throw for malformed
 input. `normalizeBoardConfig` remains available for compatibility and fills
 missing top-level fields.
 
+#### Validation details
+
+`validateBoardConfig` checks:
+
+- **Columns:** each must be an object with a non-empty `key` (unique), a valid `kind` (`chars`, `time`, `word`), and a non-empty `sourceField`. For `chars` columns, `unitCount` must be a positive integer.
+- **Presets:** each preset key must be an array of objects. Invalid item shapes are reported.
+- **Cross-field references:** `column.presetKey` must reference an existing key in `presets`. `ui.hiddenColumns` must reference existing column keys.
+- **UI:** `rows` must be a positive integer, `hiddenColumns` an array of strings, `window.strategy` must be `nextByTime` or `static`.
+
 ### Host integration example
 
 [`examples/host-integration.html`](examples/host-integration.html) is a
 standalone consumer example. It owns the page markup, data loading, and error
 status, and imports only the public library entry point plus the stylesheet.
-It does not use `main.js` or any demo-shell helpers.
+It does not use `main.js` or any demo-shell helpers. The example includes
+interactive buttons demonstrating the full board lifecycle:
+`updateBoard()` (refresh), `destroyBoard()` (teardown), and remount.
 
 ### Package usage
 
@@ -71,7 +82,7 @@ styles.
 ├── board.html          # The main simulator view (The Board)
 ├── main.js             # Product shell consumer (fetch, URL, auto-refresh)
 ├── examples/
-│   └── host-integration.html # Standalone consumer-owned host page
+│   └── host-integration.html # Standalone consumer-owned host page with lifecycle demos
 ├── js/                 # ES Modules
 │   ├── board-pipeline.js # Generic data pipeline (domain-neutral)
 │   ├── board-schema.js   # Charset helpers
@@ -92,7 +103,7 @@ styles.
 │   ├── RowGroup.js     # Row management class
 │   ├── utils.js        # Helper functions
 ├── style.css           # Global styles
-├── tests/              # Node-based compatibility tests
+├── tests/              # Node-based compatibility + lifecycle tests
 ├── timetable/          # JSON Data directory
 └── README.md           # User facing documentation
 ```

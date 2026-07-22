@@ -6,49 +6,57 @@
 
 ## Current status
 
-The branch has made meaningful progress toward a JSON-driven, component-style board runtime:
+The branch has achieved the core library-decoupling goals:
 
 - The board can be mounted from a config object via `mountBoard(...)`.
 - A generic data pipeline now prepares board config from raw JSON.
-- Basic normalization and display-row selection logic are covered by tests.
-- The demo shell in `main.js` and `board.html` now acts as a thin consumer of the board runtime.
+- Config normalization, validation, preset shape, and cross-field references are all tested.
+- `examples/host-integration.html` demonstrates a full lifecycle (mount, update, destroy, remount).
+- DOM-level integration tests cover `mountBoard`, `updateBoard`, and `destroyBoard`.
 
 ## What is implemented
 
 - JSON-driven board configuration with `columns`, `presets`, `rows`, and `ui`.
 - Generic board-pipeline helpers for row filtering, sorting, and display selection.
-- Initial test coverage for config normalization and core board behavior.
+- Config validation: schema version, column identity/kinds, top-level collections, UI window settings, preset item shape, and cross-field references (`presetKey`, `hiddenColumns`).
+- Test coverage for config normalization, validation, preset validation, and DOM-side lifecycle.
+- Host integration example with interactive lifecycle buttons (refresh/destroy/remount).
 
 ## Remaining gaps and issues
 
-1. Library packaging is now available as a first slice.
-   - `package.json` defines the package entrypoint and `flapemu/style.css` export.
-   - `js/index.js` exposes `mountBoard`, `normalizeBoardConfig`, and the schema version.
-   - The runtime normalizes incomplete top-level config before mounting.
+1. Library packaging is available as a first slice.
+   - [x] `package.json` defines the package entrypoint and `flapemu/style.css` export.
+   - [x] `js/index.js` exposes `mountBoard`, `normalizeBoardConfig`, `validateBoardConfig`, and the schema version.
+   - [x] The runtime normalizes incomplete top-level config before mounting.
 
-2. Shell/runtime separation is only partially complete.
-   - `main.js` now consumes the public package entrypoint; fetch, URL routing, status display, and auto-refresh remain shell-owned.
-   - `examples/host-integration.html` demonstrates a host-owned page that does not depend on `main.js`.
+2. Shell/runtime separation is complete for single-board scenarios.
+   - [x] `main.js` consumes the public package entrypoint; fetch, URL routing, status display, and auto-refresh remain shell-owned.
+   - [x] `examples/host-integration.html` demonstrates a host-owned page that does not depend on `main.js`.
 
-3. The config contract needs stronger definition.
-   - [x] `validateBoardConfig` checks schema version, column identity/kinds, top-level collections, and supported UI window settings.
+3. The config contract is well-defined.
+   - [x] `validateBoardConfig` checks schema version, column identity/kinds, top-level collections, supported UI window settings.
    - [x] Column kinds, core UI settings, and validation behavior are documented in `README.md`.
-   - Preset item shape and richer visual styling options remain intentionally permissive for compatibility.
+   - [x] Preset item shape (items must be objects in arrays) is validated.
+   - [x] Cross-field references (`presetKey` targets existing preset, `hiddenColumns` references real column keys) are validated.
 
-4. Runtime hardening is still needed.
-   - Consumer-facing examples and clearer error handling will be needed before the library story is considered complete.
+4. Runtime hardening is partially complete.
+   - [x] Consumer-facing example with lifecycle demos in `examples/host-integration.html`.
+   - [x] DOM-side integration tests for `mountBoard`/`updateBoard`/`destroyBoard`.
+   - [ ] TypeScript definitions for consumer autocompletion and type safety.
+   - [ ] Early error boundaries in `mountBoard` for null/invalid container elements.
 
 ## Recommended next steps
 
-- Add a browser-level integration test for the host example and document the supported config schema.
-- Formalize preset item shape and add validation for cross-field references.
-- Expand the public API tests to cover real consumer usage and error cases.
+- Add TypeScript type declarations (`index.d.ts`) with interfaces for `BoardConfig`, `ColumnConfig`, `PresetItem`, `UiConfig`, and `BoardInstance`.
+- Add early-guard error handling in `mountBoard` for null/invalid containers or fatal validation failures.
+- Consider richer CSS customisation via `ui` (e.g. `--font-family`, `--border-radius`).
+- Add a browser-level integration test using Playwright (headless) to validate full rendering in a real DOM.
 
 ## Definition of done
 
 The roadmap can be considered implemented when:
 
-- The runtime can be imported and mounted by a consumer outside this repository.
-- The board can be embedded into an arbitrary host page with its own chrome and data source.
-- The JSON config schema is documented and validated clearly.
-- The demo remains functional while the library use case is also fully supported.
+- [x] The runtime can be imported and mounted by a consumer outside this repository.
+- [x] The board can be embedded into an arbitrary host page with its own chrome and data source.
+- [x] The JSON config schema is documented and validated clearly.
+- [x] The demo remains functional while the library use case is also fully supported.
