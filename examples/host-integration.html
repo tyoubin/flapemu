@@ -14,7 +14,12 @@
 <body>
     <header class="host-header">
         <h1>Host-owned timetable</h1>
-        <p>This page owns its markup and data loading.</p>
+        <p>This page owns its markup, data loading, and board lifecycle.</p>
+        <div style="margin-top: 12px; display: flex; gap: 8px;">
+            <button id="btn-refresh" style="padding: 6px 12px; cursor: pointer;">Refresh Board</button>
+            <button id="btn-destroy" style="padding: 6px 12px; cursor: pointer;">Destroy Board</button>
+            <button id="btn-mount" style="padding: 6px 12px; cursor: pointer;">Remount Board</button>
+        </div>
     </header>
     <div class="host-status" id="status" role="status"></div>
     <main class="schedule-board" id="board" aria-label="Train timetable"></main>
@@ -24,20 +29,44 @@
 
         const board = document.querySelector('#board');
         const status = document.querySelector('#status');
+        let instance = null;
+        let cachedConfig = null;
 
         async function loadBoard() {
             try {
                 const response = await fetch('../timetable/demo.json', { cache: 'no-store' });
                 if (!response.ok) throw new Error(`Unable to load timetable (${response.status})`);
 
-                const config = normalizeBoardConfig(await response.json());
-                mountBoard(board, config);
+                cachedConfig = normalizeBoardConfig(await response.json());
+                instance = mountBoard(board, cachedConfig);
                 status.textContent = '';
             } catch (error) {
                 status.textContent = error.message;
                 board.classList.add('board-error');
             }
         }
+
+        document.querySelector('#btn-refresh').addEventListener('click', () => {
+            if (instance && cachedConfig) {
+                instance.updateBoard(cachedConfig.presets, cachedConfig.rows);
+                status.textContent = 'Board refreshed via updateBoard()';
+            }
+        });
+
+        document.querySelector('#btn-destroy').addEventListener('click', () => {
+            if (instance) {
+                instance.destroyBoard();
+                instance = null;
+                status.textContent = 'Board destroyed via destroyBoard()';
+            }
+        });
+
+        document.querySelector('#btn-mount').addEventListener('click', () => {
+            if (!instance && cachedConfig) {
+                instance = mountBoard(board, cachedConfig);
+                status.textContent = 'Board remounted via mountBoard()';
+            }
+        });
 
         loadBoard();
     </script>
