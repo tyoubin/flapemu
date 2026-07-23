@@ -32,6 +32,12 @@ function resolveWindowOpts(ui) {
 }
 
 export function mountBoard(el, config) {
+	if (!el || typeof el.appendChild !== 'function') {
+		throw new Error('mountBoard requires a valid DOM container element as the first argument');
+	}
+	if (!config || typeof config !== 'object' || Array.isArray(config)) {
+		throw new Error('mountBoard requires a board configuration object as the second argument');
+	}
 	const { presets, rows, columns: rawColumns, ui } = normalizeBoardConfig(config);
 
 	const displayMode = ui.mode || 'concourse';
@@ -75,6 +81,21 @@ export function mountBoard(el, config) {
 	}
 	if (ui.charHeight) {
 		el.style.setProperty('--char-height', ui.charHeight);
+	}
+	if (ui.fontFamily) {
+		el.style.setProperty('--board-font-family', ui.fontFamily);
+	}
+	if (ui.borderRadius) {
+		el.style.setProperty('--board-radius', ui.borderRadius);
+	}
+	if (ui.borderColor) {
+		el.style.setProperty('--board-border-color', ui.borderColor);
+	}
+	if (ui.boardBg) {
+		el.style.setProperty('--board-bg', ui.boardBg);
+	}
+	if (ui.headerFontFamily) {
+		el.style.setProperty('--board-header-font-family', ui.headerFontFamily);
 	}
 
 	if (ui.showHeader !== false) {

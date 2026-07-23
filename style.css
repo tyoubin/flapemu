@@ -121,13 +121,14 @@ body {
 
 /* --- Flip board container --- */
 .schedule-board {
-    background: #0a0a0a;
+    background: var(--board-bg, #0a0a0a);
     padding: 20px 15px;
-    border-radius: 6px;
+    border-radius: var(--board-radius, 6px);
     box-shadow: 0 10px 40px rgba(0, 0, 0, 0.8);
-    border: 6px solid #1c1c1c;
+    border: 6px solid var(--board-border-color, #1c1c1c);
     width: 100%;
     box-sizing: border-box;
+    font-family: var(--board-font-family, inherit);
 }
 
 /* --- Header row --- */
@@ -167,6 +168,7 @@ body {
     font-weight: 800;
     color: #fff;
     letter-spacing: 0.5px;
+    font-family: var(--board-header-font-family, inherit);
 }
 
 .header-item span:last-child {

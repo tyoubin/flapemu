@@ -72,4 +72,42 @@ function test_mountAndLifecycle() {
 	console.log('mountBoard lifecycle tests passed');
 }
 
+function test_errorGuards() {
+	const container = new MockElement();
+	const validConfig = { columns: [{ key: 't', kind: 'time', sourceField: 't' }], ui: { rows: 2 } };
+
+	assert.throws(() => mountBoard(null, validConfig), /valid DOM container/);
+	assert.throws(() => mountBoard(undefined, validConfig), /valid DOM container/);
+	assert.throws(() => mountBoard(container, null), /board configuration object/);
+	assert.throws(() => mountBoard(container, 'bad'), /board configuration object/);
+
+	console.log('mountBoard error guards passed');
+}
+
+function test_cssCustomProperties() {
+	const container = new MockElement();
+	const config = {
+		columns: [{ key: 't', kind: 'time', sourceField: 't' }],
+		ui: {
+			rows: 2,
+			fontFamily: 'serif',
+			borderRadius: '12px',
+			borderColor: '#333',
+			boardBg: '#000',
+			headerFontFamily: 'sans-serif'
+		}
+	};
+
+	const instance = mountBoard(container, config);
+	assert.equal(container.style['--board-font-family'], 'serif');
+	assert.equal(container.style['--board-radius'], '12px');
+	assert.equal(container.style['--board-border-color'], '#333');
+	assert.equal(container.style['--board-bg'], '#000');
+	assert.equal(container.style['--board-header-font-family'], 'sans-serif');
+	instance.destroyBoard();
+	console.log('mountBoard CSS custom properties passed');
+}
+
 test_mountAndLifecycle();
+test_errorGuards();
+test_cssCustomProperties();

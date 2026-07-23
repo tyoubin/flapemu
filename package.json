@@ -3,14 +3,19 @@
   "version": "0.1.0",
   "description": "A reusable split-flap board runtime",
   "type": "module",
+  "types": "index.d.ts",
   "exports": {
-    ".": "./js/index.js",
+    ".": {
+      "import": "./js/index.js",
+      "types": "./index.d.ts"
+    },
     "./style.css": "./style.css"
   },
   "files": [
     "js/",
     "examples/",
     "style.css",
+    "index.d.ts",
     "README.md",
     "LICENSE"
   ],
