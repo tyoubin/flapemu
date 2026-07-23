@@ -6,21 +6,27 @@
 
 ## Current status
 
-The branch has achieved the core library-decoupling goals:
+The branch has achieved the core library-decoupling goals, with a fully typed, validated public API:
 
 - The board can be mounted from a config object via `mountBoard(...)`.
 - A generic data pipeline now prepares board config from raw JSON.
 - Config normalization, validation, preset shape, and cross-field references are all tested.
 - `examples/host-integration.html` demonstrates a full lifecycle (mount, update, destroy, remount).
 - DOM-level integration tests cover `mountBoard`, `updateBoard`, and `destroyBoard`.
+- TypeScript declarations provide full type safety for consumers.
+- `mountBoard` throws early for null/invalid containers or missing config.
+- CSS custom properties are exposed via `ui` for `fontFamily`, `borderRadius`, `borderColor`, `boardBg`, and `headerFontFamily`.
 
 ## What is implemented
 
 - JSON-driven board configuration with `columns`, `presets`, `rows`, and `ui`.
 - Generic board-pipeline helpers for row filtering, sorting, and display selection.
 - Config validation: schema version, column identity/kinds, top-level collections, UI window settings, preset item shape, and cross-field references (`presetKey`, `hiddenColumns`).
-- Test coverage for config normalization, validation, preset validation, and DOM-side lifecycle.
+- Test coverage for config normalization, validation, preset validation, DOM-side lifecycle, and error guards.
 - Host integration example with interactive lifecycle buttons (refresh/destroy/remount).
+- TypeScript type declarations (`index.d.ts`) for all public API exports.
+- Early error boundaries in `mountBoard` for null/invalid containers and missing config.
+- Richer CSS customisation via `ui` options (`fontFamily`, `borderRadius`, `borderColor`, `boardBg`, `headerFontFamily`).
 
 ## Remaining gaps and issues
 
@@ -39,24 +45,21 @@ The branch has achieved the core library-decoupling goals:
    - [x] Preset item shape (items must be objects in arrays) is validated.
    - [x] Cross-field references (`presetKey` targets existing preset, `hiddenColumns` references real column keys) are validated.
 
-4. Runtime hardening is partially complete.
+4. Runtime hardening is complete for the core library scenario.
    - [x] Consumer-facing example with lifecycle demos in `examples/host-integration.html`.
    - [x] DOM-side integration tests for `mountBoard`/`updateBoard`/`destroyBoard`.
-   - [ ] TypeScript definitions for consumer autocompletion and type safety.
-   - [ ] Early error boundaries in `mountBoard` for null/invalid container elements.
+   - [x] TypeScript definitions for consumer autocompletion and type safety.
+   - [x] Early error boundaries in `mountBoard` for null/invalid container elements.
+   - [x] Richer CSS customisation via `ui` (`fontFamily`, `borderRadius`, `borderColor`, `boardBg`, `headerFontFamily`).
 
-## Recommended next steps
+No remaining gaps — all items from the initial roadmap are complete.
 
-- Add TypeScript type declarations (`index.d.ts`) with interfaces for `BoardConfig`, `ColumnConfig`, `PresetItem`, `UiConfig`, and `BoardInstance`.
-- Add early-guard error handling in `mountBoard` for null/invalid containers or fatal validation failures.
-- Consider richer CSS customisation via `ui` (e.g. `--font-family`, `--border-radius`).
+## Recommended next steps (future work)
+
 - Add a browser-level integration test using Playwright (headless) to validate full rendering in a real DOM.
+- Add `cascadeMs` and `refreshMs` support to the host example's refresh button.
+- Consider publishing to npm after validating real-world consumer usage.
 
 ## Definition of done
 
-The roadmap can be considered implemented when:
-
-- [x] The runtime can be imported and mounted by a consumer outside this repository.
-- [x] The board can be embedded into an arbitrary host page with its own chrome and data source.
-- [x] The JSON config schema is documented and validated clearly.
-- [x] The demo remains functional while the library use case is also fully supported.
+The roadmap is fully implemented.
